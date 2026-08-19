@@ -1,0 +1,4265 @@
+// Category / subcategory tree
+// Extracted from the live DoctorFresh website (www.doctorfresh.in).
+// Shape mirrors the existing SQL records so this file can be swapped for a real API/DB call
+// without touching any UI component.
+
+export const categories = [
+  {
+    "slug": "water-purifier",
+    "name": "Water Purifier",
+    "href": "/category/water-purifier",
+    "metaTitle": "Water Purifier @9311587716 | Best Water Purifier | Water Purifier Price in India",
+    "metaDescription": "Best Water Purifier - Doctor Fresh offers a wide range of Water Purifiers at best price in India. Compare and Shop water purifier online now!",
+    "heading": "Water Purifier - Realise the Necessity of Effective Water Filtration With Doctor Fresh Water Purifier",
+    "intro": "At Doctor Fresh , you would come across a wide range of best water purifiers 2022 ; that comes with the latest technologies. There is no denying the importance of a water Purifier in today’s context of the pollution-ridden environment.",
+    "seoSections": [
+      {
+        "title": "Water Purifier - Realise the Necessity of Effective Water Filtration With Doctor Fresh Water Purifier",
+        "paragraphs": [
+          "At Doctor Fresh , you would come across a wide range of best water purifiers 2022 ; that comes with the latest technologies. There is no denying the importance of a water Purifier in today’s context of the pollution-ridden environment.",
+          "The water purifier electric is a water purification machine that uses advanced technologies to eliminate impurities. In short, it makes drinking water safe and helps you to maintain a healthy lifestyle. Doctor Fresh is also your one-stop solution to eliminate any possibilities of waterborne diseases .",
+          "When you use a water purifier from Doctor Fresh, you ensure that you are actually using a purifier with all the latest purification technologies. What’s more impressive is that Doctor Fresh has a RO+UV+UF+TDS water purifier and we also offer the best water purifier with low maintenance cost."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "The Reasons To Opt For Our Best Water Purifier",
+        "paragraphs": [
+          "Here are some of the reasons why our exclusive range of water purifiers is on the top among the best electronic water purifier in India"
+        ],
+        "bullets": []
+      },
+      {
+        "title": "1. Our Water Purifier Aids With Effective Filtration",
+        "paragraphs": [
+          "Irrespective of the source from where you derive water, it is essential to purify it before final consumption. And with the increasing water pollution levels, it has become necessary to have access to safe drinking water. Our water purifier uses a wide range of Water Purification systems like Gravity water purifier , RO water purifier , UV water purifier , RO+UV water purifier , and etc to make water suitable for drinking."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "2. Our Best Water Purifier uses Multi-Stage Purification Process",
+        "paragraphs": [
+          "Our range of the best water purifier comes equipped with multiple stages of purification. In other words, our water purifiers deploy an intensive purification process to eliminate contaminants at various stages of filtration. The varied filtration processes eliminate dissolved impurities and other harmful chemicals. Doctor Fresh uses a 3-12 stage-based water purifier which eliminates all types of contamination and brings clean water irrespective of the source of water."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "3. Water Purifier Machine at Doctor Fresh removes Water-Borne Germs",
+        "paragraphs": [
+          "Water-borne illnesses are still one of the significant reasons for concern among many people. The water purifier machine of Doctor Fresh ensures that you have access to safe drinking water. Our water purifiers remove contaminants with the help of a built-in UV lamp. The mineral RO technology found in our water purifying systems can retain essential minerals with a TDS controller."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "4. Our Water Purifier sweetens the Water’s Taste",
+        "paragraphs": [
+          "No doubt, the water impurities severely affect its taste and render it a salty flavor. Doctor Fresh RO water purifier machines can be an ideal solution when the TDS level is higher than 200 ppm. Our advanced filtration systems reduce the excess TDS and sweeten the water’s taste. At the same time, it also retains the essential minerals which are vital for human health."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Technology Used In Water Purifier At Doctor Fresh And Contamination Which It Eliminates",
+        "paragraphs": [
+          "Microbes like bacteria, viruses, fungus, and protozoa",
+          "Volatile Organic Compound, Chlorine, & other impurities contaminant which causes an unpleasant odor",
+          "Microbes like bacteria, fungus, and others"
+        ],
+        "bullets": []
+      },
+      {
+        "title": "The Benefits Of Opting For Doctor Fresh Water Purifier System",
+        "paragraphs": [
+          "Our exclusive range of water purifiers offers you the best-in-class filtration system. Equipped with a sophisticated and advanced TDS regulator, the device can adjust the purification process as per the water source. Moreover, we deploy an advanced water purifier system that aids with multi-stage filtration. We also provide our customers with a water purifier price list so that they can implement the best buying decision. The water purifier price list includes every minute detail about the cost and maintenance charges.",
+          "Doctor Fresh water purifiers come with a standard intuitive LED display and computer-controlled authenticated purification cartridges. So with these things in mind, let’s take a glance at some of the benefits of our water purifiers.",
+          "Treats Water Obtained From Different Sources:- Doctor Fresh RO+UV water purification system is a standard in all water filters and it can eliminate all kinds of contamination irrespective of the source of water.",
+          "MTDS Regulator:- As per Quora, the best water purifier is the one that can control TDS and perfectly clean the water. At Doctor Fresh, we manufacture RO water purifiers that can manage TDS intelligently and eliminate contaminants perfectly. Do you know what is MTDS in water purifier?",
+          "Comes with the Revolutionary E-Boiling Technology:- Doctor Fresh water purifier is the one that can facilitate e-boiling. Our water purifiers have built-in e-boiling technology which eliminates microbes like bacteria, viruses, protozoa, and it safeguards the health of your family."
+        ],
+        "bullets": [
+          "Treats Water Obtained From Different Sources:- Doctor Fresh RO+UV water purification system is a standard in all water filters and it can eliminate all kinds of contamination irrespective of the source of water.",
+          "MTDS Regulator:- As per Quora, the best water purifier is the one that can control TDS and perfectly clean the water. At Doctor Fresh, we manufacture RO water purifiers that can manage TDS intelligently and eliminate contaminants perfectly. Do you know what is MTDS in water purifier?",
+          "Comes with the Revolutionary E-Boiling Technology:- Doctor Fresh water purifier is the one that can facilitate e-boiling. Our water purifiers have built-in e-boiling technology which eliminates microbes like bacteria, viruses, protozoa, and it safeguards the health of your family.",
+          "Presence of Active Copper Cartridge:- The presence of active copper cartridges makes our water purifier. Our premium range of water purifiers can infuse copper ions into the water."
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Why do I need water purifier?",
+        "answer": "A electric water purifier is important to get clean and clear water for drinking. These days freshwater source is heavily contaminated thus unsafe for human consumption. A water purifier eliminates 99.9% of impurities from water and makes it safe for human consumption."
+      },
+      {
+        "question": "What are the benefits of water purifier?",
+        "answer": "A water purifier brings 100% pure and healthy water which ensures a healthy immune system thus protects you from various kinds of waterborne diseases. A water purifier significantly eliminates microbes and other dissolved salts from water."
+      },
+      {
+        "question": "Which is the best water purifier to buy?",
+        "answer": "Here are the top 5 Doctor Fresh water purifier model you can buy for your house #1. Doctor Fresh Life Veda RO+ UV+ TDS+ Infuser+ Mineral Enhancer+ AS+ Alkaline+ Copper #2. Doctor Fresh Life Protector RO+ UV+ TDS Infuser #3. Doctor Fresh Life Joy RO+ UV+ UF+ TDS Infuser+ Mineral Enhancer+ AS+ Alkaline #4. Doctor Fresh Life Guard RO+ UV+ UF+ TDS Infuser+ Mineral Enhancer #5. Doctor Fresh Life Guard Plus RO+ UV+ UF+ TDS Infuser+ Mineral Enhancer+ AS"
+      },
+      {
+        "question": "What is the price of a water purifier?",
+        "answer": "A Doctor Fresh water purifier price ranges between Rs-8,500/- to Rs-19,500/- depending upon the water purification stages. Water purifier price also varies according to the feature associated with water purifiers like Mineral enhancers, filter alerts, and others."
+      },
+      {
+        "question": "When should I use a water purifier?",
+        "answer": "Expert suggests water purifiers to all across India. You can use a water purifier when your regularly used water has high TDS and increased microbial contaminant. A best electric water purifier in india is also recommended when you experience an unpleasant odor in the water."
+      },
+      {
+        "question": "Is RO water purifier harmful for health?",
+        "answer": "No, water purified by RO water purifier is considered safe for drinking. A reverse osmosis technology-based water purifier eliminates all kinds of contamination present in water, thus making it clean and safe. Drinking contamination-free water protects from various types of waterborne diseases."
+      },
+      {
+        "question": "Is boiled water better than RO water?",
+        "answer": "No, boiled water is not safer than RO water. Boiled water only eliminate chemical contamination from water, but an RO technology-based water purifier eliminates all kinds of contamination, including chemicals and microbial contamination from the water."
+      },
+      {
+        "question": "What is the best TDS for drinking water?",
+        "answer": "According to the BIS (Bureau Of Indian Standards), water having less than 500 mg/L is considered safe for drinking water, whereas WHO has set this limit up to 300 mg/L. And according to the various water purifier experts, water having TDS 50-150 mg/L is suitable for living a healthy lifestyle."
+      },
+      {
+        "question": "What should I look for when buying a water purifier?",
+        "answer": "There are various factors that you need to consider while having a water purifier. Below we have listed some of the factors which you should consider while buying a water purifier Technology Used in the water purifier Purification Capacity Electric water purifier price"
+      }
+    ],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1793,
+      1679,
+      1794,
+      1782,
+      1736,
+      1683,
+      1682,
+      1711,
+      1712
+    ],
+    "subcategories": [
+      {
+        "slug": "portable-water-purifier",
+        "name": "Portable Water Purifier",
+        "href": "/category/water-purifier/portable-water-purifier",
+        "metaTitle": "Portable Water Purifier @9311587716 | Portable RO Water Purifier",
+        "metaDescription": "Portable Water Purifier - Get clean drinking water on the go with a portable water purifier. This is a lightweight water purifiers that provide you best drinking water during the camping or travel.",
+        "heading": "Portable Water Purifier: No More Packaged Drinking Water",
+        "intro": "One should protect themself to drink water from unreliable sources when there is a number of portable water purifiers available at Doctor Fresh. If you are looking for a portable and affordable solution to purify your drinking water on the go, then a Portable RO water purifier is all you need.",
+        "seoSections": [
+          {
+            "title": "Portable Water Purifier: No More Packaged Drinking Water",
+            "paragraphs": [
+              "One should protect themself to drink water from unreliable sources when there is a number of portable water purifiers available at Doctor Fresh. If you are looking for a portable and affordable solution to purify your drinking water on the go, then a Portable RO water purifier is all you need.",
+              "This water purifier provides you with potable water while on the move or going out of the station. Portable water purifiers are an asset for those who love exploring the outdoors or traveling to a place with poor water quality. It is a perfect water purifying system for drinking clean water during travel."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Here Are The Benefits To Use A Portable Water Purifier",
+            "paragraphs": [
+              "Benefits you can get from Portable Water Purifiers are"
+            ],
+            "bullets": [
+              "Get pure and absolutely clean drinking water on the go",
+              "It can save the money that you are spending on buying packaged water",
+              "You can save the environment by cutting the use of plastic water bottles",
+              "The portable water purifier can also be used in remote areas where drinking water is not of considerable quality",
+              "It neglects the need to carry water bottles while traveling",
+              "The portable water purifier can be easily carried by hand or inside a bag."
+            ]
+          },
+          {
+            "title": "Things You Should Consider While Shopping For Portable Water Purifier",
+            "paragraphs": [
+              "#1. Weight Of The Purifier- A heavy portable uv water purifier is uncomfortable to carry when you travel. So take weight into consideration at the time of buying a portable water purifier india",
+              "#2. Filtration Speed- Every portable water purifier has a specific water filtration speed. Thus you need to choose a water purifier that can filter water quickly and matches your need",
+              "#3. Filter Capacity- All the water filter has a limited life span as some can last up to years, and some might last only a few months. So, you have to consider the long-lasting filter that gives you hassle-free service for an extended period of time",
+              "#4. Easy To Use- The portable water purifier and travel water purifier must be small, compact, and easy to use. You must have the proper knowledge about its working, cleaning, and others to handle it properly"
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1683,
+          1682
+        ]
+      },
+      {
+        "slug": "water-purifier-for-home",
+        "name": "Water Purifier for Home",
+        "href": "/category/water-purifier/water-purifier-for-home",
+        "metaTitle": "Water Purifier for Home @9311587716 | Water Purifier For Home With Price",
+        "metaDescription": "Water Purifier for Home - Install water purifier for home and get 100% pure drinking water. Compare all brand's water purifier system for home online at Doctor Fresh and buy at discounted prices.",
+        "heading": "Water Purifier For Home- Purchase Top Quality Water Purifier For Home",
+        "intro": "Are you planning for a Home water purifier? You’re now landed at the best water purifier for home manufacturer platforms.",
+        "seoSections": [
+          {
+            "title": "Water Purifier For Home- Purchase Top Quality Water Purifier For Home",
+            "paragraphs": [
+              "Are you planning for a Home water purifier? You’re now landed at the best water purifier for home manufacturer platforms.",
+              "Doctor Fresh is India's best water purifier manufacturer, and we design water purifiers to fulfill your complete house needs. These days, a water purifier for homes has become essential for all houses, and our designed home water purifier is the perfect solution as it treats all water sources.",
+              "You might receive your drinking water from a municipal source or bore well source, and both sources of water may contain different kinds of contamination, and these contaminants need to be treated by different kinds of home water purifier, and at Doctor Fresh; we have a water purifier machine for home for all your source of water."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Some Factor Which Make Doctor Fresh Home Water Purifier Best",
+            "paragraphs": [
+              "With several best water purifiers in India for home uses, people get confused about which one they should buy. Are you also in the same situation? Each water purifier for home available at Doctor Fresh has unique features that make it best for some specific purposes.",
+              "Clear drinking water is crucial for good health, you need to choose the best water purifier for your home so that you can get clean water for consumption. Having a Doctor Fresh water purifier for home makes sure that your drinking water is free from all kinds of contamination and contains essential minerals vital for our body to live healthier.",
+              "Doctor Fresh manufactured water purifier machine for house, uses advanced water filtration technology to clean water hence it effectively eliminates even the tiniest substance present in water. Below are some more features that make our RO water purifier for home best is the market."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "#1. Multiple Purification Stages",
+            "paragraphs": [
+              "RO water purifier machine for home has various stages for punching out impurities. In almost all the best RO water purifiers for homes, water passes the sediment filter and carbon filter before the feed water enters the RO membrane. And pure water obtained from RO membrane undergoes few additional filters like UV membrane and TDS controller where more contaminants are removed, and essential minerals are added to in the water to make it safe for human consumption."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "#2. Favorable Features",
+            "paragraphs": [
+              "Our water purifier for home has a beautiful wall mount design with a transparent cover, making it the number one choice for a modular kitchen. A wall mount water purifier doesn't consume much space, and it is easy to operate too. Due to the transparent cover, all the components used in RO water purifiers for home are easily visible. An unique water level indicator allows you to view the water level in the storage tank easily. We also manufacture table tops and under sink water purifiers for home uses."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "#3. Easy To Maintain",
+            "paragraphs": [
+              "Our home water purifiers are advanced, which automatically detects the time when your water filters need to be serviced. An alarm system used in the RO water purifier for a home will notify you to change the RO membrane. This alarm system will also indicate to you the failure of its UV membrane and other filters.",
+              "When the filter needs to be changed, then automatically the pre-set timer alarm will go off, and your water purifier for a home will stop working until the faulty filter gets changed. Thus it ensures that users consume only pure and clean water.",
+              "Investing in the best RO water purifier for a home is safe for you & your loved one health and saves your money. So once you buy the best RO water purifier in India for home use at Doctor Fresh, you need not worry about waterborne disease and start drinking safe and clean water. We also manufacture the best UV water purifier for homes and to know more about it contact our customer care center."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Doctor Fresh Water Purifier For Home With Price?",
+            "paragraphs": [
+              "Doctor Fresh RO water purifier price is designed by an expert professional who kept in mind customer needs and budget; thus, our water purifier is available at the market standard price. However, water purifiers for the home price list vary according to the feature and purification stages used in the purification machine.",
+              "We also provide you a cushion to compare your RO water purifier price and specification of various water purifiers for the home. This allows you to choose the best RO water purifier in India for your home. So no matter what your water sources are, whether it is tap water, bore-well, overhead tank, municipal supply, etc., at Doctor Fresh, you can shop the best water purifier for home use in India at market standard home water purifier price."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1793,
+          1679,
+          1794,
+          1782,
+          1736,
+          1683,
+          1682
+        ]
+      },
+      {
+        "slug": "ro-water-purifier",
+        "name": "RO Water Purifier",
+        "href": "/category/water-purifier/ro-water-purifier",
+        "metaTitle": "RO Water Purifier @9311587716 | RO Water Purifier Price List | RO Water Purifier System",
+        "metaDescription": "RO Water Purifier India - Browse and compare the latest range of top brand's RO water purifiers. You can purchase RO water purifier online at discounted prices.",
+        "heading": "RO Water Purifier- Get High-Quality RO Water Purifier At Doctor Fresh",
+        "intro": "Get a world-class customized RO Water purifier machine for your house at the market's best price. Doctor Fresh RO purifiers are based on high-quality raw material, making them durable and low maintenance cost RO water purifier in India.",
+        "seoSections": [
+          {
+            "title": "RO Water Purifier- Get High-Quality RO Water Purifier At Doctor Fresh",
+            "paragraphs": [
+              "Get a world-class customized RO Water purifier machine for your house at the market's best price. Doctor Fresh RO purifiers are based on high-quality raw material, making them durable and low maintenance cost RO water purifier in India.",
+              "A Reverse Osmosis Water Purifier System Removes Contamination From The Feed Water With The Help Of A Semi-permeable Membrane. An RO Purifier Water Flows From The Highly Concentrated (More Contamination) Side To The Less Concentrated (Less Contamination) Side To Provide Clean Drinking Water.",
+              "A semipermeable membrane used in the RO system has several tiny pores that block the passage of contamination and only allow water molecules to pass through it. This is the reason RO system water purifiers eliminate all kinds of impurities present in water.",
+              "Doctor Fresh uses a high-quality semipermeable membrane for their RO purifier. As a result, the Doctor Fresh RO system is the best in India. Buying the best RO water purifier ensures clean and contamination-free water for a longer duration."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "How Does A Reverse Osmosis System Work?",
+            "paragraphs": [
+              "An RO purification system eliminates sediment and chlorine from water with the help of the pre-filter before water is forced to pass through a semipermeable membrane to remove other dissolved salts. After the RO membrane, water passes through various post-filter and gets polished before it gets stored in the dedicated faucet. An RO system contains various purification stages."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Stages Of Best RO Water Purifier In India",
+            "paragraphs": [
+              "Generally, an RO model uses 3,4, and 5 purification stages, but the RO water purifier manufactured at Doctor Fresh uses 6 or more than 6 water purification stages to eliminate the water impurities. Best RO water purifier at Doctor Fresh uses sediment filter, carbon filter, UV filter, UV filter, and TDS controller in addition to the RO membrane. These filters are called pre-filter and post-filter, depending upon whether water passed through these filters before or after it passes through the membrane."
+            ],
+            "bullets": [
+              "Sediment Filter- Remove particles like dirt, dust, and rust",
+              "Carbon Filter- Eliminate volatile organic compound (VOCs), chlorine, and other contamination that cause unpleasant odor in the water",
+              "UF Filter- It is used to eliminate essentially all colloidal particles and some of the largely dissolved impurities from the water",
+              "RO Membrane- punches out up to 98% TDS from the water",
+              "TDS Controller- Add some essential minerals in the water to maintain the desirable TDS in drinking water",
+              "UV filter- It kills the microbes present in the water and makes it safe for the consumption purposes"
+            ]
+          },
+          {
+            "title": "What Does The Reverse Osmosis System Remove?",
+            "paragraphs": [
+              "Here are the contaminants that the best RO in India eliminate, but RO machines also eliminate a slew of another contaminant from the water."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Benefits Of RO Machine?",
+            "paragraphs": [
+              "Doctor Fresh manufactured RO purification system is one of the best and effective ways to treat water contaminants. It eliminates up to 99.99% of contaminants from water and makes it safe and suitable for drinking purposes. Find some crucial advantages of having the Best RO in India."
+            ],
+            "bullets": [
+              "Remove harmful dissolved contaminant from water",
+              "Reduce bad taste and unpleasant odor",
+              "Easy to install and maintain"
+            ]
+          },
+          {
+            "title": "Why Should You Buy Doctor Fresh RO Water Purifier?",
+            "paragraphs": [
+              "Doctor Fresh manufactures a top-quality RO water purifier suitable for all water sources, whether you drink municipal water, tap water, or bore well water. In the RO system, maintenance is a significant issue; our water purifier uses high-quality raw material, which serves for a longer duration; thus RO machine available at Doctor Fresh requires low maintenance. Our RO machines are also available at the market standard and lowest RO price."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1679,
+          1782,
+          1736,
+          1683,
+          1682
+        ]
+      },
+      {
+        "slug": "ro-uv-water-purifier",
+        "name": "RO UV Water Purifier",
+        "href": "/category/water-purifier/ro-uv-water-purifier",
+        "metaTitle": "RO UV Water Purifier @9311587716 | RO + UV Water Purifier | RO UV Water Purifier Price",
+        "metaDescription": "RO UV Water Purifier - RO + UV water purifier eliminates all kinds of water impurities. Buy the best RO UV water purifier online at an affordable price in India.",
+        "heading": "RO UV Water Purifier- Complete Solution For All Kinds Of Impurities",
+        "intro": "If you are worried about your drinking water quality and confused in selecting the best water purifier for your house, then, without thinking much, install an RO UV water purifier. Well, a RO UV water purifier is suitable for all kinds of water contamination and water source.",
+        "seoSections": [
+          {
+            "title": "RO UV Water Purifier- Complete Solution For All Kinds Of Impurities",
+            "paragraphs": [
+              "If you are worried about your drinking water quality and confused in selecting the best water purifier for your house, then, without thinking much, install an RO UV water purifier. Well, a RO UV water purifier is suitable for all kinds of water contamination and water source.",
+              "A Water Purifier Containing Both RO & UV Technology Offers A Double Punch To The Contamination Present In The Water.",
+              "An RO technology used in RO UV water purifier punches out all kinds of chemical or dissolved organic and inorganic substances from the water. In contrast, UV technology used in RO UV water purifiers eliminates the microbial contamination present in the water thus these technologies-based water purifiers are suitable for all your water sources and pollutants in water.",
+              "At Doctor Fresh , we manufacture top quality RO UV water purifiers which fulfil all your acceptance regarding best water purifier for home . Along with RO and UV technology, we also enable you to add on a few other technologies such as UV technology, TDS controller, or another filter according to your need. This facility helps you to get the best water purifier ro uv tds at the best and affordable price."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Why RO And UV Water Purifiers Important?",
+            "paragraphs": [
+              "As we have mentioned in the above section, a RO UV water purifier is the best option for those houses with multiple contamination kinds. If your house regularly receives water having microbial and TDS contamination, then only RO UV technology-based water purifier can help you get clean and pure water for drinking. An RO technology contains a semi-permeable membrane that has several tiny pores. These pores act as sieves and prevent the passage of molecules with larger molecular sizes, Yes the size of the tiny pore is nearly 0.005 microns, and it can eliminate up to 10,000 to 14,000 times smaller-sized particles than a human hair (50-70 micron).",
+              "The presence of UV technology ensures that your purified water is 100% safe against microbial contamination. As UV rays have high penetration power, they can easily penetrate the microbial cells and destroy their genetic material; thus, the microbes lose their ability to grow and reproduce. But this technology is only suitable for eliminating microbial contaminants, and it doesn't treat other impurities present in water."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Benefits Of RO UV Water",
+            "paragraphs": [
+              "This ro+uv+tds water purifier has various advantages, and it is hard to list all those advantages; thus, here we have listed only a few, but crucial benefits of having an RO UV water purifier at home, and these benefits are"
+            ],
+            "bullets": [
+              "It removes harmful dissolved contaminant from water",
+              "Remove heavy metals, unpleasant odour",
+              "Provide dual punch to the water impurities",
+              "It is environmental friendly",
+              "This form of water purifier doesn't require high maintenance"
+            ]
+          },
+          {
+            "title": "Why Should You Buy RO UV Water Purifier At Doctor Fresh?",
+            "paragraphs": [
+              "Doctor Fresh is one of the largest water purifier manufacturers, and in the recent past, it has emerged as the best-selling water purifier brand in India. Our manufactured water purifier ro uv tds price is based on the latest technology and contains a world-class raw material that makes our product mind-blowing and long-lasting. We not only world-class water purifiers but also take care of the price and pre and post-sales services. An expert professional has created our product price list; thus, our RO UV water purifier price is best according to the market standard.",
+              "These days with the development of technology, shopping has changed drastically, and now people shop online from their houses only. At Doctor Fresh, we understand this, thus offering you the best online shopping experience ever. Here we enable you to compare different RO UV water purifier models so that you can buy the best product at the best price for your home."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1679,
+          1782,
+          1736
+        ]
+      },
+      {
+        "slug": "uv-water-purifier",
+        "name": "UV Water Purifier",
+        "href": "/category/water-purifier/uv-water-purifier",
+        "metaTitle": "UV Water Purifier @9311587716 | Best UV Water Purifier | UV Water Purifier Price",
+        "metaDescription": "UV Water Purifier India - Browse and compare the latest range of top brand's UV water purifiers. You can purchase UV water purifier online at discounted prices.",
+        "heading": "UV Water Purifier- Purchase Top Quality UV Water Purifier Online At Doctor Fresh",
+        "intro": "A UV water purifier eliminates microbial contamination from the water with the help of Ultraviolet rays. The UV rays destroy DNA of the living microbes in water so that they can't reproduce and make you sick. If you consume water containing harmful germs, it may be embedded in your digestive tract and cause several health issues.",
+        "seoSections": [
+          {
+            "title": "UV Water Purifier- Purchase Top Quality UV Water Purifier Online At Doctor Fresh",
+            "paragraphs": [
+              "A UV water purifier eliminates microbial contamination from the water with the help of Ultraviolet rays. The UV rays destroy DNA of the living microbes in water so that they can't reproduce and make you sick. If you consume water containing harmful germs, it may be embedded in your digestive tract and cause several health issues.",
+              "A UV water purifier means punches out all kinds of biological impurities like bacteria, viruses, parasites, fungus, and Protozoa from the water and makes water safe for human consumption. Doctor Fresh manufactures the best UV water purifier with storage, which can damage these germs' DNA nucleic acids.",
+              "Doctor Fresh comes with India's best UV water purifier system, which you can customize according to your own needs. This unique feature makes Doctor Fresh the best-emerging UV water purifier manufacturer and distributor in India."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "How Does UV Water Purifier Work?",
+            "paragraphs": [
+              "A UV water purifier is designed in such a way that it only eliminates biological contamination like bacteria, viruses, and other microbes. In a UV water treatment, UV rays eliminating bulbs are used, which continuously illuminate germicidal UV rays. At a certain threshold, the energy eliminated by UV rays becomes significant enough to destroy the microbial genetic material; thus, these microbes lose their ability to reproduce. Doctor Fresh uses good quality raw material, thus making the best UV water purifier in India."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "What Does UV Water Purifier Eliminates",
+            "paragraphs": [
+              "A solo UV water purification system only treats biological contamination; below are the list of impurities that a water purifier UV technology purification machine treats. These are",
+              "Doctor Fresh water purifier installation ensures 100% microbial contamination-free water and protects you from various kinds of waterborne diseases ."
+            ],
+            "bullets": [
+              "Mycobacterium tuberculosis"
+            ]
+          },
+          {
+            "title": "Doctor Fresh UV Water Purifier Advantages",
+            "paragraphs": [
+              "Doctor Fresh UV water purifier consumers experience several advantages. Here we have listed a few of those advantages, which are"
+            ],
+            "bullets": [
+              "Disinfection Without Chemical - Generally chemical like Chlorine are used to disinfected water but UV water purifier ensure disinfection of water without use of chemical",
+              "Add No Odor - A UV in water purifier machine doesn't alter water chemicals, so it doesn't add any unpleasant odor",
+              "Easy To Maintain - Doctor Fresh manufactured UV water purification system don't require too much maintains",
+              "No Wastage Of Water - We are focused on water losses; thus, our UV water purifier doesn't wastage water",
+              "Protection Against Waterborne Diseases - Doctor Fresh UV water purification system kills the biological contaminant, thus make it 100% safe for human consumption"
+            ]
+          },
+          {
+            "title": "Why Should You Buy Doctor Fresh UV Water Purifier?",
+            "paragraphs": [
+              "Doctor Fresh is India’s emerging water purifier manufacturer and distributor, which designs stylish and world-class RO water purifiers and UV water purifiers. We also offer customized UV water purifiers; thus, customers across the nation can purchase the best UV water purifier according to their needs and water quality.",
+              "We also enable you to compare UV water purifier machines and shop the best UV water purifiers for your home so shop and buy the best ultraviolet water purifier now. Doctor Fresh also enables you to compare different UV water purifier prices to get the best deal on UV water purifiers. Along with the best UV machine, we also ensure the best pre and post-sales service at your doorstep."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1679,
+          1782,
+          1736
+        ]
+      },
+      {
+        "slug": "uf-water-purifier",
+        "name": "UF Water Purifier",
+        "href": "/category/water-purifier/uf-water-purifier",
+        "metaTitle": "UF Water Purifier @9311587716 | Best UF Water Purifier | UF in Water Purifier",
+        "metaDescription": "UF Water Purifier - UF water purifier means access to pure water. This technology best for the elimination of suspended particles. Install UF filter at the best price in India",
+        "heading": "UF Water Purifier- Get High Quality UF Water Purifier At Doctor Fresh",
+        "intro": "We are one of the emerging water purifier manufacturers and distributors. Here we offer the best kinds of UF technology in water purifier. Thus, if you are looking for a UF water purifier for a home in India, you are at the right place here; here we have high-quality UF water purifiers, which are available at the market standard price.",
+        "seoSections": [
+          {
+            "title": "UF Water Purifier- Get High Quality UF Water Purifier At Doctor Fresh",
+            "paragraphs": [
+              "We are one of the emerging water purifier manufacturers and distributors. Here we offer the best kinds of UF technology in water purifier. Thus, if you are looking for a UF water purifier for a home in India, you are at the right place here; here we have high-quality UF water purifiers, which are available at the market standard price.",
+              "Do you know what does UF meaning in water purifier?",
+              "A UF technology-based water purifier uses standard home water pressure to eliminate the contamination present in the water with the help of the semi-permeable membrane. This water purification system works in the same fashion as RO water purifier works, but it has one significant difference, and that is a UF water purifier system eliminates only those contamination from the water whose molecular size is comparatively large.",
+              "And it is because a semi-permeable membrane present in the UF water purifier has slightly bigger pore size and, i.e., 0.01 micron to 1.0 micron. So it only eliminates those contaminations whose molecular size is larger than 0.01 to 1.0 micron."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "How UF Water Purification Works?",
+            "paragraphs": [
+              "The semipermeable membrane used in the UF water purifier acts as a barrier. It helps eliminate harmful contaminants like bacteria, viruses, and other contaminants from the water and makes it safe for human consumption.",
+              "In this water purification machine, a hydrolytic force acts as a driving force. This force influences the water to pass through the semipermeable membrane and the contamination whose molecular size larger than the pore size of the UF membrane sticks to the membrane's outer surface, and only dissolved minerals pass through the UF membrane along with water molecules. Doctor Fresh UF water purifiers are of high quality and durable so if you are looking for the best UF water purifier in India for your home then we are the best in the market."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Which Kinds Of Impurities A UF Water Purifier Can Eliminate?",
+            "paragraphs": [
+              "A UF membrane is one of the finest filters that remove 5,000 times smaller particles than a human hair. The best UF water purifier machine eliminates 90-100% below listed contamination from the water and makes it clean and pure for human consumption.",
+              "Note- Reduction status indicated concentration of given contamination eliminated by UF water purifier"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Some Extra Benefits Of UF Water Purifier",
+            "paragraphs": [
+              "Doctor Fresh UF water purifier has several benefits, and we cannot list all of them, so we have listed only a few and only those which are crucial for you to know.",
+              "A UF water purifier machine is considered eco-friendly, preventing us from spreading various kinds of pollution. In addition, a UF water purifier machine recovers 90-95% of the water usually lost during the wastewater treatment."
+            ],
+            "bullets": [
+              "A UF water purifier can work properly at standard home water pressure or low pressure",
+              "It removes bacteria and Viruses completely from the water",
+              "It doesn't eliminate salts, so a UF in water purifier doesn't alter mineral concentration, thus maintain optimum concentration of essential minerals in the water",
+              "UF water purification machine is easy to install and use",
+              "This system doesn't generate wastewater"
+            ]
+          },
+          {
+            "title": "Why Should You Buy UF Water Purifiers From Us?",
+            "paragraphs": [
+              "UF water purifier manufactured at Doctor Fresh contains a high-quality UF membrane and which normally last longer, so if you are concerned about your drinking water quality and planning for the installation of the best UF water purifier in India for your house, then we are the best option as we are offering best UF water purifier at nominal price across the whole nation. Our UF water purifier price has been created by an expert who carries several years of experience. They created a UF water purifier price list by keeping in mind the customer needs and budget; thus, it is best according to market standards.",
+              "Doctor Fresh comes with a unique feature as it allows the user to customize their UF water purifier according to their own needs and water quality. This feature is not available in other water purifier brands. This is why Doctor Fresh has earned the trust of a large number of water purifier UF users across the nation. To get the best UF water purifier in India for your home visit Doctor Fresh official website and select the various products and then compare their technical specification and price altogether and then only make your decision to enjoy the best deal on water purifiers for home use."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1679,
+          1782
+        ]
+      },
+      {
+        "slug": "uv-uf-water-purifier",
+        "name": "UV UF Water Purifier",
+        "href": "/category/water-purifier/uv-uf-water-purifier",
+        "metaTitle": "UV UF Water Purifier @9311587716 | Best UV UF Water Purifier | UV+UF Water Purifier",
+        "metaDescription": "UV UF Water Purifier - Best UV UF water purifier is suitable for the elimination of bacterial and larger sized suspended contamination. Shop best UV+UF water purifier at best price",
+        "heading": "Buy Best UV UF Water Purifier For Your Home At Doctor Fresh",
+        "intro": "A UV UF water purifier is best for those houses that receive water with more microbial contamination with mild TDS. If you are looking for the best UV UF water purifier, then you are at the right place as we are India’s best water purifier manufacturer and distributor.",
+        "seoSections": [
+          {
+            "title": "Buy Best UV UF Water Purifier For Your Home At Doctor Fresh",
+            "paragraphs": [
+              "A UV UF water purifier is best for those houses that receive water with more microbial contamination with mild TDS. If you are looking for the best UV UF water purifier, then you are at the right place as we are India’s best water purifier manufacturer and distributor.",
+              "We manufacture top-quality water purifiers. Our manufactured water purifier has gained the trust of many people across the nation, which is why we have emerged as one of the best UV UF water purifier manufacturers and distributors."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "What Is A UV UF Water Purifier?",
+            "paragraphs": [
+              "A UV UF water purifier offers a dual punch to the water impurities and makes sure to bring 100% clean and clear water for consumption. This is an advanced water purifier made up of a combination of Ultraviolet rays and Ultra-Filtration purification technology.",
+              "Water undergoes various purification stages in this water purifier in which bacteria, viruses, germs, and various other microbes are killed, and dissolved salts and other large molecules are eliminated from the water. At Doctor Fresh , we manufacture world-class UV UF water purifiers based on advanced technology. Its raw parts are of high quality, making the Doctor Fresh UV UF water purifier long-lasting and durable."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "How Does It work?",
+            "paragraphs": [
+              "The UV technology used in UV UF water purifiers treats microbes and destroys their genetic material thus microbes lose their ability to grow and reproduce. Consequently, water becomes safe for microbial contamination. The UF membrane used in the UV UF water purifier is used to eliminate the TDS from water. A UF membrane eliminates larger size molecules from the water and makes the water free from dissolved TDS. The UF membrane is semi-permeable, and it has several tiny pores of 0.01 micron; thus, it only eliminates those impurities from the water whose pore size is more than 0.01 micron."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Impurities Eliminated By UF UV Water Purifier",
+            "paragraphs": [
+              "Note- Along with these impurities, UV UF water purifiers also eliminate arsenic, chloride, copper, fluoride, lead, mercury, and others ."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Some Extra Benefits Of UV UF Water Purifier",
+            "paragraphs": [
+              "A UV UF technology-based water purifier UV UF has several benefits, and here we have listed some of the most crucial advantages of having a UV and UF water purifier and these are"
+            ],
+            "bullets": [
+              "Chemical Disinfection Of Water - UV technology used in the UV + UF water purifier disinfects the water without the use of chemicals. Usually, chlorine is used as a disinfecting agent in municipal water purification",
+              "Remove Unpleasant Odor From Water - Usually, water is tasteless, but it is some impurities that add some unpleasant smell to the water, but UV UF water purifier punches out those impurities from the water and makes it suitable for drinking",
+              "Less Or No Wastage Of Water - Yes, this form of water purifier do not produce wastewater; thus, it is good for the environment too",
+              "Requires Low Maintenance - UV+UF water purifier does not require regular maintenance as at Doctor Fresh, we manufacturer top quality water purifier which is based on top quality raw material, which makes this water purifier long-lasting and durable",
+              "Protect You Against Waterborne Disease - A UV UF water purifier provides you double protection against waterborne disease and keeps you safe from various kinds of fatal diseases"
+            ]
+          },
+          {
+            "title": "Why You Should Buy Doctor Fresh UV UF Water Purifier For Home",
+            "paragraphs": [
+              "Our water purifiers are beautifully designed, and it is suitable for almost all your house needs. We always bring advanced and latest technology-based water purifiers which are low in maintenance and higher in productivity and efficiency. So if you are looking for the best water purifier for home then our manufactured water purifier can be best.",
+              "Doctor Fresh also enables you to customize your water purifier according to your need and budget, a unique concept and loved by people across India. Here we also allow you to compare various UV UF water purifier price to choose the best among them at the lowest price.",
+              "At Doctor Fresh, we also promise to provide world-class pre and post-sales services at your doorstep, ensuring hassle-free and satisfactory installation and regular maintenance services. These advantages make us the best emerging water purifier manufacturer and distributor in India."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1679,
+          1782
+        ]
+      },
+      {
+        "slug": "ro-uv-uf-tds-water-purifier",
+        "name": "RO+UV+UF+TDS Water Purifier",
+        "href": "/category/water-purifier/ro-uv-uf-tds-water-purifier",
+        "metaTitle": "RO+UV+UF+TDS Water Purifier @9311587716 | RO UV UF TDS Water Purifier",
+        "metaDescription": "Best RO+UV+UF+TDS Water Purifier - RO+UV+UF+TDS water purifier is suitable for all water sources. Shop best RO UV UV TDS water purifier at an affordable price from a wide range of water purifier",
+        "heading": "RO UV UF TDS Water Purifier- Shop Best Water Purifier At Doctor Fresh",
+        "intro": "Your search for the best RO UV UF TDS control water purifier has ended now. Here we have a range of water purifiers with RO UV UF TDS controller technology that can fulfill all your drinking water needs irrespective of the water source.",
+        "seoSections": [
+          {
+            "title": "RO UV UF TDS Water Purifier- Shop Best Water Purifier At Doctor Fresh",
+            "paragraphs": [
+              "Your search for the best RO UV UF TDS control water purifier has ended now. Here we have a range of water purifiers with RO UV UF TDS controller technology that can fulfill all your drinking water needs irrespective of the water source.",
+              "These days having an advanced technology-based water purifier is the need of every single house in India, and to fulfill this, Doctor Fresh has launched RO UV UF TDS water purifier, which is sufficient enough to eliminate even single molecules of pollutant present in the water and makes water 100% safe and suitable for human consumption irrespective to the source of water.",
+              "With different geographical structures, our nation's freshwater contains various kinds of water pollutants, which are more hazardous and dangerous for human health if consumed untreated. Therefore always ensure to consume treated water, although various technology-based water purifiers are used to treat different water pollutants, like treating TDS contaminant, an RO water purifier is available, and to treat microbial contaminant, a UV water purifier is the best RO+UV+UF+TDS water purifier in India single-handedly eliminate all contamination.",
+              "Most people aren't aware of TDS meaning in water purifier. If you too don't know, then CLICK Here ."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "What Is RO UV UF TDS Water Purifier?",
+            "paragraphs": [
+              "A RO+UV+UF+TDS water purifier is an advanced form of the water purification system, and it is sufficient to eliminate even single molecules of verities of pollutant from water. This water purifier with RO+UV+UF+TDS technology not only eliminates contamination and makes water clean & clear but also maintains the desirable TDS in your purified water.",
+              "This feature makes RO+UV+UF+TDS technology-based water purifier the best among all tds controller in water purifier. So no matter what, your regular water quality is RO + UV + UF + TDS technology-based is the best water purifier for home ."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "How RO+UV+UF+TDS Water Purifier Works?",
+            "paragraphs": [
+              "This water purifier combines RO, UV, UF, and TDS controller technology, and all of these techniques have their own significance. Thus a RO UV UF technology used in this water purifier produces a triple punch to water impurities and eliminates contamination from the water. The TDS controller used in it maintains the desirable TDS in the water and makes water safe tasty for consumption.",
+              "The RO technology used in RO UV UF water purifier with TDS controller treats the dissolved salts like chlorine, arsenic, and others and eliminates them. A reverse osmosis technology mainly uses a semi-permeable membrane, which has several tiny pores, and these tiny pores separate impurities according to the molecular size.",
+              "The UV rays used in the RO+UV+UF water purifier with additional TDS controller technology completely disinfect the microbial contamination; thus, water becomes safe from all forms of microbes like bacteria, viruses, fungus, and other microbes.",
+              "In a water purifier, RO UV UF and TDS controller technology strongly punches even pharmaceutical waste and protects you and your family from getting sick. And at Doctor Fresh, we ensure that all the spare parts used in a water purifier are of high quality so the product can be long-lasting."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Impurities Eliminated By RO UV UF Water Purifiers",
+            "paragraphs": [
+              "Note- An RO UV UF water purifier contains TDS technology that makes your water safe and tasty. And along with the above-listed impurities, it also eliminates Lead, mercury, nitrates, and others."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Benefits Of RO UV UF Water Purifier",
+            "paragraphs": [
+              "There are several benefits of water purifiers for home, and here we have shared some of the most crucial benefits of having water purifier with ro uv uf. So let's get started."
+            ],
+            "bullets": [
+              "Disinfect Water Without Chemical - With the help of the UV rays, RO UV UF TDS controller water purifier disinfect water without using any chemicals. Generally, Chlorine is used as a disinfecting agent to kill the microbes",
+              "Remove All Kinds Of Contamination - A RO+UV+UF+TDS water purifier significantly punches out all the contamination present in water and makes water safe for human consumption",
+              "Protect From Waterborne Diseases - Due to water pollutants, water becomes home to waterborne diseases, and water contamination leads to fatal health issues. But water treated by RO UV UF water purifier eliminates all kinds of contamination, and the TDS controller maintains the TDS of the drinking water thus it protects from waterborne diseases",
+              "Improve Taste Of The Water - Water is naturally tasteless and odorless, but water impurities make water unpleasant in taste. But RO+UV+UF+TDS technology-based water purifier treat water properly and eliminate the odor-causing contaminant and makes water tasty",
+              "Save Your Money - Drinking clean and clear water is the need of all people. And if you are dependent on a packed bottle, it may cost higher than installing a water purifier. On the other hand, buying a water purifier is a one-time investment, which will help you save a considerable amount of money."
+            ]
+          },
+          {
+            "title": "Why Is Doctor Fresh Best Option For Water Purifier Shopping?",
+            "paragraphs": [
+              "Doctor Fresh is India's best-emerging ro uf water purifier organization. Here you can shop the best RO UV UF in India water purifier smoothly at one single click at the comfort of your home. Here we enable you to compare various water purifier models for home so that you can choose the best device at an affordable and economical price.",
+              "At Doctor Fresh, all the water purifier is designed using high-quality raw material which makes your product low in maintenance and high in durability. And to provide a better experience to the customer, Doctor Fresh offers world-class pre and post-sales facilities to the customer at their doorstep.",
+              "We also understand your needs and budget, so we offer you the best RO UV UF TDS water purifier at the best and affordable price. Our RO UV UF TDS water purifier price has been created by keeping in mind the customer needs and budget; thus, it is available at the best and affordable price. So what you are you looking for, shortlist the best water purifier ro uv uf tds for home among a range of water purifiers and compare them among each other together and buy the best among all and enjoy drinking pure and healthy water."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1679,
+          1782
+        ]
+      },
+      {
+        "slug": "non-electric-water-purifier",
+        "name": "Non Electric Water Purifier",
+        "href": "/category/water-purifier/non-electric-water-purifier",
+        "metaTitle": "Non-Electric Water Purifier@9311587716 | Gravity Based Water Purifier",
+        "metaDescription": "gravity based water purifier means water gets filtered by the natural process called gravity. Buy the best 5 stage gravity water purifier in PAN India.",
+        "heading": "Gravity Water Purifier- Shop Top Quality Purifier At Doctor Fresh",
+        "intro": "Looking for a Gravity based water purifier for your home? Here we have listed a wide range of Gravity based water purifiers; so, you can shop the best Gravity based water purifier for your home and enjoy the best deal on gravity based water purifier in India.",
+        "seoSections": [
+          {
+            "title": "Gravity Water Purifier- Shop Top Quality Purifier At Doctor Fresh",
+            "paragraphs": [
+              "Looking for a Gravity based water purifier for your home? Here we have listed a wide range of Gravity based water purifiers; so, you can shop the best Gravity based water purifier for your home and enjoy the best deal on gravity based water purifier in India.",
+              "Doctor Fresh Is India's Largest Gravity Based Water Purifier Manufactured And Distributor And Here All The Manufactured Gravity Water Purifier Is Beautifully Designed And Efficient. Our Gravity Water Purifier Has Gained The Trust Of A Large Number Of People Across The Nation."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "How Does A Gravity Water Purifier Work?",
+            "paragraphs": [
+              "A Gravity based water purifier doesn't require electricity. And instead, a gravity water purifier uses gravitational force, and the technology a gravity water purifier uses is UF or activated carbon. UF is one of the advanced water purification technology that contains many hollow fibers of a semipermeable membrane.",
+              "When water passes through this hollow fiber, the impurities stick to it. As a result, clean and clear water comes out from it. An activated carbon filter comprises small-sized carbon granules that absorb water contaminant when water passes through the activated carbon filter."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "What is gravity based water purifier?",
+            "paragraphs": [
+              "A Gravity water purifier eliminates water impurities with the help of gravitational force. Thus it does not need electricity to get operated. Thus, a Gravity-based water purifier is the best option for those areas where electricity is not always available or power cut is frequent."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Benefits Of Gravity Based Water Purifier For Home In India",
+            "paragraphs": [
+              "A Gravity based water purifier in India possess various pros, but here we have listed only the most crucial benefits of buying a gravity water purifier in India",
+              "Note- A Gravity based water purifier means pure water even without electricity. Yes, because a Gravity based water purifier does not require electricity as it works on gravitational force."
+            ],
+            "bullets": [
+              "This form of water purifier is simple and very functional",
+              "It is effective and efficient",
+              "Available is various sizes so you can choose the best Gravity based water purifier according to your need",
+              "A Gravity based water purifier does not require electricity",
+              "A gravity water purifier can be placed anywhere at home, even on the table or countertop"
+            ]
+          },
+          {
+            "title": "Why Should Buy Gravity Water Purifier From Doctor Fresh",
+            "paragraphs": [
+              "Doctor Fresh manufactured world-class stainless steel water purifier in India. Our gravity water purifier contains good quality spare parts. Thus, it is durable, and to provide the maximum benefits, our Gravity based water purifier prices is economical and best according to the market standard.",
+              "Doctor Fresh Provides You On-time Services At Your Doorstep Everywhere In India. This Makes Your Gravity Water Purifier Deal Cooler. Check Out Our Gravity Water Purifier List And Shop Best Gravity Water Purifier For Your Home.",
+              "We believe in transparency and customer satisfaction; thus, our all water purifier gravity based system is the best and value for money. Doctor Fresh also enables the user to choose the best gravity based water purifier in india from the wide range of available steel water purifier.",
+              "At Doctor Fresh, you can shortlist Gravity based water purifiers and then compare them among each other to buy the best stainless steel ro water purifier in India for your home. Here we also enable you to buy the best Gravity based water purifier online from anywhere in India."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Understand The Goodness of Water Purification",
+            "paragraphs": [
+              "In a world full of pollution and impurities, water purifiers have successfully played and have been playing a great role in our life. Water is a crucial part of our livelihood. We need water for survival and to have clean and fresh water is a blessing. The traditional water purification method was done by the non electric water purifier or simply by traditionally boiling the water. It is extremely necessary to treat the water before consumption.",
+              "Water being the natural solvent, can absorb many harmful agents that may cause waterborne diseases . You must be wondering what could be the best way to treat the water and make it more consumable? In this article, we will look at some of the methods used for water purification. Keep reading to enlighten your soul and mind."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "What Is A Gravity-Based Water Purifier?",
+            "paragraphs": [
+              "A gravity-based water purifier or a water purifier without electricity are some of the best inventions for purifying water from sources like tap water or municipal corporation. It provides clean water by removing bacteria, viruses. It is easy to install and requires the least maintenance. They need no electricity for cleansing the water, and it is suitable for places with low Total Dissolved Solids or TDS .",
+              "A purifier with no electricity needs to work on activated carbon filters and Ultrafiltration technology. The Carbon Filter absorbs the impurities of the water, and the Ultrafiltration membrane attracts the impurities while the water passes through it. Choosing the best non electric water purifier could be a cakewalk with so many available options in the market. Therefore, it is made by keeping in mind the budget of the common masses."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Why Do We Need Non-Electric Water Purifier From Doctor Fresh?",
+            "paragraphs": [
+              "A water purifier non electric from Doctor Fresh is made specifically to cater to the needs of a huge spectrum of the population. It is specially designed to remove all the water contaminants with its advanced seven-stage technology. It can store water up to 10 litres. The technology used for water purification is Reverse Osmosis. The filter is made with a ceramic diatomic substance with a tiny, porous structure which is 0.2 micron, that filters out all the bacteria.",
+              "Doctor Fresh has kept in mind the price factor. The non electric water purifier price is decided by keeping in mind the economic condition of the population at an average. It is an affordable means of water purification. It roughly ranges from Rs.1500 to Rs.3000, which could be affordable for a huge spectrum of the population.",
+              "Additionally, it provides the following, some of which are listed below.",
+              "Are you satisfied with goodness? You must be wondering that finding the best water purifier without electricity would be a great deal. Actually no. You can find them online at the website of Doctor Fresh, or you may look for them offline at the stores near you."
+            ],
+            "bullets": [
+              "Its portability is the biggest advantage. You can carry it anywhere",
+              "Provides clean and improved taste of water",
+              "Maintains natural minerals like calcium, sodium, potassium, and magnesium in natural levels",
+              "Great way to improve the overall health of the body"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1683,
+          1682
+        ]
+      },
+      {
+        "slug": "tap-water-purifier",
+        "name": "Tap Water Purifier",
+        "href": "/category/water-purifier/tap-water-purifier",
+        "metaTitle": "Tap Water Purifier @9311587716 | Water Purifier Tap | Water Purifier For Tap",
+        "metaDescription": "Tap Water Purifier - Best place for tap water purifier online shopping in India. Guard your water against impurities. Buy the best tap water purifier at an economical price.",
+        "heading": "Tap Water Purifier: The Portable And Easy To Use Water Purifier Model",
+        "intro": "Introducing the Doctor Fresh tap water purifier, a new addition to our high-performance water filtration systems. This is a portable water purifier that you can use while traveling, on outdoor trips, or in emergencies where safe drinking water is unavailable.",
+        "seoSections": [
+          {
+            "title": "Tap Water Purifier: The Portable And Easy To Use Water Purifier Model",
+            "paragraphs": [
+              "Introducing the Doctor Fresh tap water purifier, a new addition to our high-performance water filtration systems. This is a portable water purifier that you can use while traveling, on outdoor trips, or in emergencies where safe drinking water is unavailable.",
+              "The tap water purifier is convenient and filters a sufficient amount of clean drinking water per day. If your tap water quality is not excellent and unfit for consumption, you can look for a tap water purifier filter. People with health problems may consider buying this tap water purifier price is very low . This water purifier can easily remove the suspended chemicals, bacteria, viruses, and other microbes.",
+              "Doctor Fresh tap water purifier is one of the best water purifiers you can use anywhere inside or outside the home. This is an easily available water purifier model that doesn't require any installation cost. This water purifier is also a long-lasting water purifier model."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "The Reasons That Makes Tap Water Purifier A Worth Buying Model",
+            "paragraphs": [
+              "Several membranes are installed inside the tap water purifier to eliminate contamination and retain essential minerals in the purified water. The best thing about the Doctor Fresh tap water purifier is that it does not require high maintenance. Thus you don't need to spend too much on the tap water purifier's maintenance which makes it a must-have water purifier system.",
+              "Doctor Fresh tap water purifier is India's first purifier that will help you drink healthy and safe water and make you more healthy and fit. The tap guard water purifier remove even single molecules of contamination from water and make the water more pure and safe to drink. So, switch to a tap water purifier when you are tired of buying potable water outside your home. While purchasing a tap water purifier must consider the water purification technology used in it along with the capacity of the tap water purifier."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1711
+        ]
+      },
+      {
+        "slug": "water-cooler-with-purifier",
+        "name": "Water Cooler With Purifier",
+        "href": "/category/water-purifier/water-cooler-with-purifier",
+        "metaTitle": "Water Cooler with Purifier @9311587716 | Water Purifier with Cooler Price |Water Purifier With Cooler",
+        "metaDescription": "Water Cooler with Purifier - Doctor Fresh Has A Wide Range Of Storage Water Coolers With Inbuilt Water Purification And Filtration Processes. This Gives Non-stop Cold Water & Purified Water.",
+        "heading": "Water Cooler With Purifier: Get Purity and Goodness of cooling In Every Drop",
+        "intro": "Now get cold and 100% pure drinking water from a single water cooler. Yes, Doctor Fresh is providing a water cooler with an inbuilt purifier that cools and purifies the water effortlessly. Doctor Fresh has years of experience in offering cooling solutions, and now you can get an inbuilt water purifier in the cooling system.",
+        "seoSections": [
+          {
+            "title": "Water Cooler With Purifier: Get Purity and Goodness of cooling In Every Drop",
+            "paragraphs": [
+              "Now get cold and 100% pure drinking water from a single water cooler. Yes, Doctor Fresh is providing a water cooler with an inbuilt purifier that cools and purifies the water effortlessly. Doctor Fresh has years of experience in offering cooling solutions, and now you can get an inbuilt water purifier in the cooling system.",
+              "We have already established a marketplace in the water purifier market; Doctor Fresh now comes with storage water coolers that have inbuilt RO purification and filtration technology that not only bring non-stop cold water but also ensure its purity for safe consumption.",
+              "Impure drinking water is one of the major causes of infection, food poisoning, and diarrhea in many cases. Therefore, it is important to buy a water cooler with inbuilt water purification technology. Our water coolers included everything required to make it a reliable cooling and purifier system.",
+              "These inbuilt water coolers have RO purification and contaminant filtration technology for seamless and efficient operation. Therefore it is a comprehensive and compact solution for safe, clean, and cold drinking water. You can check our wide range of water coolers."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "The Proven Filtration Techniques Used To Get The Purest Form Of Cold Water",
+            "paragraphs": [
+              "Doctor Fresh's wide range of storage water coolers with inbuilt purification is specially designed to offer faster and efficient cooling with larger storage tanks. It is also suitable for places where a high volume of water is required per hour. It only needs an uninterrupted power supply to ensure free access to pure and chilled water throughout the day. The water cooler with an inbuilt purification system offers faster cooling in lower power consumption.",
+              "The proven technology offers a longer life span, reliability, and ease of service. The space-saving water cooler with a purifier has contamination-free storage that holds cold water even through power cuts. Doctor Fresh water coolers with inbuilt water filtration technology use robust RO technology to provide you chilled and disease-free drinking water that is safe to drink and use for all household purposes."
+            ],
+            "bullets": [
+              "Inbuilt RO purification technology to eliminate suspended impurities",
+              "The 7 stages of water filtration technology for complete purification",
+              "It offers fully automatic operation that avoids human infections",
+              "Made by using instant and proven cooling technology"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1712
+        ]
+      },
+      {
+        "slug": "copper-water-purifier",
+        "name": "Copper Water Purifier",
+        "href": "/category/water-purifier/copper-water-purifier",
+        "metaTitle": "Copper Water Purifier @9311587716 | Copper RO Price | Copper Water Purifier Price",
+        "metaDescription": "Copper water purifier- Copper RO an advanced water purification system. Water store in copper tank kills microbes by absorbing copper. Buy copper RO at best price in India.",
+        "heading": "Copper Water Purifier: A Common Water Purifier With Multiple Benefits",
+        "intro": "Copper is one of those essential minerals that are needed for the human body. So, buy a copper water purifier and get everyday benefits. A water purifier that is made of copper can destroy bacteria and microbes found in raw water. Copper can help you in losing weight and can improve the performance of the digestive system. Along with this it also improves your skin health. Thus having a copper water purifier ensures free access to numerous health benefits.",
+        "seoSections": [
+          {
+            "title": "Copper Water Purifier: A Common Water Purifier With Multiple Benefits",
+            "paragraphs": [
+              "Copper is one of those essential minerals that are needed for the human body. So, buy a copper water purifier and get everyday benefits. A water purifier that is made of copper can destroy bacteria and microbes found in raw water. Copper can help you in losing weight and can improve the performance of the digestive system. Along with this it also improves your skin health. Thus having a copper water purifier ensures free access to numerous health benefits.",
+              "When it comes to the copper water purifier, you do not need to go to any store to purchase it. You can place your order online at Doctor Fresh and get your copper water purifier delivered to your doorstep. You can also check the best-selling models of copper water purifiers on the Doctor Fresh. So, don't forget to check the wide range of Doctor Fresh copper water filters to get the numerous benefits from the product that is available at the best price. Here at Doctor Fresh you can also compare the price and features of the copper water purifier before purchasing it."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Benefits Of Using Copper Water Purifier And Its Other Usage",
+            "paragraphs": [
+              "#1. Boosts Immunity And Promotes Digestion",
+              "A fixed amount of copper is needed for the body to boost metabolism and improve digestion. Insufficiency of copper in your drinking water can induce infection and cause sickness in the long term.",
+              "Copper water not only improves digestion but also kills harmful bacteria and germs present in the body. Copper purified water improves body functions like the liver and kidney to work properly.",
+              "Drinking copper purified water helps lose weight and is found effective in weight management. Copper-charged water easily breaks down fat and helps in digestion that makes you feel lighter. Drinking copper water every day ensures the need for copper to perform different body functions."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1782
+        ]
+      },
+      {
+        "slug": "alkaline-water-purifier",
+        "name": "Alkaline Water Purifier",
+        "href": "/category/water-purifier/alkaline-water-purifier",
+        "metaTitle": "Alkaline Water Purifier @9311587716 | Alkaline Water Purifier Price",
+        "metaDescription": "Alkaline Water Purifier",
+        "heading": "Can We Consume Alkaline Water Daily?",
+        "intro": "Water is a really important source of freshness and hydration for all living beings. Therefore, it is crucial to understand what makes it important for better living properly. Consumption of alkaline water has its own set of benefits. However, you can consume a bottle regularly. Consumption of a single bottle will not have any bad effects. It is always advisable to consume everything in a balanced quantity; the same goes with alkaline water.",
+        "seoSections": [
+          {
+            "title": "Can We Consume Alkaline Water Daily?",
+            "paragraphs": [
+              "Water is a really important source of freshness and hydration for all living beings. Therefore, it is crucial to understand what makes it important for better living properly. Consumption of alkaline water has its own set of benefits. However, you can consume a bottle regularly. Consumption of a single bottle will not have any bad effects. It is always advisable to consume everything in a balanced quantity; the same goes with alkaline water.",
+              "The market is filled with so many variants of water purifiers . Doctor Fresh has a wide range of alkaline water purifiers available in their shops. All of us are aware of the benefits of drinking plenty of water can have magical effects on our body and mind. So, before commenting on anything, let us first understand alkaline water. So, keep reading to enlighten your mind with the knowledge of hydration."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "What Is Alkaline Water?",
+            "paragraphs": [
+              "Technically speaking, the term “alkaline” in alkaline water refers to the pH levels; it measures the number of acidic contents on a scale of 0 to 14. If we take, for example, something with a pH of 1 would be high in acidic content while something with a pH of 13 would have less acidic content, which makes it alkaline. The main idea of consuming alkaline water balances the extra acidity of the body. The neutral, acidic level is 7, and alkaline water helps maintain that.",
+              "Some studies suggest that consumption of alkaline water can sometimes help minimize acid reflux symptoms. With the rapid growth in the popularity of alkaline water, many purifier companies have started making alkaline-based purifiers. However, before you buy a purifier, you must look at India’s alkaline water purifier price and choose accordingly."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "How To Get Alkaline Water?",
+            "paragraphs": [
+              "You can find alkaline water in bottled form. But that would not be a very sustainable way of consuming the water. Doctor Fresh has understood the need of people and made it very easily available for all. There are many options for an alkaline water purifier from Doctor Fresh. You can choose the best alkaline water purifier in India by researching the market.",
+              "The alkaline-based purifiers help neutralize the acidic contents of the water, making it more suitable for consumption. These purifiers easily remove the unwanted quantity of acids, which could be harmful to the human body in the long run. Making these purifiers a part of your life would ensure a healthy life for you and your family members."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "What Is The Benefit?",
+            "paragraphs": [
+              "When we listen to the term benefit, many things pop up in our minds while thinking of alkaline purifiers. But, of course, its price factor is also one of the benefits. So, you can get yourself acquainted with it by searching the available alkaline water purifier price options in the market. But before that, let us look at some of the benefits of this purifier in a brief way. So, keep reading."
+            ],
+            "bullets": [
+              "Helps in weight reduction: Many people are getting health conscious and looking for healthier options. You must be wondering how this water helps in weight loss? Well, let me burst the bubble. It helps in weight loss by naturally neutralizing the acidic content in the body. The fat formation is reduced by consuming water from an alkaline RO water purifier in a balanced way",
+              "Acts as a natural detoxifier: Our body does get exposed to many toxins that could cause harmful diseases. Many available alkaline water purifiers in India can easily impact the body by removing toxins. In addition, alkaline purifiers make the water safe by removing harmful impurities, making it more consumable"
+            ]
+          },
+          {
+            "title": "Summing Up The Entire Topic",
+            "paragraphs": [
+              "A healthy life is a dream of many individuals, but there is often a lack of attempt put into having a healthier life. Additionally, hydration plays an important role in uplifting an individual’s health. Water being a crucial part of our life, it is equally essential to consume it in the purest form. Unfortunately, so many individuals assume that the water consumed by them is pure. Unfortunately, tap water is not safe enough to be consumed, this is where water filtration comes into play, and Doctor Fresh has a wide range of alkaline-based purifiers. If you have installed an alkaline-based purifier, be assured that it will take care of the pH balance of you and your family. It will help neutralize the acidic content of the body and help recover people from serious situations. Getting a ph water purifier can make a huge difference. Bring home the goodness of alkaline water and lead a healthier life soon."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1782,
+          1683
+        ]
+      },
+      {
+        "slug": "water-purifier-under-sink",
+        "name": "Water Purifier Under Sink",
+        "href": "/category/water-purifier/water-purifier-under-sink",
+        "metaTitle": "Water Purifier Under Sink @9311587716 | Under The Sink Water Purifier",
+        "metaDescription": "under the sink water purifier",
+        "heading": "What Are The Possible Perks Of Having An RO Installed?",
+        "intro": "Water is a vital part of the entire process of living for every human, and other living organisms cannot be left contaminated on the face of Earth. Water is responsible for various functions of the body. It acts as an active participant in keeping the body and mind in a sound state. Unfortunately, we live in an era where water pollution is not a big deal. Many reports suggest that many humans face the deadly hug of waterborne diseases caused due to the presence of bacteria, fungus, protozoa, and various other impurities. India is among the leading countries to have increasing cases of waterborne deaths.",
+        "seoSections": [
+          {
+            "title": "What Are The Possible Perks Of Having An RO Installed?",
+            "paragraphs": [
+              "Water is a vital part of the entire process of living for every human, and other living organisms cannot be left contaminated on the face of Earth. Water is responsible for various functions of the body. It acts as an active participant in keeping the body and mind in a sound state. Unfortunately, we live in an era where water pollution is not a big deal. Many reports suggest that many humans face the deadly hug of waterborne diseases caused due to the presence of bacteria, fungus, protozoa, and various other impurities. India is among the leading countries to have increasing cases of waterborne deaths.",
+              "Resultantly, it is advisable to get your home the goodness of RO water purifiers and keep your family safe from all the diseases. Many homes are transforming their livelihood into a modular setup. They are choosing modular kitchens over traditional ones. The water purifier under sink is becoming more desirable for compact homes these days. This saves a lot of space and keeps the kitchen cleaner."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "What is RO Water Purifier?",
+            "paragraphs": [
+              "Water purifiers are a vital part of each household. RO purifiers are most widely accepted and used. These purifiers are great for places with high amounts of Total Dissolved Solids or TDS . This is the most advanced technology used among the available water purification techniques. A RO purifier works on Reverse Osmosis technology where the water flows through a semi-permeable membrane. It purifies the water by filtering out all the impurities. With the advancement of technology, traditional homes are opting for under the sink water purifier, which saves a lot of space in the newly set up modular kitchens."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Why choose Under the Sink RO System?",
+            "paragraphs": [
+              "The under sink water purifier is a purifier that is installed under the sink or counter or, in simpler terms, beneath the kitchen sink, resulting in saving the extra space for other chores. At Doctor Fresh , we understand that selecting a purifier is tedious when you are not fully aware of the technology. In this article, we will look at some of the good sides of under counter water purifiers and how they act as a useful means for your home. In addition, the place of installation makes the entire process unique and safe. Having an under sink RO water purifier can have many advantages. Here are some of them listed below."
+            ],
+            "bullets": [
+              "Miscellaneous benefits: It can be used as a suitable option for connecting with water dispenser taps and the refrigerator",
+              "Less space consumption: The water purifier in modular kitchen occupies very little space making it a convenient option."
+            ]
+          },
+          {
+            "title": "Some Of The Disadvantages",
+            "paragraphs": [
+              "As much as it is true that water purifiers in the kitchen have many advantages, we can not deny that everything comes with disadvantages. Here are some of the under sink water purifier disadvantages listed below.",
+              "It might be difficult for people with backaches to fill water from the under-sink purifier."
+            ],
+            "bullets": [
+              "Without proper installation, there are chances of water leakages in under counter RO system. Are you facing an issue? Contact the technicians from Doctor Fresh now",
+              "Keeping the sink clean and dry is a must to avoid any electric mishap with the socket",
+              "Extra faucet expense is added with this type of purifier. You will be spending extra money on the faucet."
+            ]
+          },
+          {
+            "title": "Ending note",
+            "paragraphs": [
+              "Although under sink water purifiers India is gaining popularity at a faster rate. It is important to keep in mind that not many people are aware of the functioning of this device properly. With the great advantage of saving space for modular homes, these purifiers win hearts. It requires minimum maintenance; hence it is another plus point. At Doctor Fresh, we believe in providing the best to our customers.",
+              "However, it is also crucial for the consumer to maintain hygiene and get it checked whenever required to increase its longevity."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ro-plant",
+    "name": "RO Plant",
+    "href": "/category/ro-plant",
+    "metaTitle": "RO Plant @9311587716 | RO Water Plant | RO Plant Price | RO Plant Cost",
+    "metaDescription": "RO Plant - Compare and buy best water purifier plant from Doctor Fresh. We have a wide range of quality ro water plant at the lowest ro plant price.",
+    "heading": "Types of RO plant",
+    "intro": "As we have already discovered what the RO plant is and what it does, it depends solely on the process and substances used in the machinery variation procedure. Depending on the reduction of energy consumption, the machine will vary.",
+    "seoSections": [
+      {
+        "title": "Types of RO plant",
+        "paragraphs": [
+          "As we have already discovered what the RO plant is and what it does, it depends solely on the process and substances used in the machinery variation procedure. Depending on the reduction of energy consumption, the machine will vary.",
+          "In other words, each machinery has a somewhat different methodology to some other form of parts that enhance the machine’s functionality. Some of the factors directed by the deviation of the machines having different features are written as follows.",
+          "Depending on the application’s, the Doctor Fresh RO plant machinery will be different, so will the RO plant cost change also? What are the variations, then? Let's discuss."
+        ],
+        "bullets": [
+          "Reduction of energy consumption",
+          "The utilisation of sustainable energy sources to save electricity",
+          "Improving the desalination procedure so that water can be cleaned throughout",
+          "Including innovative methods of removal of the waste produced by water",
+          "Enhancing the waste management system to handle the waste"
+        ]
+      },
+      {
+        "title": "Benefits of RO plant",
+        "paragraphs": [
+          "The elimination of the water-borne elements smaller than water molecules becomes easier because of the reverse osmosis process. Ridding the water from lead, arsenic, and other toxic chemicals, there are several beneficial elements of using an RO plant. Let's see what they are.",
+          "One of the significant benefits of using the plant despite the RO water plant price in India is that it removes the water’s sodium and other substances. The filtration system produces purified and potable water. Generally, the water’s sodium is responsible for increasing blood pressure, liver issues, and kidney complications.",
+          "Apart from removing the sodium, the reverse osmosis plant removes the lead from the water. If lead is consumed at a high level, it can give rise to many health complications, including fertility issues, nerve damage, even impairment.",
+          "Generally, the RO filtration system utilises less energy for operating than any other form of the water filtration plant. It will lessen the electricity consumption, lessening the expenses altogether.",
+          "Comparing other variations of water filtration machines, the RO plant requires limited space. The best thing about this filtration system is that you can opt for a machine that would fit the space you have in your house. In other words, the machinery is optimisable. Check out the RO water plant machine price in India to find an optimal one accordingly.",
+          "Before purchasing the RO plant, we recommend checking out the water RO plant price in India on the internet to get a deal worthy of your time and money."
+        ],
+        "bullets": []
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Why do In need RO plant?",
+        "answer": "RO plant brings pure & healthy water irrespective of the source of water. Having an RO plant ensures a healthy lifestyle and a disease free. An RO plant uses reverse osmosis technology, which helps eliminate all kinds of contamination present in your regularly used water."
+      },
+      {
+        "question": "What is the cost of RO plant?",
+        "answer": "The RO plant cost depends on features and technology available in the system. For example, here at Doctor Fresh, we have various RO plants for domestic, commercial, and industrial uses."
+      },
+      {
+        "question": "How to buy the Best RO plant?",
+        "answer": "Buying an RO plant is tricky because of the range of RO plants in the market. So before you buy an RO plant, contact the Doctor Fresh expert and get the best device for your premises."
+      },
+      {
+        "question": "What is RO plant in the industry?",
+        "answer": "An industrial RO plant purifies contaminated water through a reverse osmosis process. The industrial RO plant requires different pre-treatment methods to treat the pollutants present in the water adequately."
+      },
+      {
+        "question": "Which RO plant is best?",
+        "answer": "Although there are various RO plants in the market, they are significant enough to treat the contamination present in the water. But to get the best result, you should look for those RO plants that have other technologies and reverse osmosis."
+      },
+      {
+        "question": "How Does the RO Plant Work?",
+        "answer": "An RO plant contains a semi-permeable with several tiny pores that trap the contaminant present in the water and only allow water molecules to move out from the water. As a result, you receive contamination-free water. This is how an RO plant works."
+      }
+    ],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1725,
+      1738,
+      1739,
+      1740,
+      1721,
+      1741,
+      1742,
+      1743,
+      1744,
+      1745,
+      1746,
+      1747,
+      1748,
+      1749,
+      1750,
+      1752,
+      1753,
+      1754,
+      1758,
+      1759,
+      464,
+      1723
+    ],
+    "subcategories": [
+      {
+        "slug": "50-lph-ro-plant",
+        "name": "50 LPH RO Plant",
+        "href": "/category/ro-plant/50-lph-ro-plant",
+        "metaTitle": "50 LPH RO Plant @9311587716 | 50 LPH RO Water Purifier Price",
+        "metaDescription": "50 LPH RO Plant - Get the best quality and fully automatic 50 LPH RO Plant which removes impurities from water and makes it pure and safe for drinking.",
+        "heading": "50 LPH RO Plant: Drink Pure And Live Healthy",
+        "intro": "If you’re intending to buy a good RO plant, get one at an affordable cost with a superior quality 50 LPH RO plant with enriched latest technology. Buying a RO plant is a one-time investment as it provides the best clean & clear water for years.",
+        "seoSections": [
+          {
+            "title": "50 LPH RO Plant: Drink Pure And Live Healthy",
+            "paragraphs": [
+              "If you’re intending to buy a good RO plant, get one at an affordable cost with a superior quality 50 LPH RO plant with enriched latest technology. Buying a RO plant is a one-time investment as it provides the best clean & clear water for years."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "An Approach For Best and Affordable RO Water Plant",
+            "paragraphs": [
+              "Doctor Fresh is one of the most trusted suppliers of 50 LPH RO plants in India. We offer a wide range of varieties to select the best RO plant according to the needs and budgets of an individual. The RO plant provides an exclusive range of commercial, domestic, and industrial water plants. Doctor fresh manufactured 50 LPH RO plant features satisfies all the users' requirements and provides the healthiest and safest drinking water at the most affordable price."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Why Having The Best RO Plant Is A Necessity?",
+            "paragraphs": [
+              "The contaminated water affects your family’s health badly. The consumption of impure or polluted water can lead to serious health issues and diseases. Regular tap water possesses various deadly bacteria and viruses which can severely affect one's health. Tap water can be dangerous to your health; therefore, you can have the best RO plant in your home. And depending upon the family size, 50 LPH RO is best for your home."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Understanding the Importance of 50 LPH RO Plant",
+            "paragraphs": [
+              "If you are looking for 50 LPH RO, then you are in the right place. We help you to find the right RO plant. Along with this, we also provide highly esteemed services with a trained expert. So get the best service with our customer care.",
+              "Doctor Fresh RO water plant has earned high credibility over the years to serve the best quality water. It is known for the best-authorized services to the customers over the years. It has earned thousands of satisfied customers over these years. You get the best after-sales services with the RO plant."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "BEST 50 LPH RO Plant- What To Look For Selecting The Best 50 LPH RO Plant",
+            "paragraphs": [
+              "It is crucial to check the 50 LPH RO Plant specification before making the final call of having the best 50 LPH RO plant. Various experts from water purifier industries suggest checking purification technology and the features associated with the RO plant so that you can get the best deal at an affordable price.",
+              "A 50 LPH RO plant is based on advanced technology like RO, UV, UF, and others",
+              "Doctor Fresh uses high-quality pumps and adaptor which maintain required pressure and ensure no electrical failure",
+              "Low-pressure switch & High-pressure switch prevent the breakdown of RO system due to water pressure",
+              "250-300 liter of water in a day, i.e., 5-6 hours/day"
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Shop Best 50 LPH RO Plant At Affordable Price From Doctor Fresh",
+            "paragraphs": [
+              "Get connected with the most authorized, reliable, and affordable RO services . We provide an exclusive range of RO plants according to the needs and budgets of customers. And we also ensure you provide the most trusted RO plant pre and post-sales services at the comparatively lowest price in India. Doctor Fresh provides the healthiest and safest drinking water by providing an affordable 50 LPH RO water plant."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Our Expertise",
+            "paragraphs": [
+              "In today’s world of competition, everyone wants the best. No one wants to have the old technology or service that doesn’t match the new happening. For example, a Doctor Fresh RO plant is considered the best medium to get purified water. Today almost everyone has the best RO plant access at their homes of different kinds, but sometimes, many companies fail to fulfill the customer's demand. Doctor Fresh always provides the most promising and transparent service. Along with this, to provide the best and world-class product, we are coming up with instantaneous news technologies and ideas."
+            ],
+            "bullets": [
+              "With our exceptional services, we guarantee to create an unforgettable customer experience and brand identity",
+              "We help you find the best 50 LPH RO plant at the best and affordable 50 LPH RO water purifier price",
+              "Our customer care executives are available 24*7 to help the customers"
+            ]
+          },
+          {
+            "title": "Advantage Of 50 LPH RO Plant",
+            "paragraphs": [],
+            "bullets": [
+              "Suitable for big offices, factories, hospitals, school, colleges, etc",
+              "Provide pure and healthy water irrespective to the water source",
+              "Purify 50 liters of water in one hour",
+              "Economical, healthy, eco-friendly",
+              "No more trouble of storing & carrying a water bottle"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1725
+        ]
+      },
+      {
+        "slug": "100-lph-ro-plant",
+        "name": "100 LPH RO Plant",
+        "href": "/category/ro-plant/100-lph-ro-plant",
+        "metaTitle": "100 LPH RO Plant @9311587716 | 100 LPH RO Plant Price | 100 LTR RO Plant Price",
+        "metaDescription": "100 LPH RO Plant - Get the best quality and fully automatic 100 LPH RO Plant in India at the best price which removes impurities from water and makes it pure and safe for drinking.",
+        "heading": "100 LPH RO Plant: An Automatic RO Water Plant by Doctor Fresh",
+        "intro": "We are India’s reputed and best RO plant manufacturer & supplier. Our RO Plant is the best blend of engineering par excellence and high quality. Doctor fresh is offering a super compact & handy 100 LPH RO plant the best-known system for filtration and purification.",
+        "seoSections": [
+          {
+            "title": "100 LPH RO Plant: An Automatic RO Water Plant by Doctor Fresh",
+            "paragraphs": [
+              "We are India’s reputed and best RO plant manufacturer & supplier. Our RO Plant is the best blend of engineering par excellence and high quality. Doctor fresh is offering a super compact & handy 100 LPH RO plant the best-known system for filtration and purification.",
+              "We are a well-known organization for the best manufacturing, supplying, trading, distributing, and exporting 100 LPH RO plant. And our aim to provide excellent services for water treatment plants with our immense hard work and determination. Due to our par excellence services & commitment to our work for the water treatment, we have been constantly increasing all across the globe."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Doctor Fresh- Leading RO Plant Provider",
+            "paragraphs": [
+              "Doctor Fresh is the best manufacturers of commercial 100 LPH RO plants. 100 LPH RO plants are qualitative, durable & commercial water plant which removes impurity automatically. It is a fully automatically operated machine without any additional labor to handle it. A 100 LPH RO plant is an essential need for drinking water . This plant produces high-quality and pure drinking water. Thus a 100 liter water purifier is an Ideal RO plant for any Institution and Office."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Extensive Range of 100 LPH RO Plant",
+            "paragraphs": [
+              "Doctor Fresh provides highly cost-effective RO plant water solutions for purifying water at a large scale. The Doctor Fresh manufactured 100 LPH RO plant price is affordable for users and is very much useful in Industries such as food & beverage industries, chemical & pharma industries, educational institute, hotels, etc."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "100 LPH RO Plant- An Advanced Technology Water Plant",
+            "paragraphs": [
+              "We imbibe innovation in technical advances with new technologies and spare parts. 100 LPH RO plant includes all the technical advancement in it. We offer water treatment solutions for industries, institutions, offices, and homes. It is an amalgam of high, technological advancement, quality, and innovation. 100 liter water purifier is equipped with super quality multiple filters for the advanced water filtration process.",
+              "Doctor Fresh Offer Water Plant at the Best and Affordable Price",
+              "The 100 LPH RO plant price in India is super affordable for everyone and efficiently treats impure groundwater and turns it into fit for drinking and industrial use. The 100 LPH RO Plant is extensively used for purifying water in industries and other commercial sectors.",
+              "A 100 LPH RO water purifier price for installation are very less in all cities in India with us. We charge affordably for the seamless service for 100 LPH RO plant prices in India. It is suitable for tap water as well as supplied pipe water. The 100 LPH RO water purifier price has proved to be highly cost-effective for water treatment. Additionally, it is a fully trusted and ready-to-use RO water plant."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Advantages of 100 LPH RO Plants",
+            "paragraphs": [
+              "If you want to buy 100 LPH RO water plants then you can contact us immediately. We follow all the standards & norms of the industry with our advanced technology latest machines. 100 LPH RO plant prices are available at an affordable rate. It is suitable for hospitals, nursing homes, small schools, offices, institutes, restaurants, etc."
+            ],
+            "bullets": [
+              "It is ideal for industries, hospitals, schools, factories, and Restaurants.",
+              "Easy to clean and maintain.",
+              "No more expensive water jars for drinking.",
+              "Compatible with all kinds of water cooler and dispensers.",
+              "Automatic auto-cut machine with a high-level water sensor.",
+              "It purifies all types of water such as supply water or underground water.",
+              "Free installation of the unit"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1738,
+          1739,
+          1740
+        ]
+      },
+      {
+        "slug": "150-lph-ro-plant",
+        "name": "150 LPH RO Plant",
+        "href": "/category/ro-plant/150-lph-ro-plant",
+        "metaTitle": "150 LPH RO Plant @9311587716 | 150 LPH RO Water Purifier Price",
+        "metaDescription": "150 LPH RO Plant - Get the best quality and fully automatic 150 LPH RO Plant which removes impurities from water and makes it pure and safe for drinking.",
+        "heading": "150 LPH RO Plant: The RO Plant Made For Small Places And Maximum Yield",
+        "intro": "Doctor Fresh offers a qualitative range of Commercial RO plants that can be used in hotels, hospitals, and small-scale industries. Our 150 LPH RO plant is fully automatic and has more than a 50% water recovery rate. It is made of heavy-duty components and can operate for 10 hours non-stop. The fully automatic RO plant needs fewer human commands and works efficiently with less maintenance. The Doctor Fresh 150 LPH RO plant is easy to operate and can work up to 1000 ppm TDS and offers more than 70% water recovery rate.",
+        "seoSections": [
+          {
+            "title": "150 LPH RO Plant: The RO Plant Made For Small Places And Maximum Yield",
+            "paragraphs": [
+              "Doctor Fresh offers a qualitative range of Commercial RO plants that can be used in hotels, hospitals, and small-scale industries. Our 150 LPH RO plant is fully automatic and has more than a 50% water recovery rate. It is made of heavy-duty components and can operate for 10 hours non-stop. The fully automatic RO plant needs fewer human commands and works efficiently with less maintenance. The Doctor Fresh 150 LPH RO plant is easy to operate and can work up to 1000 ppm TDS and offers more than 70% water recovery rate.",
+              "Why You Need To Try Doctor Fresh RO Plants",
+              "Doctor Fresh is one of the reputed RO plants suppliers in India. Here we manufacture RO plants as per the customer needs and the type of usage. When it comes to the 150 LPH RO plant, it supplies 150-liter water per hour that is enough for 300 people. You can also call us for customized RO plants with specific requirements and get updated technology RO plant system.",
+              "Doctor Fresh manufactures RO Plants by using international standard accessories and delivers durable and customized RO plants. Our RO plant system has an extended warranty and doorstep service facility to offer great peace of mind at your home comfort. We can deliver technologically advanced and customized RO plants all over the country to lift the water quality."
+            ],
+            "bullets": [
+              "The 150 LPH RO plant has 7 stages of water filtration technology",
+              "It has a maximum purification capacity of up to 150 liters/hour and is suitable for small offices, restaurants, and homes.",
+              "It is also suitable for the purification of brackish, tap, and municipal water",
+              "All the fittings and components in the RO system prevent leakages and water wastage",
+              "Protection against leakages as it has auto on/off features"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1721
+        ]
+      },
+      {
+        "slug": "250-lph-ro-plant",
+        "name": "250 LPH RO Plant",
+        "href": "/category/ro-plant/250-lph-ro-plant",
+        "metaTitle": "250 LPH RO Plant @9311587716 | 250 LPH RO Plant Price | 250 LTR RO Plant Price",
+        "metaDescription": "250 LPH RO Plant - Get the best quality and fully automatic 250 LPH RO Plant in India at the best price which removes impurities from water and makes it pure and safe for drinking.",
+        "heading": "250 LPH RO Plant: A Guide To Learn Everything About RO Plant",
+        "intro": "We are the leading RO plant manufacturers in India, having served for a decade, almost positively impacting the water industry. Doctor Fresh 250 LPH RO water plants are used in various industries such as food & beverage, hotels, textile, manufacturing factories, etc.",
+        "seoSections": [
+          {
+            "title": "250 LPH RO Plant: A Guide To Learn Everything About RO Plant",
+            "paragraphs": [
+              "We are the leading RO plant manufacturers in India, having served for a decade, almost positively impacting the water industry. Doctor Fresh 250 LPH RO water plants are used in various industries such as food & beverage, hotels, textile, manufacturing factories, etc.",
+              "An RO plant works effectively & maintains the water TDS level low. It is energy-efficient and consumes less electricity. This RO plant requires very low maintenance. The output of this RO Plant is high and has a longer life span. The 250 ltr RO plant price is quite less as compared to other domestic water purifier systems."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Automatic 250 LPH RO Plant",
+            "paragraphs": [
+              "The 250 LPH RO plant is fully automatic, which means that it can be operated independently without the need for much manpower. Doctor Fresh manufactured RO plants system removes 99% harmful chemicals and bacteria from the water and makes it safe and germ-free for drinking purposes.",
+              "A 250 ltr RO plant price is super affordable, and along with this, we also offer a warranty. We have turned the demand for ISO-certified RO plants into reality. We take all necessary international standards measured for manufacturing the RO systems."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Why is Doctor Fresh 250 LPH RO Plant Best?",
+            "paragraphs": [],
+            "bullets": [
+              "The 250 LPH RO plants are ISO certified",
+              "The 250 LPH RO plant price is quite affordable and is very easy to maintain",
+              "Our 250 LPH RO plants are long-lasting and of high quality",
+              "We test our products before installation at your place",
+              "Our RO plants are easy to install & operate"
+            ]
+          },
+          {
+            "title": "The Need of 250 LPH RO Plant",
+            "paragraphs": [
+              "A 250 LPH RO plant is an ideal plant for small to medium industries such as the food & beverage industry, textile, chemical, etc. This is also widely used in hostels, restaurants, universities, and schools. The output of the 250 LPH RO plant is 250 liters of water per hour. The fresh and purified water is the need of an hour, and we fulfill the same for all the purposes such as drinking, cleaning, etc.",
+              "The use of RO plants has been increased significantly in several years. Taking this into consideration, we are supplying the best manufactured high-quality RO plant. It has a good capacity to remove all impurities & bacteria while making the water best to use. A Doctor Fresh 250 LPH RO plant price is affordable and requires negligible maintenance cost."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "250 LPH RO Plant Specifications",
+            "paragraphs": [
+              "The 250 LPH RO plant specifications are mentioned below:"
+            ],
+            "bullets": [
+              "Operating Mode : Excellent Technology & Fully Automatic RO plant",
+              "Higher Recovery Rate : It eliminates harmful impurities from water. 70% of Water is recovered",
+              "Stainless Steel Material : It is made up of excellent grade material. Good material is used for high TDS water quality",
+              "Easy Operation : It can be operated by anyone and works Up to 5-6 hours continuously without any issue",
+              "Easy Repair & Maintenance : It requires a low maintenance cost"
+            ]
+          },
+          {
+            "title": "Benefits of 250 LPH RO Plant",
+            "paragraphs": [],
+            "bullets": [
+              "A 250 LPH RO Plant provides 100% Pure and Safe Water : It smartly converts toxic water into purified and safe water, which can be further used for drinking & all other purposes as well",
+              "It Reduces Energy Costs : It leads to less energy consumption as compared to other water filtration systems",
+              "It is Compact and Requires Less Space : The 250 LPH RO Plant takes less space for installation",
+              "It Makes Water Taste Better : A RO plant converts the taste of water into better because of the reverse osmosis process by removing impurities and toxins and producing pure, fresh, and better-tasting water"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1741,
+          1742,
+          1743
+        ]
+      },
+      {
+        "slug": "500-lph-ro-plant",
+        "name": "500 LPH RO Plant",
+        "href": "/category/ro-plant/500-lph-ro-plant",
+        "metaTitle": "500 LPH RO Plant @9311587716 | 500 LPH RO Plant Price | 500 LTR RO Plant Price",
+        "metaDescription": "500 LTR RO Plant - Get the best quality and fully automatic 500 LPH RO Plant in India at the best price which removes impurities from water and makes it pure and safe for drinking.",
+        "heading": "500 LPH RO Plant: Shop Best 500 LPH RO Plant At Doctor Fresh",
+        "intro": "A 500 LPH RO Plant is mainly used to eliminate impurities and hazardous chemicals from the water through the reverse osmosis technique. This process purifies the contaminated water and produces pure water which is 100% safe and a 500 LPH RO plant is suitable for various industrial purposes.",
+        "seoSections": [
+          {
+            "title": "500 LPH RO Plant: Shop Best 500 LPH RO Plant At Doctor Fresh",
+            "paragraphs": [
+              "A 500 LPH RO Plant is mainly used to eliminate impurities and hazardous chemicals from the water through the reverse osmosis technique. This process purifies the contaminated water and produces pure water which is 100% safe and a 500 LPH RO plant is suitable for various industrial purposes.",
+              "Doctor Fresh Manufactures High-quality RO Plant Which Is Based On The Advance & Modern Technology. We Use World-class Raw Material Which Makes Our 500 LHP RO Plant Cost Effect And Efficient.",
+              "Doctor Fresh is one of the leading 500 LPH RO Plant manufacturers in the water treatment industry in India serving with the best features. Doctor Fresh manufactured 500 LPH RO Plant is useful in various types of industries such as textile, hotels, food & beverage, manufacturing factories, etc. We have been serving for a decade with complete fulfillment of demands for ISO-certified & affordable 500 LPH RO plant cost.",
+              "An RO plant 500 LPH requires periodic cleaning and maintenance to ensure system life and smooth working for a long time. It must remove excess suspended particles, impurities, and chemicals from the plant to prevent clogging of the RO membrane."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Doctor Fresh 500 LPH RO Water Plants",
+            "paragraphs": [
+              "We are expertise in offering an exclusive range of Industrial RO Water Plants to the market and are widely used in different sectors. You can check our official website to find out an exclusive range of RO water plant machine prices in India . The 500 liter RO plant price is available in various ranges with exclusive designs, performance, and long service life.",
+              "A 500 LPH RO Plant makes water pure and safe for drinking by removes 99.9% of impurities from water. The filter components of the 500 LPH RO plants are made up of certified reverse osmosis membrane and food-grade material. The 500 LPH RO Plant price is affordable and along with this it also comes up with 12 months warranty against manufacturing."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Benefits Of 500 LPH RO Plant",
+            "paragraphs": [
+              "A RO Plant can easily remove all the impurities and other harmful particles such as lead, arsenic, and other toxic chemicals from the water with the help of the reverse osmosis process.",
+              "The most significant RO plant is that it fully removes sodium, lead, and other toxic substance from the water and produces purified water. These substances are very harmful to our health and cause serious diseases.",
+              "RO plant 500 LPH price is popular for using less energy for their operation than any other water filtration plant. It ultimately saves electricity and reduces the overall expenses at the same time.",
+              "An RO plant is space-efficient as it requires very little space than other water filtration systems. You can choose the machine as per your size requirement.",
+              "The 500 LPH RO plant removes impurities resulting in better taste and pure water with the help of the reverse osmosis process."
+            ],
+            "bullets": [
+              "Provides Purified Water Free of Sodium & Lead",
+              "Portable & Requires Very Little Space",
+              "The Taste of Water Becomes Better"
+            ]
+          },
+          {
+            "title": "Conclusion",
+            "paragraphs": [
+              "The use of 500 LPH RO plant is set to increase across industries in India. 500 LPH RO plant price is cost-effective, affordable, and user-friendly. It is more efficient and requires low maintenance. A 500 LPH RO plant comes up with the most affordable and competitive prices providing customized systems to meet commercial and industrial needs. We recommend our customers to check out our website for the 500 liter RO plant price before purchasing the RO plant and get a deal worthy of your money and time."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1744,
+          1745,
+          1746
+        ]
+      },
+      {
+        "slug": "1000-lph-ro-plant",
+        "name": "1000 LPH RO Plant",
+        "href": "/category/ro-plant/1000-lph-ro-plant",
+        "metaTitle": "1000 LPH RO Plant @9311587716 | 1000 LPH RO Plant Cost | RO Plant 1000 LPH Price",
+        "metaDescription": "1000 LPH RO Plant - Get the best quality and fully automatic RO Water Plant 1000 LPH at the best price which removes impurities from water and makes it pure and safe for drinking.",
+        "heading": "1000 LPH RO Plant: The RO Plant Used For Industrial And Commercial Purposes",
+        "intro": "Doctor Fresh 1000 LPH RO plant offers a 1000 liter per hour water flow rate that is the best for Industries and corporate offices. The commercial and industrial reverse osmosis plants are manufactured as per the customer's demand and usage. The Doctor Fresh 1000 LPH RO Plant can fulfill the need of 500-1000 employees every day, or it can be used for large industries.",
+        "seoSections": [
+          {
+            "title": "1000 LPH RO Plant: The RO Plant Used For Industrial And Commercial Purposes",
+            "paragraphs": [
+              "Doctor Fresh 1000 LPH RO plant offers a 1000 liter per hour water flow rate that is the best for Industries and corporate offices. The commercial and industrial reverse osmosis plants are manufactured as per the customer's demand and usage. The Doctor Fresh 1000 LPH RO Plant can fulfill the need of 500-1000 employees every day, or it can be used for large industries.",
+              "Doctor Fresh designed RO plants in accordance with the standard requirements of a particular industry or business where there are huge water requirements. The 1000 LPH RO plant provides high output and an extended life span than domestic and commercial RO purifiers.",
+              "At Doctor Fresh , you can get a high-quality RO plant system made by using tailor made technologies. We understand the requirements of customers and provide the best solution as per the customer needs. The organization believes in the customer-specific requirements and provides the best product and after-sale services."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Get The Diverse Range Of Doctor Fresh RO Plants",
+            "paragraphs": [
+              "Doctor Fresh is one of the leading industrial and commercial RO plants manufacturers and suppliers to serve a large number of customers. Our various models of industrial RO plants , such as 50 LPH RO plants to 1000 LPH industrial RO plants fulfil the requirements of the customers. These large-scale RO plants have high demand in the water treatment market for their ability to turn raw and contaminated water into potable water.",
+              "The 1000 LPH RO water plant is an advanced water treatment plant that can proficiently remove suspended impurities, organic matters, and hazardous chemicals from raw water and makes it suitable for various industrial and domestic purposes. We customize our RO plants to meet the exact requirement of customers at an affordable rate. Doctor Fresh offers fully automatic and semi-automatic RO plant systems based on the customer's choices."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1747,
+          1748,
+          1749
+        ]
+      },
+      {
+        "slug": "2000-lph-ro-plant",
+        "name": "2000 LPH RO Plant",
+        "href": "/category/ro-plant/2000-lph-ro-plant",
+        "metaTitle": "2000 LPH RO Plant Price @9311587716 | 2000 LPH RO Plant Cost | 2000 LPH RO Plant",
+        "metaDescription": "2000 LPH RO Plant Cost - Get the best quality and fully automatic RO Water Plant 2000 LPH at the best price which removes impurities from water and makes it pure and safe for drinking.",
+        "heading": "2000 LPH RO Plant: The Best To Have Industrial RO Plant",
+        "intro": "A 2000 LPH RO plant purifies 2000 liter of water per hour and due to its ability to purify huge amounts of water within an hour this plant is suitable for industrial and various other purposes where a large volume of water is required.",
+        "seoSections": [
+          {
+            "title": "2000 LPH RO Plant: The Best To Have Industrial RO Plant",
+            "paragraphs": [
+              "A 2000 LPH RO plant purifies 2000 liter of water per hour and due to its ability to purify huge amounts of water within an hour this plant is suitable for industrial and various other purposes where a large volume of water is required.",
+              "At Doctor Fresh , we have expertise in manufacturing 2000 LPH RO plants by using cutting-edge technology that lasts longer than expected. The industrial range of RO plants has a limit of treating 500 LPH to 50000 LPH water, without utilizing any sort of chemicals. Water purified by the 2000 LPH RO plant is fit for all purposes.",
+              "Doctor Fresh 2000 LPH RO plant can remove most of the impurities found in the raw water including TDS and other dissolved impurities and makes it pure and safe for various purposes. The filter components and other internal spare parts of the RO plant are made up of food-grade material and certified RO membrane. The 2000 LPH RO plant is available with 12 months offsite warranty against any manufacturing defects and faulty parts."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "The Additional Features Doctor Fresh 2000 LPH RO Plant",
+            "paragraphs": [
+              "We have an array of 2000 LPH RO Plant, which is made to suit the specific need in the different applications. The most recent and improved RO plant system expels out suspended contaminants from water and avoids different waterborne abnormalities.",
+              "In addition, Doctor Fresh RO plants also destroy harmful components, which may induce various unexpected health hazards in humans. Doctor Fresh utilizes advanced RO plants which bring the clean and clear water for various uses. So buy our 2000 LPH RO plant to get spotless and crystal clear mineral water."
+            ],
+            "bullets": [
+              "The 2000 LPH RO plant is an industrial RO plant system with auto-flush technology",
+              "It is made up of certified reverse osmosis membrane",
+              "You can get 12 months warranty against any manufacturing defects",
+              "It eliminates the water scaling and other hardness"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1750,
+          1752,
+          1753
+        ]
+      },
+      {
+        "slug": "3000-lph-ro-plant",
+        "name": "3000 LPH RO Plant",
+        "href": "/category/ro-plant/3000-lph-ro-plant",
+        "metaTitle": "3000 LPH RO Plant Price @9311587716 | 3000 LPH RO Pant | 3000 LPH RO Plant Specification",
+        "metaDescription": "3000 LPH RO Plant - Get the best quality and fully automatic RO Water Plant 3000 LPH at the best price which removes impurities from water and makes it pure and safe for drinking.",
+        "heading": "3000 LPH RO Plant: The Large Capacity RO Plant For Commercial Purpose",
+        "intro": "Doctor Fresh is the well-known RO plant manufacturer as we offer the best range of 3000 LPH RO plants manufactured with genuine spares. We believe in the customer's needs and that helps us to redesign and update the existing 3000 LPH RO plant systems. We are using quality-tested filters to improve the overall performance of the RO plant to deliver the required quantity of pure water.",
+        "seoSections": [
+          {
+            "title": "3000 LPH RO Plant: The Large Capacity RO Plant For Commercial Purpose",
+            "paragraphs": [
+              "Doctor Fresh is the well-known RO plant manufacturer as we offer the best range of 3000 LPH RO plants manufactured with genuine spares. We believe in the customer's needs and that helps us to redesign and update the existing 3000 LPH RO plant systems. We are using quality-tested filters to improve the overall performance of the RO plant to deliver the required quantity of pure water.",
+              "These large-scale commercial RO plants are suitable for medium to extended processing industries where they need to supply uninterrupted water. Doctor Fresh water plants are made up of a dual media filter and antiscalant dosing system to make it fully automatic. The raw water is passed through the different stages of separation and filtration to remove the suspended matter."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Know The Filter Used In The 3000 LPH RO Plant And Their Specifications",
+            "paragraphs": [
+              "The commercial range of 3000 LPH RO plants is specially made to deliver the required amount of water in hotels, corporate offices, hospitals, and other public places. It has a combination of cartridge filter and micron filter to separate suspended scums, and the cartridge filter is used to pull out organic impurities, and a UV filter to destroy living microbes.",
+              "RO membrane is used to desalt the raw water and effectively reduce the total dissolved solids. Doctor Fresh has the motive to lower the salt and total dissolved solids concentration in water and make it pure. Doctor Fresh caters multiple designs of RO plant as per the customers need and can also offer customized models on personalized requests."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Design And Features Of 3000 LPH RO Plant.",
+            "paragraphs": [],
+            "bullets": [
+              "It is designed on the principle of reverse osmosis",
+              "The 3000 LPH RO plant has the industrial standard capacities",
+              "It has a fully automatic operation and is compact in design",
+              "It has a soundless operation and low water rejection technology",
+              "Designed to operate continuously with the same efficiency"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1754,
+          1758,
+          1759
+        ]
+      },
+      {
+        "slug": "5000-lph-ro-plant",
+        "name": "5000 LPH RO Plant",
+        "href": "/category/ro-plant/5000-lph-ro-plant",
+        "metaTitle": "5000 LPH RO Plant Price @9311587716 | 5000 LPH RO Plant Price in India",
+        "metaDescription": "5000 LPH RO Plant - Get the best quality and fully automatic RO Water Plant 5000 LPH at the best price which removes impurities from water and makes it pure and safe for drinking.",
+        "heading": "5000 LPH RO Plant: The Best TDS Infuser RO Plant",
+        "intro": "The Doctor Fresh 5000 LPH RO plant is made with the latest technology to be found in applications like beverage manufacturing plants, mineral water industry, and other food plants. It is loaded with a pre-filter, RO membrane, and disinfectant filter to make water 100% pure after treatment. It is made for more than 50% water recovery rate and durable uses with high-pressure pump support. The 5000 LPH RO Plant is categorized as a large-scale industrial RO plant that caters to 5000 liters of water per hour.",
+        "seoSections": [
+          {
+            "title": "5000 LPH RO Plant: The Best TDS Infuser RO Plant",
+            "paragraphs": [
+              "The Doctor Fresh 5000 LPH RO plant is made with the latest technology to be found in applications like beverage manufacturing plants, mineral water industry, and other food plants. It is loaded with a pre-filter, RO membrane, and disinfectant filter to make water 100% pure after treatment. It is made for more than 50% water recovery rate and durable uses with high-pressure pump support. The 5000 LPH RO Plant is categorized as a large-scale industrial RO plant that caters to 5000 liters of water per hour.",
+              "To meet the high water quality demand the 5000 LPH RO Plant has an RO membrane, micron filter, flow meter, pressure sand filter, and antiscalant dosing system. The RO membrane is used to remove the excess minerals and UV to disinfect the water by eliminating microbial components. The Doctor Fresh iron removal 5000 LPH RO Plant is designed with a TDS infuser system to work effectively on up to 2000 ppm water hardness."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "What Are The Best Ways To Choose The Right RO Plant",
+            "paragraphs": [
+              "Doctor Fresh is a leading RO Plant manufacturer as it has a range of commercial and industrial RO plants with RO, UV, and UF technology to treat hard water. We are focused on offering high-quality RO plants to reach the targeted goal of industries that needs pure water at a high rate. We have expertise in offering 150-10000 LPH RO plants that remove most of the suspended impurities easily and delivers the required amount of water per hour."
+            ],
+            "bullets": [
+              "The 5000 LPH RO Plant is highly durable to offer 5000 liters of water per hour",
+              "The 7 stage purification technology is well enough to pull out up to 2000 ppm water hardness",
+              "Get your compact RO system delivered directly to your doorstep",
+              "We offer an extended service warranty to make it worth buying"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          464
+        ]
+      },
+      {
+        "slug": "10000-lph-ro-plant",
+        "name": "10000 LPH RO Plant",
+        "href": "/category/ro-plant/10000-lph-ro-plant",
+        "metaTitle": "10000 LPH RO Plant Price @9311587716 | RO Water Plant 10000 LPH Price and Specification",
+        "metaDescription": "10000 LPH RO Plant Cost - Get the best quality and fully automatic RO Water Plant 10000 LPH at the best price which removes impurities from water and makes it pure and safe for drinking.",
+        "heading": "10000 LPH RO Plant: The Low Maintenance And High Yield RO System",
+        "intro": "Doctor Fresh has a qualitative assortment of 10000 LPH RO Plant by using genuine raw material and by using decent technologies. Our 10000 LPH RO Plant is suitable for all types of water purification to fulfill the quantitative demand in hotels and industries. It offers a high yield in minimum maintenance as it is made for long operational life. Doctor Fresh 10000 LPH RO Plant uses pre-filters as a sand filter, activated charcoal, filter and micron filter, and UV or UF as a post filter.",
+        "seoSections": [
+          {
+            "title": "10000 LPH RO Plant: The Low Maintenance And High Yield RO System",
+            "paragraphs": [
+              "Doctor Fresh has a qualitative assortment of 10000 LPH RO Plant by using genuine raw material and by using decent technologies. Our 10000 LPH RO Plant is suitable for all types of water purification to fulfill the quantitative demand in hotels and industries. It offers a high yield in minimum maintenance as it is made for long operational life. Doctor Fresh 10000 LPH RO Plant uses pre-filters as a sand filter, activated charcoal, filter and micron filter, and UV or UF as a post filter.",
+              "This high capacity industrial RO plant has the ability to tackle TDS level up to 10000 ppm. The 10000 LPH RO Plant is the best to remove suspended solids, harmful chemicals, and microbial presence within a single treatment. You can get a continuous supply of soft water when you choose the Doctor Fresh 10000 LPH RO plant to reduce water pollution. It is best to treat sewage and wastewater along with the desalination of brackish water."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Know The Process Involved In The 10000 LPH RO Plant",
+            "paragraphs": [
+              "10000 LPH RO Plant is loaded with a raw water pump, sand filter, activated carbon filter, high-pressure pump, RO, UV membrane, and pure water tank . The multi-stage filtration technology works covalently to remove the excess ions from water and make it available for diverse applications. Buy Doctor Fresh 10000 LPH RO Plant to get the desired amount of pure water at the required rate."
+            ],
+            "bullets": [
+              "Raw Water Pump - To generate the required pressure to a sand filter",
+              "Activated Carbon Filter - Remove color, odor, chemicals, and organic matters",
+              "Water Softener - With ion-exchange technology the calcium and magnesium ions are exchanged to resin beads",
+              "RO, UV Membrane - The RO and UV membrane eliminates the excess of minerals and suspended microbes to disinfect the water",
+              "Pure Water Tank - The pure water tank collect the desalinized water"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1723
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "water-softener",
+    "name": "Water Softener",
+    "href": "/category/water-softener",
+    "metaTitle": "Water Softener @9311587716 | Water Softner | Water Softener In India | Best Water Softener",
+    "metaDescription": "Water Softener - Get rid of hard water by installing a water softener system at home and office at an affordable price. Water softner use best-in-class water softening techniques, which make it suitable for all sources of water.",
+    "heading": "Water Softener- Resolve Your Hard Water Issues Today With Doctor Fresh",
+    "intro": "Are you looking for a water softener? Great, you're at the best place as we are one of the best water softener companies in India. Doctor Fresh offers you the top and best quality water softener machine at your doorstep in India. So shop among the best water softeners in India.",
+    "seoSections": [
+      {
+        "title": "Water Softener- Resolve Your Hard Water Issues Today With Doctor Fresh",
+        "paragraphs": [
+          "Are you looking for a water softener? Great, you're at the best place as we are one of the best water softener companies in India. Doctor Fresh offers you the top and best quality water softener machine at your doorstep in India. So shop among the best water softeners in India.",
+          "4. Water Softener Price- Compare And Shop Best Softener At Best Price",
+          "5. Why Should You Buy Doctor Fresh Water Softener?"
+        ],
+        "bullets": [
+          "Various Types Of Water Softener Based On Technology",
+          "Various Types Of Water Softener Based On Uses",
+          "Technology Used In Water Softener",
+          "Feature Of Hard Water Softener Machine"
+        ]
+      },
+      {
+        "title": "What Is Water Softener?",
+        "paragraphs": [
+          "A water softener is an electronic device that is mainly used to treat hard water. Excess concentration of Calcium and Magnesium salts makes water hard in nature, and hard water is not safe for domestic/home uses. Thus water having an excess concentration of calcium and magnesium causes various kinds of skin diseases and hair fall. This is the reason water softener has become an essential home appliance.",
+          "Almost every house in India suffers from hard water issues and to resolve hard water issues; Doctor Fresh offers a world-class water softener system that perfectly reduces calcium and magnesium salts from the water.",
+          "Doctor Fresh water softener machine is based on quality raw material which doesn't change water nature but treats hard water properly and converts it into soft water. If you plan for the best water softener in India, then Doctor Fresh water softener can be the best choice.",
+          "Doctor Fresh manufactures softeners for water treatment for all purposes like domestic, commercial, and industrial purposes. So no matter what your requirement is, Doctor Fresh has the best water softener system for all your needs. You can also buy semi-automatic and automatic water softeners India."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Types Of Water Softener",
+        "paragraphs": [
+          "Based on the technology incorporated into water softener and their uses in various fields, a water softener machine is divided into various forms. So let’s elaborate them one by one"
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Various Types Of Water Softeners Based On Technology",
+        "paragraphs": [
+          "Doctor Fresh manufactured water softener system is based on these listed technologies",
+          "A hard water softener machine based on ion exchange technology is used to eliminate scale-forming salts and ions. This form of water softener machine uses sodium ions to replace calcium and magnesium salts to convert hard water into soft water.",
+          "An electric water softener machine, also known as a magnetic water softener, is different from traditional water softener systems. This form of water softener machine is used to reduce the hardness of home and agriculture water. Doctor Fresh offers world-class electronic water softener at a nominal rate; thus, shop for the best water softener at Doctor Fresh.",
+          "A salt-free water softener machine eliminates salts of calcium and magnesium with the help of chemicals.",
+          "If you're suffering from hard water issues, then book the best water softener machine service. You should contact the best company among water softener companies in India. Our water softener products are of the best quality, which is why we are one of the best water softener manufacturers in India. And being the best water softener brands in India, it is our duty to provide you with top-rated water softener products to enjoy a healthy lifestyle."
+        ],
+        "bullets": [
+          "Electromagnetic Technology"
+        ]
+      },
+      {
+        "title": "Various Types Of Water Softener Based On Its Uses",
+        "paragraphs": [
+          "You need a modern and advanced technology-based water softener for your home to get rid of hard water. At Doctor Fresh, you will get a water softener for all kinds of home uses, like a water softener for tap water. Various hard Water Softener for taps are available at Doctor Fresh, which you can purchase at a nominal price at your doorstep across PAN India.",
+          "Bathing under hard water can lead to various skin diseases and heavy hair fall. If you're experiencing any of these things, then check your water quality and install the best water softener machine in your bathroom to protect yourself from all kinds of health issues.",
+          "Hard water contains a high concentration of calcium and magnesium salts, which blocks the foaming action of detergent and soap. As a result, it leaves a stain on clothes. Salts of hard water also get deposited in the washing machine, which reduces the washing machine efficiency. So installation of the best water softener machine in India for the washing machine is crucial and essential. Doctor Fresh is offering properly customized water softner for all kinds of washing machines, you can shop for the best softening machine for your washing machine.",
+          "If you're looking for an overhead tank water softener, Doctor Fresh is one of the best options for you as Doctor Fresh manufactured a world-class overhead tank. These days overhead tank water softener is crucial as it treats complete water tank's water, hence your entire house receives completely treated water softener water."
+        ],
+        "bullets": [
+          "Water Softener For Bathroom",
+          "Water Softener For Washing Machine",
+          "Water Softener For Overhead Tank"
+        ]
+      },
+      {
+        "title": "How Does A Water Softener Work?",
+        "paragraphs": [
+          "Generally, a water softener machine contains a two-tank, one is called a softener tank, and the other is known as a brine tank. These tanks are connected by each other by a small diameter tube. The brine tubes are generally filled with a removable lid to be filled with sodium and potassium. In contrast, a softener tank is fielded with a resin bed essential for the replacement of calcium and magnesium salts.",
+          "The water softener machine started its work when water entered the softener tank from the inlet pipe, which is present on the upper side of the tank. In this tank, water enters at high speed, which percolates towards the bottom, and during this process, a negative charge resin bed attracts positively charged particles present in water. As a result, the positive ions present in the water cling to the resin, and after that, the water exits the Water Softening tank and move towards the whole house."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Water Softener Price- Compare And Shop Best Softener At Best Price",
+        "paragraphs": [
+          "At Doctor Fresh, various water softner experts have created water softener price by keeping in mind customer needs and budget. This is why Doctor Fresh water softener cost is best according to the market standard. You can find the Doctor Fresh water softener price list by visiting our official website. Although there are a various factor on which the water softener price depends, some of these are",
+          "A water softener can be manufactured by using various technologies as a result, its prices vary. So while purchasing a water softener, you need to focus on the technology used in the water softener. The cost of the water softener machine based on the various techniques is different.",
+          "The feature used in the water softener system is also crucial as it may also affect hard water softener cost. A water softener manufactured at Doctor Fresh is technologically advanced and has mind-blowing features, which makes these products are long-lasting and world-class."
+        ],
+        "bullets": [
+          "Technology Used In The Water Softener",
+          "Feature Of Hard Water Softener Machine"
+        ]
+      },
+      {
+        "title": "Why Should You Buy Doctor Fresh Water Softener?",
+        "paragraphs": [
+          "We are among the top-rated water softener companies in India and our water softener products are world-class and long-lasting. We manufacture customized water softener by using high-quality raw material and it also possesses unique features. Being the best water softener brand in India, we also ensure to provide the best solution for both pre and post-water softener sales services."
+        ],
+        "bullets": []
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Why should I buy a water softener?",
+        "answer": "If your regular water hardness is more than 7 grains per gallon or 120 mg/l, you need a water softener to protect your appliances like coffee maker, boiler, and others. Hard water also leads to skin diseases and heavy hair fall."
+      },
+      {
+        "question": "Is water treated by a water softener safe to drink?",
+        "answer": "No, water treated by a water softener is not safe for drinking. A water softener doesn’t eliminate water contamination but only replaces salts of calcium and magnesium. Salts of calcium and magnesium make water hard in nature, and hard water is not safe for human skin ."
+      },
+      {
+        "question": "Are water softeners suitable for domestic use?",
+        "answer": "Yes, a wide range of water softeners is available for domestic uses. Based on the requirement, you can use a water softener for the overhead tank, bathroom, and tap water. Along with this, you can install a water softener for various other domestic uses. For more detail contact our customer care center."
+      },
+      {
+        "question": "What are the advantages of a water softener?",
+        "answer": "A water softener has various advantages but here are some crucial advantages like It prevents the build-up of scales on the inside of the pipe, appliances, and other Improve the life of the home appliances like coffee makers, boiler, and others Enhances foaming action of the detergents, thus improve cleaning action of the water"
+      },
+      {
+        "question": "How long do water softeners last?",
+        "answer": "It depends upon the frequency of maintenance and repair service. A water softener that receives proper service and maintenance will last for 10-15 years. And without proper maintenance, a water softener will not last long."
+      }
+    ],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1684,
+      1685,
+      1775,
+      1776,
+      1778,
+      1779,
+      1777,
+      1714,
+      1715,
+      1726,
+      1727
+    ],
+    "subcategories": [
+      {
+        "slug": "water-softener-for-home",
+        "name": "Water Softener for Home",
+        "href": "/category/water-softener/water-softener-for-home",
+        "metaTitle": "Water Softener for Home @9311587716 | Water Softener For House",
+        "metaDescription": "Water Softener for Home - Get rid of hard water by installing a water softener for your home at an affordable price. Whole house water softener use best-in-class water softening techniques, which make it suitable for all sources of water.",
+        "heading": "Water Softener For Home: One Apparatus With Multiple Life-Saving Benefits",
+        "intro": "There is a wide range of water softeners in the market, but the Doctor Fresh water softener for home is the best solution for your home water needs. It is best to have some knowledge on how to choose a water softener for your home to narrow down your search volume. Once you have some basic ideas, you are more than ready to pick a perfect water softener for your home.",
+        "seoSections": [
+          {
+            "title": "Water Softener For Home: One Apparatus With Multiple Life-Saving Benefits",
+            "paragraphs": [
+              "There is a wide range of water softeners in the market, but the Doctor Fresh water softener for home is the best solution for your home water needs. It is best to have some knowledge on how to choose a water softener for your home to narrow down your search volume. Once you have some basic ideas, you are more than ready to pick a perfect water softener for your home.",
+              "The water softener is a type of filter that removes the calcium, sodium, and magnesium from the hard water by using beads in a process called regeneration. The removal of calcium, sodium, and magnesium from hard water is known as water softening. The water softener for home removes hard water stains on your taps, buckets, and other fixtures in your bathroom and kitchen.",
+              "The Doctor Fresh home water softener system also protects your other water-using appliance from corrosion and internal damage and adds their life. Buying our water softener protects your hair and skin from the injurious effects of water hardness. You can also check the exact tap water hardness by using a water hardness testing kit. Doctor Fresh is the leading home water softener manufacturer and supplier as we have a comprehensive range of water softeners."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "How To Choose The Best Water Softener For Your Home",
+            "paragraphs": [
+              "When you are choosing a water softener for your home, consider these key factors in evaluating how much the unit can suit your needs. The fundamental inclusions are the total hardness level of your home tap water , the size, and your budget to buy a specific water softener system. Must consider the following to find the right water softener for your family.",
+              "Water softeners have the only water softening skills, as it is important to know because you need to make sure your daily water requirement. With more people, you need more water as you need to buy a larger capacity water softener. Know the amount of hardness to your home water to pick the best water softener for home. You need to know the exact capacity of a water softener to treat hardness present in your water."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1684,
+          1685,
+          1776,
+          1778,
+          1779,
+          1777,
+          1726
+        ]
+      },
+      {
+        "slug": "water-softener-for-bathroom",
+        "name": "Water Softener For Bathroom",
+        "href": "/category/water-softener/water-softener-for-bathroom",
+        "metaTitle": "Water Softener for Bathroom @9311587716 | Water Softener For Shower | Bathroom Water Softener",
+        "metaDescription": "Water Softener for Bathroom - Hard water softener for bathroom produces more lather, consumes less detergent & water and prevents scaling in shower. Water softener for shower available at best prices.",
+        "heading": "Water Softener For Bathroom: How It Prevent All Your Water Using Appliances",
+        "intro": "Doctor Fresh bathroom water softener for bathroom is an ideal solution for those buildings where water coming from different sources. The bathroom water softener is made to care for your hair and skin and keep your bathroom fitting and pipelines free from scaling. When you see scale buildup around tiles, bathroom fittings, and buckets, then you need to think about the water softener for the bathroom. The water softener for the home is required to reduce the quantity of calcium and magnesium from the tap water.",
+        "seoSections": [
+          {
+            "title": "Water Softener For Bathroom: How It Prevent All Your Water Using Appliances",
+            "paragraphs": [
+              "Doctor Fresh bathroom water softener for bathroom is an ideal solution for those buildings where water coming from different sources. The bathroom water softener is made to care for your hair and skin and keep your bathroom fitting and pipelines free from scaling. When you see scale buildup around tiles, bathroom fittings, and buckets, then you need to think about the water softener for the bathroom. The water softener for the home is required to reduce the quantity of calcium and magnesium from the tap water.",
+              "You can use a hard water softener for the bathroom to soften your tap and shower water. A water softener for the bathroom is the only thing you need to short out water hardness in your bathroom. If you use a Doctor Fresh water softener for bathroom, you can get rid of the water hardness and improve your skin and hair health. Doctor Fresh has an array of fully automatic hard water to soft water converter that is leek in design and needs minimal maintenance to soften water. There is no need for annual maintenance as our water softener for the bathroom is made to be tough and durable."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "This How Doctor Fresh Water Softener For Bathroom Is Must Buy For Your",
+            "paragraphs": [
+              "Our water softener for bathroom prevents scaling and stains of hardness on your bathroom fixtures and keeps them as good as new. The water softener for the bathroom also adds life to other water-using appliances like geysers, washing machines, dishwashers, and others from any damage due to internal corrosion. Our water softeners use ion-exchange technology to soften water and remove scaling and ugly stains easily and protect other appliances' life.",
+              "Doctor Freshwater softener for bathroom has high capacity salt storage to get rid of frequent salt refilling. The ion exchange technology removes hardness-causing agents like calcium, magnesium, and sodium effectively to make bathroom water soft. Doctor Fresh bathroom water softener is suitable for extremely hard water that can easily work in coastal regions as well. You can find our bathroom water softener online to lessen the use of detergent in washing clothes and prevents scaling."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1778,
+          1779,
+          1777,
+          1714
+        ]
+      },
+      {
+        "slug": "water-softener-for-overhead-tanks",
+        "name": "Water Softener for Overhead Tanks",
+        "href": "/category/water-softener/water-softener-for-overhead-tanks",
+        "metaTitle": "Water Softener For Overhead Tanks @9311587716 | Water Softener For Overhead Tanks Price",
+        "metaDescription": "Water Softener for Overhead Tanks - Buy Automatic Water Softener for whole-house at best price in India. It helps to reduce hair fall, dry skin and other hard water problems.",
+        "heading": "Water Softener For Overhead Tank- Buy Best At Doctor Fresh",
+        "intro": "A water softener converts hard water into soft water. So if you're looking for the water softener to get soft water throughout the home, a water purifier for overhead tank can be the best option. Doctor Fresh being the water softener topmost player manufacturing high-quality water softener for overhead tank.",
+        "seoSections": [
+          {
+            "title": "Water Softener For Overhead Tank- Buy Best At Doctor Fresh",
+            "paragraphs": [
+              "A water softener converts hard water into soft water. So if you're looking for the water softener to get soft water throughout the home, a water purifier for overhead tank can be the best option. Doctor Fresh being the water softener topmost player manufacturing high-quality water softener for overhead tank.",
+              "Water Softener For Overhead Tank Brings Soft Water Throughout The Home. And A Doctor Fresh Water Softener For Water Tank Is Convenient Solution For All Your Hard Water Issue s.",
+              "Doctor Fresh manufactures both semi-automatic and fully automatic water softener for water tank so that you can get soft water inside your home effortlessly. In addition, a water softener for water tank prevent hard water stains usually occurs at the tap, faucets, and fixtures in your bathroom and kitchen, thus keep your kitchen and bathroom fitting looks good and new for the longer duration.",
+              "Here at Doctor Fresh, we have listed a wide range of water purifier for water tank, and you can choose the best for your house according to your needs and requirements. So shop for the best water softener for water tank online only."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Benefits Of Overhead Tank Water Softener",
+            "paragraphs": [],
+            "bullets": [
+              "Prevent ugly hard water staining",
+              "Prevent hair from getting frizziness"
+            ]
+          },
+          {
+            "title": "Features Of Doctor Water Softener For Overhead Tank",
+            "paragraphs": [
+              "Doctor Fresh manufactured water softener for water tank is an intelligent and low-maintenance water softening device that effortlessly soften water for the entire family's need. The resin used in our hard water softener for the overhead tank is of high grade, which has a higher lifespan, thus ensuring a long-lasting solution to hard water issues. Some advance features of Doctor Fresh water softener for overhead tank are"
+            ],
+            "bullets": [
+              "Chemical-free water softening"
+            ]
+          },
+          {
+            "title": "Why Is Doctor Fresh Best Option For Water Softener For Overhead Tank?",
+            "paragraphs": [
+              "We manufacture a high-quality water softening system based on modern and advanced technology, making operation smooth and easy. Along with this, we also ensure to provide the best softening system at the market best price.",
+              "At Doctor Fresh, expert professionals have created a water softener for overhead tanks price, keeping in mind the customer needs and budget; thus, our water purifier for overhead tank price is comparatively low and best according to the market standard.",
+              "We always believe is customer satisfaction, and to achieve our goal, we work regularly and dedicatedly. We enable people to shop best water softener at Doctor Fresh and compare the shortlisted water softener for water tank water purifier specification and cost. This ensures getting the best deal on the water tank purifier ."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1684,
+          1685,
+          1776,
+          1778,
+          1779,
+          1777,
+          1714,
+          1715,
+          1726,
+          1727
+        ]
+      },
+      {
+        "slug": "water-softener-for-washing-machine",
+        "name": "Water Softener for Washing Machine",
+        "href": "/category/water-softener/water-softener-for-washing-machine",
+        "metaTitle": "Water Softener for Washing Machine @9311587716 | Washing Machine Water Softener",
+        "metaDescription": "Water Softener for Washing Machine - It converts hard water into soft water by replacing hard salts like Calcium and Magnesium with Sodium through an efficient ion-exchange process.",
+        "heading": "Water Softener For Washing Machine: The Ideal Way To Lower Detergent Consumption",
+        "intro": "Doctor Fresh washing machine water softener is probably the best water softener for washing machines as it softens hard water and prevents the scaling in the other water-using machine, increasing the life and output of the washing machine. In case the water supply is hard in nature, the washing machine requires a water softener to get the best performance. Hard water can lead to scale formation and mineral deposits in your washing machine affecting the performance of the washing machine as it consumes more detergent and needs excess water to clean.",
+        "seoSections": [
+          {
+            "title": "Water Softener For Washing Machine: The Ideal Way To Lower Detergent Consumption",
+            "paragraphs": [
+              "Doctor Fresh washing machine water softener is probably the best water softener for washing machines as it softens hard water and prevents the scaling in the other water-using machine, increasing the life and output of the washing machine. In case the water supply is hard in nature, the washing machine requires a water softener to get the best performance. Hard water can lead to scale formation and mineral deposits in your washing machine affecting the performance of the washing machine as it consumes more detergent and needs excess water to clean.",
+              "First, you need to check for the TDS level of water before choosing a Doctor Fresh water softener for your washing machine. If your tap water TDS is more than 500 ppm, then it is considered in the hard water category that is not suitable for your washing machine as it doesn't give enough lather with soap or detergent. It is better to have a Doctor Fresh sodium-based water softener for your washing machine to stop coating the washing machine drum with hard water. A water softener for home helps to make better detergent lather formation and anti-scaling."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Here Are The Additional Benefits Of Doctor Fresh Water Softener For Washing Machine",
+            "paragraphs": [
+              "Water softeners for washing machines are used to remove excess ions like sodium and calcium and make them suitable for washing clothes, utensils, and bathing. Water softener for the washing machine also reduces the scaling in pipes and eliminates all other issues because of water hardness. Doctor Freshwater softener for the washing machine is made with four-layer filters that can eliminate chlorine and other hardness-causing minerals. If you can afford to buy a water softener for a washing machine, then Doctor Freshwater softener for the washing machine is a must-try because of its tough design and easy-to-use features."
+            ],
+            "bullets": [
+              "Tailor-made water softeners for washing machine",
+              "It is easy to install and maintain",
+              "You can buy it to increase washing machine efficiency",
+              "It has great water softening technology"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1778,
+          1779,
+          1777,
+          1715
+        ]
+      },
+      {
+        "slug": "commercial-water-softener",
+        "name": "Commercial Water Softener",
+        "href": "/category/water-softener/commercial-water-softener",
+        "metaTitle": "Commercial Water Softener @9311587716 | Water Softener For Apartment",
+        "metaDescription": "Water Softener For Apartment - Get rid of hard water by installing a Commercial Water Softener at an affordable price. Whole Commercial Water Softener use best-in-class water softening techniques, which make it suitable for all sources of water.",
+        "heading": "Commercial Water Softener: Get It Today From Doctor Fresh",
+        "intro": "Doctor Fresh offers a complete range of commercial water softeners loaded with the latest features to make your business efficient. The ion exchange is used in commercial water softeners that remove excess calcium, magnesium, and carbonates to reduce their hardness. You can see reduced hard water build-up, save unnecessary repairs, and avoid wear and tear of other water using appliances. In the case of the laundry industry, you can save detergent, water, and your washing machine to achieve the desired result.",
+        "seoSections": [
+          {
+            "title": "Commercial Water Softener: Get It Today From Doctor Fresh",
+            "paragraphs": [
+              "Doctor Fresh offers a complete range of commercial water softeners loaded with the latest features to make your business efficient. The ion exchange is used in commercial water softeners that remove excess calcium, magnesium, and carbonates to reduce their hardness. You can see reduced hard water build-up, save unnecessary repairs, and avoid wear and tear of other water using appliances. In the case of the laundry industry, you can save detergent, water, and your washing machine to achieve the desired result.",
+              "Doctor Fresh commercial water softeners work in a process called ion exchange that removes calcium, carbonates, and magnesium from the water. When the raw water permits through the multiple resin beads, it grabs most of the additional minerals and removes them from the raw water. When the resin bead grasps the mineral ion, the sodium ion is released to achieve the process."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Consider The Following To Pick The Doctor Fresh Commercial Water Softener",
+            "paragraphs": [
+              "There are some important factors that you need to take into account when buying a commercial water softener include-",
+              "You have to analyze all the following if you want to buy a suitable commercial water softener to deal with the huge amount of hard water. Doctor Fresh range of commercial water softeners specially designed to tackle all types of hard water.",
+              "Our range of commercial water softeners has a variety of benefits as it needs low maintenance cost, extended service warranty, lower installation cost, and others. So, install Doctor Fresh commercial water softening machine to save water, energy and chemical usage."
+            ],
+            "bullets": [
+              "The total water pressure generated",
+              "The actual hardness of your water",
+              "The normal temperature of the water",
+              "The capacity of resin that each water softener tank can have to deal with the hard water",
+              "The regeneration timings and the amount of space required to install"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1775,
+          1776,
+          1778,
+          1727
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "vacuum-cleaner",
+    "name": "Vacuum Cleaner",
+    "href": "/category/vacuum-cleaner",
+    "metaTitle": "Vacuum Cleaner @9311587716 | Vacuum Cleaner Price | Best Vacuum Cleaner India",
+    "metaDescription": "Vacuum Cleaner - Shop Vacuum Cleaners online at the best price. Select best vacuum cleaner online from top-rated Doctor Fresh brand.",
+    "heading": "Vacuum Cleaner: Find The Best Performing And Technology-Rich Model",
+    "intro": "From smooth surfaces to rough surfaces, our range of multidimensional vacuum cleaners can easily clean any space with little effort. Hunting for the right vacuum cleaner is not an easy task because of its multiple models. You have to consider the must-have features like the type of vacuum cleaner, the areas where you want to clean, the noise it generates and, its overall cost and after-sales maintenance. To help you buy the best, Doctor Fresh has curated a list of the best vacuum cleaners that suits all your cleaning requirements.",
+    "seoSections": [
+      {
+        "title": "Vacuum Cleaner: Find The Best Performing And Technology-Rich Model",
+        "paragraphs": [
+          "From smooth surfaces to rough surfaces, our range of multidimensional vacuum cleaners can easily clean any space with little effort. Hunting for the right vacuum cleaner is not an easy task because of its multiple models. You have to consider the must-have features like the type of vacuum cleaner, the areas where you want to clean, the noise it generates and, its overall cost and after-sales maintenance. To help you buy the best, Doctor Fresh has curated a list of the best vacuum cleaners that suits all your cleaning requirements.",
+          "A vacuum cleaner is a must-have appliance that helps you to make your cleaning routine quicker and effective than ever. There are various types of vacuum cleaners available at Doctor fresh that make it easy to choose one of them. Doctor Fresh tested dozens of car vacuum cleaner over the years to suggest you the right picks for your needs and budget.",
+          "When shopping for the best vacuum cleaner for home , you must need to consider factors such as the type of floor you need to use it on. Don't forget to check the additional accessories you need and the weight of the vacuum cleaner. The best car vacuum cleaner is available in modern styles such as bagged, bagless, robotic, and cordless. All of the car cleaners have their own benefits and features that help you to find the perfect match for your car cleaning needs."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Shop For The Best Vacuum Cleaners Online At Doctor Fresh",
+        "paragraphs": [
+          "Cleaning the room is no longer going to be difficult when you have a cordless vacuum cleaner to do the job in a quick and efficient manner. Doctor Fresh brings a wide range of vacuum cleaners that are not only efficient but also compact and durable. Go ahead and discover our range of the best vacuum cleaner for your personal or professional needs. Call us to get the exact vacuum cleaner price before going to buy any of the cleaner models."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Doctor Fresh: A One-Stop Online Destination For Long-Lasting Vacuum Cleaners",
+        "paragraphs": [
+          "We have all the latest robot vacuum cleaner models available on Doctor Fresh, and you can choose the one of them that you feel will match your needs. Don't forget to consider factors like capacity, cord length, cleaning features, and size before making your final selection. Portable vacuum cleaners are loaded with the most advanced features like flexible speed and time settings, low sound levels, and much more.",
+          "The robot floor cleaner can eradicate dust and germs from the room, bed, and sofas. Besides, these wet and dry vacuum cleaners are well-designed in terms of their look and are available in a variety of sizes. Being compact in size and cordless in operation, the cleaning robot is both convenient to carry and maintain as well."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Explore Our Range Of Vacuum Cleaner For House And Car",
+        "paragraphs": [
+          "If you are in search of bag-less vacuum cleaners or cordless vacuum cleaners, carpet cleaners, or dry and wet vacuum cleaners online, you can get ample choice on Doctor Fresh. You can easily find robot vacuum cleaner models that are loaded with flexible cords or cordless range so that you can choose the best handheld vacuum cleaner for your living area and office.",
+          "Consider getting a mini vacuum cleaner or a small vacuum cleaner if you want something that is compact and easy to carry. Easy to control and equipped with smart indicators, these automatic vacuum cleaners are perfect for any modern living space or office area.",
+          "We are even more delighted when we offer these industrial vacuum cleaners at affordable prices. Browse our collection of handy vacuum cleaner and buy one of the best that you find to be most suitable for your daily use."
+        ],
+        "bullets": []
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Which Vacuum cleaner is best?",
+        "answer": "Doctor Fresh manufactures high-quality vacuum cleaners. Here we have listed some of the high-quality Vacuum cleaners these are S4 Vacuum cleaner Classic C1 Vacuum cleaner Industrial Vacuum cleaner Handheld Vacuum cleaner"
+      },
+      {
+        "question": "What is the function of the vacuum cleaner?",
+        "answer": "This is used to remove the dirt from the floors, upholstery, draperies, and other surfaces. At Doctor Fresh we offer high-rated cleaners for all purposes, you can get the best Vacuum cleaner for your house."
+      },
+      {
+        "question": "Is a vacuum cleaner really useful?",
+        "answer": "The vacuum cleaner has numerous advantages thus it has become the most valuable cleaning device for all the house. It is mainly used to purify the air quality and offer an effective way of cleaning the floor and reducing allergic breakout."
+      },
+      {
+        "question": "Is vacuuming better than sweeping?",
+        "answer": "With the improvement in technology, vacuum cleaner quality has improved, and now it can eliminate even the smallest particle of dust. Thus a vacuum cleaner is highly effective than sweeping."
+      }
+    ],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1688,
+      1689,
+      1718,
+      1719
+    ],
+    "subcategories": [
+      {
+        "slug": "vacuum-cleaner-for-home",
+        "name": "Vacuum Cleaner For Home",
+        "href": "/category/vacuum-cleaner/vacuum-cleaner-for-home",
+        "metaTitle": "Vacuum Cleaner For Home @9311587716 | Best Vacuum Cleaner For Home | Best Vacuum Cleaner For Home In India",
+        "metaDescription": "Vacuum Cleaner For Home - Shop Vacuum Cleaners for home online at the best price. Select best vacuum cleaner for home online from top-rated Doctor Fresh brand.",
+        "heading": "Vacuum Cleaner For Home: The Guide To Buy The Best In Your Budget",
+        "intro": "From floors to sofas, beds, and mattresses, the Vacuum Cleaner for Home can do your job easily and accessible. Choosing a home vacuum cleaner is a little puzzling as you have to pick the best suitable one on the basis of the area to clean, level of noise, and your budget. Doctor Fresh is here to help you throughout the process with their handpicked range of Vacuum Cleaner for Home.",
+        "seoSections": [
+          {
+            "title": "Vacuum Cleaner For Home: The Guide To Buy The Best In Your Budget",
+            "paragraphs": [
+              "From floors to sofas, beds, and mattresses, the Vacuum Cleaner for Home can do your job easily and accessible. Choosing a home vacuum cleaner is a little puzzling as you have to pick the best suitable one on the basis of the area to clean, level of noise, and your budget. Doctor Fresh is here to help you throughout the process with their handpicked range of Vacuum Cleaner for Home.",
+              "Our bag-less home vacuum cleaners have 700-watt motor capacity and hold 1.5 liters of dust as it absorbs fine dust particles. Doctor Fresh range of home vacuum cleaners equipped with HEPA filter that traps the ultra-fine particles inside the dust container.",
+              "You can check the price range of our vacuum cleaners regarded as the best vacuum cleaner for home. Our expert team will suggest the best vacuum cleaners for homes with top-quality features and, most importantly, under your budget. Have a look at the required features in your vacuum cleaners that proves the best for your needs."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Type Of Home Vacuum Cleaners That Might Be Suitable For You",
+            "paragraphs": [
+              "Before diving into the type of vacuum cleaner, you have to be clear about your needs such as room size, type of surface, floors, and stairs. Cleaning all these manually is a tiresome task then the home vacuum cleaner limits your time in cleaning. We have all types of vacuum cleaners that you can choose as per the filter type, bag or bag less model, and motor capacity.",
+              "If you have a smaller space, then a handheld vacuum cleaner for home is good enough for you, and for stairs cleaning, the handy stick cleaner will be preferred. Those who have uneven floors surface need to buy an adjustable vacuum cleaner that adjusts as per the floor type."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1688,
+          1689
+        ]
+      },
+      {
+        "slug": "vacuum-cleaner-for-industrial",
+        "name": "Vacuum Cleaner For Industrial",
+        "href": "/category/vacuum-cleaner/vacuum-cleaner-for-industrial",
+        "metaTitle": "Vacuum Cleaner For Industrial @9311587716 | Vacuum Cleaner For Industrial Use",
+        "metaDescription": "Vacuum Cleaner For Industrial - Shop Vacuum Cleaners For Industrial online at the best price. Select best vacuum cleaner online from top-rated Doctor Fresh brand.",
+        "heading": "Vacuum Cleaner For Industrial Purpose - Try Doctor Fresh Handpicked",
+        "intro": "Doctor Fresh manufactures a comprehensive range of industrial and commercial vacuum cleaners for professional cleaning companies and business purposes. The most difficult dirt on the floor is effectively handled by our industrial range of heavy-duty vacuum cleaners. Doctor Fresh industrial vacuum cleaning range is the best when dirt type is extreme, dangerous, and hard to remove. Our prime series professional vacuum cleaner for home can handle both wet and dry waste with ease.",
+        "seoSections": [
+          {
+            "title": "Vacuum Cleaner For Industrial Purpose - Try Doctor Fresh Handpicked",
+            "paragraphs": [
+              "Doctor Fresh manufactures a comprehensive range of industrial and commercial vacuum cleaners for professional cleaning companies and business purposes. The most difficult dirt on the floor is effectively handled by our industrial range of heavy-duty vacuum cleaners. Doctor Fresh industrial vacuum cleaning range is the best when dirt type is extreme, dangerous, and hard to remove. Our prime series professional vacuum cleaner for home can handle both wet and dry waste with ease.",
+              "Doctor Fresh's central robot vacuum cleaner is the ideal cleaning system for milling, packaging, and other food processing plants. Our industrial vacuum cleaners are suitable for cleaning all types of surfaces such as workshops, cement plants, bakeries, car washing units, and textile plants.",
+              "Doctor Fresh develops and manufactures industrial vacuum cleaners that can work smoothly on any surface. By manufacturing the best vacuum cleaner , buy water purifier projects itself as a modern and reliable developer and manufacturer of industrial vacuum cleaning equipment suitable for cleaning wet and dry surfaces."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Explore the best range of automatic vacuum cleaner",
+            "paragraphs": [
+              "The range of cleaning robot includes a large number of models from different capacities, available in various versions able to meet numerous needs. Doctor fresh know-how to offer customized home cleaning robot according to the end-users specific needs and aims to provide a central vacuum cleaning system.",
+              "Doctor Fresh is dedicated to manufacturing reliable and powerful industrial cordless vacuum cleaner that can be used in the most industrial applications. Our range of the best industrial vacuum cleaners that are powerful, silent, compact, efficient, and easy to use for multiple purposes.",
+              "Our range of wet and dry vacuum cleaner is extremely versatile and suitable for dealing with all types of dust and damp surfaces. Our best vacuum cleaners are also an effective solution for small to large industrial dedusting processes. Doctor Fresh has an extensive list of robot vacuum to provide the best solutions to your needs to any type of industrial process."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "The Purposes When You Need The Industrial Vacuum Cleaners",
+            "paragraphs": [
+              "In an industrial vacuum system, an automatic vacuum pump takes out air from a system to create a pressure difference in order to remove dust and debris from floors, machines, and other surfaces. It is mostly electrically driven equipment in which material is collected into a disposable tank. The industrial vacuum cleaner machine is a robot cleaning device used for differential cleaning in industries and other specific needs."
+            ],
+            "bullets": [
+              "All types of floor and wall cleaning",
+              "Textile left out and dust cleaning",
+              "Machinery and other processing unit parts cleaning",
+              "Oil, water, and all other liquid cleanings",
+              "The place where continuous suction needs",
+              "Dust extraction in milling and other food manufacturing units",
+              "ATM machines and water vending machines cleaning"
+            ]
+          },
+          {
+            "title": "Here Is A List Of Vacuum Cleaners For Home And Car",
+            "paragraphs": [
+              "Doctor Fresh offers a number of effective home and industrial vacuum cleaners start from low to high capacity machines for various types of industrial cleaning as Food, Pharmaceutical, Steel, Cement, Bio labs, and Automobile sectors. By manufacturing standalone, movable, fixed centralized vacuum systems and robot floor cleaner.",
+              "Our range of Industrial vacuum cleaners have both side-channel and blower motors that are considered among the world's best manufacturers, and their small vacuum cleaner is powerful, silent, and suitable for uninterrupted and continuous works. The mini vacuum cleaner doesn't require maintenance, and it works for extended hours.",
+              "Vacuum cleaner for sofa comes with a large filter surface area in its range and various types of primary filters like Hepa filters which ensures the exhaust air free from the dust and debris."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Primary and compact-sized Industrial vacuum cleaners",
+            "paragraphs": [
+              "This compact model is suitable for general cleaning in industrial environments where an efficient and powerful portable vacuum cleaner is required. It is compact and flexible; it is easy to move and suitable for both wet and dry applications."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Medium range of industrial vacuum cleaners",
+            "paragraphs": [
+              "The middle-range industrial vacuum cleaners are ideal for small and larger areas and are heavy-duty. The handheld vacuum cleaner is ideal for continuous work with a maintenance free side channel blower motor that offers mobile cleaning, compact, centralized vacuum for a small area."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Heavy-duty Industrial vacuum cleaners",
+            "paragraphs": [
+              "Doctor Fresh heavy duty industrial vacuum cleaners are designed for continuous use, suitable for suction of bulk materials in a continuous manner. This oversized cleaner provides high suction performance on tough surfaces."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1718
+        ]
+      },
+      {
+        "slug": "handheld-vacuum-cleaner",
+        "name": "Handheld Vacuum Cleaner",
+        "href": "/category/vacuum-cleaner/handheld-vacuum-cleaner",
+        "metaTitle": "Handheld Vacuum Cleaner @9311587716 | Handheld Vacuum Cleaner India | Vacuum Cleaner Handheld",
+        "metaDescription": "Handheld Vacuum Cleaner India - Call us @9311587744 to get doorstep Handheld Vacuum Cleaner from Doctor Fresh Brand in India.",
+        "heading": "Handheld Vacuum Cleaner - Why Doctor Fresh Is Best In The Market",
+        "intro": "For smaller spaces like the living room and personal office space, a good handheld vacuum cleaner provides quick and efficient cleaning without much heavy lifting and taking up a small space for storage. These mini vacuum cleaners are handy for instantly cleaning dry spills, hard to remove dirt, and pet hair stuck around every gap. For the situation when you need to quickly clean up a spill or want to get rid of dust, a handheld vacuum cleaner proves really handy. Instead of buying a full-size vacuum cleaner, a handheld vacuum cleaner is lightweight, portable, and small enough to clean the gaps between furniture and appliances.",
+        "seoSections": [
+          {
+            "title": "Handheld Vacuum Cleaner - Why Doctor Fresh Is Best In The Market",
+            "paragraphs": [
+              "For smaller spaces like the living room and personal office space, a good handheld vacuum cleaner provides quick and efficient cleaning without much heavy lifting and taking up a small space for storage. These mini vacuum cleaners are handy for instantly cleaning dry spills, hard to remove dirt, and pet hair stuck around every gap. For the situation when you need to quickly clean up a spill or want to get rid of dust, a handheld vacuum cleaner proves really handy. Instead of buying a full-size vacuum cleaner, a handheld vacuum cleaner is lightweight, portable, and small enough to clean the gaps between furniture and appliances.",
+              "The specially made car vacuum cleaner is ideal for cleaning your complete car's interior. Doctor Fresh's latest cordless vacuum cleaner models of such vacuum cleaners have a powerful battery to pick up more dirt and debris and run longer than any other model. Our other innovations include more comfortable grips, easy to handle dust cups, washable filters, multiple speeds motors and much more."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Here Is How The Hand Vacuum Cleaner Is Best For Your Home",
+            "paragraphs": [
+              "When there is a spillage in the kitchen or living room, there's only one cleaning tool for the job: a handheld vacuum cleaner. Lightweight and powerful, a good handheld vacuum can tackle those small spills and fit into the smallest space inside your home. Doctor Fresh rounded up some of the best portable vacuum cleaners , according to your daily cleaning issues. If you want to get rid of pet fur or you are in search of the best option for cleaning your car's interior, then a vacuum cleaner for home and car is there for you. So, eliminate your cleaning concern with our new range of handheld vacuum cleaners list.",
+              "The small vacuum cleaner never replaces a full-size vacuum cleaner when it comes to deep cleaning, but it is handy for instant tackling of dry spills and dirt. With a handheld vacuum cleaner, you may clean a small workshop area, garden bench and your car interior.",
+              "RO water purifier companies newest cordless vacuum cleaner for home models has more powerful batteries to run longer than expected. Other innovations include corded or cordless models with brushes and other attachments that allow it easy to remove dust, window sills, door frames, indoor mattresses, and those awkward spots where larger vacuum cleaners find hard to reach."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Buy Lab Tested Wet And Dry Vacuum Cleaner Online",
+            "paragraphs": [
+              "The best handheld vacuum cleaner easily works on bare floors and low pile carpets and picks up light debris like sand, floors, dry grains, and pet hair. The range of best vacuum cleaner for home sucks even for heavy items like screws and nuts. The automatic vacuum cleaner records the run time and dust weight and alarm to change filters or clean. The easy to remove dust cup makes it user-friendly, and how comfortable it becomes for the user.",
+              "If you're looking for another top-rated industrial vacuum cleaner , then Doctor Fresh assists you with some of the best-performing ones. We assess every vacuum cleaner as to how they remove dirt deeply inserted into floor carpet or evenly spread on a carpet's surface. Our expert also looks at how it works on a hard flooring like hardwood tiles and how strong suction is required to do so."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "End Your Search For The Best Vacuum Cleaner",
+            "paragraphs": [
+              "Doctor Fresh Vacuums are ease-of-use and flexible for emptying and extended battery run-time in the case of cordless vacuum cleaners. Are you also looking forward to buying a handy vacuum cleaner to eliminate the dust and debris accumulated around your living and working area? Here is a quick and the best list of handheld vacuum cleaners to suit all your basic requirements.",
+              "When trying to clean with a cloth with an ordinary vacuum cleaner ends up leaving behind a lot of dust, we recommend a range handheld compact vacuum cleaner for sofa that proves an ultimate solution for your everyday cleaning. A robot vacuum cleaner can clean up the space fully and make your space free from dust. If you are facing trouble choosing the right vacuum cleaner out of the pool of best vacuum cleaners in the market, then we have handpicked some of the best vacuum cleaners for your specific needs."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1719
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "water-dispenser",
+    "name": "Water Dispenser",
+    "href": "/category/water-dispenser",
+    "metaTitle": "Water Dispenser @9311587716 | Water Dispenser Price | Water Dispenser Machine",
+    "metaDescription": "Water Dispenser - Browse a wide range of top brand's Water Dispenser at Doctor Fresh. Purifier machine with hot and cold water dispenser is one of the most important things at home and offices.",
+    "heading": "Water Dispenser - Here's How Doctor Fresh Hot And Cold Water Dispenser Proves The Best For You",
+    "intro": "Water dispensers are commonly found in public places like schools and colleges, but you can also install them at your home. If you are thinking of buying a tabletop water dispenser, then Doctor Fresh water dispenser is here to match your needs. We have made tabletop water dispensers portable and easy to install and less harmful refrigerants to cool or hot water. These tabletop water dispensers are produced using advanced technology and stable cooling capacity to store cold water.",
+    "seoSections": [
+      {
+        "title": "Water Dispenser - Here's How Doctor Fresh Hot And Cold Water Dispenser Proves The Best For You",
+        "paragraphs": [
+          "Water dispensers are commonly found in public places like schools and colleges, but you can also install them at your home. If you are thinking of buying a tabletop water dispenser, then Doctor Fresh water dispenser is here to match your needs. We have made tabletop water dispensers portable and easy to install and less harmful refrigerants to cool or hot water. These tabletop water dispensers are produced using advanced technology and stable cooling capacity to store cold water.",
+          "Doctor Fresh table top water dispenser is available in both cooling and heating functions, and that's why it is made up of corrosion-free and non-reactive material. In addition, our Doctor Fresh water dispenser machine can store water for an extended period without making any undesirable changes in its colour, odour, and quality. So, having our filter water machine filters water up to the required amount and makes it cold and hot as per your need.",
+          "Our range of water dispenser bottles has gained popularity because of its suitability in domestic and industrial corporate offices. The one-touch purifier water machine maintains water hygiene and stores longer than usual without propagating any microbial bodies. The Doctor Freshwater dispenser is one of the technically advanced and durable water machines."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Why Do You Buy A Doctor Fresh Automatic Water Dispenser",
+        "paragraphs": [
+          "A tabletop water dispenser is used to give out water at your preferred temperature. You have to choose the option to get hot, cold or normal water that is dispensed instantly. The water machine either dispenses water from a bottle or is connected to a water pipeline and saves you from the heavy lifting of water bottles.",
+          "You need to have a hot, cold water dispenser in places like offices, schools, and colleges where there is a massive drinking water requirement. In addition to purified water, an electric water dispenser comes with various other benefits, such as",
+          "The glass water dispenser machine comes in diverse sizes, such as 40 litres to 120 litres, and so on. These point-of-use water dispensers filter water and store it in their sanitized tank. A hot and cold water purifier majorly has constituents such as a storage tank, water heater, cooling system, pre and post filter, multiple taps, and others. The water dispenser pump needs electricity to function correctly and dispense the hot and cold water."
+        ],
+        "bullets": [
+          "Variable sized models to suit your specific needs",
+          "Environment-friendly operation and lowers plastic wastage",
+          "Save efforts and energy to cool and heat water"
+        ]
+      }
+    ],
+    "faqs": [],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1694,
+      1695
+    ],
+    "subcategories": [
+      {
+        "slug": "table-top",
+        "name": "Table Top",
+        "href": "/category/water-dispenser/table-top",
+        "metaTitle": "Table Top Water Dispenser @9311587716 | Water Dispenser Table Top | Table Top Water Dispenser Price",
+        "metaDescription": "Table Top Water Dispenser - An exclusive array of Tabletop Water Dispenser is manufactured trader by us. Using optimum quality insulated materials and latest designing patterns these products are made which offers sleek, trendy look to these products.",
+        "heading": "Table Top Water Dispenser: The Best Water Dispenser For Diverse Application",
+        "intro": "The water dispensers are common appliances in most corporate offices, schools, colleges, and other public places. Doctor Fresh table top water dispenser is beneficial to use, and there are sufficient reasons to install it at home. So if you are thinking of buying one of the water dispensers, look no further because the all-new and technologically advanced Doctor Fresh table top water dispenser is here to fulfill all your needs. The Doctor Fresh table top water dispenser is portable and easy to store in any small place and requires no installation.",
+        "seoSections": [
+          {
+            "title": "Table Top Water Dispenser: The Best Water Dispenser For Diverse Application",
+            "paragraphs": [
+              "The water dispensers are common appliances in most corporate offices, schools, colleges, and other public places. Doctor Fresh table top water dispenser is beneficial to use, and there are sufficient reasons to install it at home. So if you are thinking of buying one of the water dispensers, look no further because the all-new and technologically advanced Doctor Fresh table top water dispenser is here to fulfill all your needs. The Doctor Fresh table top water dispenser is portable and easy to store in any small place and requires no installation.",
+              "This table top hot, cold, and normal water dispenser comes with three faucets, one for normal water, one for hot water, and the other is dedicated for cold water dispensing. With the smart cooling and heating technology, the Doctor Fresh table top water dispenser is powered by an environmentally friendly refrigerant that doesn’t create global warming as the other refrigerants do. It has multiple cooling and heating capacity that can store cool water and hot water."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "The Additional Features You Can Get In Doctor Fresh Table Top Water Dispenser",
+            "paragraphs": [
+              "The Doctor Fresh table top water dispenser has improved heating and cooling capacity to make available hot and cold water ready for dispensing. The table top water dispenser is convenient for family and small scale offices with combined cooling and heating functions. The water dispensing cabinet is durable and non-corrosive material for long term use.",
+              "The Doctor Fresh long lasting and stylish water dispensing faucet is resistant to bacteria, so the stored water is kept safe and germ-free. The table top hot and cold water dispenser is available with a child lock to save your kids from any upcoming dangers. It is convenient for top loading and offers instant cold and hot water."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1695
+        ]
+      },
+      {
+        "slug": "floor-mounted",
+        "name": "Floor Mounted",
+        "href": "/category/water-dispenser/floor-mounted",
+        "metaTitle": "Floor Mounted Water Dispenser @9311587716 - Doctor Fresh",
+        "metaDescription": "Floor Mounted Water Dispenser - India's best home appliances manufacturer presents smart range of Doctor Fresh Floor Mounted Water Dispensers starting from 9690 INR only.",
+        "heading": "Floor Mounted Water Dispenser - How To Pick The Best Water Dispenser",
+        "intro": "The Doctor Fresh floor standing water dispenser is suitable for commercial and domestic purposes as it is made compact to save space. These floor standing units have a pre-installed cooling and heating cabinet that eliminates cooling and heating water separately. The compact and tall design Doctor Freshwater dispenser can take up lower space and easily fit into offices, cabins, clinics, and others where the area is restricted.",
+        "seoSections": [
+          {
+            "title": "Floor Mounted Water Dispenser - How To Pick The Best Water Dispenser",
+            "paragraphs": [
+              "The Doctor Fresh floor standing water dispenser is suitable for commercial and domestic purposes as it is made compact to save space. These floor standing units have a pre-installed cooling and heating cabinet that eliminates cooling and heating water separately. The compact and tall design Doctor Freshwater dispenser can take up lower space and easily fit into offices, cabins, clinics, and others where the area is restricted.",
+              "Our water dispenser machine comes with a safe water storage cabinet at the bottom. Doctor Freshwater dispenser works as a filter water machine and storage tank that never goes out of water. Our floor standing hot and cold water dispenser model with a safe storage cabinet and LED display is best to have.",
+              "You can choose a water machine with 3 different push-type faucets that dispense hot, cold and normal water simultaneously. The hot water machine has more than enough heating capacity to deliver 4-5 liter hot water per hour. Doctor Fresh cold water machine has the continuous cooling capacity to maintain the cooling faucet up to the mark. We made water dispensers from plastic and Food grade stainless steel to make them safe for storing water."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Get The Unlimited Benefits With Automatic Water Dispenser",
+            "paragraphs": [
+              "Doctor Fresh is known for genuine water dispenser prices ; that doesn't mean you can get any low-grade water dispenser. To get the water dispenser stand , you have to add the item to your cart and get it delivered along with the brand new water dispenser. There are multiple options when you choose Doctor Fresh as your water dispenser supplier and get hot and cold water purifiers delivered to your home.",
+              "Apart from dealing in stainless steel water dispensers , you can also call Doctor Fresh for water dispenser bottles, pumps, and water dispenser jars. The type of water dispenser relies on your specific requirement for the amount and type of water you need and the available place where you want to place it. The water dispenser also works as a purifier water machine along with offering cold and hot water.",
+              "You can contact Doctor Fresh to buy stainless steel, PVC plastic, and glass water dispenser that suits your varying needs. The hot, cold water dispenser is specially made to install in corporate offices, coffee shops, schools and colleges to make all-purpose water available. Making an electric water dispenser is your foremost choice when you need a continuous hot and cold water supply for manufacturing and processing purposes."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Browse The Range Of The Best Hot Water Dispenser For Home",
+            "paragraphs": [
+              "There are various all-purpose water dispensers available at Doctor Fresh that you can quickly deliver to your home within one tap. You never need to check for different suppliers from top to bottom load water dispensers when offering best-selling models for you. Get variable capacity hot water dispensers and a water bottle stand that helps it fix in any small place."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1694
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "water-atm",
+    "name": "Water ATM",
+    "href": "/category/water-atm",
+    "metaTitle": "Water ATM @9311587716 | Water ATM Machines | Water ATM Machine Price",
+    "metaDescription": "Water ATM - Browse a wide range of latest technology Water ATM machines or water vending machine at Doctor Fresh. We have successfully completed 10+ water ATM projects in India.",
+    "heading": "Water ATM- Innovative Solution For Drinking Water At Doctor Fresh",
+    "intro": "Water ATM is an automatic vending machine that brings clean water irrespective to the source of water. A water ATM machine can be installed in both rural and urban areas. In addition, it can be installed at any other locality where \"NO\" or \"Fewer\" people have access to pure and healthy drinkable water.",
+    "seoSections": [
+      {
+        "title": "Water ATM- Innovative Solution For Drinking Water At Doctor Fresh",
+        "paragraphs": [
+          "Water ATM is an automatic vending machine that brings clean water irrespective to the source of water. A water ATM machine can be installed in both rural and urban areas. In addition, it can be installed at any other locality where \"NO\" or \"Fewer\" people have access to pure and healthy drinkable water.",
+          "Doctor Fresh Manufacturers India’s Most Advanced Water Purification System That Brings Better Water For Drinking And Better For The Environment",
+          "At Doctor Fresh , we manufacture water ATMs by using the latest and advance water purification system , and our water ATM is made by our team locally in India. From the beginning, we are focused on bringing the latest technology-based water ATMs to resolve the drinking water issues in the area where people do not easily get access to healthy water."
+        ],
+        "bullets": [
+          "Why Is Doctor Fresh Water ATM Best?"
+        ]
+      },
+      {
+        "title": "Types Of Water ATM",
+        "paragraphs": [
+          "However, a water vending machine can be categorized into several categories, but here we have listed some of the most crucial types of water ATM, and these are"
+        ],
+        "bullets": [
+          "Card Operated Water ATM - The specific smart card operates this form of water ATM. A Card operated water ATM is suitable for that area where the water consumption per person is comparatively high",
+          "Coin Operated Water ATM - A Coin operated water ATM operated by specific kinds of the coin to get a certain amount of clean and drinkable water. This form of water ATM is suitable for public places where water demand per person is comparatively less",
+          "Coin & Card Operated Water ATM - This form of water ATM is suitable for that area where water demand is not fixed. It means a coin-operated and card-operated water ATM can be suitable for both low and high demand for water per person."
+        ]
+      },
+      {
+        "title": "Water ATM Applications",
+        "paragraphs": [],
+        "bullets": [
+          "Village - In India, more than 70 rural population feed groundwater, and groundwater is the main source of waterborne disease. Having a water ATM in rural area can provide clean and healthy water access to the people living in the village at the nominal price",
+          "Hospital - Hospitals are the most important places for safe and hygienic drinking water because a single contaminant in water can ruin patient health badly. And in hospitals not only patient needs clean water but their respective family to needs clear water for drinking",
+          "Schools - Waterborne diseases are vulnerable among kids, and the most common waterborne disease in infants is diarrhoea. Water ATM set up in school ensure improved health of students",
+          "Colleges - Colleges are also one of the needs places for safe drinking water because most of the students living away from their homes and drinking contaminated water may ruin their health badly",
+          "Metro Station/Railway Station - In our nation, millions of people travel every day and during travelling people drinking water quality get compromise but because of water ATM now people can drink pure water that is at the nominal price"
+        ]
+      },
+      {
+        "title": "Why Is Doctor Fresh Water ATM Best?",
+        "paragraphs": [
+          "At Doctor Fresh, we manufacture modern and technologically advanced water ATMs that can bring pure and clear water irrespective of the water source. And our manufactured water ATM is not only based on the latest technology but also a cost-effective and low maintenance machine. Along with this, we ensure good pre and post-sales service, which make us the number one choice for water ATMs in India."
+        ],
+        "bullets": []
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Is water ATM cost-effective?",
+        "answer": "Yes, the drinking water obtained from the water ATM is cost-effective. At Doctor Fresh, we can help establish a high-quality technology-based Water ATM. To check water ATM prices, contact professionals."
+      },
+      {
+        "question": "What is the application of water ATM?",
+        "answer": "A water ATM can have wide applications. It can be used as a community hall, hospital, bus stand, railway station, and various other places where a large concentration of pure water is required. A water ATM is based on the best water purification technology, ensuring safe drinking water."
+      },
+      {
+        "question": "How to get a water ATM at Doctor Fresh?",
+        "answer": "To get a water ATM at Doctor Fresh, call Doctor Fresh contact number. The customer care executive will help you with the complete process."
+      },
+      {
+        "question": "Is vending machine water safe?",
+        "answer": "Yes, water treated by a vending machine is completely perfect for drinking because it is generally based on reverse osmosis technology, which eliminates all kinds of contamination from the water and makes it safe for consumption."
+      },
+      {
+        "question": "How much does a water vending machine cost?",
+        "answer": "The water vending machine, aka water ATM cost, vary according to the type and capacity. So contact Doctor Fresh or check our above-listed water ATMs."
+      },
+      {
+        "question": "How many water ATMs are there in India?",
+        "answer": "The demand for water ATMs has increased tremendously in the recent past because water ATMs have made drinking water affordable. Moreover, its regularly increasing popularity makes pure drinking water accessible during travel."
+      }
+    ],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1698,
+      1699
+    ],
+    "subcategories": [
+      {
+        "slug": "10-50-ltr",
+        "name": "10-50 LTR",
+        "href": "/category/water-atm/10-50-ltr",
+        "metaTitle": "Water ATM 10-50 LTR @9311587716 - Doctor Fresh",
+        "metaDescription": "Water ATM 10-50 LTR- - If You Need More Info For Your Product just dial our contact number.",
+        "heading": "10-50 Liter Water ATM: Deal With Your Domestic Water Problem",
+        "intro": "A Water ATM is an automatic water vending machine where the public can get purified water 24/7. It can be installed at crowded places like Bazaars, Hospitals, Railway Stations, and other commercial places. People can use water at a cheap price, like 1-5 rupees per liter. It can also be installed in slum areas, villages, tea, or interior areas where pure water is hard to get quickly. It is very tough and costly to operate. It maintains water demand, especially in Railway stations and bus stands, so it is suitable to install a water ATM and fulfill the public demands.",
+        "seoSections": [
+          {
+            "title": "10-50 Liter Water ATM: Deal With Your Domestic Water Problem",
+            "paragraphs": [
+              "A Water ATM is an automatic water vending machine where the public can get purified water 24/7. It can be installed at crowded places like Bazaars, Hospitals, Railway Stations, and other commercial places. People can use water at a cheap price, like 1-5 rupees per liter. It can also be installed in slum areas, villages, tea, or interior areas where pure water is hard to get quickly. It is very tough and costly to operate. It maintains water demand, especially in Railway stations and bus stands, so it is suitable to install a water ATM and fulfill the public demands.",
+              "The water ATM can be either RO or UF technology loaded machine or a bottled water ATM that is either solar or electricity. The 10-50 liter capacity water ATM is suitable for domestic purposes as you can get filtered water through pre-filter, post, and other advanced filters. There is a variable model of water ATM available at Doctor Fresh that you can choose as per your specific requirement. Water ATM is an economically viable and natural energy-dependent drinking water system to ensure water availability."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Doctor Fresh Water ATM Made By Technology For Tomorrow, Today For All",
+            "paragraphs": [
+              "Doctor Fresh designed a coin-based, automatic water ATM LCD by using cutting-edge technology to make water accessible. From online monitoring to LCD, you can get in touch with the water vending machine. The 10-50 LTR water ATM is best for public and private places because of its solar-powered operation. A decentralized model of water ATM price is fewer than its benefits as it proves an inexpensive option.",
+              "The intelligent technology water ATM dispenses water when you press the button as per your inserted amount. The machine automatically calculates the quantity of water and distributes the exact quantity without any human interruption. The Doctor Fresh, smart water ATMs are working on a filtration system that eliminates suspended chemicals from raw water such as chlorine that improve its taste and odor."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "The Mechanism Behind The Working Of Water ATM",
+            "paragraphs": [
+              "Our objective is to manufacture quality water ATMs to offer safe and potable water at a lower cost. The water ATM operates when money goes into the machine in return for pure water in the exact quantity. A water ATM must have free access to water and be ready to dispense water. There are a wide variety of water ATMs manufactured at Doctor Fresh, which you can buy and install at any place of your choice.",
+              "Doctor Fresh water ATM is made tough to work 24 hours a day as it is powered by solar energy. It can also be able to collect rain water by purifying it via solar-powered osmosis filtration, or it can also be connected to the water tanks. Once the coin is inserted into the machine to obtain water, it will get the exact liter for the amount you inserted."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "The Benefits Of Having Doctor Fresh Water ATM",
+            "paragraphs": [
+              "Thus, you can consider that the water ATM manufactured by Doctor Fresh can prove to help reduce the problem of water scarcity and polluted drinking water at any place. People can bank on this reliable source for buying water on a daily basis, as it must be cost-effective for them. By applying above all, you may learn to save and know the significance of water."
+            ],
+            "bullets": [
+              "The first and the foremost benefit of having a Doctor Fresh water ATM is that it delivers completely clean and drinking water to everyone, without any hassle.",
+              "Installing a water ATM is one of the most inexpensive and accessible sources of healthy drinking water for both rural and urban areas.",
+              "The water ATM produces water that is free from all kinds of germs and pollutants, as it is treated well by using reverse osmosis before it is being dispensed for the public. There is a guarantee that dispensed water is free from all kinds of diseases causing agents.",
+              "The Doctor Freshwater ATM lowers the energy and time of the public who is standing in a line to get pure drinking water with its fast water dispensing capacity.",
+              "Water ATM is one of the primary water sources for remote areas where there is a lack of water. The water ATMs are installed to avail drinking water easily at certain places or cities.",
+              "The water ATM minimizes the dependency on packaged drinking water , which is relatively costly for people to buy for poor people."
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1698
+        ]
+      },
+      {
+        "slug": "50-100-ltr",
+        "name": "50-100 LTR",
+        "href": "/category/water-atm/50-100-ltr",
+        "metaTitle": "50-100 LTR Water ATMs @9311587716 - Doctor Fresh",
+        "metaDescription": "50-100 LTR Water ATMs- Browse a wide range of latest technology Water ATM machines or water vending machine at Doctor Fresh.",
+        "heading": "Try Doctor Fresh Self-Designed 50-100 Liter Water ATM",
+        "intro": "Doctor Fresh has a range of self-designed water ATMs that can dispense 24/7 RO purified water at a very affordable rate. We are among one of the best water ATM manufacturers that need low maintenance and offer high value. Get customized water with Doctor Fresh range of water ATMs that have proven experience in making 50-100 LTR water ATM models comes with an intelligent coin water dispensing system for the convenience of people.",
+        "seoSections": [
+          {
+            "title": "Try Doctor Fresh Self-Designed 50-100 Liter Water ATM",
+            "paragraphs": [
+              "Doctor Fresh has a range of self-designed water ATMs that can dispense 24/7 RO purified water at a very affordable rate. We are among one of the best water ATM manufacturers that need low maintenance and offer high value. Get customized water with Doctor Fresh range of water ATMs that have proven experience in making 50-100 LTR water ATM models comes with an intelligent coin water dispensing system for the convenience of people.",
+              "The Doctor Fresh water ATM is made as a coin-based water validating system that accepts coins and returns the exact amount of water. The Doctor Fresh RO water ATM is operated with Rs.1, 2, and 5 coins to dispense the correct quantity of water. The water ATM cost is the most affordable because of its low-cost water price.",
+              "The range of water ATMs is installed mainly by operating a solar system as it is made up of 100 % stainless steel sheet to make it all-weather. If you feel thirsty at any crowded place, just search for a water ATM near me and get pure water from a smart water ATM."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "The Factors you may consider while buying 50-100 liter water ATM",
+            "paragraphs": [
+              "The 50-100 LTR water ATM price is reasonable in terms of features and low after-installation needs. The initiative water ATM helps any public and private place to access healthy and pure water at the lowest cost. Doctor Fresh water ATM is cost-effective as it is free from transporting, packaging, and delivery fees.",
+              "If you don't have any idea about water ATM cost, choose Doctor Fresh to resolve your queries within the day. One can also ask for his personalized quotes as per your daily pure water requirements. We supply coin-operated, jars operated, and rainwater operated water ATMs that are reasonably low in its cost and the features it carries. Apart from non-stop water dispensing, it is loaded with reverse osmosis technology to minimize the kinds of suspended abnormalities."
+            ],
+            "bullets": [
+              "Don't forget to look at the intelligent display that counts the total no. of coins collected in a day and the amount of water dispensed from the system.",
+              "Its auto-sensing technology stops dispensing water automatically in case of low water level",
+              "Due to solar-power operated technology it works for 24 hours a day",
+              "In the case of jar operated machine design, the number of jars needed as per client requirement",
+              "Doctor Fresh water ATM is easy to install and user-friendly in operation"
+            ]
+          },
+          {
+            "title": "Have A Look At The Newest Technology Water ATMs",
+            "paragraphs": [
+              "There is another type of water ATM available in the market that is moving around the city with water scarcity. The mobile water ATM is an excellent choice for those who want to supply water from different locations without installing separate water ATMs. Water ATM on E-Rickshaw is the best mobile water ATM option to deliver pure drinking water at remote locations. The mobile water ATM worked like a storage water tank with a capacity of 50-500 Liter.",
+              "It comes with an inbuilt cooler that keeps the stored water cold by maintaining the temperature. The water storage machine is fixed over a heavy-duty E-Rickshaw that comes with 100 AMP solar-operated batteries that last up to 70 Km after single recharge. The best part of the mobile water ATM is that it can deliver pure drinking water at any location where it can't be installed. It doesn't need any permanent place to install and dispense water."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Include These To Find The Best Water ATM",
+            "paragraphs": [
+              "Doctor Fresh is known as a domestic and commercial reverse osmosis and water ATM manufacturing destination to provide efficient, pure water vending solutions for places all over the country. Due to these, Doctor Fresh emerged as one of the leading brands in the Indian water ATM supplying industry. We, as a leading new technology water ATM manufacturer, give our efforts to keep the most valuable resources by building the most efficient water vending system in the market.",
+              "Water ATMs are loaded with RO, UV systems that destroy most harmful microorganisms without adding any harsh chemicals or altering water taste or odor. UV water purification technology is used in the water ATMs in a combination of filtration such as reverse osmosis systems or activated carbon filters. Water ATM is an economical way to get pure water without unbalancing any environmental conditions."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1699
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "water-ionizer",
+    "name": "Water Ionizer",
+    "href": "/category/water-ionizer",
+    "metaTitle": "Water Ionizer @9311587716 | Water Ionizer Machine | Ionizer Water Machine",
+    "metaDescription": "Water Ionizer - Ionized water is a powerful antioxidant and helps eliminate acidity in the body for better health. Compare and buy Doctor Fresh quality water ionizer online.",
+    "heading": "Water Ionizer - Know What And How It Does To Your Normal Tap Water",
+    "intro": "Water ionizers increase the alkalinity of normal water by altering its pH by using platinum and titanium metal plates. The alkaline water machine divides water ions by using electrolysis and produces water with a high pH level. The water can be alkalized in many ways, but electrolysis is the most liked method to raise the pH of water at home. The basic difference between normal tap water and alkaline water is their pH, as normal drinking water has lower pH than alkaline water.",
+    "seoSections": [
+      {
+        "title": "Water Ionizer - Know What And How It Does To Your Normal Tap Water",
+        "paragraphs": [
+          "Water ionizers increase the alkalinity of normal water by altering its pH by using platinum and titanium metal plates. The alkaline water machine divides water ions by using electrolysis and produces water with a high pH level. The water can be alkalized in many ways, but electrolysis is the most liked method to raise the pH of water at home. The basic difference between normal tap water and alkaline water is their pH, as normal drinking water has lower pH than alkaline water.",
+          "The alkaline water has added minerals, and that raises its pH 7 to 8-9 and becomes sweeter in taste, raising the essential minerals and fewer contaminants. A water ionizer is also an effective water quality upgrading method that improves the alkaline of water and improves taste. The Doctor Fresh water ionizer is ideal for those looking to eradicate lower contaminants and raise its pH.",
+          "If you have decided that the water ionizers are for you, it's time to start your hunt with Doctor Fresh for the right product. You can go through our customer reviews and find out what customers are saying about our water ionizer machine. Get every basic fact and figure out our best-designed products and consider one of your suitable alkaline water ionizer machines."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Types of water ionizers and its application",
+        "paragraphs": [
+          "#1. Alkaline water ionizer- choose an alkaline water ionizer to eliminate traces of microbes and ensure safe and alkaline water.",
+          "Alkaline water is high in alkalinity pH level is kept moderate, or it can be adjusted according to the personalized needs by using Doctor Fresh water ionizers. The natural pH of alkaline water is improved by adding most of the synthetic minerals. Apart from using an alkaline ionizer, the water can be made alkaline by adding baking soda, lemon, salt and calcium and magnesium ions.",
+          "#2. Digital water ionizer- it shows the reading of actual purity of water, so you decide if the water is drinkable or not.",
+          "The digital water alkaline ionizer can eliminate harmful impurities and keep essential minerals to manage its pH. The digitally ionized alkaline water is electronically enhanced water that shows the exact pH on the digital meter that allows you to control it manually.",
+          "#3. Industrial water ionizer- as the name suggests, it is applicable in industrial sectors where there is a continuous need for alkaline water.",
+          "The industrial alkaline water ionizer is the large capacity ionizer water purifier used for the uninterrupted supply of alkaline water. It required a continuous water inlet to offer the desired amount of ionized water ."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Focus On These Considerations While Buying A Water Ionizer",
+        "paragraphs": [
+          "There are thousands of water ionizers at Doctor Fresh to choose from, but doing personalized research is essential for helping you to find out the excellent from the good. Take your time to buy a water ionizer, or get in touch with a Doctor Fresh expert if you have any doubt regarding the online purchase-"
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Know The Exact pH Range",
+        "paragraphs": [
+          "If you are interested in buying an alkaline water machine for home because you want to alter your tap water's pH, producing alkalized drinking water. The pH range of an ionizer machine or ionised water refers to its capability to alter the pH of a normal source. Water pH is a measure to know the water is either acidic or alkaline on a 1-14 pH scale. The pH level of 1 is highly acidic water, and the pH range of 14 would be highly alkaline as the neutral pH of water is 7.",
+          "The Doctor Fresh alkaline water purifier machine price is flexible with the pH range and offers you the option to produce the water pH that suits your need. Low water pH is not suitable for drinking, so consider water with a higher pH for cooking and drinking because of its good taste and other health benefits."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Decide between under counter countertop water ionizer model",
+        "paragraphs": [
+          "The type of free space in your kitchen or any space may decide whether you have to prefer a countertop water ionizer or it can be installed underneath a counter. Doctor Fresh alkalized water machine units are designed to be small and compact and can be installed in a limited space without any expert advice."
+        ],
+        "bullets": []
+      }
+    ],
+    "faqs": [
+      {
+        "question": "What is the benefits of ionized water?",
+        "answer": "Ionized water is a powerful anti-oxidant that searches and destroys the free radicals present inside the human body. Along with that, ionized water also improves bone health and reduces the chance of cancer in humans."
+      },
+      {
+        "question": "What does it mean when water is ionized?",
+        "answer": "Ionized water contains minerals. The minerals present in water become ionized when they either lose or gain the electron. The pH of the alkaline water ranges between 6.5 to 8.8, and it possesses several health benefits, such as preventing various kinds of fatal diseases."
+      },
+      {
+        "question": "How much do water ionizers cost?",
+        "answer": "Usually, the water ionizer cost depends upon various factors. However, at Doctor Freshwater ionizer cost starts from RS- 56,000/-. Below we have listed a few best water ionizers and its cost. #1. Doctor Fresh IonGen Ionizer Premium - Rs- 56,000/- #2. Doctor Fresh Miracle Max Ionizer - Rs-1,72,000/- #3. Doctor Fresh Ionizer Delux 9.0 - Rs- 1,34,900/-"
+      },
+      {
+        "question": "Is alkaline water bad for the Kidney?",
+        "answer": "Usually, drinking alkaline water has no side effects on the kidney. But if you have chronic kidney disease or taking medicine that affects kidney function, then the element in alkaline water could hurt your kidney."
+      },
+      {
+        "question": "Can I drink alkaline water every day?",
+        "answer": "Yes, you can drink alkaline water every day regularly. However, a water purifier expert suggests that people should regularly drink 2-3 litres of water to get the optimum result. The expert also recommends you not to switch quickly first; start adding alkaline water in your normal drinking water, then slowly switch to pure alkaline water."
+      },
+      {
+        "question": "What does a water ionizer do?",
+        "answer": "An ionizer is one of the advanced home appliances used to raise the pH of the drinking water by using electrolysis to separate the water stream into acidic and alkaline components. To buy the best water ionizer, immediately contact Doctor Fresh."
+      },
+      {
+        "question": "Are our water ionizers worth it?",
+        "answer": "Yes, obviously because the water ionizer separates the acidic and alkaline components of the raw water. Drinking alkaline water is good for human health as it protects us from various deadly diseases like cancer. So, buying a water ionizer is always worth it. Contact Doctor Fresh and get the best water ionizer for your house."
+      },
+      {
+        "question": "Is ionized water bad for you?",
+        "answer": "Yes, ionized water is good for human health as this reduces the free radicals is the human body that prevents diseases like cancer."
+      },
+      {
+        "question": "Why are water ionizers so expensive?",
+        "answer": "The water ionizer system is based on the platinum-coated titanium plate’s electrodes which are high in cost. Thus the overall cost of the water ionizer is slightly higher than the other water purification system. At Doctor Fresh, we manufacture high-quality customized water ionizer, so we protect you from paying unnecessary money, so to get the best deal on water ionizer Doctor Fresh is best."
+      },
+      {
+        "question": "What is the cost of a Water Ionizer?",
+        "answer": "The cost of the water ionizer depends upon various factors like the component used in the water ionizer, along with the brand and various other features. If you are all set to buy the water ionizer, then CHECK our above-listed water ionizer list and compare them to buy the best at an affordable price."
+      }
+    ],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1686,
+      1783,
+      1766,
+      1784,
+      1785,
+      1687,
+      1767,
+      1768
+    ],
+    "subcategories": [
+      {
+        "slug": "alkaline-water-ionizer",
+        "name": "Alkaline Water Ionizer",
+        "href": "/category/water-ionizer/alkaline-water-ionizer",
+        "metaTitle": "Alkaline Water Ionizer @9311587716 | Alkaline Water Ionizer Machine | Alkaline Water Ionizer Price in India",
+        "metaDescription": "Alkaline Water Ionizer - Compare and buy from an exclusive range of alkaline water ionizer for home with modern design, best purification technology & convenient features at best prices.",
+        "heading": "Alkaline Water Ionizer: A Guide To Buy A Budget-Friendly Water Ionizer",
+        "intro": "A water ionizer is an important home appliance that helps raise the pH of drinking water by using electrolysis to isolate the incoming water into acidic and alkaline. The alkaline inlet of the treated water is called alkaline water. One can drink eight to ten glasses of alkaline water per day to get the optimal benefits. Alkaline water ionizers are hot trends in drinking water today as Doctor Fresh offers the favorite water ionizers.",
+        "seoSections": [
+          {
+            "title": "Alkaline Water Ionizer: A Guide To Buy A Budget-Friendly Water Ionizer",
+            "paragraphs": [
+              "A water ionizer is an important home appliance that helps raise the pH of drinking water by using electrolysis to isolate the incoming water into acidic and alkaline. The alkaline inlet of the treated water is called alkaline water. One can drink eight to ten glasses of alkaline water per day to get the optimal benefits. Alkaline water ionizers are hot trends in drinking water today as Doctor Fresh offers the favorite water ionizers.",
+              "If you are unfamiliar with alkaline technology, feel free to contact us for the best buying guide. You can get the details about its working, along with the hidden benefits of drinking alkaline water. Doctor Fresh offers the best water ionizers in the market. We are offering plenty of alkaline water ionizers as per the customer's demand. You can also find your best water ionizers along with the different features so that you can choose the best option for your home."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Things To Consider In The Alkaline Water Ionizer",
+            "paragraphs": [
+              "Buying an alkaline water ionizer made easy with Doctor Fresh's range of water ionizers. Apart from this, you have to consider a few things when selecting an alkaline water ionizer. You have to analyze the right size, capacity, and technology of the water ionizer along with the best-selling water ionizer price. For a budget-friendly water ionizer, you need to choose the exact size water ionizer that exactly matches your daily water requirement."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Benefits Of Having An Alkaline Water Ionizer",
+            "paragraphs": [],
+            "bullets": [
+              "Alkaline Water Improves Immune Function :- Alkaline Water Helps Keep The Cells Healthy, Which Results In A Durable Immune System To Fight Many Kinds Of Diseases.",
+              "Drink Alkaline Water For Weight Loss :-The Alkaline Water Reduces The Need For Fat And Cholesterol In The Body And Protects The Body From Harmful Acids.",
+              "Alkaline Water Enhances The Food Taste :-Cooking With Alkaline Water Minimizes Cooking Time, Preserves Body Nutrients, Enhances Food Taste, Improves Flavor, And Defuses The Natural Acidity Present In Tea And Coffee.",
+              "Alkaline Water Improves Bones Strength :- The Excess Acidity Leads To An Increased Bone Density And Bone Loss. Drinking Alkaline Water May Help Refill What Your Body Is Losing Because Of Excess Acidity In The Body. Ionized Water Contains Essential Minerals Like Calcium, Magnesium, And Potassium That Maintain Proper Bone Health.",
+              "Ionized Water Boosts Energy :- Excess Of Acid In The Body Can Result In The Loss Of Energy, Rise In Fatigue, And Tiredness. Alkaline Ionized Water Helps Break Down Fatty Acids And Helps In Digestion, Working As A Natural Digestive Supplement, Letting You Feel Fresh All The Time."
+            ]
+          },
+          {
+            "title": "Improves skin tone and works as an anti-aging agent",
+            "paragraphs": [
+              "If your skin is dry on the inside and the outside and looking dull, then alkaline water is the best for you. The alkaline water contains a high density of hydrogen ions, making sure that the alkaline water is absorbed quickly and easily into your cells than normal tap water. Therefore consuming alkaline water keeps your body well hydrated and rejuvenates skin tissues."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1686,
+          1783,
+          1766,
+          1784,
+          1785,
+          1687,
+          1767,
+          1768
+        ]
+      },
+      {
+        "slug": "water-ionizer-for-home",
+        "name": "Water Ionizer for Home",
+        "href": "/category/water-ionizer/water-ionizer-for-home",
+        "metaTitle": "Water Ionizer for Home @9311587716 - Doctor Fresh",
+        "metaDescription": "Water Ionizer for Home - Compare and buy from an exclusive range of Water Ionizer for Home with modern design, best purification technology & convenient features.",
+        "heading": "Water Ionizer For Home: Mechanism And Importance",
+        "intro": "The most common way to ionize your water at home is by using an ionizing water machine. The electric water ionizers made by Doctor Fresh use small voltages of electricity to convert the electrical charge of the water molecules. Water ionizer for home is different from water purifier as it removes contaminants from water. Water ionizers raise the pH of the water as it splits H2O ions into 2H++OH- ions. Water ionizer works on the principle of electrolysis as it has anode and cathode to split hydrogen and hydroxide ions.",
+        "seoSections": [
+          {
+            "title": "Water Ionizer For Home: Mechanism And Importance",
+            "paragraphs": [
+              "The most common way to ionize your water at home is by using an ionizing water machine. The electric water ionizers made by Doctor Fresh use small voltages of electricity to convert the electrical charge of the water molecules. Water ionizer for home is different from water purifier as it removes contaminants from water. Water ionizers raise the pH of the water as it splits H2O ions into 2H++OH- ions. Water ionizer works on the principle of electrolysis as it has anode and cathode to split hydrogen and hydroxide ions.",
+              "The structure of the raw water is changed on the molecular level, which avails antioxidant-rich ionized alkaline, or the ionized acidic stream of water. Water ionization is similar to water electrolysis; it is the method of making a concentration of alkaline and acidic minerals by splitting the oxygen and hydrogen present in the water. The alkaline water works as an antioxidant, and the electron-rich medium is acidic water that acts as an antibacterial."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Hidden Benefits Of Water Ionizer For Home",
+            "paragraphs": [
+              "Water ionizer for home is the best machine as it has a one-touch button to kick start the machine. Connect this water ionizer to your kitchen faucet below your sink and allow the ionized water into your stream. People talk about what exactly alkaline water is and what are the benefits of using Doctor Fresh. There are many ways to make alkaline water, but alkaline ionized water made by electrolysis is the best and has antioxidant properties due to slightly higher pH. This water is called electrolyzed reduced water when it goes through the electrolysis process inside the water ionizer.",
+              "You can separate the excess alkalinity and minerals present in tap water to make alkaline water. This home water ionizer separates the minerals in your water, letting it create water from pH 3.5 to 10.5. It allows you to make fresh antioxidant-rich higher pH drinking water for everyday use. The ionized alkalized water has various health benefits."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "What To Consider While Buying A Water Ionizer For Home",
+            "paragraphs": [],
+            "bullets": [
+              "Location of the water ionizer :- Locating a water ionizer near the source of water allows free access to alkaline water at your home. Choosing the best location for your water ionizer maximizes its efficiency and saves utility bills. The nearest place to the tap is considered the best location to install a water ionizer.",
+              "Uninterrupted Power Supply :- It is best to ensure a constant power supply at the time of water ionizer installation. In case of power interruptions, you may face water scarcity and end up buying potable water. Choose the main water inlet to connect the water ionizer to manage the availability of water.",
+              "Decide your budget :- Before you look for the best home water ionizer, look for the budget you have to decide to invest in a water ionizer. For a low-cost and long-lasting water ionizer machine, try Doctor Fresh range of water ionizers suitable for the home.",
+              "Don't forget to check the Filters :- There are some water ionizers that have single filters, and some have dual ones. The dual filters are considered superior as they can remove impurities better than single filters. It also needs to know the cost of the filters before buying a water ionizer machine for home.",
+              "Check the pH range :- A high-quality pH range water ionizer is able to deliver both acidic and alkaline water and produce a negative pH value. The pH range between 4 to 11 is the best pH range when you consider a water ionizer.",
+              "Warranty Period :- It is important to check for the warranty provided by the company as most of the companies do not offer a proper warranty. Always buy Doctor Fresh water ionizer to get maximum after-sales warranty."
+            ]
+          },
+          {
+            "title": "Why You Need To Choose The Doctor Fresh Water Ionizer For Home",
+            "paragraphs": [
+              "Doctor Fresh ionizer is made to deliver pure, healthy, and pH balanced water whenever you require it. Consider buying a water ionizer that has a minimum of 5 years warranty and to minimize the utility bills. Doctor Fresh is among the best water ionizer dealers because of their proven hand and experience in manufacturing the best pH range water ionizers."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1686,
+          1783,
+          1766,
+          1784,
+          1785,
+          1687
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "water-cooler",
+    "name": "Water Cooler",
+    "href": "/category/water-cooler",
+    "metaTitle": "Water Cooler @9311587716 | Water Cooler Price | Water Cooler Machine",
+    "metaDescription": "Water Cooler - Doctor Fresh provides the latest range of water coolers with a powerful and rugged compressor. These Doctor Fresh Water Coolers have faster cooling, eco-friendly, stainless steel body.",
+    "heading": "Water Cooler: The One Unit With Many Benefits",
+    "intro": "The water dispenser is used to dispense water at your preferred temperature, and you can have hot, cold or normal water dispensed at the same time. Doctor Fresh Water cooler either dispenses water from a bottle or directly from the water pipeline saving you from lifting bottles to the floors. You can find water cooler machines in offices, schools or any other place where there is a huge need for drinking water . In addition to purified water and adjusting temperature, a water cooler also have other benefits like-",
+    "seoSections": [
+      {
+        "title": "Water Cooler: The One Unit With Many Benefits",
+        "paragraphs": [
+          "The water dispenser is used to dispense water at your preferred temperature, and you can have hot, cold or normal water dispensed at the same time. Doctor Fresh Water cooler either dispenses water from a bottle or directly from the water pipeline saving you from lifting bottles to the floors. You can find water cooler machines in offices, schools or any other place where there is a huge need for drinking water . In addition to purified water and adjusting temperature, a water cooler also have other benefits like-",
+          "The drinking water cooler machine comes in different volumes, such as 20 liters, 40 liters, 60 liters, 120 liters, and so on. This point-of-use Doctor Fresh water cooler filters water and stores it in their tank to dispense cold water later. A small water cooler has components such as a storage tank, refrigerating system, filter, tap, and extended tray for collecting unused water during dispensing. This Doctor Fresh water cooler needs electricity to dispense cold water and other functions."
+        ],
+        "bullets": [
+          "Our Varied sized water cooler suit your specific needs",
+          "The water cooler bottle is environment-friendly and lowers the use of single-use plastics",
+          "Save energy to heat and cool water"
+        ]
+      },
+      {
+        "title": "Buy Water Cooler Online At Best Prices With Doctor Fresh",
+        "paragraphs": [
+          "Water needs in most of our body functions; it regulates body temperature, removes toxicity from our body, gives us glowing skin and much more benefits. Understanding the role of pure water in everyone's life, Doctor Fresh offers a water cooler with RO of different types and capacities. We know the bad impacts of impure water on your body, so we have the water coolers from renowned and trial and tested technologies. Our range of water coolers are there to simplify and ease your living by offering pure and cold water.",
+          "The mini water cooler is easy to maintain and clean without the assistance of an expert serviceman. So, if you want its limitless benefits, then don't turn them off and keep them filled with water. Turn off the unit when the tank is empty to avoid any damage to the water cooler machine. Don't forget to clean the water tap, nobs, and tank clean if you want to keep the water in the purest form."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Features To Look Forward To Buying The Best Water Cooler:",
+        "paragraphs": [
+          "Doctor Fresh is known for offering the lowest water cooler price because of their self-water cooler manufacturing units. Get water cooler 10 ltr price, water cooler 20 ltr price and all other water cooler prices as per your preference."
+        ],
+        "bullets": [
+          "Variable Temperature Setting Options : In the open market, some water cooler models offer hot and cold water options, whereas others have three temperature features setting as hot, cold and room temperature. Doctor Fresh hot and cold water coolers are quite popular in offices, schools, colleges and other commercial areas.",
+          "Loaded with self-Cleaning Feature : The self-cleaning feature in your water cooler makes your life easy. Doctor Fresh water cooler models use ozone to clean and sanitize the water cooler and water dispenser to remove germs and bacteria.",
+          "Spill-Proof Model : Water leakage is the most common problem that arises when you buy any water cooler model. Search for spill-proof models with features like bottle holders with leak guard technology.",
+          "Variable Water Flow Rate : Buying a water cooler with a good water dispensing rate is always recommended for commercial and public places.",
+          "The material Used in Manufacturing : Don't forget to check the material used in constructing the water cooler. Select the dispenser that features stainless, PVC or any food-grade plastic to manufacture water coolers.",
+          "Child And Safety Lock Feature : Go for the water cooler model that features a child lock safety to protect children and others from burning and electric shock accidents. This lock is required for either floor-mounted or wall-mounted models.",
+          "Must Be An Energy-Efficient Model : The most important feature you need to consider in a water cooler is its energy efficiency. The Doctor Fresh water cooler units save your money in the long run. So, before buying any water cooler model, don't forget to check the energy-efficiency rating."
+        ]
+      }
+    ],
+    "faqs": [],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1792,
+      1791,
+      770,
+      771
+    ],
+    "subcategories": [
+      {
+        "slug": "stainless-steel-water-cooler",
+        "name": "Stainless Steel Water Cooler",
+        "href": "/category/water-cooler/stainless-steel-water-cooler",
+        "metaTitle": "Stainless Steel Water Cooler @9311587716 | Water Cooler Stainless Steel | Stainless Steel Water Cooler Price in India",
+        "metaDescription": "Stainless Steel Water Cooler - Find here online price details of Doctor Fresh Stainless Steel Water Cooler. Get info of manufacturers, exporters, traders of Stainless Steel Water Cooler for buying in India.",
+        "heading": "Stainless Steel Water Coolers With Inbuilt UV Purification Technology",
+        "intro": "A water cooler is an appliance that cools and heats water when it has stable electricity and water connection. There are a variety of water coolers in the market as wall-mounted bottled water coolers and others. Are you in the water to buy a steel water cooler and don't know what to buy? Connect Doctor Fresh to get the best quality water coolers. The water coolers are differentiated as per its features and use.",
+        "seoSections": [
+          {
+            "title": "Stainless Steel Water Coolers With Inbuilt UV Purification Technology",
+            "paragraphs": [
+              "A water cooler is an appliance that cools and heats water when it has stable electricity and water connection. There are a variety of water coolers in the market as wall-mounted bottled water coolers and others. Are you in the water to buy a steel water cooler and don't know what to buy? Connect Doctor Fresh to get the best quality water coolers. The water coolers are differentiated as per its features and use.",
+              "As a leading stainless water cooler supplier, Doctor Fresh has multiple models that suit your specific needs. All of these water coolers are best to have in your home, hospitals, schools, and colleges to provide instant water. Our best in class stainless water coolers allows fulfilling all customers need. The bottled water coolers and fed SS water coolers are capable of high-capacity output. So, talk to Doctor Fresh water cooler experts and get buying, servicing, installing, or maintaining tips."
+            ],
+            "bullets": [
+              "Instant hot and cold water coolers"
+            ]
+          },
+          {
+            "title": "How A UV Purification Inbuilt Water Cooler Is Best To Have",
+            "paragraphs": [
+              "With ample experience, Doctor Fresh is a market leader in water cooler manufacturing. We are always open to innovation and bringing cutting-edge technology water coolers and solutions that offer you more. Already being leaders in the water cooler market, Doctor Fresh now brings you storage water coolers with inbuilt Doctor Fresh UV purification that processes filtration and supply non-stop cold water along with ensuring its purity for safe consumption. We are putting technology and design together that offers to take care of the best purification.",
+              "The inbuilt UV technology prevents contamination and ensures safe drinking water . By applying good business tips and international quality products like all models, water coolers with inbuilt UV Purification have earned popularity in the domestic market. We stainless water cooler across the country with the same service warranty. Our fine quality water cooler is what we claim, and that is the result of our complete commitment towards customers and backed by rich experience."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "The Additional Range Of Water Coolers Supplied By Doctor Fresh",
+            "paragraphs": [
+              "Doctor Fresh is a wide platform that provides water coolers with inbuilt UV and RO purification. We also provide low-cost steel water cooler prices with inbuilt UV purification along with their metal cooler cost. We manufacture and supply water coolers with inbuilt UV purification technology that cools and sanitizes water along. Dealing with such a vast product range is never easy for us. We have a trained team of water cooler experts that makes it possible.",
+              "Doctor Fresh also provides a water dispenser stand stainless steel for water coolers with inbuilt UV and RO purification technology. To know the steel water cooler price, dial any customer care number and get your metal cooler delivered at home. Apart from manufacturing RO, UV, and other inbuilt water purification technology-rich water coolers, Doctor Fresh also offers stainless steel water dispensers hot and cold. Always go for the tough steel water cooler because of its low maintenance and self-sanitizing technology."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [
+          {
+            "question": "How effective is a steel water cooler?",
+            "answer": "A steel water cooler is more efficient than non-metal cooling mediums because of its higher thermal conductivity. It brings incredible added benefits such as higher overclocking potentials and upgraded performance, extended lifespan, and cooling consistency. The non-corrosive steel material is safe for long-term water storage."
+          },
+          {
+            "question": "What type of water is in the stainless steel water cooler?",
+            "answer": "Water dispensed from stainless steel water coolers may originate from many different sources, as it is mainly classified into two major classes, namely natural mineral and purified water. The stainless steel water cooler has sanitized and mineral-rich water."
+          },
+          {
+            "question": "Can I put tap water in my hot and cold water dispenser stainless steel?",
+            "answer": "Tap or distilled, you can put any of them, but tap water can create issues with that, but distilled water is pure and has a better corrosion guard. A proper coolant mix already has anti-corrosives inside the tank to work together when uses filtered water. The hot and cold water dispenser stainless steel water cooler is the easiest to use."
+          },
+          {
+            "question": "Can you get sick from a metal water cooler?",
+            "answer": "Contaminated water is not only disease-causing, but it can also pose a health risk in the case of using other metals. There are some species of bacteria that are common in metal water cooler dispensers that can cause a number of health conditions. There are negligible chances of getting sick in case of using metals water coolers."
+          },
+          {
+            "question": "Do stainless water coolers need to be cleaned?",
+            "answer": "It is best to clean and disinfect your stainless water cooler along with the water bottle. Don't forget to unplug the stainless steel water cooler before you clean it. There is a chance of creating contamination in long-term water holding that needs to be cleaned before falling ill."
+          }
+        ],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1792,
+          1791,
+          770,
+          771
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "air-purifier",
+    "name": "Air Purifier",
+    "href": "/category/air-purifier",
+    "metaTitle": "Air Purifier @9311587716 | Air Purifier Price | Best Air Purifier | Buy Air Purifier",
+    "metaDescription": "Air Purifier - Air Purifiers filter out bacteria, allergens, and harmful agents to give you clean and healthy air. It is important to own an air purifier for home to breathe cleaner air.",
+    "heading": "Air Purifier: Why Is Must To Have In Your Home",
+    "intro": "The air purifier can ensure you breathe pure air by eliminating dust and pollen while staying at your home. It is required to create a healthy environment inside your home as it removes dust, furs, and other air pollutants. Stop dust and other pollutants making your inside space polluted with Doctor Fresh air purifiers that circulate cleaner air in your homes. When it comes to the reason behind the pollution, vehicles, and urbanizations make our environment toxic.",
+    "seoSections": [
+      {
+        "title": "Air Purifier: Why Is Must To Have In Your Home",
+        "paragraphs": [
+          "The air purifier can ensure you breathe pure air by eliminating dust and pollen while staying at your home. It is required to create a healthy environment inside your home as it removes dust, furs, and other air pollutants. Stop dust and other pollutants making your inside space polluted with Doctor Fresh air purifiers that circulate cleaner air in your homes. When it comes to the reason behind the pollution, vehicles, and urbanizations make our environment toxic.",
+          "You can buy a room air purifier to pull the outside air in your home through a special filter that rejects airborne particles and makes them pure before circulating the room. This can be also helpful when you are prone to airborne allergy and asthma. The Doctor Fresh best air purifiers are designed to eliminate all sorts of pollens, dust, air allergens, and smoke.",
+          "It is made to be portable and one can move it around the room whenever you want to pull out toxic air from the corners. We are the best option to buy air purifiers online because of our low air purifier price range. The airborne pollutants are invisible particles that roam around the room and need to be clean to get pure air. Have an air purifier in your home, and any other space can easily beat the toxic air pollutants and airborne allergens."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Shop For The Best Air Purifiers Online At Doctor Fresh",
+        "paragraphs": [
+          "Your interior place is filled with diverse air pollutants just like any other space as such pollutants can be dangerous to your health. Buy an air purifier to stop diseases caused by airborne contaminants inside your room and make it safe for breathing. The air purifier is a device that is highly recommended to be installed in our homes or offices to deny the bad effects of air pollutants. Doctor Fresh brings to you a wide range of air purifiers that are suitable for all sizes of homes and many other places. Browse online to find the perfect matched air purifier for your home that converts your home to a fresher ambiance."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Pick The Best Air Purifiers Online And Save On Every Purchase",
+        "paragraphs": [
+          "By opting for the advanced air purifier model you can prevent dust and smoke particles, along with other allergens, and suspended germs from polluting inside the air of your room. Our range of air purifiers for homes, cars, and offices are available on our website where you can make your choice from the best air purifiers we have by considering the factors like the capacity, desired features, type of filters, and the average power consumption of the air purifier. You can also choose one based on your usage as we have models to deliver pure air in every situation. Check out our air purifiers that offer a pleasant ambiance that makes a reason to stay at your home."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Shop For Our Specially-Designed And Feature-Rich Air Purifiers Online",
+        "paragraphs": [
+          "In addition, to make it advanced in its functioning, we have air purifiers that are stylish and compact in terms of their designs. It is available in a variety of colors that will match your home decor. The home air purifiers are equipped with advanced filters like HEPA filters, pre-filters, activated carbon filters, and much more to be effective in purifying the air.",
+          "The new generation air purifiers for home and office offer energy efficiency and work better and offer power consumption. We are offering a variety of models and updating our range as per the user's demand so that you can opt for the best air purifiers online without any hassle. Browse our diverse collection of air purifiers at a discounted price today and get delivered to your doorstep."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "#1. HEPA Filter Air Purifiers",
+        "paragraphs": [
+          "The HEPA air purifiers are loaded with advanced air filters that remove all suspended particles larger than 0.2 microns roaming inside your home area. That HEPA air purifiers are highly effective at eliminating invisible pollutants like pollen, molds, and dust from the inside air. HEPA air purifiers can also be cost-effective as you choose one of them depending on the model that you want to buy. One can also get expert advice before choosing one of the best air purifier models as per your specific needs."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "#2. Activated Carbon Air Purifiers",
+        "paragraphs": [
+          "The activated carbon air purifiers are best at their work when it needs to remove smoke, odors, and harmful gasses from the air circulating inside your home. People who are prone to odors like smoke or gas must consider an activated carbon air purifier. The activated carbon air purifiers use HEPA filters that remove suspended particles from the air and bring them back in the best shape. Activated carbon air purifiers are not pricey and it is suitable for different sites as home and other closed rooms."
+        ],
+        "bullets": []
+      }
+    ],
+    "faqs": [],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1700,
+      1701
+    ],
+    "subcategories": [
+      {
+        "slug": "uv-technology",
+        "name": "Uv Technology",
+        "href": "/category/air-purifier/uv-technology",
+        "metaTitle": "UV Technology Air Purifier @9311587716 | UV Air Purifier | Air Purifier With UV Light",
+        "metaDescription": "UV Technology Air Purifier - Find here online price details of Doctor Fresh UV Technology Air Purifier. Get info of manufacturers, exporters, traders of UV Technology Air Purifier for buying in India.",
+        "heading": "UV Technology Air Purifier: The Coolest Way To Deduct Airborne Pollutants",
+        "intro": "The UV air purifier has numerous health benefits as it inactivates viruses, bacteria, and microbes by rupturing their DNA that stops its multiplication. Doctor Fresh UV air purifiers are designed to use short wave UV lights to destroy airborne microbes like bacteria and viruses.",
+        "seoSections": [
+          {
+            "title": "UV Technology Air Purifier: The Coolest Way To Deduct Airborne Pollutants",
+            "paragraphs": [
+              "The UV air purifier has numerous health benefits as it inactivates viruses, bacteria, and microbes by rupturing their DNA that stops its multiplication. Doctor Fresh UV air purifiers are designed to use short wave UV lights to destroy airborne microbes like bacteria and viruses.",
+              "Our UV air purifier has the motto to deduct the indoor air pollutants, but it has to be handled to avoid emitting ozone levels properly. The UV air purifier pulls air into the appliance and allows it to pass through a fine filter similar to a HEPA filter. The Doctor Fresh UV air purifiers are versatile and multi-tasking to cut out dust, pollen, microbes, and bad odor from the air.",
+              "Our UV air purifier is extremely effective in eliminating airborne pollutants floating in the air. Find your best-matched UV air purifier at Doctor Fresh according to the type of airborne pollutants inside the closed area. We also offer customized UV air purifiers as per the customer's demand."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Clear The Air With The Doctor Fresh UV Air Purifiers",
+            "paragraphs": [
+              "The UV air purifier is the perfect way to deny the entry of allergens to float in the air by using different ways. You can choose your favorite UV air purifier by selecting the budget and the intensity of UV lights. Doctor Fresh has a range of UV air purifiers that really works and has the ability to kill different types of pathogens. Our UV air purifier is full of promise, and it proves its presence by offering nothing but pure air."
+            ],
+            "bullets": [
+              "The UV air purifier works effectively without the use of chemicals",
+              "Our UV air purifiers work without the harmful producing ozone",
+              "Safe to use in any closed area to purify and disinfect internal air",
+              "Need minimum maintenance to deliver the continuous service"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1700
+        ]
+      },
+      {
+        "slug": "air-purifier-for-home",
+        "name": "Air Purifier For Home",
+        "href": "/category/air-purifier/air-purifier-for-home",
+        "metaTitle": "Air Purifier For Home @9311587716 | Best Home Air Purifier | Best Purifier For Home",
+        "metaDescription": "Air Purifier For Home - Install Air purifier for home and get 100% Pure Air. Compare all brand's Air Purification System for home online at Doctor Fresh and buy at discounted prices.",
+        "heading": "Air Purifier For Home: The Best Home Detoxifying Solution",
+        "intro": "The air purifier for the home can effectively sanitize the indoor air, remove pollutants, pull out airborne allergens, and restrict the entry of toxins. The Doctor Fresh air purifier for the home works far better than air filters as it removes pollutants and sanitizes air. Our air purifier range for home is helpful for airborne allergies and asthma as it separates dust, mites, and other pollutants from the air.",
+        "seoSections": [
+          {
+            "title": "Air Purifier For Home: The Best Home Detoxifying Solution",
+            "paragraphs": [
+              "The air purifier for the home can effectively sanitize the indoor air, remove pollutants, pull out airborne allergens, and restrict the entry of toxins. The Doctor Fresh air purifier for the home works far better than air filters as it removes pollutants and sanitizes air. Our air purifier range for home is helpful for airborne allergies and asthma as it separates dust, mites, and other pollutants from the air.",
+              "There are multiple air purifiers available on Doctor Fresh , as you can choose as per your room type and the product’s star rating. If you have any airborne diseases like asthma, allergy, you can either contact a doctor or choose Doctor Fresh air purifier for home because the doctor also advise you to lift the indoor air quality. With the rise in air pollution, indoor air needs to be purified to deal with airborne illness."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Choose Doctor Fresh Air Purifier For Home To Breathe The Difference",
+            "paragraphs": [],
+            "bullets": [
+              "The air purifier for the home can eliminate bad odor from the air and make it easy to breathe",
+              "It can catch the dust particles that can penetrate the lungs and create allergic reactions",
+              "The air purifier for a home eliminates indoor pollutants like nitrogen dioxide and carbon monoxide",
+              "Relieves the symptoms of asthma by eliminating dust, mites, and pollens",
+              "The Doctor Fresh air purifier for home is best to have for sound sleep"
+            ]
+          },
+          {
+            "title": "The Different Types Of Air Purifiers And How They Work",
+            "paragraphs": [],
+            "bullets": [
+              "HEPA Filter - It captures pollutants less than 5 microns that we can't see by human eyes",
+              "Activated Carbon - The activated carbon air purifiers can't capture minute particles but eliminates bad odor and make it safe for living",
+              "UV Air Purifier - The UV air purifier kills the microbes and other bacteria suspended in the indoor air and can cause airborne diseases"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1701
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "vegetable-purifier",
+    "name": "Vegetable Purifier",
+    "href": "/category/vegetable-purifier",
+    "metaTitle": "Vegetable Purifier @9311587716 | Vegetable Purifier Machine | Best Vegetable Purifier",
+    "metaDescription": "Vegetable Purifier - Remove harmful chemicals, germs & pesticides from vegetables with top brand Doctor Fresh Fruits and Vegetable Purifier.",
+    "heading": "Vegetable Purifier: How It Become The Need Of Every One",
+    "intro": "The vegetable purifier by Doctor Fresh is convenient to remove germs, bacteria's, wax coatings, chemical layers, and other residues from its surfaces. A vegetable purifier is a naturally derived cleaner, as it is safe to use and does not lower the nutritional value of food and vegetables. The Ozone vegetable purifier sterilizes the surface of fruits and vegetables when it is mixed with water and proves an effective way of getting rid of harmful pesticides and waxes used in its preservation. Ozone gas produced by Doctor Fresh vegetable cleaner is completely safe for human health and is mixed with water before washing fruits and vegetables.",
+    "seoSections": [
+      {
+        "title": "Vegetable Purifier: How It Become The Need Of Every One",
+        "paragraphs": [
+          "The vegetable purifier by Doctor Fresh is convenient to remove germs, bacteria's, wax coatings, chemical layers, and other residues from its surfaces. A vegetable purifier is a naturally derived cleaner, as it is safe to use and does not lower the nutritional value of food and vegetables. The Ozone vegetable purifier sterilizes the surface of fruits and vegetables when it is mixed with water and proves an effective way of getting rid of harmful pesticides and waxes used in its preservation. Ozone gas produced by Doctor Fresh vegetable cleaner is completely safe for human health and is mixed with water before washing fruits and vegetables.",
+          "Washing vegetables and fruits with vinegar or warm water is no more effective. The ozone vegetable and fruits purifiers can help get rid of all the toxins and pesticides present on the surface of the vegetables. The vegetable and fruit purifiers effectively kill bacteria, viruses, and other pathogens present on the surface of fruits and other foods to keep you safe from foodborne illness. Ozone technology applied by the vegetable purifier efficiently oxidizes residual preservatives from food items and makes them safe for eating. Thus get a vegetable fruit water purifier for home ."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Get These Benefits To Have A Vegetable Purifier At Home",
+        "paragraphs": [],
+        "bullets": [
+          "Doctor Fresh vegetable purifier sterilizes your fruits and vegetables easily and carefully to keep infections away without losing any essential nutrients",
+          "Our fruit and vegetable purifier uses bio-friendly ozone technology to get rid of pesticides, microbe's chemicals and other germs from the surface of fruits, vegetables, and other raw foodstuffs",
+          "The vegetable purifier has a silicone tube attached with the stone that breakdowns residual chemicals from the outer layer of your fruits and vegetables",
+          "After the cleaning process is done in the vegetable purifier, all the items need to be washed thoroughly with the tap water",
+          "Doctor Fresh ozone fruit and vegetable purifier is a tabletop model that is easy to carry and use",
+          "It is truly a low maintenance appliance as it requires no consumables or change of any part after years of usage"
+        ]
+      },
+      {
+        "title": "Why You Need To Consider Buying A Vegetable Purifier",
+        "paragraphs": [
+          "Nowadays, we hardly get any fruit and vegetables that are pure and pesticide-free. So, it is best to make sure that the fruits and vegetables are pure and hygienic to eat on a daily basis. The chemicals, waxes, and pesticides present on the surface of the vegetables are hard to remove by washing with water as their traces remain after multiple washes.",
+          "For better yield and profit, the fruits and vegetables are treated with fertilizers, chemicals, and pesticides. To prolong its shelf-life, it is treated with chemicals and preservatives, and other coatings. Doctor Fresh fruit and vegetable purifier are designed to eliminate chemicals, pesticides, and preservatives used in agricultural and storage practices. The whole idea is to clean the vegetables and deny harmful toxins away from the foodstuffs."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Benefits Of Using A Vegetable Purifier At Home",
+        "paragraphs": [],
+        "bullets": [
+          "The electronic vegetable purifier purifies it faster than manual cleaning",
+          "The electronic disinfectants safe and certified to use",
+          "Get your vegetables purified in less effort and time"
+        ]
+      }
+    ],
+    "faqs": [],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1690,
+      1691
+    ],
+    "subcategories": [
+      {
+        "slug": "vegetablefruit-purifier-for-home",
+        "name": "Vegetablefruit Purifier For Home",
+        "href": "/category/vegetable-purifier/vegetablefruit-purifier-for-home",
+        "metaTitle": "Vegetable/Fruit Purifier For Home @9311587716 | Fruit And Vegetable Purifier | Vegetable And Fruit Purifier",
+        "metaDescription": "Vegetable/Fruit Purifier For Home - DOCTOR FRESH Table top vegetable & fruit purifier is Certified & removes harmful chemicals, pesticides, germs from fruits, vegetables & meat. Request for Free Demo.",
+        "heading": "Vegetable/Fruit Purifier For Home: Use It To Remove The Diverse Pollutants",
+        "intro": "The vegetable and fruit purifier kills bacteria, viruses, and other common pathogens that are found on the surface of fruits and vegetables and causes foodborne diseases. The vegetable and fruit purifier effectively eliminates leftover chemicals by using ozone technology and makes it safe for human consumption. Doctor Fresh fruit and vegetable purifiers disinfect your raw vegetables thoroughly to minimize the presence of microbes, chemicals, and pesticides.",
+        "seoSections": [
+          {
+            "title": "Vegetable/Fruit Purifier For Home: Use It To Remove The Diverse Pollutants",
+            "paragraphs": [
+              "The vegetable and fruit purifier kills bacteria, viruses, and other common pathogens that are found on the surface of fruits and vegetables and causes foodborne diseases. The vegetable and fruit purifier effectively eliminates leftover chemicals by using ozone technology and makes it safe for human consumption. Doctor Fresh fruit and vegetable purifiers disinfect your raw vegetables thoroughly to minimize the presence of microbes, chemicals, and pesticides.",
+              "Our fruit and vegetable purifier uses ozone technology to detach most of the germs, chemicals, and other pollutants from its surfaces. In the era where you can hardly get anything organic from the market, the fruit and vegetable purifier has become an indispensable home appliance for the kitchen. It is not possible to flush out all the pesticides and chemicals with tap water. Then it comes Doctor Fresh vegetable and fruit purifier for a home to remove these harmful compounds effectively."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Handpick The Best Fruit/Vegetable Purifier At Doctor Fresh",
+            "paragraphs": [
+              "Buying a fruit and vegetable purifier is not easy as one cannot make a choice between the multiple options so, rather than focusing on the brand, it is best to choose the fruit and vegetable purifier because of its features. The Doctor Fresh fruit and vegetable purifier is known for its space-saving design that can be mounted or placed on the counter. Our home fruit and vegetable purifier models are portable and convenient to use and cleanse fruit and vegetables to make your life healthy."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Key Features And Specifications Of Using Doctor Fresh Fruit And Vegetable Purifier",
+            "paragraphs": [],
+            "bullets": [
+              "Get rid of harmful chemicals and pesticides from the surface of fruits and vegetables",
+              "The maximum service warranty and zero maintenance",
+              "It can be suitable to use for fruits, vegetables, seafood, and meats",
+              "Keeps foods safe by deodorizing and cleaning",
+              "It can kill bacteria, flush out chemicals and disinfect fruits and vegetables better than any other methods"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1690,
+          1691
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "water-tank",
+    "name": "Water Tank",
+    "href": "/category/water-tank",
+    "metaTitle": "Water Tank @9311587716 | Water Tank Price | Water Tanks Near Me",
+    "metaDescription": "Water Tank - Water Tank are the smarter water storage solutions for your home which will not only keep your water cleaner but will also make your life easier.",
+    "heading": "Water Tank : How To Find The Best One In The Lowest Cost",
+    "intro": "Doctor fresh is a complete water storage solution provider company that offers different quality water tanks. With customers' trust, superior quality, cutting-edge technology and consumer-friendly designs, our variety of water tanks are excellent in quality and design. Our range of overhead water tanks, Underground water tanks and a lot more are designed and supplied by keeping in mind the industry needs and personalized demands of the customers. Doctor Fresh is a selected brand name in the water storage tanks category.",
+    "seoSections": [
+      {
+        "title": "Water Tank : How To Find The Best One In The Lowest Cost",
+        "paragraphs": [
+          "Doctor fresh is a complete water storage solution provider company that offers different quality water tanks. With customers' trust, superior quality, cutting-edge technology and consumer-friendly designs, our variety of water tanks are excellent in quality and design. Our range of overhead water tanks, Underground water tanks and a lot more are designed and supplied by keeping in mind the industry needs and personalized demands of the customers. Doctor Fresh is a selected brand name in the water storage tanks category.",
+          "It would be best to choose the 500 litre water tank or 1000 litre water tank as per your daily consumption of water that ranges from 500-1000 litres. It is hard to find the required water amount every time as you need to consider the required capacity water tank. By using our plastic water tank, you can do your part to conserve water in the best possible way. This is where Doctor Fresh water storage tanks come into play and preserve water for longer."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "How Best Water Tank Is Proves The Best For Diverse Applications",
+        "paragraphs": [
+          "Doctor Fresh stainless steel water tank is the most reliable and appropriate way to store water for future use, everyday household use, or industrial use. Our range of water tanks includes overhead water tank to underground water tank that are strong, durable, and leak-proof to be all season. Doctor Fresh manufactures an extensive range of water tanks for home , and other water storage container to manage the diverse applications.",
+          "A steel water tank is referred to as a storing water vessel for storing water for further use in drinking, household, irrigation agriculture, agricultural farming, chemical manufacturing, food processing, and many other uses. Storing drinking water is the most common and most important use that a water tank offers. The water tank price relies on the type of manufacturing material, water-storing capacity, and the suitability of the water tank."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Why Doctor Fresh Is The Best Portal TO Buy A PVC Water Tank Online",
+        "paragraphs": [
+          "Doctor Fresh is the most prominent online water tank near me shopping portal, with a large number of water-storing units in India. Among thousands of 50 litre water tank to 10000 litre water tank products, we offer one of the best online sellers to order water tanks online. Doctor Fresh aims to provide a hassle-free doorstep water tank delivery experience to the customers.",
+          "Doctor Fresh works 24/7 a week to deliver the best water tank for house on time across all the parts of the country. Our water tank system works based on trust that ensures the best possible customer support and timely delivery to the end-users. The countless years of trust and customer-centric working practices make us the leading online overhead tank supplier of all time."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Which Water Tank Is The Best Among Steel And Plastic",
+        "paragraphs": [
+          "The stainless steel water tank has the edge over the plastic water tank as stainless steel tanks are hygienic, anti-corrosive, shock resistant, easy to clean and highly durable. This overhead tank is made of food-grade material, so the water remains in its natural form and does not react with the material. Doctor Fresh made it durable and maintenance-free, and this is the reason why our water tanks are cost-effective and easy to install. The square water tank and the cold water storage tanks keep water cold and fresh for longer.",
+          "Doctor Fresh cold water tanks can survive in hot weather, and the water remains cold inside the tank, and you can get cold water. The choice of stainless steel tanks is amazing as the stainless steel tanks are lighter and made compact, and customized according to the available space. We produce a fantastic rectangular water tank that is relatively lower than plastic water tank price."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "You Can Get The Best When You Include These",
+        "paragraphs": [
+          "You have to check the price of the 500 litre water tank price and any other that you want to buy. Doctor Fresh water tanks have a number of variations, so you can consider buying any particular water tank, as it is better to know about the exact market price. Knowing the price and the market value of the products will help you choose the best quality product within your budget."
+        ],
+        "bullets": []
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Which Colour is best for the water tank?",
+        "answer": "When it comes to choosing the water tank, it is an individual choice because it will not affect much. Although there are various colors, water tanks are available in the market. But the highly sold water tank is black and white. The black water tank absorbs the heat, heating the water."
+      },
+      {
+        "question": "What is 3 layer water tank?",
+        "answer": "A triple layer water tank has an outer layer that protects against UV rays, and another level enhances the visibility of the tank's interior. A 3 layered water tanks are highly durable, rust-free, and corrosion-free."
+      },
+      {
+        "question": "How do I calculate the size of my water tank?",
+        "answer": "By using the below-listed formula, you can calculate the water tank Volume= depth* area Area= a*a (if the water tank is square) Area= length * breadth (if water tank is rectangular)"
+      },
+      {
+        "question": "What size water tank do I need for a family of 4?",
+        "answer": "To calculate this, you need to be sure about water use per person. Water requirement (Volume)= No. Of persons* percapita demand"
+      }
+    ],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1774,
+      1773,
+      1772,
+      1696,
+      1697,
+      1787,
+      1788,
+      1789,
+      1790
+    ],
+    "subcategories": [
+      {
+        "slug": "stainless-steel-water-tank",
+        "name": "Stainless Steel Water Tank",
+        "href": "/category/water-tank/stainless-steel-water-tank",
+        "metaTitle": "Stainless Steel Water Tank @9311587716 | Stainless Steel Water Tank Price List",
+        "metaDescription": "Stainless Steel Water Tank - Find here online price details of Doctor Fresh Stainless Steel Water Tank. Get info of manufacturers, exporters, traders of Stainless Steel Water Tank for buying in India.",
+        "heading": "Stainless Steel Water Tank: Secret Revealed About Its Benefits",
+        "intro": "Doctor Fresh stainless steel water tanks are known to be anti-corrosive, highly durable, and maintenance-free, and it remains same in all-weather conditions. The steel water tank is fire resistant, and it is unaffected in the exposure to UV lights which can reflect sunlight to absorb heat, but the stainless-steel water tank does not expand due to excess heat and remains leakage proof.",
+        "seoSections": [
+          {
+            "title": "Stainless Steel Water Tank: Secret Revealed About Its Benefits",
+            "paragraphs": [
+              "Doctor Fresh stainless steel water tanks are known to be anti-corrosive, highly durable, and maintenance-free, and it remains same in all-weather conditions. The steel water tank is fire resistant, and it is unaffected in the exposure to UV lights which can reflect sunlight to absorb heat, but the stainless-steel water tank does not expand due to excess heat and remains leakage proof.",
+              "The stainless steel water tank is 100% recyclable and hygienic, non-toxic, and corrosion-free. Insulated stainless steel water storage tanks are new-age water tanks that control water temperature and hygiene and offer safe and clean water storage. For the best quality and durable water, containers search for water tanks near me and get the metal body water tanks .",
+              "Doctor Fresh water tank price is the lowest in the market when you see the quality of stainless steel used in water tank manufacturing. We have a range of water tanks that includes water tanks for home, square water tank, and rectangular water tank in variable capacity. The water tank 500 ltr prices 4 layer is a little more than single layer water tanks."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "The Reasons To Consider Doctor Fresh Stainless Steel Water Tanks",
+            "paragraphs": [
+              "Doctor Fresh water storage tanks adopt multi-layers technology, with each layer serving a specific function to keep water safe. The inner layer of 1000 litre water tank, which is made up of heavy duty stainless steel, ensures that the water remains in its purest form.",
+              "Stainless steel water tank offers great stability in comparison to the plastic water tank. This stainless steel water tank resists oxidation by water, as well as microbes. The underground water tank is not required for stainless steel water tanks as it has proven to be leak-free.",
+              "Doctor Fresh offers the best water tank that is suitable for any house and stores the required amount of water. When it comes to plastic water tank price, it is much lower than PVC water tank prices because of its durability and odor-free water. It is upon you to choose our range of overhead tank , water storage tanks, and water tanks for home."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "How Doctor Fresh Water Storage Container Is Best In The Market",
+            "paragraphs": [
+              "Stainless steel is a hygienic and durable material as it offers hygienic drinking water than any plastic water tank . Plastic water tanks are susceptible to bacterial and microbial growth and prone to leakages. The pressure tank for water pump is also available for users when they have a problem controlling the water pressure. Doctor Fresh is working with the best quality stainless steel water tanks to unlock exceptional values for the customers.",
+              "We pride ourselves in providing innovative, high performing, and competitive overhead water tank with low running costs. Our products are versatile in order to meet the requirement for a water tank for house. The domestic water tank starts from 50 litre water tank and goes up to 500 ltr water tank , where large scale water tanks are about 10000 litre water tank."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1696,
+          1787,
+          1788,
+          1789,
+          1790,
+          1772
+        ]
+      },
+      {
+        "slug": "plastics-water-tank",
+        "name": "Plastics Water Tank",
+        "href": "/category/water-tank/plastics-water-tank",
+        "metaTitle": "Plastics Water Tank @9311587716 | Plastic Water Tank Price | Water Plastic Tank",
+        "metaDescription": "Plastics Water Tank - Find here online price details of Doctor Fresh Plastics Water Tank. Get info of manufacturers, exporters, traders of Plastics Water Tank for buying in India.",
+        "heading": "Plastics Water Tank - The Roadmap To Select The Best Supplier",
+        "intro": "Doctor Fresh plastic water tank ensures the highest standards of hygiene at a reasonable cost. The recent revolution in plastic water tank manufacturing offers a side utility hole feature for easy cleaning and complete panel tanks that completely cover the water storage tanks and offer protection. Today, we have the most spread manufacturing capabilities in plastic water tank processing in India.",
+        "seoSections": [
+          {
+            "title": "Plastics Water Tank - The Roadmap To Select The Best Supplier",
+            "paragraphs": [
+              "Doctor Fresh plastic water tank ensures the highest standards of hygiene at a reasonable cost. The recent revolution in plastic water tank manufacturing offers a side utility hole feature for easy cleaning and complete panel tanks that completely cover the water storage tanks and offer protection. Today, we have the most spread manufacturing capabilities in plastic water tank processing in India.",
+              "Our water storage tanks are mainly polyethylene tanks that are designed and manufactured to store drinking water and collect rainwater. Doctor Fresh water storage tanks are made of polyethylene which is a non-toxic material as we are manufactured according to the safety guidelines. The high-density linear polyethylene tanks ensure excellent impact strength, resistance against temperature changes; handle any adverse weather conditions and UV rays. These water storage containers are not transparent as it prevents the exposure of sunlight."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "The Reason To Consider Doctor Fresh Plastic Water Tanks",
+            "paragraphs": [],
+            "bullets": [
+              "The PVC water tank can be easily washed using traditional detergents because of its perfectly smooth inner surface",
+              "Our range of best water tank is durable, lightweight, and easy to handle, as it is manufactured by using superior materials that ensure product to the highest standards",
+              "All Doctor Fresh water tanks for home are supplied with a top screwed lid and other accessories to meet individual requirements",
+              "The water tank for houses is available in a wide variety of capacities and dimensions; as rectangular water tank, square water tank, and many others",
+              "Doctor Fresh represents a vast selection of overhead tank nationwide with a wide variety of products as you need a large quantity or just one tank",
+              "We deal in plastic water tanks, polystyrene water tanks, PVC tanks, liquid storage tanks, and much more, with a discounted rate available for pick up or shipped to your doorstep",
+              "The polyethylene water tank is the most common selling product when it comes to potable drinking water tanks."
+            ]
+          },
+          {
+            "title": "Applications Of Plastic Water Tanks",
+            "paragraphs": [],
+            "bullets": [
+              "The plastic water tank is used for a wide variety of water storage transportation applications like an agricultural industry that assists in irrigation",
+              "There are a number of industries that use diverse range of plastic water tanks in agriculture practices, water treatment plants, chemical, food and beverage, and other day-to-day practices",
+              "The underground water tank is used in water treatment plants, rainwater harvesting, and other irrigation needs."
+            ]
+          },
+          {
+            "title": "Have A Look At The Common Types Of Plastic Water Tanks",
+            "paragraphs": [
+              "You can categorize plastic tanks in the three most common ways are",
+              "Some plastic tanks are defined based on the material they contain are their material makeup like polyethylene tanks, polypropylene tanks, PVC tanks, and FRP tanks. The most common types of tanks in the third category are water storage tanks, double-layer water tanks, rectangular water tanks, and bottom tanks."
+            ],
+            "bullets": [
+              "The type of material that the water tank contains",
+              "The material used in the manufacturing of water tanks",
+              "The application used in the making and design of the water tank"
+            ]
+          },
+          {
+            "title": "Water Tank",
+            "paragraphs": [
+              "The water tank is used specifically to store water for purposes like in-home drinking water storage and water supply tanks. Plastic water tanks can be made up of numerous materials; the most common are Polystyrene, PP, and PVC. Polystyrene is the best among them because of the lightweight and chemical-resistant nature of the material. The water tanks installed to store water for human consumption must be made by using food-grade plastics."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Advantages Of Using Plastic Tanks In Your Home",
+            "paragraphs": [
+              "There are many reasons to choose plastic tanks over all other alternatives in the market. Plastic is less reactive than others metals as you can store whatever liquid is stored inside the tank. Plastic water tanks can easily store aggressive chemicals like caustics and acids, and other industrial chemicals.",
+              "Most of the plastic tanks can be recycled, easy to carry, and lightweight in nature. The old plastic tanks can be converted into dust bins for plantation purposes. The plastic tanks are flexible in their design and known for better strength and non-toxic water storage."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Learn About The Proper Care For Plastic Tanks",
+            "paragraphs": [
+              "If you take care of the plastic tanks, it can last a long time"
+            ],
+            "bullets": [
+              "Always support the tank from the bottom at the time of handling",
+              "Keep other hard materials away from the tank that is prone to fall over the tank",
+              "Keep your water tank away from excessive heat, avoid filling hot and excessive cold water",
+              "Never put your plastic water tank in an environment where flammable liquids are stored",
+              "Don't forget to clean tanks regularly"
+            ]
+          },
+          {
+            "title": "Keep In Mind When Selecting A Water Tank Manufacturer",
+            "paragraphs": [
+              "Before connecting with any water tank manufacturer, make sure that they can meet your specific requirements and must have a reputation for excellent customer service. A manufacturer like water purifier brands has proven experience in the water tank supplying field."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1774,
+          1773,
+          1772,
+          1697
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "dm-plant",
+    "name": "DM Plant",
+    "href": "/category/dm-plant",
+    "metaTitle": "DM Plants @9311587716 | DM Plant | DM Water Plants | Demineralization Water Treatment Plants",
+    "metaDescription": "DM Plants :- Doctor Fresh is one of the leading Brand to compare and buy DM plant or Demineralized Water Plants in India.",
+    "heading": "DM Plants: Working Principle, Process And The Application",
+    "intro": "DM Water treatment plants use the demineralization process of removing excess minerals and salts from raw water by using an ion-exchange process. Demineralized water is free from all sorts of dissolved minerals and excess salts by using one of these following processes.",
+    "seoSections": [
+      {
+        "title": "DM Plants: Working Principle, Process And The Application",
+        "paragraphs": [
+          "DM Water treatment plants use the demineralization process of removing excess minerals and salts from raw water by using an ion-exchange process. Demineralized water is free from all sorts of dissolved minerals and excess salts by using one of these following processes.",
+          "The demineralized water, also known as deionized water that means the excess of minerals and ions are removed. Minerals like sodium, calcium, iron, chloride, and sulphates are common ions present in hard water. Deionization or Demineralization of water is a physical process that uses ion exchange resins to replace the mineral salts in water. Because of the majority of impurities and dissolved salts, water becomes hard and needs to be treated before use.",
+          "The Doctor Fresh DM plant produces high-quality water that is far better than distilled water in a quick time and also ignores scale buildup. De-mineralization is the proven technology for hard water treatment. DM water plant produces water that is softer by applying the principles of ion exchange and polishing. Demineralized water can be used for various day-to-day practices without any further treatments."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "The Working Principle Behind Demineralization Of Water",
+        "paragraphs": [
+          "When the raw water is passed through two small ion exchange resin beds, the cations get exchanged with hydrogen ions in the first bead, and the anions are exchanged with hydroxyl ions in the second bead. Ion exchange is a rapid and reversible process in which excess ions present in the water are replaced by ions released in the ion-exchange resin.",
+          "The excess ions are pulled out by the resin, and the rest is restored in the original ionic form. The Positively-charged ions are called cations, mostly metals; negatively charged ions are called anions and are non-metals. Many industries have started using DM plants to get demineralized water for industrial purposes. However, some industries have been using these units for a long time ago to use in-"
+        ],
+        "bullets": [
+          "Industries that require water to operate high-pressure boilers",
+          "Food and beverage industries where need in large quantity",
+          "Units like electronic goods manufacturing",
+          "Medicine and other food processing industries"
+        ]
+      },
+      {
+        "title": "The Reason To Choose Doctor Fresh DM Water Plants",
+        "paragraphs": [
+          "The water free from any mineral is called de- mineralized as various salts are diluted in water. When the water has such a mineral that is no longer required, it must be treated in ion exchange resins to adsorbs the positively charged ion. In which the cations pass through an anion resin column that adsorbs the negatively charged anions, and water becomes free from the excess ions. Our DM water treatment plants are made to be tough and durable that only require basic servicing."
+        ],
+        "bullets": [
+          "The demineralized water is better in quality than distilled water that we use for drinking",
+          "The DM plants are available for large, medium, and small scale industries",
+          "The DM water plant never uses any chemicals or do not produce any hazardous byproducts",
+          "The new age DM plants are compact, and that needs minimum space for installation",
+          "Using DM plants to demineralize water are one of the cost-effective methods"
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "What is a DM plant in a power plant?",
+        "answer": "Demineralization is the process of elimination of mineral salts present in the water by using an ion-exchange process. The demineralization water is entirely free of dissolved minerals due to distillation, deionization, membrane filtration, and others."
+      },
+      {
+        "question": "What is the process of the DM water plant?",
+        "answer": "Raw water can pass through two small polystyrenes bead-filled beds in the DM plant. While cation gets exchanged with the hydrogen ions in the first bed, the anions are exchanged with the hydroxyl ions in the 2nd bed."
+      },
+      {
+        "question": "Why is the DM plant needed?",
+        "answer": "A demineralization plant is mainly required for boiler feed purposes. This is because a small quantity of the circulating water is recycled in the process. The DM plant consists of a cations and anions exchange unit followed by the mixed bed unit."
+      },
+      {
+        "question": "What is the pH of DM water?",
+        "answer": "The demineralization water is free of minerals, so there is nothing to buffer the pH. Over time water absorbs carbon dioxide [C02] from the air to form carbonic acid, which drops the pH. To prevent this, you must prevent the water from coming in contact with the air by using a nitrogen blanket."
+      },
+      {
+        "question": "Is DM water drinkable?",
+        "answer": "Demineralized water without further enrichment is not appropriate for drinking purposes. According to the WHO report drinking demineralized water may lead to various health issues if consumed longer."
+      }
+    ],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1704,
+      1732
+    ],
+    "subcategories": []
+  },
+  {
+    "slug": "water-chiller",
+    "name": "Water Chiller",
+    "href": "/category/water-chiller",
+    "metaTitle": "Water Chiller @9311587716 | Water Chiller System | Water Chiller Machine",
+    "metaDescription": "Water Chiller Plant - Buy Water Chiller online Of Doctor Fresh Brand at best price. Compare water chiller system and doctor fresh water chiller plant and buy as per your requirement..",
+    "heading": "Water Chiller: The Road To Choose The Best One With Multiple Features",
+    "intro": "A water chiller has been used in a variety of applications where it is required to circulate the cold water to cool any product or machine. It can be found in food and beverage industries, chemical manufacturing, or many other places where heat from the water. Choosing the right kind of chiller has a lower cooling cost, operational efficiency, and minimum downtime. Doctor Fresh water chiller range covers commercial and industrial applications, air-cooled chillers, water-cooled chillers, and evaporative condensed chillers.",
+    "seoSections": [
+      {
+        "title": "Water Chiller: The Road To Choose The Best One With Multiple Features",
+        "paragraphs": [
+          "A water chiller has been used in a variety of applications where it is required to circulate the cold water to cool any product or machine. It can be found in food and beverage industries, chemical manufacturing, or many other places where heat from the water. Choosing the right kind of chiller has a lower cooling cost, operational efficiency, and minimum downtime. Doctor Fresh water chiller range covers commercial and industrial applications, air-cooled chillers, water-cooled chillers, and evaporative condensed chillers.",
+          "Water-cooled chillers are one of the most widely found water chillers in the industries that use water from an external tower to chill the coolant in the condenser. The water-cooled chillers are available for both small and commercial-scale cooling with a silent operation. The range of water-cooled chillers is more efficient than any other chillers as they are also available in portable solutions."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "The Need And Use Of Water Chillers",
+        "paragraphs": [
+          "Water chillers have no industrial process, and heat is the only byproduct. Using a water chiller gives you a number of benefits like constant temperature and pressure to complete the industrial process. In most water chiller models, the pumping system circulates cool water over the glycol solution to get the desired temperature. This cool fluid pulls out heat during the process, and the warm fluid is expelled back to the chiller. The process completes when the heat transfers from the chiller and does the work.",
+          "A water chiller relies on the principle of vapor compression and vapor absorption to provide a continuous flow of coolant to the cold side of a process. The water coolant is then pushed through the process, takes out heat from one area of a facility, and flows back to the other side of the process water system."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "How Doctor Fresh Became The Notable Water Chiller Supplier",
+        "paragraphs": [
+          "When it comes to water chiller manufacturers and suppliers, we have set a benchmark in offering water chillers with stainless steel tanks. Keeping in mind the requirements of valued customers, we offer water chillers that are manufactured to deliver diverse technical specifications. We deliver water chillers to our clients at the standard price and with an assured warranty."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Feature You Can Get With Our Water Chillers",
+        "paragraphs": [],
+        "bullets": [
+          "Get an 800W cooling capacity that is enough to suit your industrial and commercial purposes?",
+          "We use environmental refrigerant in the water chillers",
+          "our best-made water chillers are compact in size, extended working life, and have simple operation easy temperature control and centrifugation system",
+          "The smart temperature controller has two control modes, flexible setting and display functions",
+          "loaded with multiple alarm functions, time-delay protection, and water flow alarm",
+          "get water chillers with multiple power specifications you can also choose an optional heater and water filter along with the chiller"
+        ]
+      }
+    ],
+    "faqs": [],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1692,
+      1693,
+      1786
+    ],
+    "subcategories": [
+      {
+        "slug": "water-chiller-1-5-tr",
+        "name": "Water Chiller 1 5 Tr",
+        "href": "/category/water-chiller/water-chiller-1-5-tr",
+        "metaTitle": "Water Chiller 1-5 TR @9311587716 - Doctor Fresh",
+        "metaDescription": "Water Chiller 1-5 TR - We are affianced in offering the best quality range of 1-5 TR Water Chiller to the customers.",
+        "heading": "Water Chiller 1-5 LTR: The Use, Specifications And Its Maintenance",
+        "intro": "Doctor Fresh offers improved efficiency, stable pressure, and high-performance water chillers that are better than any other water cooling system. Doctor Fresh range of water chillers is economical, portable, and technologically advanced to make them suitable for multiple applications. Our water chillers proved to be an energy-efficient model for a wide variety of cooling processes and requirements. The 1-5 liter water chiller is manufactured using quality components and is available at pocket-friendly prices.",
+        "seoSections": [
+          {
+            "title": "Water Chiller 1-5 LTR: The Use, Specifications And Its Maintenance",
+            "paragraphs": [
+              "Doctor Fresh offers improved efficiency, stable pressure, and high-performance water chillers that are better than any other water cooling system. Doctor Fresh range of water chillers is economical, portable, and technologically advanced to make them suitable for multiple applications. Our water chillers proved to be an energy-efficient model for a wide variety of cooling processes and requirements. The 1-5 liter water chiller is manufactured using quality components and is available at pocket-friendly prices.",
+              "The Doctor Fresh water chillers have a hermetically closed motor compressor and the cooling water circuit, water tank , and a centrifugal pump. Stop wasting water in laboratories and other manufacturing labs where water is used as a coolant. The Doctor Fresh state of the art water chillers ensure variable cooling by using eco-friendly materials. We have different technology water chillers that can chill 1 to 60 liters of water in a single process within the low energy consumption."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "How To Pick The Best Water Chiller For Variable Needs",
+            "paragraphs": [
+              "Doctor fresh range of water chillers become the ideal solution for water cooling for home, industrial, and other specific purposes. Our range of water chillers 1-5 LTR can be delivered anywhere in India within the industry-standard range. It has 5 liters of stainless steel water tank with anti-corrosion technology and copper pipe to dispense water. One can also find the specific water chiller after analyzing the personal need and the type of usage."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Salient Features Of Doctor Fresh Water Chiller",
+            "paragraphs": [],
+            "bullets": [
+              "The compact in design and easy to install mounted water chillers",
+              "Fully automatic operation with train and tested technology",
+              "Achieve fast chilling with the best heat exchangers",
+              "Available in specific designs to meet the customers need",
+              "Offers high amount of energy-saving with air-cooled condensers",
+              "Get best in class water chillers with trail and tested technology"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1692,
+          1693,
+          1786
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "water-heater",
+    "name": "Water Heater",
+    "href": "/category/water-heater",
+    "metaTitle": "Water Heater @9311587716 | Water Heater Price | Best Water Heater in India",
+    "metaDescription": "Water Heater - Buy best water heaters in India online at lowest prices on Doctor Fresh. Never before Deals on Instant and Storage Water Heater!",
+    "heading": "Water Heater- The Role Of Water Heater And How It Suits Your Requirements",
+    "intro": "Doctor Fresh water heater is a great buy as it is a perfect balance between price and performance. It is available in plastic and metals as you can find storage water heaters are available in 10to 25 liters and with all the safety features like auto cut off, thermostat, and safety valve. A water heater can be handy for heating water as it is found in most homes to meet day to day water heating needs. Because of these multiple reasons they are listed among the leading brands for quality water heaters.",
+    "seoSections": [
+      {
+        "title": "Water Heater- The Role Of Water Heater And How It Suits Your Requirements",
+        "paragraphs": [
+          "Doctor Fresh water heater is a great buy as it is a perfect balance between price and performance. It is available in plastic and metals as you can find storage water heaters are available in 10to 25 liters and with all the safety features like auto cut off, thermostat, and safety valve. A water heater can be handy for heating water as it is found in most homes to meet day to day water heating needs. Because of these multiple reasons they are listed among the leading brands for quality water heaters.",
+          "You can also check online to see the entire range of water heaters by Doctor Fresh . Our range of water heaters is compact, efficient, and available in different size variations in both plastic and metals bodies. You can install the water heaters in the bathroom, and kitchens away from the living area to ensure safety. Doctor Fresh water heaters are absolutely safe and easy to use as they are made from food-grade plastics. The home water heater gives you the convenience of heating and great energy efficiency to make it the perfect choice."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Kinds Of Water Heaters Available At Doctor Fresh",
+        "paragraphs": [
+          "This is the most popular and widely used water heater in homes as it can hold heated water. The insulated water tank used in the heater keeps water warm until it is not switched off. The storage tank water heater has the option to limit the water temperature that controls it getting excess heated. It has auto cut off technology that activates when it reaches the desired temperature as set by the user.",
+          "A tank less water heater gives you warm water without any storage tank, it uses highly heated coils filled with water that you can use as per your need. It has heated up water quickly as it doesn't have a storage tank. It needs a constant power supply to heat up the coils as it’s the long run can cost more than a conventional water heater. It takes no time to warm water because of its super-heated coils and dispense warm water within a minute.",
+          "The solar powered water heater draws heat from the sun as it doesn't need any other energy source to heat water. It works in association with roof mounted solar panels and the heat conductive material that heats the water tank. You can also use electricity and another energy source when it doesn't work on cloudy days.",
+          "The hybrid water heater is made to use heat from air and ground to heat water. There is a need for electricity only to pull heat from the ground and air and that makes it a power-saving model. You need to find a proper space on the top of the wall to install the water heater in a vertical position. It also has a conventional tank that stores water as per its capacity."
+        ],
+        "bullets": [
+          "A conventional water heater with a storage tank",
+          "The tank less water heater",
+          "Solar powered water heater",
+          "The hybrid pump water heater"
+        ]
+      },
+      {
+        "title": "Paybacks Of Using Our Range Of Water Heaters",
+        "paragraphs": [],
+        "bullets": [
+          "Our water heaters are convenient to use and safe for bathroom and kitchen purposes",
+          "You can get it in different sizes, features, and styles that make it perfect for all-purpose",
+          "You can get an on-demand hot water supply from Doctor Fresh water heater"
+        ]
+      },
+      {
+        "title": "Things You Would Consider While Buying A Water Heater",
+        "paragraphs": [
+          "Energy efficiency- it is required to choose the energy-efficient water heater that proves economical in the long run. You have to compare the power rating of the water heater at the time of buying. Choose a high star rated water heater that offers power saving and heat water promptly.",
+          "Safety features- you don't ignore the safety measures in a water heater as it is an electronic appliance and has thermostats and a multi-function valve. The type of device needs extra safety to make it suitable for long hours of use.",
+          "Water-conserving ability- the water heaters don't waste any water and are considered as no water wastage appliance. The storage water tank heater can store warm water for longer without wasting any drop."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "How A Water Heater Can Understand Your Water Requirements",
+        "paragraphs": [
+          "Taking expert advice before installing a water heater makes your choice suitable and enough for your needs. A suitable water heater gives you better peace of mind with instant heating and low service requirements. Check out Doctor Fresh water heaters that are safe, economical, and compatible with your needs."
+        ],
+        "bullets": []
+      }
+    ],
+    "faqs": [],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1716,
+      1717,
+      1730,
+      1731
+    ],
+    "subcategories": [
+      {
+        "slug": "solar-water-heater",
+        "name": "Solar Water Heater",
+        "href": "/category/water-heater/solar-water-heater",
+        "metaTitle": "Solar Water Heater @9311587716 | Solar Water Heater Price | Best Solar Water Heater",
+        "metaDescription": "Solar Water Heater - Find here online price details of Doctor Fresh Solar Water Heater. Get info of manufacturers, exporters, traders of Solar Water Heater for buying in India.",
+        "heading": "Solar Water Heater: The Best To Convert Solar Energy Into Renewable Energy",
+        "intro": "The solar water heater uses sun rays to heat water up to 50-70 degrees Celsius, which is the best for bathing and other household purposes. Doctor Fresh solar water heater uses solar energy to generate heat during the day and store hot water to dispense in the absence of sunlight. The Doctor Fresh range of solar water heaters has an inbuilt electric heating system to back up the process during the long power cuts.",
+        "seoSections": [
+          {
+            "title": "Solar Water Heater: The Best To Convert Solar Energy Into Renewable Energy",
+            "paragraphs": [
+              "The solar water heater uses sun rays to heat water up to 50-70 degrees Celsius, which is the best for bathing and other household purposes. Doctor Fresh solar water heater uses solar energy to generate heat during the day and store hot water to dispense in the absence of sunlight. The Doctor Fresh range of solar water heaters has an inbuilt electric heating system to back up the process during the long power cuts.",
+              "Our solar water heater is made to convert sunlight into renewable energy to cause water heating by using a solar thermal collector. The solar water heater is a perfect gadget to save energy bills as it doesn't need any electricity to heat water in the presence of sunlight. Doctor Fresh solar water heaters are environmentally friendly and reduce carbon footprints. So, installing a solar water heater results in incredible savings and work non-stop for an extended time without any maintenance."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "How Doctor Fresh Solar Water Heater Is Different From Other Brands",
+            "paragraphs": [
+              "Doctor Fresh has a range of cost-effective, durable, and multi-purpose solar water heaters in different sizes. We use high standard machinery and precise technology to make supreme solar water heaters . Choose an economical way to generate hot water by using solar energy and save natural gas and electricity consumption. The Doctor Fresh solar water heater absorbs heat from the sun by a heat collector on the roof and converts it into heat."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "The working principle of the Doctor Fresh solar water heater",
+            "paragraphs": [
+              "When the sunlight falls on the solar collector, the water is heated up in the metal tubes and reaches the top of the insulated hot water tank , and the cold water descends to gets heated again. These two processes continue and ensure that hot water maintains its heat for a more extended period."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1716
+        ]
+      },
+      {
+        "slug": "electric-geyser",
+        "name": "Electric Geyser",
+        "href": "/category/water-heater/electric-geyser",
+        "metaTitle": "Electric Geyser @9311587716 | Electric Geyser Price | Geyser Electric | Electric Water Geyser",
+        "metaDescription": "Electric Geyser - Find here online price details of Doctor Electric Geyser. Get info of manufacturers, exporters, traders of Electric Geyser for buying in India.",
+        "heading": "Electric Geyser: Choose The Right Wattage To Fasten The Process",
+        "intro": "Winter is nearing, and people start planning to buy a new electric geyser. They might be confused about the different parameters such as the size, type, and technology of the electric geyser, then Doctor Fresh manufactures the best geysers. We want to offer our customers the best electric geyser at an affordable price, user-friendly operation, and immense variety.",
+        "seoSections": [
+          {
+            "title": "Electric Geyser: Choose The Right Wattage To Fasten The Process",
+            "paragraphs": [
+              "Winter is nearing, and people start planning to buy a new electric geyser. They might be confused about the different parameters such as the size, type, and technology of the electric geyser, then Doctor Fresh manufactures the best geysers. We want to offer our customers the best electric geyser at an affordable price, user-friendly operation, and immense variety.",
+              "Geyser choosing is a common problem as we have to decide the size, technology, and place for the installation. The electric water heater raises the temperature of the water as the more wattage electric geyser heats water faster. Considering a matched electric geyser can be an asset for you that offers enough hot water in a cost-effective manner."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Factors To Consider While Buying A Brand New Electric Geyser",
+            "paragraphs": [],
+            "bullets": [
+              "Wattage capacity of the electric geyser :- The electric geyser must be a high wattage capacity that matches your requirement. Still, it doesn't mean you consider buying a maximum wattage capacity electric geyser as it can make your electric bill more than your expectation.",
+              "The volume of hot water required daily :- The exact need for hot water is the most significant point when it comes to buying an electric geyser. It can be calculated as the person living in the house and where the hot water is supplied."
+            ]
+          },
+          {
+            "title": "What is the ideal size of the electric geyser?",
+            "paragraphs": [
+              "Choosing an ideal size of the electric geyser always matches the exact hot water requirement. You have to check the number of bathrooms and kitchens, the hot water supplied and its quantity."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "How do you decide the budget for an electric geyser?",
+            "paragraphs": [
+              "Doctor Fresh has an array of different sized, capacity, and technology electric geysers with variable prices. The more wattage capacity and the size of the electric geyser, the more price it has been."
+            ],
+            "bullets": []
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1730,
+          1731
+        ]
+      },
+      {
+        "slug": "gas-water-heater",
+        "name": "Gas Water Heater",
+        "href": "/category/water-heater/gas-water-heater",
+        "metaTitle": "Gas Water Heater @9311587716 | Gas Water Heater Prices | Price of Gas Water Heater",
+        "metaDescription": "Gas Water Heater - Find here online price details of Doctor Fresh Gas Water Heater. Get info of manufacturers, exporters, traders of Gas Water Heater for buying in India.",
+        "heading": "Gas Water Heater: Get Continuous Flow Of Hot Water In Lower Gas Consumption",
+        "intro": "The gas water heater uses liquid petroleum gas to heat your water. The gas geyser has no limit to the amount of water it can heat, as it has a constant flow of heated water that offers an immediate and constant water supply. Doctor Fresh gas water heater consumes less energy and is considered as power-efficient and has quicker recovery rate making it perfect for medium to larger families.",
+        "seoSections": [
+          {
+            "title": "Gas Water Heater: Get Continuous Flow Of Hot Water In Lower Gas Consumption",
+            "paragraphs": [
+              "The gas water heater uses liquid petroleum gas to heat your water. The gas geyser has no limit to the amount of water it can heat, as it has a constant flow of heated water that offers an immediate and constant water supply. Doctor Fresh gas water heater consumes less energy and is considered as power-efficient and has quicker recovery rate making it perfect for medium to larger families."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Know How The Gas Water Heater Works",
+            "paragraphs": [
+              "The Doctor Fresh gas water heater heats water with the help of a gas burner located below the effective tank form where the water is stored and being circulated through the pipes. In the process of water heating, the pressure accumulates in a gas geyser, and the pressure valve intrudes and releases the pressure. A gas water heater is a durable appliance as it needs minimum maintenance to offer a constant warm water supply."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "The Performance Of Gas Water Heater",
+            "paragraphs": [
+              "To ensure the constant supply of warm water, a gas water heater needs constant power as the heat is lost in the absence of power. A gas water heater is capable of heating a fixed amount of water per hour and regains the heat as quickly as possible for further use. Doctor Fresh gas water heater will work without power and offers constant hot water with whatever the situation.",
+              "Advantages Of Buying A Doctor Fresh Gas Water Heater"
+            ],
+            "bullets": [
+              "You can easily control the rate of heating",
+              "It offers steady heating and promotes power preservation",
+              "The gas water heater is suitable for a large family",
+              "The gas water heater is easy to repair",
+              "There is no need for electricity to run a gas water heater",
+              "One can run gas water geyser on both pipeline natural gas and LPG cylinders"
+            ]
+          }
+        ],
+        "faqs": [],
+        "productIds": [
+          1676,
+          1677,
+          1735,
+          1678,
+          1780,
+          1734,
+          1681,
+          1717
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "swimming-pool-filtration-plant",
+    "name": "Swimming Pool Filtration Plant",
+    "href": "/category/swimming-pool-filtration-plant",
+    "metaTitle": "Swimming Pool Filtration Plant @9311587716 | Swimming Pool Filter Plant",
+    "metaDescription": "Swimming Pool Filtration Plant: effective system for pool water filtration. Compare the swimming pool filtration system cost and choose the best among multiple.",
+    "heading": "Swimming Pool Filtration Plant: How It Makes Your Swimming Pool Clean And Clear",
+    "intro": "Doctor Fresh deals in swimming pool filtration plants of different sizes for residential pools, commercial swimming pools, and house pools. You can measure your swimming pool size on the basis of pool volume, water flow rate, and others before choosing a swimming pool filtration plant. Our swimming pool filtration plants are quality-tested and use filtration, disinfection, and recirculation of swimming pool water to make it clean. Doctor Fresh is ready to guide you through buying the best swimming pool filtration plant as per the dimensions of other needs.",
+    "seoSections": [
+      {
+        "title": "Swimming Pool Filtration Plant: How It Makes Your Swimming Pool Clean And Clear",
+        "paragraphs": [
+          "Doctor Fresh deals in swimming pool filtration plants of different sizes for residential pools, commercial swimming pools, and house pools. You can measure your swimming pool size on the basis of pool volume, water flow rate, and others before choosing a swimming pool filtration plant. Our swimming pool filtration plants are quality-tested and use filtration, disinfection, and recirculation of swimming pool water to make it clean. Doctor Fresh is ready to guide you through buying the best swimming pool filtration plant as per the dimensions of other needs.",
+          "Maintaining a swimming pool is a challenging task as you can be infected with skin diseases in case of insufficient cleanliness. The water in the swimming pool needs to be properly sanitized and filtered at regular intervals to maintain the water quality and avoid waterborne skin infections. The swimming pool is filled with water all the time and leaves, dust and debris, and others to alter its color and odor. The swimming pool filtration plant is polluted due to sweat, saliva, hairs, and ointments that give a suitable environment to propagate the virus, bacteria, and microbes."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Advantages Of Doctor Fresh Swimming Pool Water Filtration Plants",
+        "paragraphs": [
+          "Doctor Fresh provides the best quality engineering and technology to make swimming pool water pure, clean, and disinfected. Swimming pool water filtration systems are always on low priority when you are designing a swimming pool. The majority of users give importance to the chlorination process when it comes to purifying a swimming pool. We have a bunch of expert engineers, appropriate technology, and knowledge know-how to design, manufacture, and install the swimming pool water filters in order to offer the ideal filtration system and low energy consumption to continue the operation.",
+          "The best and complete swimming pool filtration system gives you crystal clear water quality with no microbial bodies. It is used to maintain the swimming pool water quality and make it safe for swimming. Our swimming pool water filtration system helps to keep the swimming pool water quality best for the skin, eyes, and skin. The swimming pool water filtration system is required to eliminate all sorts of undesired particles from the pool water."
+        ],
+        "bullets": [
+          "Our swimming pool filtration plants are best to disinfect pool water and control its pH",
+          "Made to deliver constant performance, optimal efficiency, and low maintenance",
+          "It is made up of high quality and durable spare parts to ensure its long life",
+          "It has a multimedia filter, activated carbon filter, and vacuum cleaners to maximize filtration efficiency",
+          "Get prompt and on-call support when it finds some hassles in working"
+        ]
+      },
+      {
+        "title": "Must Consider These To Get The Best Swimming Pool Filtration System",
+        "paragraphs": [
+          "The water filtration system is designed as per the usage and application, so it needs to make sure that the water quality remains crystal clear and healthy throughout the process. Doctor Fresh swimming pool water filtration systems are essential for commercial and club swimming pools to ensure their hygiene. Swimming pool filtration systems are suitable for residential, public, commercial, club pools, and waterpark pools. You have to consider some factors such as sun exposure, wind, the intensity of usage, and others to find the appropriate swimming pool filtration systems. We offer the most technically competent swimming pool water filtration system that guarantees to last longer."
+        ],
+        "bullets": [
+          "It is a must buy as you can find it easy to use and maintain",
+          "Compact in size and made to clean the swimming pool easily",
+          "High quality water filtration with trouble-free installation",
+          "The swimming pool filtration system has a modern filtration vessel",
+          "It offers an ideal filtration rate that is a perfect match for your swimming pool",
+          "Our swimming pool water filtration needs low maintenance"
+        ]
+      }
+    ],
+    "faqs": [],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1733
+    ],
+    "subcategories": []
+  },
+  {
+    "slug": "sewage-treatment-plant-stp",
+    "name": "Sewage Treatment Plant (STP)",
+    "href": "/category/sewage-treatment-plant-stp",
+    "metaTitle": "Sewage Treatment Plant @9311587716 | Sewage Treatment Plant Model | STP Plant",
+    "metaDescription": "STP Plant:- Remove domestic and industrial contamination. Install best STP water purification model at a lower cost anywhere in India.",
+    "heading": "Sewage Treatment Plant- What Is It And How It Works?",
+    "intro": "A sewage treatment plant works by circulating air to boost the progress of bacteria to degrade sewage. The Doctor Fresh STP plant ultimate goal is to make a cleaner and friendly effluent that involves a similar process to a septic tank but has few differences. A sewage treatment plant can treat commercial and domestic waste as its quantity depends on the size of the plant.",
+    "seoSections": [
+      {
+        "title": "Sewage Treatment Plant- What Is It And How It Works?",
+        "paragraphs": [
+          "A sewage treatment plant works by circulating air to boost the progress of bacteria to degrade sewage. The Doctor Fresh STP plant ultimate goal is to make a cleaner and friendly effluent that involves a similar process to a septic tank but has few differences. A sewage treatment plant can treat commercial and domestic waste as its quantity depends on the size of the plant.",
+          "The sewage treatment plant includes physical, biological, and chemical processes to eradicate pollutants. It aims to produce safe sewage water as effluent, and solid waste as sludge or biosolids that can be easily disposed of or able to reuse. The reuse is only applicable for agricultural practices or sometimes used as a fuel source. So, there is no water wastage if you have a water treatment plant and it is suitable for the bulk amount of water."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "The Stages Involved In A Sewage Treatment?",
+        "paragraphs": [
+          "The basic construction of a sewage treatment plant is like a septic tank where sewage runs from the primary tank and turns towards the first chamber of the sewage treatment plant. The oil, grease, and scum have been separated to the top of the tank and solid particles are settled on the bottom of the tank. Once the process begins, the sewage travels into the further chamber where sewage is treated for the further pollutants.",
+          "This chamber is attached to an air pump that circulates air all over the chamber to elevate the growth of aerobic bacteria. The bacteria break down the contaminants present in the water and make it free from all sorts of physical, chemical, and bacterial presence. The last stage of a sewage treatment plant is done in the settlement tank where solids that accumulated in the bottom remain to sink and the effluent is discharged to soak away.",
+          "As the treatment process is over and the wastewater has turned safe for use, it can be flushed into the environment. This is another key area where sewage treatment plants can discharge your effluent into natural water bodies straight from the sewage treatment plant."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "The Need Of Sewage Treatment Plant And Its Application",
+        "paragraphs": [
+          "When you are planning for a new sewage treatment plant to turn the wastewater into potable water then it proves the most cost-effective and reliable way of dealing with your wastewater. However, the distance from the sewer can make it impossible to treat wastewater directly from the mains sewer. As the sewage treatment plants come in and can operate from anywhere in case of uninterrupted electrical connection.",
+          "The main purpose of a sewage treatment plant is to treat the wastewater and make it usable for various purposes. The sewage treatment plant can deal with more waste than a septic tank and completes the process within the lowest time. During the treatment, the sludge can also build up inside the system, so it is necessary to clean the water treatment plant regularly. In case of under service, the plant can lower its performance and be unable to treat wastewater as earlier."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "Here Are The Advantages Of Using A Sewage Treatment Plant",
+        "paragraphs": [],
+        "bullets": [
+          "The sewage treatment plants are reliable and can encounter fewer problems in lower maintenance",
+          "It can be installed on any challenging sites where there is the secure power supply",
+          "The wastewater treatment plant lowers the chances of getting diseased as it cuts the harmful microbes present in the water. It filters out the contaminants before the wastewater leaves the tank and prevents spreading diseases",
+          "The wastewater treatment plant can work continuously for more than a decade in case of proper maintenance. It proves a cost-effective way to treat wastewater and eliminate all unwanted bacteria in a single treatment",
+          "The wastewater treatment plant consumes less power than any other treatment plant and makes it cost-effective and environment-friendly",
+          "The new age wastewater treatment plants need low maintenance because of their self-cleaning technology. Only a scheduled checkup is required once in 2-3 years and can be restored in case of any hassle",
+          "The modern ear wastewater treatment plants can break sludge faster and find less blockage as it effectively breaks the solids. It also needs low desludging that's why it contaminates less of the ground"
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "What is the process of sewage treatment plant?",
+        "answer": "Wastewater undergoes primary, secondary, and tertiary treatment processes in the sewage treatment plant. In the first step, large solids are removed from the wastewater, and in the second stage, the biological activities take place, which converts organic matter into stable forms. In the final stage, called tertiary treatment, the disinfection process occurs using UV radiation or chlorination and finally brings the contamination-free water."
+      },
+      {
+        "question": "What are the 3 types of sewage treatment?",
+        "answer": "The 3 main types of sewage treatment plants are Activated Sludge Plant (ASP) Submerged Aerated Filter (SAF) Suspended Media Filter (SMF)"
+      },
+      {
+        "question": "What are the 4 stages of sewage treatment?",
+        "answer": "The 4 main stages of sewage treatment are Primary Sewage Treatment Secondary Sewage Treatment Tertiary Sewage Treatment Sledge digestion These sewage treatment process deals in part per million to part per billion level of contamination and often involve oxidation. These stages deal with the different kinds of contamination present in the water."
+      },
+      {
+        "question": "What are the types of sewage treatment plants?",
+        "answer": "A sewage treatment plant is of various types, which are Tricking filter Non-electric filter Suspended Media Filter (SMF) Submerged Aerated Filter (SAF) Rotating Disk System Sequencing Branch Reactor (SBR) Activated Sludge Plant (ASP)"
+      },
+      {
+        "question": "Which type of sewage treatment plant is best?",
+        "answer": "Various types of sewage treatment plants are available in the Indian market, and all of them have their significance depending upon your needs. So contact the Doctor Fresh team and get the appropriate sewage treatment plant (STP) for yourself."
+      }
+    ],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681
+    ],
+    "subcategories": []
+  },
+  {
+    "slug": "effluent-treatment-plant-etp",
+    "name": "Effluent Treatment Plant (ETP)",
+    "href": "/category/effluent-treatment-plant-etp",
+    "metaTitle": "Effluent Treatment Plant @9311587716 | ETP Plant | Common Effluent Treatment Plant",
+    "metaDescription": "Effluent treatment plant (etp): Eliminates all types of effluent from industrial water. RO and UV are the common processes used in ETP plant. Shop the ETP plants from Doctor Fresh Brand.",
+    "heading": "Effluent Treatment Plant: Role, Types And Its Maintenance",
+    "intro": "The effluent treatment plants are used to eliminate high amounts of organic compounds like dirt, debris, and polymers. The effluent is born in factories like pharmaceuticals, chemicals, and others where toxic and non-toxic wastes are released in water and another environment. ETP plants use drying, evaporation, and other auxiliary techniques like filtration, centrifugation for effluent treatments.",
+    "seoSections": [
+      {
+        "title": "Effluent Treatment Plant: Role, Types And Its Maintenance",
+        "paragraphs": [
+          "The effluent treatment plants are used to eliminate high amounts of organic compounds like dirt, debris, and polymers. The effluent is born in factories like pharmaceuticals, chemicals, and others where toxic and non-toxic wastes are released in water and another environment. ETP plants use drying, evaporation, and other auxiliary techniques like filtration, centrifugation for effluent treatments.",
+          "Doctor Fresh Effluent treatment plant is designed to treat wastewater to reuse or safe disposal into the environment. In this treatment process, the wastewater is employed through physical, chemical, and biological treatments. A traditional ETP plant screens to remove large materials followed by settling tanks to cut slower to settle materials. The effluent treatment plants can be of two types either it is batch or continuous type as per the process type.",
+          "Our Effluent treatment plants make it possible to treat polluted water from industries as it can be reused and sustained. The effluent is treated with aerobic bacteria to reduce the solid waste, sedimentation allows it to settle and the liquid remains on the top. There are some chemicals used in the Effluent treatment plants that are antifoaming agents, coagulants, flocculants, and pH neutralizers."
+        ],
+        "bullets": []
+      },
+      {
+        "title": "The Steps Involved In Disposal Of Effluent From Water",
+        "paragraphs": [
+          "Doctor Fresh Effluent Treatment plant is a plant that uses physical, chemical, biological processes to change the properties of wastewater by eliminating hazardous substances and making it safe to discharge in the environment. The ETP plant is best to treat the effluent before it is disposed of into the environment and increase the DO (Dissolved Oxygen) of water.",
+          "The treatment of effluent is essential to lower the chances of water pollution and degrade the leftovers. The ETP can work best on industrial effluents, polluted rivers, lakes and make it free from suspended impurities. Our ETP plants can be used inside the small and medium industries to treat the disposal of impurities and result in clean and reusable water."
+        ],
+        "bullets": [
+          "The oil and other organic separation",
+          "The use of rotary vacuum filtration",
+          "Use evaporation to remove high TDs content",
+          "The activated carbon adsorption remove chemicals"
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "What is an effluent treatment plant?",
+        "answer": "An effluent treatment plant, i.e. ETP, is a wastewater treatment plant used to treat contaminated water. It is mostly used for industrial purposes like chemical and pharmaceutical."
+      },
+      {
+        "question": "What is the use of the ETP plant?",
+        "answer": "ETP is used by the leading pharmaceutical, chemical, polishing, and other industries to purify water and remove any toxic and non-toxic materials or chemicals present in the water."
+      },
+      {
+        "question": "What is COD and BOD in ETP water?",
+        "answer": "The biological oxygen demand (BOD) refers to the amount of dissolved oxygen (DO) consumed by the biological organisms when they decompose organic matter in water. The COD, i.e., Chemical Oxygen Demand, is the amount of oxygen consumed when the water sample is chemically oxidized."
+      },
+      {
+        "question": "How do you treat effluent water?",
+        "answer": "Technologies like adsorption, chemical coagulation, activated sludge management, membrane filtration, and various other technologies treat the pollutant present in the effluent water."
+      },
+      {
+        "question": "What is effluent waste?",
+        "answer": "This category of waste contains hazardous waste harmful to human beings; hence it should be treated properly."
+      }
+    ],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681
+    ],
+    "subcategories": []
+  },
+  {
+    "slug": "water-purifier-spare-parts",
+    "name": "Water Purifier Spare Parts",
+    "href": "/category/water-purifier-spare-parts",
+    "metaTitle": "Water Purifier Spare Parts @9311587716 - Doctor Fresh",
+    "metaDescription": "Get genuine and quality spare parts from Doctor Fresh. A wide range of products and the finest quality of spares parts provide the most desirable combination of quality and reliability.",
+    "heading": "",
+    "intro": "",
+    "seoSections": [],
+    "faqs": [],
+    "productIds": [
+      1676,
+      1677,
+      1735,
+      1678,
+      1780,
+      1734,
+      1681,
+      1705,
+      1706,
+      1707,
+      1708,
+      1709,
+      1710
+    ],
+    "subcategories": []
+  }
+];
+
+export default categories;

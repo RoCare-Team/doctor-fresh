@@ -1,0 +1,23 @@
+# dependencies
+node_modules
+
+# next.js
+.next
+out
+next-env.d.ts
+
+# env
+.env*.local
+
+# misc
+.DS_Store
+*.log
+
+# Raw HTML crawl of the live site — a local cache only.
+# The extractor scripts in _audit/ regenerate it, and the extracted JSON
+# (which data/ is built from) is committed.
+_audit/pages/
+_audit/prod/
+_audit/cat/
+_audit/blog/
+_audit/legal/

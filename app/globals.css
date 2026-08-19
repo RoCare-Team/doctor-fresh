@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   DoctorFresh design system
+   Palette is derived from the DoctorFresh logo and brand CSS:
+   primary  #c98f3d  (brand gold — the logo colour)
+   accent   #ee8122  (brand orange, used sparingly for offers)
+   ink      #232323 / #081924
+   success  #00b16a
+
+   Filled gold surfaces carry dark ink text (6.4:1), not white (2.8:1).
+   primary-700 is the shade used for gold text/links on white (5.6:1).
+   ------------------------------------------------------------------ */
+
+@theme {
+  --color-primary-50: #fdf9f0;
+  --color-primary-100: #f9efd9;
+  --color-primary-200: #f1dcae;
+  --color-primary-300: #e6c37c;
+  --color-primary-400: #d6a44b;
+  --color-primary-500: #c98f3d;
+  --color-primary-600: #b07a2e;
+  --color-primary-700: #8a5f24;
+  --color-primary-800: #704d1f;
+  --color-primary-900: #4a3316;
+
+  --color-accent-50: #fff6ed;
+  --color-accent-100: #ffead5;
+  --color-accent-200: #fed1aa;
+  --color-accent-300: #fdb174;
+  --color-accent-400: #fb8a3c;
+  --color-accent-500: #ee8122;
+  --color-accent-600: #ea580c;
+  --color-accent-700: #c2410c;
+
+  --color-ink-900: #081924;
+  --color-ink-800: #14293a;
+  --color-ink-700: #232323;
+  --color-ink-500: #52616f;
+  --color-ink-400: #6b7a89;
+  --color-ink-300: #98a5b1;
+
+  --color-surface: #ffffff;
+  --color-surface-muted: #f6f8fa;
+  --color-line: #e4e9ee;
+  --color-line-strong: #d3dbe3;
+
+  --color-success: #00b16a;
+  --color-danger: #d92d20;
+  --color-warning: #dc9b06;
+
+  --radius-card: 10px;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-surface);
+    color: var(--color-ink-700);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5 {
+    color: var(--color-ink-900);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  ::selection {
+    background: var(--color-primary-100);
+  }
+
+  /* keyboard focus only */
+  :focus-visible {
+    outline: 2px solid var(--color-primary-700);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .df-container {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1rem;
+    max-width: 1300px;
+  }
+
+  @media (min-width: 768px) {
+    .df-container { padding-inline: 1.5rem; }
+  }
+
+  /* Consistent vertical rhythm for every homepage section (56px → 80px). */
+  .df-section { padding-block: 3rem; }
+  @media (min-width: 768px) {
+    .df-section { padding-block: 4.25rem; }
+  }
+
+  /* The single card treatment used across the site: white, hairline border,
+     shadow only on hover so resting pages stay flat and clean. */
+  .df-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+  }
+  .df-card-hover {
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+  }
+  .df-card-hover:hover {
+    border-color: var(--color-line-strong);
+    box-shadow: 0 10px 24px -14px rgb(8 25 36 / 0.28);
+  }
+
+  /* Small eyebrow label above section headings. */
+  .df-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-primary-700);
+  }
+
+  /* Long-form editorial / SEO copy coming from the existing site */
+  .df-prose {
+    color: var(--color-ink-500);
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+  .df-prose p { margin-block: 0.85rem; }
+  .df-prose h2,
+  .df-prose h3,
+  .df-prose h4 {
+    color: var(--color-ink-900);
+    margin-top: 1.75rem;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+  }
+  .df-prose h2 { font-size: 1.25rem; }
+  .df-prose h3 { font-size: 1.1rem; }
+  .df-prose h4 { font-size: 1rem; }
+  .df-prose ul,
+  .df-prose ol { margin-block: 0.85rem; padding-left: 1.15rem; }
+  .df-prose ul { list-style: disc; }
+  .df-prose ol { list-style: decimal; }
+  .df-prose li { margin-block: 0.35rem; }
+  .df-prose a { color: var(--color-primary-700); text-decoration: underline; text-underline-offset: 2px; }
+  .df-prose a:hover { color: var(--color-primary-800); }
+  .df-prose strong { color: var(--color-ink-900); font-weight: 600; }
+  .df-prose img { border-radius: var(--radius-card); margin-block: 1rem; height: auto; }
+  /* Imported article/SEO markup can contain wide tables, long URLs and embeds.
+     These rules keep them inside the viewport at 320px instead of forcing the
+     whole page to scroll sideways. */
+  .df-prose { overflow-wrap: anywhere; }
+
+  .df-prose table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    margin-block: 1rem;
+    font-size: 0.9rem;
+    white-space: normal;
+  }
+
+  .df-prose iframe,
+  .df-prose video,
+  .df-prose embed {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .df-prose pre {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  .df-prose th,
+  .df-prose td {
+    border: 1px solid var(--color-line);
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  .df-prose th { background: var(--color-surface-muted); font-weight: 600; color: var(--color-ink-900); }
+  .df-prose .table-responsive { overflow-x: auto; }
+
+  .df-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line-strong) transparent;
+  }
+  .df-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
+  .df-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-line-strong);
+    border-radius: 999px;
+  }
+
+  .df-no-scrollbar { scrollbar-width: none; }
+  .df-no-scrollbar::-webkit-scrollbar { display: none; }
+}
+
+/* Reduce motion for users who ask for it */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
