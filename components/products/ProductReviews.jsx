@@ -6,7 +6,7 @@ export default function ProductReviews({ reviews = [], rating, reviewCount }) {
   return (
     <div>
       {rating ? (
-        <div className="mb-6 flex flex-wrap items-center gap-x-8 gap-y-3 rounded-[10px] border border-line bg-surface-muted px-5 py-4">
+        <div className="mb-6 flex flex-wrap items-center gap-x-8 gap-y-3 rounded-[14px] border border-line bg-surface-muted px-5 py-4">
           <div>
             <p className="flex items-baseline gap-1.5">
               <span className="text-3xl font-semibold text-ink-900">{rating.toFixed(1)}</span>
@@ -29,7 +29,7 @@ export default function ProductReviews({ reviews = [], rating, reviewCount }) {
       {reviews.length ? (
         <ul className="space-y-3">
           {reviews.map((r, i) => (
-            <li key={`${r.author}-${i}`} className="rounded-[10px] border border-line bg-white p-4">
+            <li key={`${r.author}-${i}`} className="df-card p-4">
               <div className="mb-1.5 flex flex-wrap items-center gap-2">
                 <span className="inline-flex items-center gap-1 rounded bg-success px-1.5 py-0.5 text-[12px] font-semibold text-white">
                   {r.rating.toFixed(1)}

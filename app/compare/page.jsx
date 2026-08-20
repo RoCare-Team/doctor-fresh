@@ -11,12 +11,17 @@ export const metadata = metaFor({
 
 export default function ComparePage() {
   return (
-    <div className="df-container py-6 md:py-8">
-      <Breadcrumb items={[{ name: 'Compare', href: '/compare' }]} />
+    <>
+      <div className="border-b border-line bg-surface-muted">
+        <div className="df-container py-4">
+          <Breadcrumb items={[{ name: 'Compare', href: '/compare' }]} />
+        </div>
+      </div>
 
-      <h1 className="mt-4 mb-6 text-2xl font-semibold text-ink-900 md:text-[30px]">Compare products</h1>
+      <div className="df-container py-8 md:py-10">
+      <h1 className="mb-6 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">Compare products</h1>
 
-      <div className="rounded-[10px] border border-dashed border-line-strong bg-surface-muted px-6 py-16 text-center">
+      <div className="rounded-[14px] border border-dashed border-line-strong bg-surface-muted px-6 py-16 text-center">
         <h2 className="text-lg font-semibold text-ink-900">Your compare list is empty</h2>
         <p className="mx-auto mt-1.5 max-w-md text-[14.5px] text-ink-400">
           Add products from any category page to compare their specifications side by side.
@@ -26,6 +31,7 @@ export default function ComparePage() {
           <Button href="/" variant="outline">Back to home</Button>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

@@ -17,11 +17,16 @@ export default function BlogsPage() {
   const [featured, ...rest] = posts;
 
   return (
-    <div className="df-container py-6 md:py-8">
-      <Breadcrumb items={[{ name: 'Blogs', href: '/blogs' }]} />
+    <>
+      <div className="border-b border-line bg-surface-muted">
+        <div className="df-container py-4">
+          <Breadcrumb items={[{ name: 'Blogs', href: '/blogs' }]} />
+        </div>
+      </div>
 
-      <header className="mt-4 mb-7">
-        <h1 className="text-2xl font-semibold text-ink-900 md:text-[30px]">Doctor Fresh blog</h1>
+      <div className="df-container py-8 md:py-10">
+      <header className="mb-7">
+        <h1 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">Doctor Fresh blog</h1>
         <p className="mt-2.5 max-w-2xl text-[15.5px] leading-relaxed text-ink-400">
           Practical guides on water purification, RO servicing and water quality — written by the
           people who install and service these systems every day.
@@ -59,6 +64,7 @@ export default function BlogsPage() {
           <BlogCard key={p.id} post={p} />
         ))}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

@@ -11,10 +11,17 @@ export const metadata = metaFor({
 
 export default function CartPage() {
   return (
-    <div className="df-container py-6 md:py-8">
-      <Breadcrumb items={[{ name: 'Cart', href: '/cart' }]} />
-      <h1 className="mt-4 mb-7 text-2xl font-semibold text-ink-900 md:text-[30px]">Shopping cart</h1>
+    <>
+      <div className="border-b border-line bg-surface-muted">
+        <div className="df-container py-4">
+          <Breadcrumb items={[{ name: 'Cart', href: '/cart' }]} />
+        </div>
+      </div>
+
+      <div className="df-container py-8 md:py-10">
+      <h1 className="mb-7 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">Shopping cart</h1>
       <CartView />
-    </div>
+      </div>
+    </>
   );
 }

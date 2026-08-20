@@ -101,7 +101,7 @@ export default async function BlogPostPage({ params }) {
               ) : null}
             </header>
 
-            <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-[10px] border border-line bg-surface-muted">
+            <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-[14px] border border-line bg-surface-muted">
               <Image
                 src={imageUrl(post.image)}
                 alt={post.title}
@@ -118,7 +118,7 @@ export default async function BlogPostPage({ params }) {
               dangerouslySetInnerHTML={{ __html: post.contentHtml }}
             />
 
-            <div className="mt-10 rounded-[10px] border border-line bg-surface-muted px-6 py-7">
+            <div className="mt-10 rounded-[14px] border border-line bg-surface-muted px-6 py-7">
               <h2 className="text-lg font-semibold text-ink-900">Need help choosing or servicing a purifier?</h2>
               <p className="mt-1.5 text-[14.5px] text-ink-400">
                 Talk to a Doctor Fresh water expert or book a free water quality test at your home.
@@ -130,7 +130,7 @@ export default async function BlogPostPage({ params }) {
             </div>
           </article>
 
-          <aside className="lg:sticky lg:top-[178px] lg:self-start">
+          <aside className="lg:sticky lg:top-[138px] lg:self-start">
             <h2 className="mb-4 text-[16px] font-semibold text-ink-900">Related articles</h2>
             <div className="space-y-4">
               {related.map((p) => (

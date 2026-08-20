@@ -10,7 +10,7 @@ export default function AuthForm({ mode = 'login' }) {
   const { status, error, send, sending } = useFormSubmit(isRegister ? '/registration' : '/login');
 
   return (
-    <div className="mx-auto w-full max-w-md rounded-[10px] border border-line bg-white p-6 md:p-7">
+    <div className="mx-auto w-full max-w-md df-card p-6 md:p-7">
       <h1 className="text-xl font-semibold text-ink-900">
         {isRegister ? 'Create your account' : 'Sign in to your account'}
       </h1>

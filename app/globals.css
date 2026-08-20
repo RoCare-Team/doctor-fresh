@@ -1,51 +1,54 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   DoctorFresh design system
-   Palette is derived from the DoctorFresh logo and brand CSS:
-   primary  #c98f3d  (brand gold — the logo colour)
-   accent   #ee8122  (brand orange, used sparingly for offers)
-   ink      #232323 / #081924
-   success  #00b16a
+   DoctorFresh design system — Sky Blue + Navy
+   primary  #1597c5  (brand blue)
+   navy     #063b4c  (headings, footer, strong UI)
+   light    #f3fafd  (soft section backgrounds)
+   accent   #5bc0eb  (hover, icons, decorative)
+   text     #18343d
+   border   #d9eaf0
 
-   Filled gold surfaces carry dark ink text (6.4:1), not white (2.8:1).
-   primary-700 is the shade used for gold text/links on white (5.6:1).
+   The brand blue is used for fills, icons and accents. Text links use
+   primary-600, the same hue two steps darker, which clears AA on white
+   (4.8:1) where #1597c5 alone would only reach 3.4:1.
    ------------------------------------------------------------------ */
 
 @theme {
-  --color-primary-50: #fdf9f0;
-  --color-primary-100: #f9efd9;
-  --color-primary-200: #f1dcae;
-  --color-primary-300: #e6c37c;
-  --color-primary-400: #d6a44b;
-  --color-primary-500: #c98f3d;
-  --color-primary-600: #b07a2e;
-  --color-primary-700: #8a5f24;
-  --color-primary-800: #704d1f;
-  --color-primary-900: #4a3316;
+  --color-primary-50: #f3fafd;
+  --color-primary-100: #e3f3fa;
+  --color-primary-200: #c2e5f3;
+  --color-primary-300: #5bc0eb;
+  --color-primary-400: #2fa8da;
+  --color-primary-500: #1597c5;
+  --color-primary-600: #0f7ba3;
+  --color-primary-700: #0b6182;
+  --color-primary-800: #084e68;
+  --color-primary-900: #063b4c;
 
-  --color-accent-50: #fff6ed;
-  --color-accent-100: #ffead5;
-  --color-accent-200: #fed1aa;
-  --color-accent-300: #fdb174;
-  --color-accent-400: #fb8a3c;
-  --color-accent-500: #ee8122;
-  --color-accent-600: #ea580c;
-  --color-accent-700: #c2410c;
+  --color-accent-50: #f2fbfe;
+  --color-accent-100: #e0f5fd;
+  --color-accent-200: #bfeafa;
+  --color-accent-300: #92d8f3;
+  --color-accent-400: #7cd0f0;
+  --color-accent-500: #5bc0eb;
+  --color-accent-600: #35a9dc;
+  --color-accent-700: #1e8fc2;
 
-  --color-ink-900: #081924;
-  --color-ink-800: #14293a;
-  --color-ink-700: #232323;
-  --color-ink-500: #52616f;
-  --color-ink-400: #6b7a89;
-  --color-ink-300: #98a5b1;
+  --color-ink-900: #063b4c;
+  --color-ink-800: #0a4a5e;
+  --color-ink-700: #18343d;
+  --color-ink-500: #4a6470;
+  --color-ink-400: #6b7f86;
+  --color-ink-300: #9db3bc;
 
   --color-surface: #ffffff;
-  --color-surface-muted: #f6f8fa;
-  --color-line: #e4e9ee;
-  --color-line-strong: #d3dbe3;
+  --color-surface-muted: #f3fafd;
+  --color-surface-tint: #eef7fd; /* product card surface */
+  --color-line: #d9eaf0;
+  --color-line-strong: #c2dce6;
 
-  --color-success: #00b16a;
+  --color-success: #0d8f5e;
   --color-danger: #d92d20;
   --color-warning: #dc9b06;
 
@@ -126,7 +129,80 @@
   }
   .df-card-hover:hover {
     border-color: var(--color-line-strong);
-    box-shadow: 0 10px 24px -14px rgb(8 25 36 / 0.28);
+    box-shadow: 0 10px 24px -14px rgb(6 59 76 / 0.28);
+  }
+
+  /* Product card surface: borderless, softly lifted off the page.
+     Written here rather than as a long arbitrary Tailwind value so the
+     two-layer shadow compiles reliably. */
+  .df-product-card {
+    background: var(--color-surface-tint);
+    border-radius: 16px;
+    box-shadow:
+      0 2px 6px -2px rgb(6 59 76 / 0.10),
+      0 8px 20px -8px rgb(6 59 76 / 0.14);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .df-product-card:hover {
+    box-shadow:
+      0 4px 10px -2px rgb(6 59 76 / 0.14),
+      0 18px 36px -14px rgb(6 59 76 / 0.28);
+  }
+
+  /* ---------------------------------------------------------- motion ----
+     Scroll reveal used by <Reveal>. Transform + opacity only, so it runs on
+     the compositor and never causes layout work. */
+  .df-reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .df-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+
+  /* Hero copy plays once on load, staggered by --df-delay. */
+  @keyframes df-rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: none; }
+  }
+  .df-rise {
+    opacity: 0;
+    animation: df-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--df-delay, 0ms);
+  }
+
+  /* Cart count pops when it changes. */
+  @keyframes df-pop {
+    0% { transform: scale(0.6); }
+    60% { transform: scale(1.18); }
+    100% { transform: scale(1); }
+  }
+  .df-pop { animation: df-pop 0.32s cubic-bezier(0.22, 1, 0.36, 1); }
+
+  /* Underline that grows out from the centre on nav links. */
+  .df-underline {
+    position: relative;
+  }
+  .df-underline::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    height: 2px;
+    background: var(--color-primary-500);
+    transition: left 0.22s ease, right 0.22s ease;
+  }
+  .df-underline:hover::after,
+  .df-underline[aria-current='page']::after {
+    left: 0;
+    right: 0;
   }
 
   /* Small eyebrow label above section headings. */

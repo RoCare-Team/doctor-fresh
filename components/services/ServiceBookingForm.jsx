@@ -18,7 +18,7 @@ export default function ServiceBookingForm({ location, serviceLabel = 'RO Servic
   const { status, error, send, sending } = useFormSubmit('/request/form/submit.php');
 
   return (
-    <div id="book" className="scroll-mt-[196px] rounded-[10px] border border-line bg-white p-5 md:p-6">
+    <div id="book" className="scroll-mt-[156px] df-card p-5 md:p-6">
       <h2 className="text-lg font-semibold text-ink-900">
         Book {serviceLabel}
         {location ? ` in ${location}` : ''}

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { imageUrl, cx } from '@/lib/utils';
+import Reveal from '@/components/common/Reveal';
 
 export default function CategoryTiles({ tiles = [] }) {
   const trackRef = useRef(null);
@@ -39,7 +40,7 @@ export default function CategoryTiles({ tiles = [] }) {
 
   return (
     <section className="df-section df-container">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="df-eyebrow">Browse the range</p>
           <h2 className="mt-2 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
@@ -90,7 +91,7 @@ export default function CategoryTiles({ tiles = [] }) {
             </button>
           </div>
         </div>
-      </div>
+      </Reveal>
 
       <ul
         ref={trackRef}
@@ -100,29 +101,47 @@ export default function CategoryTiles({ tiles = [] }) {
         {items.map((t) => (
           <li
             key={t.href}
-            className="w-[46%] shrink-0 snap-start sm:w-[31%] md:w-[23%] lg:w-[18%] xl:w-[15.5%]"
+            className="w-[72%] shrink-0 snap-start sm:w-[46%] md:w-[34%] lg:w-[25.5%] xl:w-[24%]"
           >
             <Link
               href={t.href}
-              className="df-card df-card-hover group flex h-full flex-col items-center gap-3 px-3 py-4 text-center"
+              className="group flex h-full flex-col overflow-hidden rounded-2xl bg-primary-100 p-4 transition-colors hover:bg-primary-200"
             >
-              <span className="flex h-16 w-16 items-center justify-center rounded-xl bg-surface-muted transition-colors group-hover:bg-primary-50">
-                <Image
-                  src={imageUrl(t.icon)}
-                  alt=""
-                  width={56}
-                  height={56}
-                  className="h-10 w-10 object-contain transition-transform duration-200 group-hover:scale-105"
-                  unoptimized
-                />
-              </span>
-
-              <span className="flex-1 text-[14.5px] font-medium leading-snug text-ink-900">
+              <h3 className="px-1 text-[16px] font-semibold leading-snug text-ink-900 md:text-[17px]">
                 {t.label}
-              </span>
+              </h3>
 
-              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-line text-ink-300 transition-colors group-hover:border-primary-500 group-hover:bg-primary-500 group-hover:text-ink-900">
-                <ArrowUpRight size={14} aria-hidden="true" />
+              {/* product shots are shot on white, so they sit on a white panel
+                  — the background then reads as part of the card, not a patch */}
+              <div className="relative mt-3 flex h-32 w-full items-center justify-center overflow-hidden rounded-xl bg-white md:h-36">
+                {t.image ? (
+                  <Image
+                    src={imageUrl(t.image)}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 72vw, (max-width: 1024px) 34vw, 280px"
+                    className="object-contain p-3 transition-transform duration-300 ease-out group-hover:scale-[1.06]"
+                    unoptimized
+                  />
+                ) : (
+                  <Image
+                    src={imageUrl(t.icon)}
+                    alt=""
+                    width={62}
+                    height={53}
+                    className="h-14 w-auto opacity-70 transition-transform duration-300 ease-out group-hover:scale-[1.06]"
+                    unoptimized
+                  />
+                )}
+              </div>
+
+              <span className="mt-3 inline-flex items-center gap-1.5 px-1 text-[13.5px] font-medium text-primary-700">
+                Shop now
+                <ArrowUpRight
+                  size={14}
+                  className="transition-transform group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                />
               </span>
             </Link>
           </li>

@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import Breadcrumb from '@/components/common/Breadcrumb';
+import PageHeader from '@/components/common/PageHeader';
 import CategoryProducts from '@/components/categories/CategoryProducts';
 import SeoContent from '@/components/categories/SeoContent';
 import FaqSection from '@/components/common/FaqSection';
@@ -46,31 +46,27 @@ export default async function BrandSubcategoryPage({ params }) {
     .filter((p) => p.name.toLowerCase().includes('doctor fresh') || brand === 'doctor-fresh');
 
   return (
-    <div className="df-container py-6 md:py-8">
-      <Breadcrumb
-        items={[
+    <>
+      <PageHeader
+        breadcrumb={[
           { name: 'Products', href: '/all-category' },
           { name: category.name, href: category.href },
           { name: subcategory.name, href: subcategory.href },
           { name: brandName, href: `${subcategory.href}/${brand}` },
         ]}
+        eyebrow={brandName}
+        title={`${brandName} ${subcategory.name}`}
+        lead={subcategory.intro}
       />
 
-      <header className="mt-4 mb-6">
-        <h1 className="text-2xl font-semibold text-ink-900 md:text-[30px]">
-          {brandName} {subcategory.name}
-        </h1>
-        {subcategory.intro ? (
-          <p className="mt-2.5 max-w-3xl text-[15.5px] leading-relaxed text-ink-400">{subcategory.intro}</p>
-        ) : null}
-      </header>
+      <div className="df-container py-8 md:py-10">
+        <CategoryProducts products={products} />
 
-      <CategoryProducts products={products} />
-
-      <div className="mt-12 space-y-10">
-        <SeoContent sections={subcategory.seoSections} />
-        <FaqSection faqs={subcategory.faqs} />
+        <div className="mt-14 space-y-12">
+          <SeoContent sections={subcategory.seoSections} />
+          <FaqSection faqs={subcategory.faqs} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }

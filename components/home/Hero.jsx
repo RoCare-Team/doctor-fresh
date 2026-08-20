@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, ArrowRight, Droplet } from 'lucide-react';
 import { imageUrl, cx } from '@/lib/utils';
+import WaterBackdrop from '@/components/common/WaterBackdrop';
 
 export default function Hero({ slides = [] }) {
   const [index, setIndex] = useState(0);
@@ -18,50 +19,37 @@ export default function Hero({ slides = [] }) {
 
   return (
     <section className="relative overflow-hidden bg-ink-900">
-      {/* Full-bleed brand band: solid dark navy with two soft gold glows and a
-          faint dot texture. Purely decorative, no extra markup in the flow. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -left-40 -top-44 h-[520px] w-[520px] rounded-full bg-primary-500/20 blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-56 right-[-8rem] h-[480px] w-[480px] rounded-full bg-primary-400/12 blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.14] [background-image:radial-gradient(var(--color-primary-300)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_top_left,black_0%,transparent_70%)]"
-      />
+      <WaterBackdrop variant="hero" />
 
       <div className="df-container relative grid items-center gap-8 py-9 md:py-11 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-12 lg:py-12">
         {/* ------------------------------------------------------------ copy */}
         <div className="max-w-xl">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[12px] font-semibold uppercase tracking-[0.12em] text-primary-300">
-            <Droplet size={12} className="fill-primary-400 text-primary-400" aria-hidden="true" />
+          <span style={{ '--df-delay': '60ms' }} className="df-rise inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[12px] font-semibold uppercase tracking-[0.12em] text-primary-300">
+            <Droplet size={12} className="fill-primary-300 text-primary-300" aria-hidden="true" />
             Purity · Hygiene · Sanitation
           </span>
 
-          <h1 className="mt-4 text-[32px] font-semibold leading-[1.1] tracking-tight text-white sm:text-[38px] lg:text-[44px]">
+          <h1 style={{ '--df-delay': '150ms' }} className="df-rise mt-4 text-[32px] font-semibold leading-[1.1] tracking-tight text-white sm:text-[38px] lg:text-[44px]">
             Pure water for every
-            <span className="text-primary-400"> home, office &amp; industry</span>
+            <span className="text-primary-300"> home, office &amp; industry</span>
           </h1>
 
-          <p className="mt-4 max-w-lg text-[16px] leading-relaxed text-white/65">
+          <p style={{ '--df-delay': '240ms' }} className="df-rise mt-4 max-w-lg text-[16px] leading-relaxed text-white/65">
             Water purifiers, RO plants, softeners, ionizers and water ATMs — backed by a
             nationwide service network, free installation and same-day RO service.
           </p>
 
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div style={{ '--df-delay': '330ms' }} className="df-rise mt-6 flex flex-wrap gap-3">
             <Link
               href="/category/water-purifier"
-              className="inline-flex h-12 items-center gap-2 rounded-xl bg-primary-500 px-6 text-[15px] font-semibold text-ink-900 transition-colors hover:bg-primary-400"
+              className="inline-flex h-12 items-center gap-2 rounded-xl bg-primary-500 px-6 text-[15px] font-semibold text-white transition-colors hover:bg-ink-900"
             >
               Shop water purifiers
               <ArrowRight size={17} aria-hidden="true" />
             </Link>
             <Link
               href="#water-test"
-              className="inline-flex h-12 items-center rounded-xl border border-white/25 px-6 text-[15px] font-medium text-white transition-colors hover:border-white/50 hover:bg-white/5"
+              className="inline-flex h-12 items-center rounded-xl border border-white/30 px-6 text-[15px] font-medium text-white transition-colors hover:border-white/60 hover:bg-white/10"
             >
               Book free water test
             </Link>
@@ -70,7 +58,7 @@ export default function Hero({ slides = [] }) {
 
         {/* -------------------------------------------------------- slideshow */}
         {count ? (
-          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white shadow-[0_30px_60px_-28px_rgba(0,0,0,0.55)]">
+          <div style={{ '--df-delay': '260ms' }} className="df-rise relative overflow-hidden rounded-2xl border border-white/10 bg-white shadow-[0_30px_60px_-28px_rgba(0,0,0,0.6)]">
             <div className="relative aspect-[16/9] w-full lg:aspect-[16/8]">
               {slides.map((s, i) => (
                 <Image

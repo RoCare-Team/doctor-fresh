@@ -9,9 +9,11 @@ import CategoryTiles from '@/components/home/CategoryTiles';
 import WaterTestSection from '@/components/home/WaterTestSection';
 import ProductRail from '@/components/products/ProductRail';
 import BlogCard from '@/components/blogs/BlogCard';
-import { getProductsByIds, getAllBlogPosts } from '@/lib/catalog';
+import DealSlider from '@/components/home/DealSlider';
+import Reveal from '@/components/common/Reveal';
+import { getProductsByIds, getAllBlogPosts, getCategoryImage } from '@/lib/catalog';
 import { heroSlides, trustBadges, categoryTiles, waterTest, rails, todaysDeal, brand } from '@/data/site';
-import { metaFor, formatPrice, imageUrl } from '@/lib/utils';
+import { metaFor } from '@/lib/utils';
 
 export const metadata = metaFor({
   title: brand.homeTitle,
@@ -74,6 +76,9 @@ export default function HomePage() {
   const deals = getProductsByIds(todaysDeal).slice(0, 4);
   const posts = getAllBlogPosts().slice(0, 3);
 
+  // give every category tile a real product photo (the stored icons are 62px)
+  const tiles = categoryTiles.map((t) => ({ ...t, image: getCategoryImage(t.href) }));
+
   return (
     <>
       <Hero slides={heroSlides} />
@@ -83,67 +88,71 @@ export default function HomePage() {
       {/* ---------------------------------------------------- today's deal */}
       {deals.length ? (
         <section className="df-container df-section">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="df-eyebrow flex items-center gap-1.5">
-                <Flame size={14} aria-hidden="true" />
-                Limited period
-              </p>
-              <h2 className="mt-2 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
-                Today&rsquo;s Deal
-              </h2>
-              <p className="mt-2 text-[15.5px] text-ink-400">
-                Best prices of the day on Doctor Fresh bestsellers
-              </p>
-            </div>
-            <Link
-              href="/all-category"
-              className="inline-flex items-center gap-1.5 text-[15px] font-medium text-primary-700 transition-colors hover:text-primary-800"
-            >
-              View all
-              <ArrowRight size={16} aria-hidden="true" />
-            </Link>
-          </div>
+          {/* the whole block sits inside one promotional banner */}
+          <Reveal className="relative overflow-hidden rounded-2xl bg-ink-900 px-5 py-8 md:px-10 md:py-11">
+            {/* campaign artwork; the product and TODAY'S DEAL tag sit on its
+                right, so the copy keeps to the left half */}
+            <Image
+              src="/images/topdeal.png"
+              alt=""
+              fill
+              priority={false}
+              sizes="(max-width: 1024px) 100vw, 1250px"
+              aria-hidden="true"
+              className="pointer-events-none select-none object-cover object-right"
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 bg-gradient-to-r from-ink-900 via-ink-900/75 to-transparent"
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -left-24 -top-28 h-80 w-80 rounded-full bg-primary-500/20 blur-3xl"
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-36 right-[-4rem] h-80 w-80 rounded-full bg-primary-400/12 blur-3xl"
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:radial-gradient(var(--color-primary-300)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_top_left,black_0%,transparent_70%)]"
+            />
 
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {deals.map((p) => (
-              <li key={p.id}>
-                <Link href={p.url} className="df-card df-card-hover group flex h-full items-center gap-4 p-4">
-                  <span className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-surface-muted">
-                    <Image
-                      src={imageUrl(p.images[0])}
-                      alt=""
-                      fill
-                      sizes="80px"
-                      className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
-                      unoptimized
-                    />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="line-clamp-2 text-[14.5px] font-medium leading-snug text-ink-900 transition-colors group-hover:text-primary-800">
-                      {p.name}
-                    </span>
-                    {p.price ? (
-                      <span className="mt-2 flex items-baseline gap-2">
-                        <span className="text-[17px] font-semibold text-ink-900">{formatPrice(p.price)}</span>
-                        {p.mrp > p.price ? (
-                          <span className="text-[13px] text-ink-300 line-through">{formatPrice(p.mrp)}</span>
-                        ) : null}
-                      </span>
-                    ) : (
-                      <span className="mt-2 block text-[14px] font-medium text-primary-800">
-                        Price on request
-                      </span>
-                    )}
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+            <div className="relative">
+              <div className="max-w-full lg:max-w-[620px]">
+                <p className="flex items-center gap-1.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-primary-400">
+                  <Flame size={14} aria-hidden="true" />
+                  Limited period
+                </p>
+
+                {/* heading and the link share one line so the block stays short */}
+                <div className="mt-1.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+                  <h2 className="text-[26px] font-semibold tracking-tight text-white md:text-[32px]">
+                    Today&rsquo;s Deal
+                  </h2>
+                  <Link
+                    href="/all-category"
+                    className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-white/25 px-3.5 text-[13px] font-medium text-white transition-colors hover:border-white/50 hover:bg-white/5"
+                  >
+                    View all
+                    <ArrowRight size={14} aria-hidden="true" />
+                  </Link>
+                </div>
+
+                <p className="mt-2 max-w-md text-[14.5px] leading-relaxed text-white/60">
+                  Best prices of the day on Doctor Fresh bestsellers
+                </p>
+
+                <div className="mt-6">
+                  <DealSlider deals={deals} />
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </section>
       ) : null}
 
-      <CategoryTiles tiles={categoryTiles} />
+      <CategoryTiles tiles={tiles} />
 
       <WaterTestSection waterTest={waterTest} />
 
@@ -162,7 +171,7 @@ export default function HomePage() {
 
       {/* --------------------------------------------------------- services */}
       <section className="df-container df-section">
-        <div className="mb-8 max-w-2xl">
+        <Reveal className="mb-8 max-w-2xl">
           <p className="df-eyebrow">After you buy</p>
           <h2 className="mt-2 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
             Service &amp; Support
@@ -170,18 +179,18 @@ export default function HomePage() {
           <p className="mt-2 text-[15.5px] text-ink-400">
             A nationwide RO service network with transparent pricing and genuine spare parts.
           </p>
-        </div>
+        </Reveal>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {SERVICES.map((s) => {
+          {SERVICES.map((s, i) => {
             const Icon = s.icon;
             return (
+              <Reveal key={s.href} delay={i * 70} className="h-full">
               <Link
-                key={s.href}
                 href={s.href}
                 className="df-card df-card-hover group flex flex-col p-6"
               >
-                <span className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-primary-800 transition-colors group-hover:bg-primary-500 group-hover:text-ink-900">
+                <span className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-primary-800 transition-colors group-hover:bg-primary-500 group-hover:text-white">
                   <Icon size={21} aria-hidden="true" />
                 </span>
                 <h3 className="text-[17px] font-semibold text-ink-900">{s.title}</h3>
@@ -195,6 +204,7 @@ export default function HomePage() {
                   />
                 </span>
               </Link>
+              </Reveal>
             );
           })}
         </div>
@@ -204,7 +214,7 @@ export default function HomePage() {
       <section className="border-y border-line bg-surface-muted">
         <div className="df-container df-section">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-            <div className="max-w-2xl">
+            <Reveal className="max-w-2xl">
               <p className="df-eyebrow">Water knowledge</p>
               <h2 className="mt-2 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
                 From the Doctor Fresh Blog
@@ -212,7 +222,7 @@ export default function HomePage() {
               <p className="mt-2 text-[15.5px] text-ink-400">
                 Tips, guides &amp; insights to help you choose, use &amp; maintain the best water purifier.
               </p>
-            </div>
+            </Reveal>
             <Link
               href="/blogs"
               className="inline-flex items-center gap-1.5 text-[15px] font-medium text-primary-700 transition-colors hover:text-primary-800"
@@ -223,8 +233,10 @@ export default function HomePage() {
           </div>
 
           <div className="grid gap-5 md:grid-cols-3">
-            {posts.map((p) => (
-              <BlogCard key={p.id} post={p} />
+            {posts.map((p, i) => (
+              <Reveal key={p.id} delay={i * 80} className="h-full">
+                <BlogCard post={p} />
+              </Reveal>
             ))}
           </div>
         </div>
@@ -244,7 +256,7 @@ export default function HomePage() {
 
           <div className="relative flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-start gap-5">
-              <span className="hidden h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-primary-500 text-ink-900 sm:flex">
+              <span className="hidden h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-primary-500 text-white sm:flex">
                 <Droplets size={28} aria-hidden="true" />
               </span>
               <div>
@@ -261,7 +273,7 @@ export default function HomePage() {
             <div className="flex shrink-0 flex-wrap gap-3">
               <a
                 href={`tel:${brand.phoneRaw}`}
-                className="inline-flex h-12 items-center gap-2 rounded-xl bg-primary-500 px-6 text-[15.5px] font-semibold text-ink-900 transition-colors hover:bg-primary-400"
+                className="inline-flex h-12 items-center gap-2 rounded-xl bg-primary-500 px-6 text-[15.5px] font-semibold text-white transition-colors hover:bg-ink-900"
               >
                 <Phone size={17} aria-hidden="true" />
                 Call {brand.phone}

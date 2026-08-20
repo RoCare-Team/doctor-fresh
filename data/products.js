@@ -20,7 +20,7 @@ export const products = [
       "name": "5000 LPH RO Plant",
       "href": "/category/ro-plant/5000-lph-ro-plant"
     },
-    "price": 0,
+    "price": 645000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -135,7 +135,7 @@ export const products = [
       "name": "Stainless Steel Water Cooler",
       "href": "/category/water-cooler/stainless-steel-water-cooler"
     },
-    "price": 0,
+    "price": 49800,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -173,7 +173,7 @@ export const products = [
       "name": "Stainless Steel Water Cooler",
       "href": "/category/water-cooler/stainless-steel-water-cooler"
     },
-    "price": 0,
+    "price": 63000,
     "mrp": 0,
     "unit": "/PC",
     "saveLabel": "",
@@ -1621,7 +1621,7 @@ export const products = [
       "name": "Portable Water Purifier",
       "href": "/category/water-purifier/portable-water-purifier"
     },
-    "price": 0,
+    "price": 2500,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -1805,7 +1805,7 @@ export const products = [
       "name": "Portable Water Purifier",
       "href": "/category/water-purifier/portable-water-purifier"
     },
-    "price": 0,
+    "price": 2500,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -1989,7 +1989,7 @@ export const products = [
       "name": "Water Softener for Home",
       "href": "/category/water-softener/water-softener-for-home"
     },
-    "price": 0,
+    "price": 40000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -2070,7 +2070,7 @@ export const products = [
       "name": "Water Softener for Home",
       "href": "/category/water-softener/water-softener-for-home"
     },
-    "price": 0,
+    "price": 64999.99,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -2323,7 +2323,7 @@ export const products = [
       "name": "Alkaline Water Ionizer",
       "href": "/category/water-ionizer/alkaline-water-ionizer"
     },
-    "price": 0,
+    "price": 172000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -2515,7 +2515,7 @@ export const products = [
       "name": "Water Chiller 1-5 TR",
       "href": "/category/water-chiller/water-chiller-1-5-tr"
     },
-    "price": 0,
+    "price": 65000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -2553,7 +2553,7 @@ export const products = [
       "name": "Water Chiller 1-5 TR",
       "href": "/category/water-chiller/water-chiller-1-5-tr"
     },
-    "price": 0,
+    "price": 298000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -2705,7 +2705,7 @@ export const products = [
       "name": "Plastics Water Tank",
       "href": "/category/water-tank/plastics-water-tank"
     },
-    "price": 0,
+    "price": 1500,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -3424,7 +3424,7 @@ export const products = [
       "name": "Water Softener For Bathroom",
       "href": "/category/water-softener/water-softener-for-bathroom"
     },
-    "price": 0,
+    "price": 14000,
     "mrp": 0,
     "unit": "/PC",
     "saveLabel": "",
@@ -3462,7 +3462,7 @@ export const products = [
       "name": "Water Softener for Overhead Tanks",
       "href": "/category/water-softener/water-softener-for-overhead-tanks"
     },
-    "price": 0,
+    "price": 7000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -3652,7 +3652,7 @@ export const products = [
       "name": "150 LPH RO Plant",
       "href": "/category/ro-plant/150-lph-ro-plant"
     },
-    "price": 0,
+    "price": 75000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -3735,7 +3735,7 @@ export const products = [
       "name": "10000 LPH RO Plant",
       "href": "/category/ro-plant/10000-lph-ro-plant"
     },
-    "price": 0,
+    "price": 1155000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -3850,7 +3850,7 @@ export const products = [
       "name": "50 LPH RO Plant",
       "href": "/category/ro-plant/50-lph-ro-plant"
     },
-    "price": 0,
+    "price": 38000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -4743,7 +4743,7 @@ export const products = [
       "name": "100 LPH RO Plant",
       "href": "/category/ro-plant/100-lph-ro-plant"
     },
-    "price": 0,
+    "price": 58000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -4852,7 +4852,7 @@ export const products = [
       "name": "100 LPH RO Plant",
       "href": "/category/ro-plant/100-lph-ro-plant"
     },
-    "price": 0,
+    "price": 68000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -4959,7 +4959,7 @@ export const products = [
       "name": "250 LPH RO Plant",
       "href": "/category/ro-plant/250-lph-ro-plant"
     },
-    "price": 0,
+    "price": 85000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -5078,7 +5078,7 @@ export const products = [
       "name": "250 LPH RO Plant",
       "href": "/category/ro-plant/250-lph-ro-plant"
     },
-    "price": 0,
+    "price": 110000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -5798,7 +5798,7 @@ export const products = [
       "name": "1000 LPH RO Plant",
       "href": "/category/ro-plant/1000-lph-ro-plant"
     },
-    "price": 0,
+    "price": 215000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -5917,7 +5917,7 @@ export const products = [
       "name": "1000 LPH RO Plant",
       "href": "/category/ro-plant/1000-lph-ro-plant"
     },
-    "price": 0,
+    "price": 320000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -6032,7 +6032,7 @@ export const products = [
       "name": "2000 LPH RO Plant",
       "href": "/category/ro-plant/2000-lph-ro-plant"
     },
-    "price": 0,
+    "price": 245000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -6147,7 +6147,7 @@ export const products = [
       "name": "2000 LPH RO Plant",
       "href": "/category/ro-plant/2000-lph-ro-plant"
     },
-    "price": 0,
+    "price": 265000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -6266,7 +6266,7 @@ export const products = [
       "name": "2000 LPH RO Plant",
       "href": "/category/ro-plant/2000-lph-ro-plant"
     },
-    "price": 0,
+    "price": 380000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -6381,7 +6381,7 @@ export const products = [
       "name": "3000 LPH RO Plant",
       "href": "/category/ro-plant/3000-lph-ro-plant"
     },
-    "price": 0,
+    "price": 425000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -6496,7 +6496,7 @@ export const products = [
       "name": "3000 LPH RO Plant",
       "href": "/category/ro-plant/3000-lph-ro-plant"
     },
-    "price": 0,
+    "price": 350000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -6615,7 +6615,7 @@ export const products = [
       "name": "3000 LPH RO Plant",
       "href": "/category/ro-plant/3000-lph-ro-plant"
     },
-    "price": 0,
+    "price": 420000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -7165,7 +7165,7 @@ export const products = [
       "name": "Water Softener for Home",
       "href": "/category/water-softener/water-softener-for-home"
     },
-    "price": 0,
+    "price": 18000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -7236,7 +7236,7 @@ export const products = [
       "name": "Water Softener for Home",
       "href": "/category/water-softener/water-softener-for-home"
     },
-    "price": 0,
+    "price": 24000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -8018,7 +8018,7 @@ export const products = [
       "name": "Water Chiller 1-5 TR",
       "href": "/category/water-chiller/water-chiller-1-5-tr"
     },
-    "price": 0,
+    "price": 135000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -8056,7 +8056,7 @@ export const products = [
       "name": "Stainless Steel Water Tank",
       "href": "/category/water-tank/stainless-steel-water-tank"
     },
-    "price": 0,
+    "price": 24000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -8094,7 +8094,7 @@ export const products = [
       "name": "Stainless Steel Water Tank",
       "href": "/category/water-tank/stainless-steel-water-tank"
     },
-    "price": 0,
+    "price": 48000,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -8132,7 +8132,7 @@ export const products = [
       "name": "Stainless Steel Water Tank",
       "href": "/category/water-tank/stainless-steel-water-tank"
     },
-    "price": 0,
+    "price": 78900,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -8170,7 +8170,7 @@ export const products = [
       "name": "Stainless Steel Water Tank",
       "href": "/category/water-tank/stainless-steel-water-tank"
     },
-    "price": 0,
+    "price": 21500,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -8208,7 +8208,7 @@ export const products = [
       "name": "Stainless Steel Water Cooler",
       "href": "/category/water-cooler/stainless-steel-water-cooler"
     },
-    "price": 0,
+    "price": 39800,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",
@@ -8246,7 +8246,7 @@ export const products = [
       "name": "Stainless Steel Water Cooler",
       "href": "/category/water-cooler/stainless-steel-water-cooler"
     },
-    "price": 0,
+    "price": 69600,
     "mrp": 0,
     "unit": "/Pc",
     "saveLabel": "",

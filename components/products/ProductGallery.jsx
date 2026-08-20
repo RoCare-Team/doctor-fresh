@@ -37,7 +37,7 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
         </div>
       ) : null}
 
-      <div className="relative flex-1 overflow-hidden rounded-[10px] border border-line bg-white">
+      <div className="relative flex-1 overflow-hidden df-card">
         <div className="relative aspect-square w-full">
           <Image
             src={imageUrl(images[active])}
@@ -52,12 +52,12 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
 
         <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">
           {discountPercent > 0 ? (
-            <span className="rounded bg-accent-500 px-2 py-0.5 text-[12.5px] font-semibold text-white">
+            <span className="rounded bg-primary-600 px-2 py-0.5 text-[12.5px] font-semibold text-white">
               {discountPercent}% off
             </span>
           ) : null}
           {badges.map((b) => (
-            <span key={b} className="rounded bg-primary-500 px-2 py-0.5 text-[12.5px] font-medium text-ink-900">
+            <span key={b} className="rounded bg-primary-500 px-2 py-0.5 text-[12.5px] font-medium text-white">
               {b}
             </span>
           ))}

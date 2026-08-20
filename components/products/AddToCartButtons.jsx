@@ -49,21 +49,21 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
 
   if (layout === 'card') {
     return (
-      <div className="flex gap-2">
-        <button
-          type="button"
-          onClick={handleAdd}
-          className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-lg border border-line-strong bg-white text-[14px] font-medium text-ink-900 transition-colors hover:border-primary-500 hover:bg-primary-50 hover:text-primary-800"
-        >
-          {added ? <Check size={15} aria-hidden="true" /> : <ShoppingCart size={15} aria-hidden="true" />}
-          {added ? 'Added' : 'Add to Cart'}
-        </button>
+      <div className="flex gap-2.5">
         <button
           type="button"
           onClick={handleBuyNow}
-          className="inline-flex h-10 flex-1 items-center justify-center rounded-lg bg-primary-500 text-[14px] font-semibold text-ink-900 transition-colors hover:bg-primary-400"
+          className="inline-flex h-11 flex-1 items-center justify-center rounded-full bg-primary-500 px-3 text-[14px] font-semibold text-white transition-all hover:bg-ink-900 active:scale-[0.97]"
         >
           Buy Now
+        </button>
+        <button
+          type="button"
+          onClick={handleAdd}
+          className="inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-full border border-primary-500 bg-white px-3 text-[14px] font-medium text-primary-600 transition-all hover:bg-primary-50 active:scale-[0.97]"
+        >
+          {added ? <Check size={15} aria-hidden="true" /> : null}
+          {added ? 'Added' : 'Add to Cart'}
         </button>
       </div>
     );

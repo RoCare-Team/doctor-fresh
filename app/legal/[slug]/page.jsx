@@ -25,11 +25,16 @@ export default async function LegalPage({ params }) {
   if (!page) notFound();
 
   return (
-    <div className="df-container py-6 md:py-8">
-      <Breadcrumb items={[{ name: page.heading || page.title, href: `/legal/${slug}` }]} />
+    <>
+      <div className="border-b border-line bg-surface-muted">
+        <div className="df-container py-4">
+          <Breadcrumb items={[{ name: page.heading || page.title, href: `/legal/${slug}` }]} />
+        </div>
+      </div>
 
-      <article className="mx-auto mt-4 max-w-3xl">
-        <h1 className="text-2xl font-semibold text-ink-900 md:text-[30px]">
+      <div className="df-container py-8 md:py-10">
+      <article className="mx-auto max-w-3xl">
+        <h1 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">
           {page.heading || page.title}
         </h1>
 
@@ -51,6 +56,7 @@ export default async function LegalPage({ params }) {
           ))}
         </div>
       </article>
-    </div>
+      </div>
+    </>
   );
 }

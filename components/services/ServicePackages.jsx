@@ -22,13 +22,13 @@ export default function ServicePackages({ packages = [] }) {
   return (
     <div className="space-y-10">
       {groups.map((group) => (
-        <section key={group.id || group.title} id={group.id || undefined} className="scroll-mt-[196px]">
+        <section key={group.id || group.title} id={group.id || undefined} className="scroll-mt-[156px]">
           <h2 className="mb-4 text-xl font-semibold text-ink-900">{group.title}</h2>
           <div className="grid gap-3 md:grid-cols-2">
             {group.items.map((pkg) => (
               <article
                 key={`${group.id}-${pkg.title}`}
-                className="flex flex-col rounded-[10px] border border-line bg-white p-5"
+                className="flex flex-col df-card p-5"
               >
                 <h3 className="text-[16px] font-medium text-ink-900">{pkg.title}</h3>
 

@@ -11,7 +11,7 @@ export default function Accordion({ items = [], defaultOpen = 0 }) {
   if (!items.length) return null;
 
   return (
-    <div className="divide-y divide-line overflow-hidden rounded-[10px] border border-line bg-white">
+    <div className="divide-y divide-line overflow-hidden df-card">
       {items.map((item, i) => {
         const isOpen = open === i;
         return (

@@ -11,11 +11,16 @@ export const metadata = metaFor({
 
 export default function StoreLocatorPage() {
   return (
-    <div className="df-container py-6 md:py-8">
-      <Breadcrumb items={[{ name: 'Store Locator', href: '/store-locator' }]} />
+    <>
+      <div className="border-b border-line bg-surface-muted">
+        <div className="df-container py-4">
+          <Breadcrumb items={[{ name: 'Store Locator', href: '/store-locator' }]} />
+        </div>
+      </div>
 
-      <header className="mt-4 mb-8">
-        <h1 className="text-2xl font-semibold text-ink-900 md:text-[30px]">Store locations</h1>
+      <div className="df-container py-8 md:py-10">
+      <header className="mb-8">
+        <h1 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">Store locations</h1>
         <p className="mt-2.5 max-w-2xl text-[15.5px] leading-relaxed text-ink-400">
           Visit a Doctor Fresh location for product demos, spare parts and service support.
         </p>
@@ -23,7 +28,7 @@ export default function StoreLocatorPage() {
 
       <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {stores.map((s, i) => (
-          <li key={`${s.city}-${i}`} className="rounded-[10px] border border-line bg-white p-5">
+          <li key={`${s.city}-${i}`} className="df-card p-5">
             <h2 className="text-[16px] font-semibold text-ink-900">{s.city}</h2>
             <p className="mt-2.5 flex gap-2 text-[14.5px] leading-relaxed text-ink-500">
               <MapPin size={15} className="mt-0.5 shrink-0 text-primary-700" aria-hidden="true" />
@@ -36,6 +41,7 @@ export default function StoreLocatorPage() {
           </li>
         ))}
       </ul>
-    </div>
+      </div>
+    </>
   );
 }

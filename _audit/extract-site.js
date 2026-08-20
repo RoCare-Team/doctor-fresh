@@ -19,7 +19,6 @@ out.brand = {
   tagline: strip(meta(home, /<meta name="description" content="([^"]*)"/)),
   homeTitle: strip(meta(home, /<title>([\s\S]*?)<\/title>/)),
   logo: '/uploads/logo_image/logo_86.webp',
-  logoWhite: '/uploads/others/ro-care-white-logo.png',
   favicon: '/uploads/others/favicon.png',
   phone: '+91-9311587716',
   phoneRaw: '9311587716',
@@ -42,7 +41,10 @@ out.heroSlides = [...new Set([...home.matchAll(/data-src="(https:\/\/www\.doctor
   .map((m) => clean(m[1])))].map((src, i) => ({ src, alt: `Doctor Fresh offer ${i + 1}` }));
 
 /* ---------------- today's deal ---------------- */
-const dealBlock = meta(home, /<div class="todays_deal">([\s\S]{0,6000}?)<\/div>\s*<\/div>\s*<\/div>/) || '';
+// The block holds one .thumbnail per deal; a lazy </div></div></div> match ends
+// after the first one, so slice to the end of the enclosing <section> instead.
+const dealStart = home.indexOf('class="todays_deal"');
+const dealBlock = dealStart < 0 ? '' : home.slice(dealStart, home.indexOf('</section>', dealStart));
 out.todaysDeal = [...new Set([...dealBlock.matchAll(/\/product\/[^"]*?\/(\d+)"/g)].map((m) => Number(m[1])))];
 
 /* ---------------- trust badges ---------------- */

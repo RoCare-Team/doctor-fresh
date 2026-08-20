@@ -22,11 +22,16 @@ export default function SparePartsPage() {
   const products = [...owned, ...listed].filter((p) => (seen.has(p.id) ? false : seen.add(p.id)));
 
   return (
-    <div className="df-container py-6 md:py-8">
-      <Breadcrumb items={[{ name: 'Spare Parts', href: '/spare-parts' }]} />
+    <>
+      <div className="border-b border-line bg-surface-muted">
+        <div className="df-container py-4">
+          <Breadcrumb items={[{ name: 'Spare Parts', href: '/spare-parts' }]} />
+        </div>
+      </div>
 
-      <header className="mt-4 mb-7">
-        <h1 className="text-2xl font-semibold text-ink-900 md:text-[30px]">
+      <div className="df-container py-8 md:py-10">
+      <header className="mb-7">
+        <h1 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">
           Water purifier spare parts
         </h1>
         <p className="mt-2.5 max-w-3xl text-[15.5px] leading-relaxed text-ink-400">
@@ -41,6 +46,7 @@ export default function SparePartsPage() {
         <SeoContent sections={category?.seoSections || []} />
         <FaqSection faqs={category?.faqs || []} />
       </div>
-    </div>
+      </div>
+    </>
   );
 }

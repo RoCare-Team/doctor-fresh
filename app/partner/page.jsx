@@ -21,11 +21,16 @@ const BENEFITS = [
 
 export default function PartnerPage() {
   return (
-    <div className="df-container py-6 md:py-8">
-      <Breadcrumb items={[{ name: 'Become A Partner', href: '/partner' }]} />
+    <>
+      <div className="border-b border-line bg-surface-muted">
+        <div className="df-container py-4">
+          <Breadcrumb items={[{ name: 'Become A Partner', href: '/partner' }]} />
+        </div>
+      </div>
 
-      <header className="mt-4 mb-8 max-w-2xl">
-        <h1 className="text-2xl font-semibold text-ink-900 md:text-[30px]">{partnerPage.heading}</h1>
+      <div className="df-container py-8 md:py-10">
+      <header className="mb-8 max-w-2xl">
+        <h1 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">{partnerPage.heading}</h1>
         <p className="mt-2.5 text-[15.5px] leading-relaxed text-ink-400">
           Partner with Doctor Fresh as a dealer, distributor or C&amp;F / master franchise and build a
           water purification business in your territory.
@@ -36,7 +41,7 @@ export default function PartnerPage() {
         {BENEFITS.map((b) => {
           const Icon = b.icon;
           return (
-            <li key={b.title} className="rounded-[10px] border border-line bg-white p-5">
+            <li key={b.title} className="df-card p-5">
               <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-md bg-primary-50 text-primary-700">
                 <Icon size={19} aria-hidden="true" />
               </span>
@@ -53,7 +58,7 @@ export default function PartnerPage() {
           <PartnerForm tabs={partnerPage.tabs} fields={partnerPage.fields} />
         </section>
 
-        <aside className="rounded-[10px] border border-line bg-surface-muted p-5">
+        <aside className="rounded-[14px] border border-line bg-surface-muted p-5">
           <h2 className="text-[15px] font-semibold text-ink-900">Prefer to talk first?</h2>
           <p className="mt-1.5 text-[14px] leading-relaxed text-ink-500">
             Our channel team can walk you through investment, margins and territory availability.
@@ -68,6 +73,7 @@ export default function PartnerPage() {
           </ul>
         </aside>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

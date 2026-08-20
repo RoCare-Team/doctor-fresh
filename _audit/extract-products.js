@@ -59,7 +59,13 @@ for (const f of files) {
 
   // price
   const priceBlock = meta(h, /<div class="product-price">([\s\S]*?)<\/div>/) || '';
-  const price = parseFloat((meta(priceBlock, /<span itemprop="price">\s*([\d.,]+)/) || '').replace(/,/g, '')) || 0;
+  // Two markups are in use: products with schema.org offers wrap the amount in
+  // <span itemprop="price">, the rest print it straight inside <ins>.
+  const insBlock = meta(priceBlock, /<ins[^>]*>([\s\S]*?)<\/ins>/) || '';
+  const price =
+    parseFloat((meta(priceBlock, /<span itemprop="price">\s*([\d.,]+)/) || '').replace(/,/g, '')) ||
+    parseFloat((meta(insBlock, /(?:₹|&#8377;)\s*([\d.,]+)/) || '').replace(/,/g, '')) ||
+    0;
   const unit = strip(meta(priceBlock, /<unit>([\s\S]*?)<\/unit>/)) || '';
   const mrpRaw = strip(meta(priceBlock, /<del>([\s\S]*?)<\/del>/));
   const mrp = parseFloat(mrpRaw.replace(/[^\d.]/g, '')) || 0;

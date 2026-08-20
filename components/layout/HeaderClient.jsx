@@ -51,7 +51,7 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
    * — makes the state impossible to toggle by jitter.
    */
   useEffect(() => {
-    const REVEAL_ZONE = 200; // always visible this close to the top
+    const REVEAL_ZONE = 160; // always visible this close to the top
     const HIDE_DELTA = 70; // sustained downward scroll before hiding
     const SHOW_DELTA = 30; // upward scroll before revealing again
 
@@ -162,7 +162,7 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
               />
               <button
                 type="submit"
-                className="absolute right-1.5 top-1/2 h-9 -translate-y-1/2 rounded-lg bg-primary-500 px-5 text-[14.5px] font-semibold text-ink-900 transition-colors hover:bg-primary-400"
+                className="absolute right-1.5 top-1/2 h-9 -translate-y-1/2 rounded-lg bg-primary-500 px-5 text-[14.5px] font-semibold text-white transition-colors hover:bg-ink-900"
               >
                 Search
               </button>
@@ -193,7 +193,10 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
               <span className="relative">
                 <ShoppingCart size={20} aria-hidden="true" />
                 {count > 0 ? (
-                  <span className="absolute -right-2.5 -top-2 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-accent-500 px-1 text-[11.5px] font-semibold text-white">
+                  <span
+                    key={count}
+                    className="df-pop absolute -right-2.5 -top-2 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-primary-600 px-1 text-[11.5px] font-semibold text-white"
+                  >
                     {count}
                   </span>
                 ) : null}
@@ -250,7 +253,7 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
             className={cx(
               'mr-6 inline-flex h-[38px] shrink-0 items-center gap-2 whitespace-nowrap rounded-lg px-4 text-[14.5px] font-semibold transition-colors',
               openMenu === 'products'
-                ? 'bg-primary-500 text-ink-900'
+                ? 'bg-primary-500 text-white'
                 : 'bg-primary-50 text-primary-800 hover:bg-primary-100',
             )}
           >
@@ -273,10 +276,8 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
                     onMouseEnter={() => setOpenMenu(null)}
                     aria-current={isActive ? 'page' : undefined}
                     className={cx(
-                      'inline-flex h-[52px] shrink-0 items-center whitespace-nowrap border-b-2 px-2.5 text-[14.5px] transition-colors xl:px-3',
-                      isActive
-                        ? 'border-primary-500 font-medium text-ink-900'
-                        : 'border-transparent text-ink-500 hover:border-primary-200 hover:text-ink-900',
+                      'df-underline inline-flex h-[52px] shrink-0 items-center whitespace-nowrap px-2.5 text-[14.5px] transition-colors xl:px-3',
+                      isActive ? 'font-medium text-ink-900' : 'text-ink-500 hover:text-ink-900',
                     )}
                   >
                     {item.label}
@@ -320,7 +321,7 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
         {/* ------------------------------------------------------ mega menu */}
         {openMenu === 'products' ? (
           <div
-            className="absolute inset-x-0 top-full border-y border-line bg-white shadow-[0_18px_40px_-20px_rgba(8,25,36,0.28)]"
+            className="absolute inset-x-0 top-full border-y border-line bg-white shadow-[0_18px_40px_-20px_rgba(6,59,76,0.28)]"
             onMouseLeave={() => setOpenMenu(null)}
           >
             <div className="df-container grid grid-cols-[260px_1fr] gap-0 py-5">
@@ -397,7 +398,7 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
 
         {openMenu === 'blogs' ? (
           <div
-            className="absolute inset-x-0 top-full border-y border-line bg-white shadow-[0_18px_40px_-20px_rgba(8,25,36,0.28)]"
+            className="absolute inset-x-0 top-full border-y border-line bg-white shadow-[0_18px_40px_-20px_rgba(6,59,76,0.28)]"
             onMouseLeave={() => setOpenMenu(null)}
           >
             <div className="df-container flex flex-wrap gap-x-10 gap-y-3 py-6">

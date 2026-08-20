@@ -88,12 +88,16 @@ export default async function ProductPage({ params }) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <div className="df-container py-6 md:py-8">
-        <Breadcrumb items={breadcrumbItems} />
+      <div className="border-b border-line bg-surface-muted">
+        <div className="df-container py-4">
+          <Breadcrumb items={breadcrumbItems} />
+        </div>
+      </div>
 
+      <div className="df-container py-8 md:py-10">
         {/* ------------------------------------------------- gallery + buy box */}
-        <div className="mt-5 grid gap-8 lg:grid-cols-2 lg:gap-12">
-          <div className="lg:sticky lg:top-[178px] lg:self-start">
+        <div className="grid gap-8 lg:grid-cols-2 lg:gap-14">
+          <div className="lg:sticky lg:top-[138px] lg:self-start">
             <ProductGallery
               images={product.images}
               name={product.name}
@@ -112,7 +116,7 @@ export default async function ProductPage({ params }) {
               </Link>
             ) : null}
 
-            <h1 className="mt-1.5 text-[22px] font-semibold leading-snug text-ink-900 md:text-[27px]">
+            <h1 className="mt-2 text-[24px] font-semibold leading-snug tracking-tight text-ink-900 md:text-[30px]">
               {product.name}
             </h1>
 
@@ -127,11 +131,11 @@ export default async function ProductPage({ params }) {
               </div>
             ) : null}
 
-            <div className="mt-5 border-y border-line py-5">
+            <div className="mt-6 rounded-[14px] border border-line bg-surface-muted p-5">
               {product.price ? (
                 <>
                   <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <span className="text-[28px] font-semibold text-ink-900">{formatPrice(product.price)}</span>
+                    <span className="text-[32px] font-semibold tracking-tight text-ink-900">{formatPrice(product.price)}</span>
                     {product.unit ? <span className="text-sm text-ink-400">{product.unit}</span> : null}
                     {product.mrp > product.price ? (
                       <span className="text-[16px] text-ink-300 line-through">{formatPrice(product.mrp)}</span>
@@ -168,13 +172,13 @@ export default async function ProductPage({ params }) {
 
             <a
               href="tel:9311587716"
-              className="mt-4 flex items-center justify-center gap-2 rounded-md border border-dashed border-primary-300 bg-primary-50/60 px-4 py-3 text-[14.5px] font-medium text-primary-700 transition-colors hover:bg-primary-50"
+              className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-dashed border-primary-300 bg-primary-50/60 px-4 py-3.5 text-[14.5px] font-medium text-primary-800 transition-colors hover:border-primary-500 hover:bg-primary-50"
             >
               <Phone size={16} aria-hidden="true" />
               Call a water expert — +91-9311587716
             </a>
 
-            <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
+            <ul className="mt-6 grid gap-2.5 border-t border-line pt-6 sm:grid-cols-2">
               {TRUST.map((t) => {
                 const Icon = t.icon;
                 return (
@@ -187,7 +191,7 @@ export default async function ProductPage({ params }) {
             </ul>
 
             {highlights.length ? (
-              <div className="mt-7 rounded-[10px] border border-line bg-surface-muted p-4">
+              <div className="mt-7 rounded-[14px] border border-line bg-surface-muted p-4">
                 <h2 className="mb-3 text-[15px] font-semibold text-ink-900">Product highlights</h2>
                 <dl className="grid gap-x-6 gap-y-2 sm:grid-cols-2">
                   {highlights.map((a) => (

@@ -33,7 +33,7 @@ export const metadata = {
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#c98f3d',
+  themeColor: '#1597c5',
 };
 
 const organizationJsonLd = {

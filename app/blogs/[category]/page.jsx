@@ -30,11 +30,16 @@ export default async function BlogCategoryPage({ params }) {
   const categories = getBlogCategories();
 
   return (
-    <div className="df-container py-6 md:py-8">
-      <Breadcrumb items={[{ name: 'Blogs', href: '/blogs' }, { name: category.name, href: category.href }]} />
+    <>
+      <div className="border-b border-line bg-surface-muted">
+        <div className="df-container py-4">
+          <Breadcrumb items={[{ name: 'Blogs', href: '/blogs' }, { name: category.name, href: category.href }]} />
+        </div>
+      </div>
 
-      <header className="mt-4 mb-7">
-        <h1 className="text-2xl font-semibold text-ink-900 md:text-[30px]">{category.name}</h1>
+      <div className="df-container py-8 md:py-10">
+      <header className="mb-7">
+        <h1 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">{category.name}</h1>
         <p className="mt-2 text-[15px] text-ink-400">
           {posts.length} {posts.length === 1 ? 'article' : 'articles'}
         </p>
@@ -76,10 +81,11 @@ export default async function BlogCategoryPage({ params }) {
           ))}
         </div>
       ) : (
-        <p className="rounded-[10px] border border-dashed border-line-strong bg-surface-muted px-6 py-10 text-center text-sm text-ink-500">
+        <p className="rounded-[14px] border border-dashed border-line-strong bg-surface-muted px-6 py-10 text-center text-sm text-ink-500">
           No articles in this topic yet. <Link href="/blogs" className="text-primary-700 hover:text-primary-800">Browse all articles</Link>.
         </p>
       )}
-    </div>
+      </div>
+    </>
   );
 }

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { cx } from '@/lib/utils';
+import Reveal from '@/components/common/Reveal';
 
 /**
  * Horizontally scrollable product row — CSS scroll-snap only, no carousel library.
@@ -39,7 +40,7 @@ export default function ProductRail({ title, eyebrow, subtitle, href, products =
   return (
     <section className={cx(tone === 'muted' && 'border-y border-line bg-surface-muted')}>
       <div className="df-container df-section">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
             {eyebrow ? <p className="df-eyebrow">{eyebrow}</p> : null}
             <h2 className="mt-2 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
@@ -90,17 +91,17 @@ export default function ProductRail({ title, eyebrow, subtitle, href, products =
               </button>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         <ul
           ref={trackRef}
           onScroll={updateArrows}
-          className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:px-0"
+          className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-2 sm:gap-4 md:mx-0 md:px-0 xl:gap-5"
         >
           {products.map((p) => (
             <li
               key={p.id}
-              className="w-[68%] shrink-0 snap-start sm:w-[45%] md:w-[34%] lg:w-[25.5%] xl:w-[20.4%]"
+              className="w-[86%] shrink-0 snap-start sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] xl:w-[calc(25%-0.9375rem)]"
             >
               <ProductCard product={p} />
             </li>

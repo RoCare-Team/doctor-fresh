@@ -47,7 +47,7 @@ export default function Footer() {
       <div className="border-b border-white/10">
         <div className="df-container flex flex-col items-start justify-between gap-6 py-10 lg:flex-row lg:items-center">
           <div className="flex items-start gap-4">
-            <span className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-500 text-ink-900 sm:flex">
+            <span className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-500 text-white sm:flex">
               <Mails size={22} aria-hidden="true" />
             </span>
             <div>
@@ -64,12 +64,14 @@ export default function Footer() {
       {/* ------------------------------------------------------ main columns */}
       <div className="df-container grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-4 lg:pr-8">
+          {/* The live footer still points at a legacy RoCare India asset; the
+              Doctor Fresh logo belongs here. Its gold plate reads well on navy. */}
           <Image
-            src={imageUrl(brand.logoWhite)}
+            src={imageUrl(brand.logo)}
             alt="Doctor Fresh"
-            width={190}
+            width={200}
             height={52}
-            className="h-11 w-auto"
+            className="h-11 w-auto rounded-md"
             unoptimized
           />
           <p className="mt-5 max-w-sm text-[14.5px] leading-relaxed text-white/60">{brand.about}</p>
@@ -85,7 +87,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                   aria-label={s.key}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 text-white/70 transition-colors hover:border-primary-500 hover:bg-primary-500 hover:text-ink-900"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 text-white/70 transition-colors hover:border-primary-500 hover:bg-primary-500 hover:text-white"
                 >
                   <Icon size={17} aria-hidden="true" />
                 </a>

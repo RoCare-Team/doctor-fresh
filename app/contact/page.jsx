@@ -14,11 +14,16 @@ export const metadata = metaFor({
 
 export default function ContactPage() {
   return (
-    <div className="df-container py-6 md:py-8">
-      <Breadcrumb items={[{ name: 'Contact', href: '/contact' }]} />
+    <>
+      <div className="border-b border-line bg-surface-muted">
+        <div className="df-container py-4">
+          <Breadcrumb items={[{ name: 'Contact', href: '/contact' }]} />
+        </div>
+      </div>
 
-      <header className="mt-4 mb-8">
-        <h1 className="text-2xl font-semibold text-ink-900 md:text-[30px]">Contact us</h1>
+      <div className="df-container py-8 md:py-10">
+      <header className="mb-8">
+        <h1 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">Contact us</h1>
         <p className="mt-2.5 max-w-2xl text-[15.5px] leading-relaxed text-ink-400">
           Sales, service, spare parts or partnership — reach the Doctor Fresh team directly.
           We respond to every enquiry within one working day.
@@ -35,7 +40,7 @@ export default function ContactPage() {
           <h2 className="mb-5 text-lg font-semibold text-ink-900">{contactPage.otherInfoTitle}</h2>
 
           <ul className="space-y-3">
-            <li className="rounded-[10px] border border-line bg-white p-4">
+            <li className="df-card p-4">
               <p className="flex items-center gap-2 text-[14px] font-medium text-ink-900">
                 <Phone size={15} className="text-primary-700" aria-hidden="true" />
                 Business phone
@@ -45,7 +50,7 @@ export default function ContactPage() {
               </a>
             </li>
 
-            <li className="rounded-[10px] border border-line bg-white p-4">
+            <li className="df-card p-4">
               <p className="flex items-center gap-2 text-[14px] font-medium text-ink-900">
                 <Mail size={15} className="text-primary-700" aria-hidden="true" />
                 Email
@@ -55,7 +60,7 @@ export default function ContactPage() {
               </a>
             </li>
 
-            <li className="rounded-[10px] border border-line bg-white p-4">
+            <li className="df-card p-4">
               <p className="flex items-center gap-2 text-[14px] font-medium text-ink-900">
                 <MessageCircle size={15} className="text-primary-700" aria-hidden="true" />
                 WhatsApp
@@ -71,7 +76,7 @@ export default function ContactPage() {
             </li>
 
             {brand.offices.map((o) => (
-              <li key={o.label} className="rounded-[10px] border border-line bg-white p-4">
+              <li key={o.label} className="df-card p-4">
                 <p className="flex items-center gap-2 text-[14px] font-medium text-ink-900">
                   <MapPin size={15} className="text-primary-700" aria-hidden="true" />
                   {o.label}
@@ -80,7 +85,7 @@ export default function ContactPage() {
               </li>
             ))}
 
-            <li className="rounded-[10px] border border-line bg-white p-4">
+            <li className="df-card p-4">
               <p className="flex items-center gap-2 text-[14px] font-medium text-ink-900">
                 <Globe size={15} className="text-primary-700" aria-hidden="true" />
                 Website
@@ -88,7 +93,7 @@ export default function ContactPage() {
               <p className="mt-1 text-[14.5px] text-ink-500">{brand.website}</p>
             </li>
 
-            <li className="rounded-[10px] border border-line bg-white p-4">
+            <li className="df-card p-4">
               <p className="flex items-center gap-2 text-[14px] font-medium text-ink-900">
                 <Clock size={15} className="text-primary-700" aria-hidden="true" />
                 Service response
@@ -98,6 +103,7 @@ export default function ContactPage() {
           </ul>
         </aside>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

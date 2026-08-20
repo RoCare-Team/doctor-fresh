@@ -41,7 +41,7 @@ function Results({ query }) {
 
   if (!results.length) {
     return (
-      <div className="rounded-[10px] border border-dashed border-line-strong bg-surface-muted px-6 py-14 text-center">
+      <div className="rounded-[14px] border border-dashed border-line-strong bg-surface-muted px-6 py-14 text-center">
         <h2 className="text-lg font-semibold text-ink-900">No products found for “{query}”</h2>
         <p className="mt-1.5 text-[14.5px] text-ink-400">
           Try a shorter search term, or browse{' '}
@@ -56,7 +56,7 @@ function Results({ query }) {
       <p className="mb-5 text-[14.5px] text-ink-400">
         <span className="font-medium text-ink-700">{results.length}</span> results for “{query}”
       </p>
-      <ProductGrid products={results} columns={4} />
+      <ProductGrid products={results} />
     </>
   );
 }
@@ -66,14 +66,21 @@ export default async function SearchPage({ searchParams }) {
   const query = (params?.q || '').trim();
 
   return (
-    <div className="df-container py-6 md:py-8">
-      <Breadcrumb items={[{ name: 'Search', href: '/search' }]} />
-      <h1 className="mt-4 mb-6 text-2xl font-semibold text-ink-900 md:text-[30px]">
+    <>
+      <div className="border-b border-line bg-surface-muted">
+        <div className="df-container py-4">
+          <Breadcrumb items={[{ name: 'Search', href: '/search' }]} />
+        </div>
+      </div>
+
+      <div className="df-container py-8 md:py-10">
+      <h1 className="mb-6 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">
         {query ? `Search results` : 'Search'}
       </h1>
-      <Suspense fallback={<div className="h-40 animate-pulse rounded-[10px] bg-surface-muted" />}>
+      <Suspense fallback={<div className="h-40 animate-pulse rounded-[14px] bg-surface-muted" />}>
         <Results query={query} />
       </Suspense>
-    </div>
+      </div>
+    </>
   );
 }

@@ -5,6 +5,7 @@ import { CheckCircle2 } from 'lucide-react';
 import { useFormSubmit } from '@/lib/forms';
 import { imageUrl } from '@/lib/utils';
 import { FormNote } from '@/components/forms/Field';
+import WaterBackdrop from '@/components/common/WaterBackdrop';
 
 const POINTS = [
   'No charges, no obligation',
@@ -16,23 +17,25 @@ export default function WaterTestSection({ waterTest }) {
   const { status, error, send, sending } = useFormSubmit('/request/form/submit.php');
 
   return (
-    <section id="water-test" className="scroll-mt-[196px] border-y border-line bg-surface-muted">
-      <div className="df-container py-10 md:py-12">
+    <section id="water-test" className="relative scroll-mt-[156px] overflow-hidden bg-ink-900">
+      <WaterBackdrop variant="section" />
+
+      <div className="df-container relative py-10 md:py-12">
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
           {/* ------------------------------------------------------- left */}
           <div>
-            <p className="df-eyebrow">Check your water quality</p>
-            <h2 className="mt-2 text-[24px] font-semibold leading-tight tracking-tight text-ink-900 md:text-[29px]">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-primary-300">Check your water quality</p>
+            <h2 className="mt-2 text-[24px] font-semibold leading-tight tracking-tight text-white md:text-[29px]">
               {waterTest.title}
             </h2>
-            <p className="mt-3 max-w-lg text-[15.5px] leading-relaxed text-ink-500">
+            <p className="mt-3 max-w-lg text-[15.5px] leading-relaxed text-white/65">
               Our analyst tests every key parameter at your doorstep and recommends the right
               purification — completely free.
             </p>
 
             <ul className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
               {waterTest.parameters.map((p) => (
-                <li key={p.label} className="df-card flex items-center gap-2.5 px-3 py-2.5">
+                <li key={p.label} className="flex items-center gap-2.5 rounded-[14px] bg-white px-3 py-2.5 shadow-[0_2px_8px_-4px_rgb(0_0_0_/_0.3)]">
                   <Image
                     src={imageUrl(p.icon)}
                     alt=""
@@ -50,8 +53,8 @@ export default function WaterTestSection({ waterTest }) {
 
             <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
               {POINTS.map((point) => (
-                <li key={point} className="flex items-center gap-1.5 text-[13.5px] text-ink-500">
-                  <CheckCircle2 size={15} className="shrink-0 text-success" aria-hidden="true" />
+                <li key={point} className="flex items-center gap-1.5 text-[13.5px] text-white/70">
+                  <CheckCircle2 size={15} className="shrink-0 text-primary-300" aria-hidden="true" />
                   {point}
                 </li>
               ))}
@@ -59,7 +62,7 @@ export default function WaterTestSection({ waterTest }) {
           </div>
 
           {/* ------------------------------------------------------ right */}
-          <div className="df-card p-5 shadow-[0_16px_44px_-30px_rgba(8,25,36,0.4)] md:p-6">
+          <div className="rounded-[14px] bg-white p-5 shadow-[0_24px_50px_-24px_rgba(0,0,0,0.55)] md:p-6">
             <h3 className="text-[18px] font-semibold text-ink-900">{waterTest.formTitle}</h3>
             <p className="mt-1 text-[14px] text-ink-400">
               Our analyst will call you to fix a slot.
@@ -93,7 +96,7 @@ export default function WaterTestSection({ waterTest }) {
                 <button
                   type="submit"
                   disabled={sending}
-                  className="h-11 w-full rounded-lg bg-primary-500 px-5 text-[15px] font-semibold text-ink-900 transition-colors hover:bg-primary-400 disabled:opacity-60"
+                  className="h-11 w-full rounded-lg bg-primary-500 px-5 text-[15px] font-semibold text-white transition-colors hover:bg-ink-900 disabled:opacity-60"
                 >
                   {sending ? 'Booking…' : 'Book Free Water Test'}
                 </button>

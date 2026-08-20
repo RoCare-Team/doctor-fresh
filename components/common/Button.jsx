@@ -2,19 +2,18 @@ import Link from 'next/link';
 import { cx } from '@/lib/utils';
 
 const VARIANTS = {
-  // Brand gold with dark ink text — the logo pairing, and readable (6.4:1).
   primary:
-    'bg-primary-500 text-ink-900 hover:bg-primary-400 border border-transparent',
+    'bg-primary-500 text-white hover:bg-ink-900 border border-transparent',
   accent:
-    'bg-accent-500 text-white hover:bg-accent-600 border border-transparent',
+    'bg-accent-600 text-white hover:bg-accent-700 border border-transparent',
   outline:
-    'bg-white text-ink-900 border border-line-strong hover:border-primary-500 hover:text-primary-800',
+    'bg-white text-primary-600 border border-primary-500 hover:bg-primary-50 hover:text-primary-700',
   soft:
     'bg-primary-50 text-primary-700 border border-primary-200 hover:bg-primary-100',
   ghost:
-    'bg-transparent text-ink-500 border border-transparent hover:text-primary-800 hover:bg-primary-50',
+    'bg-transparent text-ink-500 border border-transparent hover:text-primary-600 hover:bg-primary-50',
   dark:
-    'bg-ink-900 text-white hover:bg-ink-800 border border-transparent',
+    'bg-ink-900 text-white hover:bg-primary-500 border border-transparent',
 };
 
 const SIZES = {
@@ -35,7 +34,7 @@ export default function Button({
 }) {
   const classes = cx(
     'inline-flex items-center justify-center gap-2 rounded-md font-medium',
-    'transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed',
+    'transition-all duration-150 active:scale-[0.97] disabled:opacity-50 disabled:cursor-not-allowed',
     VARIANTS[variant] || VARIANTS.primary,
     SIZES[size] || SIZES.md,
     full && 'w-full',

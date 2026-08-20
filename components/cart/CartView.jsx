@@ -11,12 +11,12 @@ export default function CartView() {
   const { items, ready, subtotal, mrpTotal, savings, setQty, remove } = useCart();
 
   if (!ready) {
-    return <div className="h-40 animate-pulse rounded-[10px] bg-surface-muted" />;
+    return <div className="h-40 animate-pulse rounded-[14px] bg-surface-muted" />;
   }
 
   if (!items.length) {
     return (
-      <div className="rounded-[10px] border border-dashed border-line-strong bg-surface-muted px-6 py-16 text-center">
+      <div className="rounded-[14px] border border-dashed border-line-strong bg-surface-muted px-6 py-16 text-center">
         <ShoppingBag size={34} className="mx-auto text-ink-300" aria-hidden="true" />
         <h2 className="mt-4 text-lg font-semibold text-ink-900">Your cart is empty</h2>
         <p className="mt-1.5 text-[14.5px] text-ink-400">
@@ -34,7 +34,7 @@ export default function CartView() {
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-8">
       <div className="space-y-3">
         {items.map((item) => (
-          <article key={item.id} className="flex gap-4 rounded-[10px] border border-line bg-white p-4">
+          <article key={item.id} className="flex gap-4 df-card p-4">
             <Link href={item.url} className="relative h-20 w-20 shrink-0 overflow-hidden rounded border border-line sm:h-24 sm:w-24">
               <Image
                 src={imageUrl(item.image)}
@@ -107,8 +107,8 @@ export default function CartView() {
         </div>
       </div>
 
-      <aside className="lg:sticky lg:top-[178px] lg:self-start">
-        <div className="rounded-[10px] border border-line bg-white p-5">
+      <aside className="lg:sticky lg:top-[138px] lg:self-start">
+        <div className="df-card p-5">
           <h2 className="text-[16px] font-semibold text-ink-900">Order summary</h2>
 
           <dl className="mt-4 space-y-2.5 text-[14.5px]">

@@ -57,20 +57,35 @@ export default function CategoryProducts({ products = [] }) {
   const hasFilters = Boolean(maxPrice) || inStockOnly;
 
   const filterControls = (
-    <div className="space-y-5">
+    <div className="df-card divide-y divide-line overflow-hidden">
+      <div className="flex items-center justify-between px-4 py-3.5">
+        <h2 className="text-[14px] font-semibold text-ink-900">Filters</h2>
+        {hasFilters ? (
+          <button
+            type="button"
+            onClick={() => { setMaxPrice(null); setInStockOnly(false); setVisible(PAGE_SIZE); }}
+            className="text-[13px] font-medium text-primary-700 transition-colors hover:text-primary-800"
+          >
+            Clear all
+          </button>
+        ) : null}
+      </div>
+
       {priceBuckets.length ? (
-        <div>
-          <h3 className="mb-2 text-[14px] font-semibold text-ink-900">Price</h3>
-          <ul className="space-y-1.5">
+        <div className="px-4 py-4">
+          <h3 className="mb-3 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink-300">
+            Price
+          </h3>
+          <ul className="space-y-1">
             {priceBuckets.map((b) => (
               <li key={b}>
-                <label className="flex cursor-pointer items-center gap-2 text-[14px] text-ink-500">
+                <label className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 text-[14px] text-ink-500 transition-colors hover:bg-surface-muted has-[:checked]:font-medium has-[:checked]:text-ink-900">
                   <input
                     type="radio"
                     name="price"
                     checked={maxPrice === b}
                     onChange={() => { setMaxPrice(b); setVisible(PAGE_SIZE); }}
-                    className="accent-primary-600"
+                    className="accent-primary-500"
                   />
                   Under {formatPrice(b)}
                 </label>
@@ -80,34 +95,26 @@ export default function CategoryProducts({ products = [] }) {
         </div>
       ) : null}
 
-      <div>
-        <h3 className="mb-2 text-[14px] font-semibold text-ink-900">Availability</h3>
-        <label className="flex cursor-pointer items-center gap-2 text-[14px] text-ink-500">
+      <div className="px-4 py-4">
+        <h3 className="mb-3 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink-300">
+          Availability
+        </h3>
+        <label className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 text-[14px] text-ink-500 transition-colors hover:bg-surface-muted has-[:checked]:font-medium has-[:checked]:text-ink-900">
           <input
             type="checkbox"
             checked={inStockOnly}
             onChange={(e) => { setInStockOnly(e.target.checked); setVisible(PAGE_SIZE); }}
-            className="accent-primary-600"
+            className="accent-primary-500"
           />
           In stock only
         </label>
       </div>
-
-      {hasFilters ? (
-        <button
-          type="button"
-          onClick={() => { setMaxPrice(null); setInStockOnly(false); setVisible(PAGE_SIZE); }}
-          className="text-[14px] font-medium text-primary-700 hover:text-primary-800"
-        >
-          Clear all filters
-        </button>
-      ) : null}
     </div>
   );
 
   if (!products.length) {
     return (
-      <div className="rounded-[10px] border border-dashed border-line-strong bg-surface-muted px-6 py-12 text-center">
+      <div className="rounded-[14px] border border-dashed border-line-strong bg-surface-muted px-6 py-12 text-center">
         <p className="text-sm text-ink-500">
           Products in this category are available on request.
         </p>
@@ -120,37 +127,41 @@ export default function CategoryProducts({ products = [] }) {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[210px_1fr]">
+    <div className="grid gap-6 lg:grid-cols-[248px_1fr] lg:gap-8">
       <aside className="hidden lg:block">
-        <div className="sticky top-[178px]">{filterControls}</div>
+        <div className="sticky top-[138px]">{filterControls}</div>
       </aside>
 
       <div>
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4">
           <p className="text-[14px] text-ink-400">
-            Showing <span className="font-medium text-ink-700">{Math.min(visible, filtered.length)}</span> of{' '}
-            <span className="font-medium text-ink-700">{filtered.length}</span> products
+            Showing <span className="font-medium text-ink-900">{Math.min(visible, filtered.length)}</span> of{' '}
+            <span className="font-medium text-ink-900">{filtered.length}</span> products
           </p>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <button
               type="button"
               onClick={() => setFiltersOpen(true)}
               className={cx(
-                'inline-flex h-9 items-center gap-1.5 rounded-md border px-3 text-[14px] lg:hidden',
-                hasFilters ? 'border-primary-500 text-primary-700' : 'border-line-strong text-ink-500',
+                'inline-flex h-10 items-center gap-2 rounded-lg border px-4 text-[14px] font-medium transition-colors lg:hidden',
+                hasFilters
+                  ? 'border-primary-500 bg-primary-50 text-primary-800'
+                  : 'border-line-strong bg-white text-ink-700 hover:border-primary-500',
               )}
             >
-              <SlidersHorizontal size={14} aria-hidden="true" />
+              <SlidersHorizontal size={15} aria-hidden="true" />
               Filters
             </button>
 
-            <label className="sr-only" htmlFor="sort">Sort by</label>
+            <label className="hidden text-[13.5px] text-ink-400 sm:block" htmlFor="sort">
+              Sort by
+            </label>
             <select
               id="sort"
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="h-9 rounded-md border border-line-strong bg-white px-3 text-[14px] text-ink-700 outline-none focus:border-primary-500"
+              className="h-10 rounded-lg border border-line-strong bg-white px-3.5 text-[14px] font-medium text-ink-900 outline-none transition-colors hover:border-primary-500 focus:border-primary-500"
             >
               {SORTS.map((s) => (
                 <option key={s.value} value={s.value}>{s.label}</option>
@@ -159,7 +170,7 @@ export default function CategoryProducts({ products = [] }) {
           </div>
         </div>
 
-        <ProductGrid products={filtered.slice(0, visible)} columns={4} />
+        <ProductGrid products={filtered.slice(0, visible)} />
 
         {visible < filtered.length ? (
           <div className="mt-8 flex justify-center">

@@ -16,12 +16,12 @@ export default function CheckoutView() {
   const { status, error, send, sending } = useFormSubmit('/cart-checkout');
 
   if (!ready) {
-    return <div className="h-64 animate-pulse rounded-[10px] bg-surface-muted" />;
+    return <div className="h-64 animate-pulse rounded-[14px] bg-surface-muted" />;
   }
 
   if (!items.length) {
     return (
-      <div className="rounded-[10px] border border-dashed border-line-strong bg-surface-muted px-6 py-14 text-center">
+      <div className="rounded-[14px] border border-dashed border-line-strong bg-surface-muted px-6 py-14 text-center">
         <h2 className="text-lg font-semibold text-ink-900">Nothing to check out</h2>
         <p className="mt-1.5 text-[14.5px] text-ink-400">Add a product to your cart first.</p>
         <Button href="/all-category" className="mt-5">Browse products</Button>
@@ -32,7 +32,7 @@ export default function CheckoutView() {
   return (
     <form onSubmit={send} className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-8">
       <div className="space-y-6">
-        <section className="rounded-[10px] border border-line bg-white p-5">
+        <section className="df-card p-5">
           <h2 className="mb-4 text-[16px] font-semibold text-ink-900">1. Customer details</h2>
           <div className="grid gap-3.5 sm:grid-cols-2">
             <Input label="Full name" name="name" required placeholder="Full name" />
@@ -41,7 +41,7 @@ export default function CheckoutView() {
           </div>
         </section>
 
-        <section className="rounded-[10px] border border-line bg-white p-5">
+        <section className="df-card p-5">
           <h2 className="mb-4 text-[16px] font-semibold text-ink-900">2. Delivery address</h2>
           <div className="grid gap-3.5 sm:grid-cols-2">
             <Input label="House / building no." name="house_no" required placeholder="House No. / Building No." />
@@ -54,7 +54,7 @@ export default function CheckoutView() {
           </div>
         </section>
 
-        <section className="rounded-[10px] border border-line bg-white p-5">
+        <section className="df-card p-5">
           <h2 className="mb-4 text-[16px] font-semibold text-ink-900">3. Shipping</h2>
           <RadioGroup
             name="shipping"
@@ -66,7 +66,7 @@ export default function CheckoutView() {
           </p>
         </section>
 
-        <section className="rounded-[10px] border border-line bg-white p-5">
+        <section className="df-card p-5">
           <h2 className="mb-4 text-[16px] font-semibold text-ink-900">4. Payment</h2>
           <Select name="payment" required placeholder="Select payment method" options={PAYMENT_METHODS} />
           <p className="mt-3 flex items-center gap-1.5 text-[13.5px] text-ink-400">
@@ -76,8 +76,8 @@ export default function CheckoutView() {
         </section>
       </div>
 
-      <aside className="lg:sticky lg:top-[178px] lg:self-start">
-        <div className="rounded-[10px] border border-line bg-white p-5">
+      <aside className="lg:sticky lg:top-[138px] lg:self-start">
+        <div className="df-card p-5">
           <h2 className="text-[16px] font-semibold text-ink-900">Order summary</h2>
 
           <ul className="mt-4 space-y-3 border-b border-line pb-4">

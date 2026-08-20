@@ -14,11 +14,16 @@ export default function AllCategoryPage() {
   const categories = getAllCategories();
 
   return (
-    <div className="df-container py-6 md:py-8">
-      <Breadcrumb items={[{ name: 'Products', href: '/all-category' }]} />
+    <>
+      <div className="border-b border-line bg-surface-muted">
+        <div className="df-container py-4">
+          <Breadcrumb items={[{ name: 'Products', href: '/all-category' }]} />
+        </div>
+      </div>
 
-      <header className="mt-4 mb-8">
-        <h1 className="text-2xl font-semibold text-ink-900 md:text-[30px]">All products</h1>
+      <div className="df-container py-8 md:py-10">
+      <header className="mb-8">
+        <h1 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">All products</h1>
         <p className="mt-2.5 max-w-2xl text-[15.5px] leading-relaxed text-ink-400">
           Complete water treatment range for homes, offices, hospitals, hotels and industry.
         </p>
@@ -28,7 +33,7 @@ export default function AllCategoryPage() {
         {categories.map((c) => {
           const count = getProductsByCategory(c.slug).length;
           return (
-            <section key={c.slug} className="rounded-[10px] border border-line bg-white p-5">
+            <section key={c.slug} className="df-card p-5">
               <div className="mb-3 flex items-baseline justify-between gap-3">
                 <h2 className="text-[16px] font-semibold text-ink-900">
                   <Link href={c.href} className="transition-colors hover:text-primary-800">
@@ -60,6 +65,7 @@ export default function AllCategoryPage() {
           );
         })}
       </div>
-    </div>
+      </div>
+    </>
   );
 }
