@@ -1,8 +1,17 @@
-import { SITE_URL } from '@/lib/utils';
+import { SITE_URL, SITE_INDEXABLE } from '@/lib/utils';
 
-// Mirrors the existing robots.txt of www.doctorfresh.in so crawl rules are
-// unchanged. The XML sitemaps continue to be served by the existing backend.
+/**
+ * While the site is not indexable (staging, previews) everything is blocked.
+ * With NEXT_PUBLIC_SITE_INDEXABLE=true it serves the same rules the live
+ * doctorfresh.in robots.txt uses today.
+ */
 export default function robots() {
+  if (!SITE_INDEXABLE) {
+    return {
+      rules: [{ userAgent: '*', disallow: '/' }],
+    };
+  }
+
   return {
     rules: [
       {

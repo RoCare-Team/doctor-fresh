@@ -3,7 +3,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { CartProvider } from '@/components/cart/CartProvider';
 import { brand } from '@/data/site';
-import { SITE_URL, imageUrl } from '@/lib/utils';
+import { SITE_URL, SITE_INDEXABLE, imageUrl } from '@/lib/utils';
 import './globals.css';
 
 const inter = Inter({
@@ -20,7 +20,9 @@ export const metadata = {
   },
   description: brand.tagline,
   applicationName: 'Doctor Fresh',
-  robots: { index: true, follow: true },
+  robots: SITE_INDEXABLE
+    ? { index: true, follow: true }
+    : { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false, noimageindex: true } },
   icons: { icon: imageUrl(brand.favicon) },
   openGraph: {
     siteName: 'Doctor Fresh',
