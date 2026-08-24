@@ -48,7 +48,7 @@ for (const id of Object.keys(slugById).sort((a, b) => a - b)) {
     title,
     metaTitle: strip(meta(h, /<title>([\s\S]*?)<\/title>/)),
     metaDescription: strip(meta(h, /<meta name="description" content="([^"]*)"/)),
-    image: `https://www.doctorfresh.in/uploads/blog_image/blog_${id}.jpg`,
+    image: `/uploads/blog_image/blog_${id}.jpg`,
     author,
     date: dm ? dm[1] : '',
     categories: [...new Set(postCats[id] || [])],

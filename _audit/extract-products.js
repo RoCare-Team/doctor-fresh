@@ -73,7 +73,7 @@ for (const f of files) {
 
   // images
   const imgs = [...new Set([...h.matchAll(/xpreview="(https:\/\/www\.doctorfresh\.in\/uploads\/product_image\/[^"]+)"/g)].map((m) => m[1]))];
-  const images = imgs.length ? imgs : [`https://www.doctorfresh.in/uploads/product_image/product_${id}_1.jpg`];
+  const images = imgs.length ? imgs : [`/uploads/product_image/product_${id}_1.jpg`];
 
   // badges / stock
   const badgeBlock = meta(h, /<div class="badges">([\s\S]*?)<\/div>\s*<img/) || '';

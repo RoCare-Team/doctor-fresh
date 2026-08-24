@@ -12,11 +12,11 @@ export const metadata = metaFor({
   robots: { index: false, follow: true },
 });
 
-function Results({ query }) {
-  const results = query ? searchProducts(query) : [];
+async function Results({ query }) {
+  const results = query ? await searchProducts(query) : [];
 
   if (!query) {
-    const categories = getAllCategories();
+    const categories = await getAllCategories();
     return (
       <div>
         <p className="mb-6 text-[15px] text-ink-400">

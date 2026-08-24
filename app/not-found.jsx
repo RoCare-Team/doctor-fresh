@@ -7,8 +7,8 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function NotFound() {
-  const categories = getAllCategories().slice(0, 8);
+export default async function NotFound() {
+  const categories = (await getAllCategories()).slice(0, 8);
 
   return (
     <div className="df-container py-16 md:py-24">

@@ -4,6 +4,10 @@ import BlogCard from '@/components/blogs/BlogCard';
 import { getAllBlogPosts, getBlogCategories } from '@/lib/catalog';
 import { metaFor } from '@/lib/utils';
 
+// Catalogue pages are rebuilt in the background every 5 minutes so edits made
+// in the existing admin panel appear without a redeploy.
+export const revalidate = 300;
+
 export const metadata = metaFor({
   title: 'Water purification blog, guides and buying advice',
   description:
@@ -11,9 +15,9 @@ export const metadata = metaFor({
   path: '/blogs',
 });
 
-export default function BlogsPage() {
-  const posts = getAllBlogPosts();
-  const categories = getBlogCategories();
+export default async function BlogsPage() {
+  const posts = await getAllBlogPosts();
+  const categories = await getBlogCategories();
   const [featured, ...rest] = posts;
 
   return (

@@ -5,6 +5,10 @@ import FaqSection from '@/components/common/FaqSection';
 import { getCategory, getProductsByCategory, getProductsByIds } from '@/lib/catalog';
 import { metaFor } from '@/lib/utils';
 
+// Catalogue pages are rebuilt in the background every 5 minutes so edits made
+// in the existing admin panel appear without a redeploy.
+export const revalidate = 300;
+
 const CATEGORY_SLUG = 'water-purifier-spare-parts';
 
 export const metadata = metaFor({
@@ -14,10 +18,10 @@ export const metadata = metaFor({
   path: '/spare-parts',
 });
 
-export default function SparePartsPage() {
-  const category = getCategory(CATEGORY_SLUG);
-  const listed = getProductsByIds(category?.productIds || []);
-  const owned = getProductsByCategory(CATEGORY_SLUG);
+export default async function SparePartsPage() {
+  const category = await getCategory(CATEGORY_SLUG);
+  const listed = await getProductsByIds(category?.productIds || []);
+  const owned = await getProductsByCategory(CATEGORY_SLUG);
   const seen = new Set();
   const products = [...owned, ...listed].filter((p) => (seen.has(p.id) ? false : seen.add(p.id)));
 

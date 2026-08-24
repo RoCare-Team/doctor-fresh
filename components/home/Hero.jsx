@@ -3,118 +3,108 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight, ArrowRight, Droplet } from 'lucide-react';
-import { imageUrl, cx } from '@/lib/utils';
-import WaterBackdrop from '@/components/common/WaterBackdrop';
+import { ArrowRight, Droplet } from 'lucide-react';
+import { cx } from '@/lib/utils';
 
-export default function Hero({ slides = [] }) {
+// Campaign artwork from /public/images. Each banner keeps its left third clear,
+// which is where the copy sits.
+const BANNERS = [
+  '/images/banner1.png',
+  '/images/banner5.png',
+  '/images/banner4.png',
+];
+
+const INTERVAL = 5000;
+
+export default function Hero() {
   const [index, setIndex] = useState(0);
-  const count = slides.length;
+  const count = BANNERS.length;
 
   useEffect(() => {
     if (count < 2) return undefined;
-    const id = setInterval(() => setIndex((i) => (i + 1) % count), 6000);
+    const id = setInterval(() => setIndex((i) => (i + 1) % count), INTERVAL);
     return () => clearInterval(id);
   }, [count]);
 
   return (
-    <section className="relative overflow-hidden bg-ink-900">
-      <WaterBackdrop variant="hero" />
+    <section className="relative isolate overflow-hidden bg-surface-muted">
+      {/* ------------------------------------------------ auto-rotating banners */}
+      {BANNERS.map((src, i) => (
+        <Image
+          key={src}
+          src={src}
+          alt=""
+          fill
+          priority={i === 0}
+          sizes="100vw"
+          aria-hidden="true"
+          className={cx(
+            'pointer-events-none select-none object-cover object-right transition-opacity duration-1000 ease-out',
+            i === index ? 'opacity-100' : 'opacity-0',
+          )}
+        />
+      ))}
 
-      <div className="df-container relative grid items-center gap-8 py-9 md:py-11 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-12 lg:py-12">
-        {/* ------------------------------------------------------------ copy */}
-        <div className="max-w-xl">
-          <span style={{ '--df-delay': '60ms' }} className="df-rise inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[12px] font-semibold uppercase tracking-[0.12em] text-primary-300">
-            <Droplet size={12} className="fill-primary-300 text-primary-300" aria-hidden="true" />
+      <div className="df-container relative flex min-h-[440px] items-center py-12 md:min-h-[520px] md:py-16 lg:min-h-[580px]">
+        <div className="max-w-xl lg:max-w-lg">
+          <span
+            style={{ '--df-delay': '60ms' }}
+            className="df-rise inline-flex items-center gap-2 rounded-full border border-primary-200 bg-white px-3 py-1 text-[12px] font-semibold uppercase tracking-[0.12em] text-primary-700"
+          >
+            <Droplet size={12} className="fill-primary-500 text-primary-500" aria-hidden="true" />
             Purity · Hygiene · Sanitation
           </span>
 
-          <h1 style={{ '--df-delay': '150ms' }} className="df-rise mt-4 text-[32px] font-semibold leading-[1.1] tracking-tight text-white sm:text-[38px] lg:text-[44px]">
+          <h1
+            style={{ '--df-delay': '150ms' }}
+            className="df-rise mt-4 text-[32px] font-semibold leading-[1.1] tracking-tight text-ink-900 sm:text-[40px] lg:text-[48px]"
+          >
             Pure water for every
-            <span className="text-primary-300"> home, office &amp; industry</span>
+            <span className="text-primary-500"> home, office &amp; industry</span>
           </h1>
 
-          <p style={{ '--df-delay': '240ms' }} className="df-rise mt-4 max-w-lg text-[16px] leading-relaxed text-white/65">
+          <p
+            style={{ '--df-delay': '240ms' }}
+            className="df-rise mt-4 max-w-lg text-[16px] leading-relaxed text-ink-500"
+          >
             Water purifiers, RO plants, softeners, ionizers and water ATMs — backed by a
             nationwide service network, free installation and same-day RO service.
           </p>
 
-          <div style={{ '--df-delay': '330ms' }} className="df-rise mt-6 flex flex-wrap gap-3">
+          <div style={{ '--df-delay': '330ms' }} className="df-rise mt-7 flex flex-wrap gap-3">
             <Link
               href="/category/water-purifier"
-              className="inline-flex h-12 items-center gap-2 rounded-xl bg-primary-500 px-6 text-[15px] font-semibold text-white transition-colors hover:bg-ink-900"
+              className="inline-flex h-12 items-center gap-2 rounded-xl bg-primary-500 px-6 text-[15px] font-semibold text-white transition-all hover:bg-ink-900 active:scale-[0.97]"
             >
               Shop water purifiers
               <ArrowRight size={17} aria-hidden="true" />
             </Link>
             <Link
               href="#water-test"
-              className="inline-flex h-12 items-center rounded-xl border border-white/30 px-6 text-[15px] font-medium text-white transition-colors hover:border-white/60 hover:bg-white/10"
+              className="inline-flex h-12 items-center rounded-xl border border-ink-900 bg-white px-6 text-[15px] font-medium text-ink-900 transition-all hover:bg-white active:scale-[0.97]"
             >
               Book free water test
             </Link>
           </div>
-        </div>
 
-        {/* -------------------------------------------------------- slideshow */}
-        {count ? (
-          <div style={{ '--df-delay': '260ms' }} className="df-rise relative overflow-hidden rounded-2xl border border-white/10 bg-white shadow-[0_30px_60px_-28px_rgba(0,0,0,0.6)]">
-            <div className="relative aspect-[16/9] w-full lg:aspect-[16/8]">
-              {slides.map((s, i) => (
-                <Image
-                  key={s.src}
-                  src={imageUrl(s.src)}
-                  alt={s.alt}
-                  fill
-                  priority={i === 0}
-                  sizes="(max-width: 1024px) 100vw, 700px"
+          {count > 1 ? (
+            <div style={{ '--df-delay': '420ms' }} className="df-rise mt-9 flex gap-2">
+              {BANNERS.map((src, i) => (
+                <button
+                  key={`dot-${src}`}
+                  type="button"
+                  onClick={() => setIndex(i)}
+                  aria-label={`Show banner ${i + 1}`}
+                  aria-current={i === index}
                   className={cx(
-                    'object-cover transition-opacity duration-700',
-                    i === index ? 'opacity-100' : 'opacity-0',
+                    'h-1.5 rounded-full transition-all duration-300',
+                    i === index ? 'w-8 bg-primary-500' : 'w-2.5 bg-ink-900/25 hover:bg-ink-900/45',
                   )}
-                  unoptimized
                 />
               ))}
             </div>
-
-            {count > 1 ? (
-              <>
-                <button
-                  type="button"
-                  onClick={() => setIndex((i) => (i - 1 + count) % count)}
-                  aria-label="Previous slide"
-                  className="absolute left-3 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-ink-700 shadow-sm transition-colors hover:bg-white sm:flex"
-                >
-                  <ChevronLeft size={18} aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIndex((i) => (i + 1) % count)}
-                  aria-label="Next slide"
-                  className="absolute right-3 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-ink-700 shadow-sm transition-colors hover:bg-white sm:flex"
-                >
-                  <ChevronRight size={18} aria-hidden="true" />
-                </button>
-
-                <div className="absolute bottom-3.5 left-1/2 flex -translate-x-1/2 gap-1.5">
-                  {slides.map((s, i) => (
-                    <button
-                      key={`dot-${s.src}`}
-                      type="button"
-                      onClick={() => setIndex(i)}
-                      aria-label={`Go to slide ${i + 1}`}
-                      aria-current={i === index}
-                      className={cx(
-                        'h-1.5 rounded-full transition-all',
-                        i === index ? 'w-7 bg-primary-500' : 'w-1.5 bg-white/80 hover:bg-white',
-                      )}
-                    />
-                  ))}
-                </div>
-              </>
-            ) : null}
-          </div>
-        ) : null}
+          ) : null}
+        </div>
       </div>
     </section>
   );

@@ -61,7 +61,6 @@ export default function DealSlider({ deals = [] }) {
                     fill
                     sizes="68px"
                     className="object-contain p-1.5 transition-transform duration-300 group-hover:scale-105"
-                    unoptimized
                   />
                 </span>
 

@@ -32,7 +32,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_464_1.jpg"
+      "/uploads/product_image/product_464_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -147,7 +147,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_770_1.jpg"
+      "/uploads/product_image/product_770_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -185,7 +185,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_771_1.jpg"
+      "/uploads/product_image/product_771_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -226,7 +226,7 @@ export const products = [
       "Today’s Deal"
     ],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1676_1.jpg"
+      "/uploads/product_image/product_1676_1.jpg"
     ],
     "attributes": [
       {
@@ -499,7 +499,7 @@ export const products = [
       "Today’s Deal"
     ],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1677_2.jpg"
+      "/uploads/product_image/product_1677_2.jpg"
     ],
     "attributes": [
       {
@@ -747,7 +747,7 @@ export const products = [
     "maxQty": 40,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1678_1.jpg"
+      "/uploads/product_image/product_1678_1.jpg"
     ],
     "attributes": [
       {
@@ -1001,7 +1001,7 @@ export const products = [
     "maxQty": 70,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1679_1.jpg"
+      "/uploads/product_image/product_1679_1.jpg"
     ],
     "attributes": [
       {
@@ -1259,8 +1259,8 @@ export const products = [
       "Today’s Deal"
     ],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1681_1.jpg",
-      "https://www.doctorfresh.in/uploads/product_image/product_1681_2.jpg"
+      "/uploads/product_image/product_1681_1.jpg",
+      "/uploads/product_image/product_1681_2.jpg"
     ],
     "attributes": [
       {
@@ -1449,9 +1449,9 @@ export const products = [
     "maxQty": 90,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1682_1.jpg",
-      "https://www.doctorfresh.in/uploads/product_image/product_1682_2.jpg",
-      "https://www.doctorfresh.in/uploads/product_image/product_1682_3.jpg"
+      "/uploads/product_image/product_1682_1.jpg",
+      "/uploads/product_image/product_1682_2.jpg",
+      "/uploads/product_image/product_1682_3.jpg"
     ],
     "attributes": [
       {
@@ -1633,7 +1633,7 @@ export const products = [
     "maxQty": 72,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1683_2.jpg"
+      "/uploads/product_image/product_1683_2.jpg"
     ],
     "attributes": [
       {
@@ -1817,7 +1817,7 @@ export const products = [
     "maxQty": 72,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1683_2.jpg"
+      "/uploads/product_image/product_1683_2.jpg"
     ],
     "attributes": [
       {
@@ -2003,7 +2003,7 @@ export const products = [
       "Featured"
     ],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1684_1.jpg"
+      "/uploads/product_image/product_1684_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -2082,7 +2082,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1685_1.jpg"
+      "/uploads/product_image/product_1685_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -2161,7 +2161,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1686_1.jpg"
+      "/uploads/product_image/product_1686_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -2248,7 +2248,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1686_1.jpg"
+      "/uploads/product_image/product_1686_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -2335,7 +2335,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1687_1.jpg"
+      "/uploads/product_image/product_1687_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2373,7 +2373,7 @@ export const products = [
     "maxQty": 50,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1688_1.jpg"
+      "/uploads/product_image/product_1688_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2411,7 +2411,7 @@ export const products = [
     "maxQty": 50,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1689_1.jpg"
+      "/uploads/product_image/product_1689_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2449,7 +2449,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1690_1.jpg"
+      "/uploads/product_image/product_1690_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2489,7 +2489,7 @@ export const products = [
       "Featured"
     ],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1691_1.jpg"
+      "/uploads/product_image/product_1691_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2527,7 +2527,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1692_1.jpg"
+      "/uploads/product_image/product_1692_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2565,7 +2565,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1693_1.jpg"
+      "/uploads/product_image/product_1693_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2603,7 +2603,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1694_1.jpg"
+      "/uploads/product_image/product_1694_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2641,7 +2641,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1695_1.jpg"
+      "/uploads/product_image/product_1695_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2679,7 +2679,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1696_1.jpg"
+      "/uploads/product_image/product_1696_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2717,7 +2717,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1697_1.jpg"
+      "/uploads/product_image/product_1697_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2755,7 +2755,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1698_1.jpg"
+      "/uploads/product_image/product_1698_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2793,7 +2793,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1699_1.jpg"
+      "/uploads/product_image/product_1699_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2831,7 +2831,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1700_1.jpg"
+      "/uploads/product_image/product_1700_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2869,7 +2869,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1701_1.jpg"
+      "/uploads/product_image/product_1701_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2907,7 +2907,7 @@ export const products = [
     "maxQty": 1,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1704_1.jpg"
+      "/uploads/product_image/product_1704_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2945,7 +2945,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1705_1.jpg"
+      "/uploads/product_image/product_1705_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -2983,7 +2983,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1706_1.jpg"
+      "/uploads/product_image/product_1706_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -3021,7 +3021,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1707_1.jpg"
+      "/uploads/product_image/product_1707_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -3059,7 +3059,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1708_1.jpg"
+      "/uploads/product_image/product_1708_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -3097,7 +3097,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1709_1.jpg"
+      "/uploads/product_image/product_1709_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -3135,7 +3135,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1710_1.jpg"
+      "/uploads/product_image/product_1710_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -3173,7 +3173,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1711_1.jpg"
+      "/uploads/product_image/product_1711_1.jpg"
     ],
     "attributes": [
       {
@@ -3332,7 +3332,7 @@ export const products = [
     "maxQty": 5,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1712_1.jpg"
+      "/uploads/product_image/product_1712_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -3436,7 +3436,7 @@ export const products = [
     "maxQty": 9,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1714_1.jpg"
+      "/uploads/product_image/product_1714_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -3474,7 +3474,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1715_1.jpg"
+      "/uploads/product_image/product_1715_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -3512,7 +3512,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1716_1.jpg"
+      "/uploads/product_image/product_1716_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -3550,7 +3550,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1717_1.jpg"
+      "/uploads/product_image/product_1717_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -3588,7 +3588,7 @@ export const products = [
     "maxQty": 50,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1718_1.jpg"
+      "/uploads/product_image/product_1718_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -3626,7 +3626,7 @@ export const products = [
     "maxQty": 50,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1719_1.jpg"
+      "/uploads/product_image/product_1719_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -3664,7 +3664,7 @@ export const products = [
     "maxQty": 20,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1721_1.jpg"
+      "/uploads/product_image/product_1721_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -3747,7 +3747,7 @@ export const products = [
     "maxQty": 40,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1723_1.jpg"
+      "/uploads/product_image/product_1723_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -3862,7 +3862,7 @@ export const products = [
     "maxQty": 38,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1725_1.jpg"
+      "/uploads/product_image/product_1725_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -3969,7 +3969,7 @@ export const products = [
     "maxQty": 30,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1726_1.jpg"
+      "/uploads/product_image/product_1726_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -4052,7 +4052,7 @@ export const products = [
     "maxQty": 40,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1727_1.jpg"
+      "/uploads/product_image/product_1727_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -4090,7 +4090,7 @@ export const products = [
     "maxQty": 50,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1730_1.jpg"
+      "/uploads/product_image/product_1730_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -4128,7 +4128,7 @@ export const products = [
     "maxQty": 5,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1732_1.jpg"
+      "/uploads/product_image/product_1732_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -4166,7 +4166,7 @@ export const products = [
     "maxQty": 50,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1733_1.jpg"
+      "/uploads/product_image/product_1733_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -4206,7 +4206,7 @@ export const products = [
       "Today’s Deal"
     ],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1734_1.jpg"
+      "/uploads/product_image/product_1734_1.jpg"
     ],
     "attributes": [
       {
@@ -4430,7 +4430,7 @@ export const products = [
     "maxQty": null,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1735_1.jpg"
+      "/uploads/product_image/product_1735_1.jpg"
     ],
     "attributes": [
       {
@@ -4672,7 +4672,7 @@ export const products = [
     "maxQty": 99,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1738_1.jpg"
+      "/uploads/product_image/product_1738_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -4757,7 +4757,7 @@ export const products = [
       "Featured"
     ],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1739_1.jpg"
+      "/uploads/product_image/product_1739_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -4864,7 +4864,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1740_1.jpg"
+      "/uploads/product_image/product_1740_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -4971,7 +4971,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1741_1.jpg"
+      "/uploads/product_image/product_1741_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -5090,7 +5090,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1742_1.jpg"
+      "/uploads/product_image/product_1742_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -5213,7 +5213,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1743_1.jpg"
+      "/uploads/product_image/product_1743_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -5334,7 +5334,7 @@ export const products = [
       "Featured"
     ],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1744_1.jpg"
+      "/uploads/product_image/product_1744_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -5453,7 +5453,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1745_1.jpg"
+      "/uploads/product_image/product_1745_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -5576,7 +5576,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1746_1.jpg"
+      "/uploads/product_image/product_1746_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -5695,7 +5695,7 @@ export const products = [
     "maxQty": 98,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1747_1.jpg"
+      "/uploads/product_image/product_1747_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -5810,7 +5810,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1748_1.jpg"
+      "/uploads/product_image/product_1748_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -5929,7 +5929,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1749_1.jpg"
+      "/uploads/product_image/product_1749_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -6044,7 +6044,7 @@ export const products = [
     "maxQty": 9,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1750_1.jpg"
+      "/uploads/product_image/product_1750_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -6159,7 +6159,7 @@ export const products = [
     "maxQty": 20,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1752_1.jpg"
+      "/uploads/product_image/product_1752_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -6278,7 +6278,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1753_1.jpg"
+      "/uploads/product_image/product_1753_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -6393,7 +6393,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1754_1.jpg"
+      "/uploads/product_image/product_1754_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -6508,7 +6508,7 @@ export const products = [
     "maxQty": 20,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1758_1.jpg"
+      "/uploads/product_image/product_1758_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -6627,7 +6627,7 @@ export const products = [
     "maxQty": 20,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1759_1.jpg"
+      "/uploads/product_image/product_1759_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -6742,7 +6742,7 @@ export const products = [
     "maxQty": 50,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1766_1.jpg"
+      "/uploads/product_image/product_1766_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -6829,7 +6829,7 @@ export const products = [
     "maxQty": 60,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1767_1.jpg"
+      "/uploads/product_image/product_1767_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -6867,7 +6867,7 @@ export const products = [
     "maxQty": 80,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1768_1.jpg"
+      "/uploads/product_image/product_1768_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -6905,7 +6905,7 @@ export const products = [
     "maxQty": 50,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1772_1.jpg"
+      "/uploads/product_image/product_1772_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -6943,7 +6943,7 @@ export const products = [
     "maxQty": 40,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1773_1.jpg"
+      "/uploads/product_image/product_1773_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -6981,7 +6981,7 @@ export const products = [
     "maxQty": 30,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1774_1.jpg"
+      "/uploads/product_image/product_1774_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -7019,7 +7019,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1775_2.jpg"
+      "/uploads/product_image/product_1775_2.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -7098,7 +7098,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1776_2.jpg"
+      "/uploads/product_image/product_1776_2.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -7177,7 +7177,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1777_1.jpg"
+      "/uploads/product_image/product_1777_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -7248,7 +7248,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1778_1.jpg"
+      "/uploads/product_image/product_1778_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -7319,7 +7319,7 @@ export const products = [
     "maxQty": 100,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1779_1.jpg"
+      "/uploads/product_image/product_1779_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -7402,7 +7402,7 @@ export const products = [
     "maxQty": null,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1780_1.jpg"
+      "/uploads/product_image/product_1780_1.jpg"
     ],
     "attributes": [
       {
@@ -7598,7 +7598,7 @@ export const products = [
     "maxQty": 99,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1782_1.jpg"
+      "/uploads/product_image/product_1782_1.jpg"
     ],
     "attributes": [
       {
@@ -7769,7 +7769,7 @@ export const products = [
     "maxQty": 30,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1783_1.jpg"
+      "/uploads/product_image/product_1783_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -7856,7 +7856,7 @@ export const products = [
     "maxQty": 30,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1784_1.jpg"
+      "/uploads/product_image/product_1784_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -7943,7 +7943,7 @@ export const products = [
     "maxQty": 50,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1785_1.jpg"
+      "/uploads/product_image/product_1785_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -8030,7 +8030,7 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1786_1.jpg"
+      "/uploads/product_image/product_1786_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -8068,7 +8068,7 @@ export const products = [
     "maxQty": 5,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1787_1.jpg"
+      "/uploads/product_image/product_1787_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -8106,7 +8106,7 @@ export const products = [
     "maxQty": 5,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1788_1.jpg"
+      "/uploads/product_image/product_1788_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -8144,7 +8144,7 @@ export const products = [
     "maxQty": 5,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1789_1.jpg"
+      "/uploads/product_image/product_1789_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -8182,7 +8182,7 @@ export const products = [
     "maxQty": 1,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1790_1.jpg"
+      "/uploads/product_image/product_1790_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -8220,7 +8220,7 @@ export const products = [
     "maxQty": 4,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1791_1.jpg"
+      "/uploads/product_image/product_1791_1.jpg"
     ],
     "attributes": [],
     "specifications": [],
@@ -8258,7 +8258,7 @@ export const products = [
     "maxQty": 2,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1792_1.jpg"
+      "/uploads/product_image/product_1792_1.jpg"
     ],
     "attributes": [],
     "specifications": [
@@ -8313,8 +8313,8 @@ export const products = [
     "maxQty": 10,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1793_1.jpg",
-      "https://www.doctorfresh.in/uploads/product_image/product_1793_2.jpg"
+      "/uploads/product_image/product_1793_1.jpg",
+      "/uploads/product_image/product_1793_2.jpg"
     ],
     "attributes": [
       {
@@ -8533,7 +8533,7 @@ export const products = [
     "maxQty": 9,
     "badges": [],
     "images": [
-      "https://www.doctorfresh.in/uploads/product_image/product_1794_1.jpg"
+      "/uploads/product_image/product_1794_1.jpg"
     ],
     "attributes": [
       {

@@ -38,7 +38,7 @@ export default function MobileMenu({ open, onClose, categories, blogCategories, 
     >
       <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-4">
         <Link href="/" onClick={onClose} aria-label="Doctor Fresh home">
-          <Image src={imageUrl(brand.logo)} alt="Doctor Fresh" width={130} height={36} className="h-8 w-auto" unoptimized />
+          <Image src={imageUrl(brand.logo)} alt="Doctor Fresh" width={1714} height={389} className="h-9 w-auto" />
         </Link>
         <button
           type="button"

@@ -22,24 +22,23 @@ export default function ProductCard({ product, compact = false }) {
   return (
     <article className="df-product-card group flex h-full flex-col overflow-hidden">
       {/* ------------------------------------------------- image (fixed well) */}
-      <Link href={product.url} className="relative block p-3">
+      <Link href={product.url} className="relative block p-2.5">
         {/* product shots are photographed on white, so the well is white and the
             tinted card frames it */}
-        <div className="relative h-[158px] w-full overflow-hidden rounded-xl bg-white">
+        <div className="relative h-[210px] w-full overflow-hidden rounded-xl bg-white md:h-[230px]">
           {image ? (
             <Image
               src={imageUrl(image)}
               alt={product.name}
               fill
               sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 360px"
-              className="object-contain p-3 transition-transform duration-300 ease-out group-hover:scale-[1.06]"
-              unoptimized
+              className="object-contain p-2 transition-transform duration-300 ease-out group-hover:scale-[1.07]"
             />
           ) : null}
         </div>
 
         {/* one row keeps the rating and the discount badge from ever colliding */}
-        <div className="pointer-events-none absolute inset-x-5 top-5 flex items-start justify-between gap-2">
+        <div className="pointer-events-none absolute inset-x-4 top-4 flex items-start justify-between gap-2">
           <span className="flex flex-col items-start gap-1.5">
             {product.rating ? (
               <span className="inline-flex items-center gap-1.5 rounded-md bg-white/95 px-1.5 py-1 shadow-[0_2px_8px_-4px_rgb(6_59_76_/_0.4)]">

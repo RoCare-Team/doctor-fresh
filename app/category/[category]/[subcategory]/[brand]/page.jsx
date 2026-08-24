@@ -1,17 +1,21 @@
 import { notFound } from 'next/navigation';
-import PageHeader from '@/components/common/PageHeader';
+import Breadcrumb from '@/components/common/Breadcrumb';
 import CategoryProducts from '@/components/categories/CategoryProducts';
 import SeoContent from '@/components/categories/SeoContent';
 import FaqSection from '@/components/common/FaqSection';
 import { getAllCategories, getSubcategory, getProductsBySubcategory, getProductsByIds } from '@/lib/catalog';
 import { metaFor } from '@/lib/utils';
 
+// Catalogue pages are rebuilt in the background every 5 minutes so edits made
+// in the existing admin panel appear without a redeploy.
+export const revalidate = 300;
+
 // The live site exposes a brand level under every subcategory (currently only
 // "doctor-fresh"). The URLs are linked from the mega menu, so they are kept.
 const BRANDS = { 'doctor-fresh': 'Doctor Fresh' };
 
-export function generateStaticParams() {
-  return getAllCategories().flatMap((c) =>
+export async function generateStaticParams() {
+  return (await getAllCategories()).flatMap((c) =>
     c.subcategories.flatMap((s) =>
       Object.keys(BRANDS).map((brand) => ({ category: c.slug, subcategory: s.slug, brand })),
     ),
@@ -20,7 +24,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { category, subcategory, brand } = await params;
-  const found = getSubcategory(category, subcategory);
+  const found = await getSubcategory(category, subcategory);
   const brandName = BRANDS[brand];
   if (!found || !brandName) return {};
 
@@ -33,13 +37,13 @@ export async function generateMetadata({ params }) {
 
 export default async function BrandSubcategoryPage({ params }) {
   const { category: categorySlug, subcategory: subcategorySlug, brand } = await params;
-  const found = getSubcategory(categorySlug, subcategorySlug);
+  const found = await getSubcategory(categorySlug, subcategorySlug);
   const brandName = BRANDS[brand];
   if (!found || !brandName) notFound();
 
   const { category, subcategory } = found;
-  const listed = getProductsByIds(subcategory.productIds);
-  const owned = getProductsBySubcategory(category.slug, subcategory.slug);
+  const listed = await getProductsByIds(subcategory.productIds);
+  const owned = await getProductsBySubcategory(category.slug, subcategory.slug);
   const seen = new Set();
   const products = [...owned, ...listed]
     .filter((p) => (seen.has(p.id) ? false : seen.add(p.id)))
@@ -47,20 +51,25 @@ export default async function BrandSubcategoryPage({ params }) {
 
   return (
     <>
-      <PageHeader
-        breadcrumb={[
-          { name: 'Products', href: '/all-category' },
-          { name: category.name, href: category.href },
-          { name: subcategory.name, href: subcategory.href },
-          { name: brandName, href: `${subcategory.href}/${brand}` },
-        ]}
-        eyebrow={brandName}
-        title={`${brandName} ${subcategory.name}`}
-        lead={subcategory.intro}
-      />
+      <div className="border-b border-line bg-white">
+        <div className="df-container py-2.5">
+          <Breadcrumb
+            items={[
+              { name: 'Products', href: '/all-category' },
+              { name: category.name, href: category.href },
+              { name: subcategory.name, href: subcategory.href },
+              { name: brandName, href: subcategory.href + '/' + brand },
+            ]}
+          />
+        </div>
+      </div>
 
-      <div className="df-container py-8 md:py-10">
-        <CategoryProducts products={products} />
+      <div className="df-container pt-5 pb-10 md:pb-12">
+        <h1 className="mb-4 text-[19px] font-semibold leading-snug tracking-tight text-ink-900 md:text-[22px]">
+          {brandName} {subcategory.name}
+        </h1>
+
+        <CategoryProducts products={products} subcategories={category.subcategories} activeSlug={subcategory.slug} />
 
         <div className="mt-14 space-y-12">
           <SeoContent sections={subcategory.seoSections} />

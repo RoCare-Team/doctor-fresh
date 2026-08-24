@@ -7,7 +7,7 @@ export const brand = {
   "name": "Doctor Fresh",
   "tagline": "Doctor Fresh Offers best Water purifier, Kitchen Appliances, Air Purifiers & Vacuum Cleaners. We are most trusted brand in home appliances industries.",
   "homeTitle": "Doctor Fresh - Complete Solution for Water Purifiers, Home and Kitchen Appliances",
-  "logo": "/uploads/logo_image/logo_86.webp",
+  "logo": "/images/logo-trimmed.png",
   "favicon": "/uploads/others/favicon.png",
   "phone": "+91-9311587716",
   "phoneRaw": "9311587716",

@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { CalendarDays, Clock, ArrowRight } from 'lucide-react';
-import { formatDate, imageUrl } from '@/lib/utils';
+import { formatDate } from '@/lib/utils';
+import BlogImage from './BlogImage';
 
 const CATEGORY_LABEL = {
   'water-purifier': 'Water Purifier',
@@ -38,13 +39,10 @@ export default function BlogCard({ post, featured = false }) {
     return (
       <article className="df-card df-card-hover group grid overflow-hidden md:grid-cols-2">
         <Link href={post.url} className="relative aspect-[16/10] overflow-hidden bg-surface-muted md:aspect-auto">
-          <Image
-            src={imageUrl(post.image)}
-            alt={post.title}
-            fill
+          <BlogImage
+            post={post}
             sizes="(max-width: 768px) 100vw, 620px"
             className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
-            unoptimized
           />
         </Link>
 
@@ -82,13 +80,10 @@ export default function BlogCard({ post, featured = false }) {
   return (
     <article className="df-card df-card-hover group flex h-full flex-col overflow-hidden">
       <Link href={post.url} className="relative block aspect-[16/10] overflow-hidden bg-surface-muted">
-        <Image
-          src={imageUrl(post.image)}
-          alt={post.title}
-          fill
+        <BlogImage
+          post={post}
           sizes="(max-width: 768px) 100vw, 420px"
           className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
-          unoptimized
         />
         {badge ? (
           <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[12px] font-semibold uppercase tracking-wide text-primary-800">

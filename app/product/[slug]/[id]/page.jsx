@@ -10,15 +10,19 @@ import Accordion from '@/components/common/Accordion';
 import ProductRail from '@/components/products/ProductRail';
 import Rating from '@/components/common/Rating';
 import { getProductRoutes, getProductById, getRelatedProducts } from '@/lib/catalog';
-import { formatPrice, imageUrl, metaFor, SITE_URL } from '@/lib/utils';
+import { absoluteUrl, formatPrice, imageUrl, metaFor, SITE_URL } from '@/lib/utils';
 
-export function generateStaticParams() {
+// Catalogue pages are rebuilt in the background every 5 minutes so edits made
+// in the existing admin panel appear without a redeploy.
+export const revalidate = 300;
+
+export async function generateStaticParams() {
   return getProductRoutes();
 }
 
 export async function generateMetadata({ params }) {
   const { id, slug } = await params;
-  const product = getProductById(id);
+  const product = await getProductById(id);
   if (!product) return {};
 
   return metaFor({
@@ -38,10 +42,10 @@ const TRUST = [
 
 export default async function ProductPage({ params }) {
   const { id } = await params;
-  const product = getProductById(id);
+  const product = await getProductById(id);
   if (!product) notFound();
 
-  const related = getRelatedProducts(product, 10);
+  const related = await getRelatedProducts(product, 10);
   const specs = product.specifications.filter((s) => s.value && s.value !== '-');
   const highlights = product.attributes.slice(0, 6);
 
@@ -49,7 +53,7 @@ export default async function ProductPage({ params }) {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.name,
-    image: product.images.map(imageUrl),
+    image: product.images.map((i) => absoluteUrl(imageUrl(i))),
     description: product.metaDescription,
     sku: String(product.id),
     brand: { '@type': 'Brand', name: 'Doctor Fresh' },

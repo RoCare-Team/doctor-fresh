@@ -64,16 +64,17 @@ export default function Footer() {
       {/* ------------------------------------------------------ main columns */}
       <div className="df-container grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-4 lg:pr-8">
-          {/* The live footer still points at a legacy RoCare India asset; the
-              Doctor Fresh logo belongs here. Its gold plate reads well on navy. */}
-          <Image
-            src={imageUrl(brand.logo)}
-            alt="Doctor Fresh"
-            width={200}
-            height={52}
-            className="h-11 w-auto rounded-md"
-            unoptimized
-          />
+          {/* the logo artwork has a solid white background, so on navy it sits
+              on a white plate rather than showing as a hard rectangle */}
+          <span className="inline-flex rounded-xl bg-white px-3.5 py-2.5">
+            <Image
+              src={imageUrl(brand.logo)}
+              alt="Doctor Fresh"
+              width={1714}
+              height={389}
+              className="h-10 w-auto"
+            />
+          </span>
           <p className="mt-5 max-w-sm text-[14.5px] leading-relaxed text-white/60">{brand.about}</p>
 
           <div className="mt-6 flex gap-2.5">

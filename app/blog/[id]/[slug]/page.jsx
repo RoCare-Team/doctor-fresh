@@ -1,20 +1,25 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { CalendarDays, Clock, User } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import BlogCard from '@/components/blogs/BlogCard';
+import BlogImage from '@/components/blogs/BlogImage';
 import Button from '@/components/common/Button';
 import { getAllBlogPosts, getBlogPost, getRelatedBlogPosts, getBlogCategory } from '@/lib/catalog';
-import { formatDate, imageUrl, metaFor, SITE_URL } from '@/lib/utils';
+import { brand } from '@/data/site';
+import { absoluteUrl, formatDate, imageUrl, metaFor, SITE_URL } from '@/lib/utils';
 
-export function generateStaticParams() {
-  return getAllBlogPosts().map((p) => ({ id: String(p.id), slug: p.slug }));
+// Catalogue pages are rebuilt in the background every 5 minutes so edits made
+// in the existing admin panel appear without a redeploy.
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  return (await getAllBlogPosts()).map((p) => ({ id: String(p.id), slug: p.slug }));
 }
 
 export async function generateMetadata({ params }) {
   const { id, slug } = await params;
-  const post = getBlogPost(id);
+  const post = await getBlogPost(id);
   if (!post) return {};
 
   return metaFor({
@@ -27,23 +32,28 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogPostPage({ params }) {
   const { id } = await params;
-  const post = getBlogPost(id);
+  const post = await getBlogPost(id);
   if (!post) notFound();
 
-  const related = getRelatedBlogPosts(post, 3);
+  const related = await getRelatedBlogPosts(post, 3);
+
+  // category labels come from the catalog layer, so they are resolved up front
+  const categoryLabels = Object.fromEntries(
+    await Promise.all(post.categories.map(async (c) => [c, (await getBlogCategory(c))?.name || c])),
+  );
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: post.title,
-    image: [imageUrl(post.image)],
+    ...(post.image ? { image: [absoluteUrl(imageUrl(post.image))] } : {}),
     datePublished: post.date,
     dateModified: post.date,
     author: { '@type': 'Organization', name: post.author },
     publisher: {
       '@type': 'Organization',
       name: 'Doctor Fresh',
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/uploads/logo_image/logo_86.webp` },
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}${brand.logo}` },
     },
     mainEntityOfPage: `${SITE_URL}${post.url}`,
     description: post.metaDescription || post.excerpt,
@@ -58,7 +68,7 @@ export default async function BlogPostPage({ params }) {
           items={[
             { name: 'Blogs', href: '/blogs' },
             ...(post.categories[0]
-              ? [{ name: getBlogCategory(post.categories[0])?.name || post.categories[0], href: `/blogs/${post.categories[0]}` }]
+              ? [{ name: categoryLabels[post.categories[0]], href: `/blogs/${post.categories[0]}` }]
               : []),
             { name: post.title, href: post.url },
           ]}
@@ -94,7 +104,7 @@ export default async function BlogPostPage({ params }) {
                       href={`/blogs/${c}`}
                       className="rounded-md border border-line bg-white px-3 py-1 text-[13.5px] text-ink-500 transition-colors hover:border-primary-300 hover:text-primary-800"
                     >
-                      {getBlogCategory(c)?.name || c}
+                      {categoryLabels[c]}
                     </Link>
                   ))}
                 </div>
@@ -102,14 +112,10 @@ export default async function BlogPostPage({ params }) {
             </header>
 
             <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-[14px] border border-line bg-surface-muted">
-              <Image
-                src={imageUrl(post.image)}
-                alt={post.title}
-                fill
-                priority
+              <BlogImage
+                post={post}
                 sizes="(max-width: 1024px) 100vw, 820px"
                 className="object-cover"
-                unoptimized
               />
             </div>
 

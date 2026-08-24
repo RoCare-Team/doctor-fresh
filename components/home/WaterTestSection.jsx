@@ -42,7 +42,6 @@ export default function WaterTestSection({ waterTest }) {
                     width={26}
                     height={26}
                     className="h-6 w-6 shrink-0 object-contain"
-                    unoptimized
                   />
                   <span className="text-[13.5px] font-medium leading-tight text-ink-900">
                     {p.label}

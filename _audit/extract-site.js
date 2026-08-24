@@ -18,7 +18,7 @@ out.brand = {
   name: 'Doctor Fresh',
   tagline: strip(meta(home, /<meta name="description" content="([^"]*)"/)),
   homeTitle: strip(meta(home, /<title>([\s\S]*?)<\/title>/)),
-  logo: '/uploads/logo_image/logo_86.webp',
+  logo: '/images/logo-trimmed.png', // brand mark, whitespace cropped by trim-logo.js
   favicon: '/uploads/others/favicon.png',
   phone: '+91-9311587716',
   phoneRaw: '9311587716',

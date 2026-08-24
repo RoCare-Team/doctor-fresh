@@ -113,15 +113,14 @@ export default function CategoryTiles({ tiles = [] }) {
 
               {/* product shots are shot on white, so they sit on a white panel
                   — the background then reads as part of the card, not a patch */}
-              <div className="relative mt-3 flex h-32 w-full items-center justify-center overflow-hidden rounded-xl bg-white md:h-36">
+              <div className="relative mt-3 flex h-44 w-full items-center justify-center overflow-hidden rounded-xl bg-white md:h-52">
                 {t.image ? (
                   <Image
                     src={imageUrl(t.image)}
                     alt=""
                     fill
                     sizes="(max-width: 640px) 72vw, (max-width: 1024px) 34vw, 280px"
-                    className="object-contain p-3 transition-transform duration-300 ease-out group-hover:scale-[1.06]"
-                    unoptimized
+                    className="object-contain p-2 transition-transform duration-300 ease-out group-hover:scale-[1.06]"
                   />
                 ) : (
                   <Image
@@ -129,19 +128,20 @@ export default function CategoryTiles({ tiles = [] }) {
                     alt=""
                     width={62}
                     height={53}
-                    className="h-14 w-auto opacity-70 transition-transform duration-300 ease-out group-hover:scale-[1.06]"
-                    unoptimized
+                    className="h-20 w-auto opacity-70 transition-transform duration-300 ease-out group-hover:scale-[1.06]"
                   />
                 )}
               </div>
 
-              <span className="mt-3 inline-flex items-center gap-1.5 px-1 text-[13.5px] font-medium text-primary-700">
-                Shop now
-                <ArrowUpRight
-                  size={14}
-                  className="transition-transform group-hover:translate-x-0.5"
-                  aria-hidden="true"
-                />
+              <span className="mt-4 flex justify-center">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-500 px-5 py-2 text-[13.5px] font-semibold text-white shadow-sm transition-colors group-hover:bg-primary-900">
+                  Shop now
+                  <ArrowUpRight
+                    size={14}
+                    className="transition-transform group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  />
+                </span>
               </span>
             </Link>
           </li>

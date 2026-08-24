@@ -17,8 +17,8 @@ export default function PageHeader({
 }) {
   return (
     <header className={`border-b border-line bg-surface-muted ${className}`}>
-      <div className="df-container py-6 md:py-9">
-        {breadcrumb.length ? <Breadcrumb items={breadcrumb} className="mb-5" /> : null}
+      <div className="df-container py-5 md:py-7">
+        {breadcrumb.length ? <Breadcrumb items={breadcrumb} className="mb-4" /> : null}
 
         <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
           <div className="max-w-3xl">
@@ -27,9 +27,9 @@ export default function PageHeader({
               {title}
             </h1>
             {lead ? (
-              <p className="mt-3 max-w-2xl text-[15.5px] leading-relaxed text-ink-500">{lead}</p>
+              <p className="mt-2.5 max-w-2xl text-[15.5px] leading-relaxed text-ink-500">{lead}</p>
             ) : null}
-            {meta ? <div className="mt-4">{meta}</div> : null}
+            {meta ? <div className="mt-3.5">{meta}</div> : null}
           </div>
 
           {actions ? <div className="shrink-0">{actions}</div> : null}

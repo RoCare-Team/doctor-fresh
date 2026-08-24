@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Link from 'next/link';
 import { SlidersHorizontal, X } from 'lucide-react';
 import ProductGrid from '@/components/products/ProductGrid';
 import Button from '@/components/common/Button';
@@ -16,7 +17,7 @@ const SORTS = [
 
 const PAGE_SIZE = 12;
 
-export default function CategoryProducts({ products = [] }) {
+export default function CategoryProducts({ products = [], subcategories = [], activeSlug = null }) {
   const [sort, setSort] = useState('featured');
   const [maxPrice, setMaxPrice] = useState(null);
   const [inStockOnly, setInStockOnly] = useState(false);
@@ -56,30 +57,43 @@ export default function CategoryProducts({ products = [] }) {
 
   const hasFilters = Boolean(maxPrice) || inStockOnly;
 
+  /* ------------------------------------------------------------- sidebar */
   const filterControls = (
-    <div className="df-card divide-y divide-line overflow-hidden">
-      <div className="flex items-center justify-between px-4 py-3.5">
-        <h2 className="text-[14px] font-semibold text-ink-900">Filters</h2>
-        {hasFilters ? (
-          <button
-            type="button"
-            onClick={() => { setMaxPrice(null); setInStockOnly(false); setVisible(PAGE_SIZE); }}
-            className="text-[13px] font-medium text-primary-700 transition-colors hover:text-primary-800"
-          >
-            Clear all
-          </button>
-        ) : null}
-      </div>
+    <div className="space-y-7">
+      {subcategories.length ? (
+        <div>
+          <h2 className="mb-2.5 text-[15px] font-semibold text-ink-900">Category</h2>
+          <ul className="space-y-1.5">
+            {subcategories.map((s) => {
+              const isActive = s.slug === activeSlug;
+              return (
+                <li key={s.href}>
+                  <Link
+                    href={s.href}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={cx(
+                      'block text-[14px] leading-snug transition-colors',
+                      isActive
+                        ? 'font-semibold text-ink-900'
+                        : 'text-ink-500 hover:text-primary-600 hover:underline',
+                    )}
+                  >
+                    {s.name}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ) : null}
 
       {priceBuckets.length ? (
-        <div className="px-4 py-4">
-          <h3 className="mb-3 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink-300">
-            Price
-          </h3>
-          <ul className="space-y-1">
+        <div>
+          <h2 className="mb-2.5 text-[15px] font-semibold text-ink-900">Price</h2>
+          <ul className="space-y-1.5">
             {priceBuckets.map((b) => (
               <li key={b}>
-                <label className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 text-[14px] text-ink-500 transition-colors hover:bg-surface-muted has-[:checked]:font-medium has-[:checked]:text-ink-900">
+                <label className="flex cursor-pointer items-center gap-2.5 text-[14px] text-ink-500 transition-colors hover:text-primary-600 has-[:checked]:font-semibold has-[:checked]:text-ink-900">
                   <input
                     type="radio"
                     name="price"
@@ -95,11 +109,9 @@ export default function CategoryProducts({ products = [] }) {
         </div>
       ) : null}
 
-      <div className="px-4 py-4">
-        <h3 className="mb-3 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink-300">
-          Availability
-        </h3>
-        <label className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 text-[14px] text-ink-500 transition-colors hover:bg-surface-muted has-[:checked]:font-medium has-[:checked]:text-ink-900">
+      <div>
+        <h2 className="mb-2.5 text-[15px] font-semibold text-ink-900">Availability</h2>
+        <label className="flex cursor-pointer items-center gap-2.5 text-[14px] text-ink-500 transition-colors hover:text-primary-600 has-[:checked]:font-semibold has-[:checked]:text-ink-900">
           <input
             type="checkbox"
             checked={inStockOnly}
@@ -109,6 +121,16 @@ export default function CategoryProducts({ products = [] }) {
           In stock only
         </label>
       </div>
+
+      {hasFilters ? (
+        <button
+          type="button"
+          onClick={() => { setMaxPrice(null); setInStockOnly(false); setVisible(PAGE_SIZE); }}
+          className="text-[14px] font-medium text-primary-600 transition-colors hover:text-primary-700 hover:underline"
+        >
+          Clear filters
+        </button>
+      ) : null}
     </div>
   );
 
@@ -127,60 +149,65 @@ export default function CategoryProducts({ products = [] }) {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[248px_1fr] lg:gap-8">
-      <aside className="hidden lg:block">
-        <div className="sticky top-[138px]">{filterControls}</div>
-      </aside>
+    <div>
+      {/* ------------------------------------------------------ results bar */}
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-line pb-3">
+        <p className="text-[14px] text-ink-500">
+          1-<span className="font-semibold text-ink-900">{Math.min(visible, filtered.length)}</span> of{' '}
+          <span className="font-semibold text-ink-900">{filtered.length}</span> results
+        </p>
 
-      <div>
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4">
-          <p className="text-[14px] text-ink-400">
-            Showing <span className="font-medium text-ink-900">{Math.min(visible, filtered.length)}</span> of{' '}
-            <span className="font-medium text-ink-900">{filtered.length}</span> products
-          </p>
+        <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={() => setFiltersOpen(true)}
+            className={cx(
+              'inline-flex h-9 items-center gap-2 rounded-lg border px-3.5 text-[14px] font-medium transition-colors lg:hidden',
+              hasFilters
+                ? 'border-primary-500 bg-primary-50 text-primary-800'
+                : 'border-line-strong bg-white text-ink-700 hover:border-primary-500',
+            )}
+          >
+            <SlidersHorizontal size={15} aria-hidden="true" />
+            Filters
+          </button>
 
-          <div className="flex items-center gap-2.5">
-            <button
-              type="button"
-              onClick={() => setFiltersOpen(true)}
-              className={cx(
-                'inline-flex h-10 items-center gap-2 rounded-lg border px-4 text-[14px] font-medium transition-colors lg:hidden',
-                hasFilters
-                  ? 'border-primary-500 bg-primary-50 text-primary-800'
-                  : 'border-line-strong bg-white text-ink-700 hover:border-primary-500',
-              )}
-            >
-              <SlidersHorizontal size={15} aria-hidden="true" />
-              Filters
-            </button>
-
-            <label className="hidden text-[13.5px] text-ink-400 sm:block" htmlFor="sort">
-              Sort by
-            </label>
-            <select
-              id="sort"
-              value={sort}
-              onChange={(e) => setSort(e.target.value)}
-              className="h-10 rounded-lg border border-line-strong bg-white px-3.5 text-[14px] font-medium text-ink-900 outline-none transition-colors hover:border-primary-500 focus:border-primary-500"
-            >
-              {SORTS.map((s) => (
-                <option key={s.value} value={s.value}>{s.label}</option>
-              ))}
-            </select>
-          </div>
+          <label className="hidden text-[14px] text-ink-500 sm:block" htmlFor="sort">
+            Sort by:
+          </label>
+          <select
+            id="sort"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className="h-9 rounded-lg border border-line-strong bg-white px-3 text-[14px] font-medium text-ink-900 outline-none transition-colors hover:border-primary-500 focus:border-primary-500"
+          >
+            {SORTS.map((s) => (
+              <option key={s.value} value={s.value}>{s.label}</option>
+            ))}
+          </select>
         </div>
-
-        <ProductGrid products={filtered.slice(0, visible)} />
-
-        {visible < filtered.length ? (
-          <div className="mt-8 flex justify-center">
-            <Button type="button" variant="outline" size="lg" onClick={() => setVisible((v) => v + PAGE_SIZE)}>
-              Load more products
-            </Button>
-          </div>
-        ) : null}
       </div>
 
+      {/* ----------------------------------------------- sidebar + results */}
+      <div className="grid gap-7 lg:grid-cols-[210px_1fr] lg:gap-9">
+        <aside className="hidden lg:block">
+          <div className="sticky top-[138px]">{filterControls}</div>
+        </aside>
+
+        <div>
+          <ProductGrid products={filtered.slice(0, visible)} />
+
+          {visible < filtered.length ? (
+            <div className="mt-8 flex justify-center">
+              <Button type="button" variant="outline" size="lg" onClick={() => setVisible((v) => v + PAGE_SIZE)}>
+                Load more products
+              </Button>
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      {/* --------------------------------------------------- mobile filters */}
       {filtersOpen ? (
         <div className="fixed inset-0 z-50 lg:hidden">
           <button
@@ -190,7 +217,7 @@ export default function CategoryProducts({ products = [] }) {
             className="absolute inset-0 bg-ink-900/40"
           />
           <div className="absolute inset-x-0 bottom-0 max-h-[80vh] overflow-y-auto rounded-t-2xl bg-white p-5">
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-5 flex items-center justify-between">
               <h2 className="text-base font-semibold text-ink-900">Filters</h2>
               <button type="button" onClick={() => setFiltersOpen(false)} aria-label="Close" className="p-1 text-ink-400">
                 <X size={19} aria-hidden="true" />

@@ -3,17 +3,17 @@ import { getAllCategories, getBlogCategories } from '@/lib/catalog';
 import { brand } from '@/data/site';
 import HeaderClient from './HeaderClient';
 
-export default function Header() {
+export default async function Header() {
   // Menus are built on the server from the real category tree and passed down
   // as plain data — only the interactive shell ships to the browser.
-  const categories = getAllCategories().map((c) => ({
+  const categories = (await getAllCategories()).map((c) => ({
     slug: c.slug,
     name: c.name,
     href: c.href,
     subcategories: c.subcategories.map((s) => ({ name: s.name, href: s.href })),
   }));
 
-  const blogCategories = getBlogCategories();
+  const blogCategories = await getBlogCategories();
 
   return (
     <header className="sticky top-0 z-50 bg-white">

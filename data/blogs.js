@@ -49,7 +49,7 @@ export const blogPosts = [
     "title": "Waterborne Disease- Worlds Leading Life-Threat",
     "metaTitle": "Waterborne Disease- Worlds Leading Life-Threat",
     "metaDescription": "Waterborne diseases spread through drinking water contaminated with bacteria, protozoa, or fungi, causing diarrhea, dehydration, and sometimes fatal illness.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_1.jpg",
+    "image": "/uploads/blog_image/blog_1.jpg",
     "author": "Doctor Fresh",
     "date": "2025-05-30",
     "categories": [
@@ -72,7 +72,7 @@ export const blogPosts = [
     "title": "Is it safe to drink water from water purifier?",
     "metaTitle": "Is it safe to drink water from water purifier?",
     "metaDescription": "A water purifier eliminates all kinds of contamination present in the water and makes it safe for drinking purposes. A water purifier is based on modern and advances water purification technology which eliminates both microbial and dissolved particles.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_2.jpg",
+    "image": "/uploads/blog_image/blog_2.jpg",
     "author": "Doctor Fresh",
     "date": "2021-04-07",
     "categories": [
@@ -95,7 +95,7 @@ export const blogPosts = [
     "title": "Which Water Purifier Is Best? RO or UV",
     "metaTitle": "Which Water Purifier Is Best? RO or UV",
     "metaDescription": "RO or UV which water purifier is best? Get your answer and choose the best water purifier for your home and enjoy healthy living. Here we have elaborated all facts which will clear your doubt.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_3.jpg",
+    "image": "/uploads/blog_image/blog_3.jpg",
     "author": "Doctor Fresh",
     "date": "2021-04-12",
     "categories": [
@@ -118,7 +118,7 @@ export const blogPosts = [
     "title": "How Do You Purify Drinking Water?",
     "metaTitle": "How Do You Purify Drinking Water?",
     "metaDescription": "Pure and clean water is essential for health. Read this blog to discover effective and easy methods to purify water at home for safe drinking every day..",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_4.jpg",
+    "image": "/uploads/blog_image/blog_4.jpg",
     "author": "Doctor Fresh",
     "date": "2025-06-06",
     "categories": [
@@ -135,7 +135,7 @@ export const blogPosts = [
     "title": "How To Purify Water? Four Perfect Way To Purify Water",
     "metaTitle": "How To Purify Water? Four Perfect Way To Purify Water",
     "metaDescription": "Know how to purify water. These four methods to purify will help you to drink healthy water irrespective of the source of water.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_5.jpg",
+    "image": "/uploads/blog_image/blog_5.jpg",
     "author": "Doctor Fresh",
     "date": "2021-05-01",
     "categories": [
@@ -152,7 +152,7 @@ export const blogPosts = [
     "title": "What Are The Needs Of Water Purification?",
     "metaTitle": "What Are The Needs Of Water Purification?",
     "metaDescription": "still few people are not aware with the needs of water purification. Here are some factor which will clarify you why do you need to purify water.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_6.jpg",
+    "image": "/uploads/blog_image/blog_6.jpg",
     "author": "Doctor Fresh",
     "date": "2021-05-07",
     "categories": [],
@@ -167,7 +167,7 @@ export const blogPosts = [
     "title": "How To Remove Lead From Water",
     "metaTitle": "How To Remove Lead From Water",
     "metaDescription": "How To eliminate Lead from water? Here is the perfect solution for you, read this guide till the end and enjoy drinking lead-free water.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_7.jpg",
+    "image": "/uploads/blog_image/blog_7.jpg",
     "author": "Doctor Fresh",
     "date": "2021-05-13",
     "categories": [
@@ -184,7 +184,7 @@ export const blogPosts = [
     "title": "What Is Reverse Osmosis System And How Does It Work?",
     "metaTitle": "What Is Reverse Osmosis System And How Does It Work?",
     "metaDescription": "A reverse osmosis system is a modern and advanced technology-based water purification device. It possesses various advantages in human life and a reverse osmosis system is highly efficient than other water purification units.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_8.jpg",
+    "image": "/uploads/blog_image/blog_8.jpg",
     "author": "Doctor Fresh",
     "date": "2021-07-02",
     "categories": [],
@@ -199,7 +199,7 @@ export const blogPosts = [
     "title": "Water Purifier Abbreviation",
     "metaTitle": "Water Purifier Abbreviation",
     "metaDescription": "DoctorFresh lists the full forms of RO, UV, UF, TDS, MTDS, and other key abbreviations used in the water purifier industry for better understanding.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_9.jpg",
+    "image": "/uploads/blog_image/blog_9.jpg",
     "author": "Doctor Fresh",
     "date": "2025-05-09",
     "categories": [
@@ -222,7 +222,7 @@ export const blogPosts = [
     "title": "Advance Water Purification Technology To Treat Contaminated Water",
     "metaTitle": "Advance Water Purification Technology To Treat Contaminated Water",
     "metaDescription": "Purification of water is crucial as it helps in eliminating contamination present in water. There are various water purification systems in India, and almost all depend on modern and advanced water purification technology.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_10.jpg",
+    "image": "/uploads/blog_image/blog_10.jpg",
     "author": "Doctor Fresh",
     "date": "2021-08-20",
     "categories": [],
@@ -237,7 +237,7 @@ export const blogPosts = [
     "title": "How To Check Water TDS At Home? 3 Easy Methods You Should Know",
     "metaTitle": "How To Check Water TDS At Home? 3 Easy Methods You Should Know",
     "metaDescription": "Water quality in India is a growing concern due to rising pollution and contamination. Ensure safe drinking with water purifiers and regular water quality checks.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_11.jpg",
+    "image": "/uploads/blog_image/blog_11.jpg",
     "author": "Doctor Fresh",
     "date": "2025-03-26",
     "categories": [
@@ -260,7 +260,7 @@ export const blogPosts = [
     "title": "Is RO Water Harmful?",
     "metaTitle": "Is RO Water Harmful?",
     "metaDescription": "Is RO water harmful? Discover the truth about its effects on health and explore the best alternatives. Read this post to get all your doubts cleared.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_12.jpg",
+    "image": "/uploads/blog_image/blog_12.jpg",
     "author": "Doctor Fresh",
     "date": "2025-06-02",
     "categories": [
@@ -283,7 +283,7 @@ export const blogPosts = [
     "title": "Is It Okay To Drink Water From A Water Softener?",
     "metaTitle": "Is It Okay To Drink Water From A Water Softener?",
     "metaDescription": "Is It Okay To Drink Water From A Water Softener? Here we have elaborated this point in detail. Click here to learn more about it.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_13.jpg",
+    "image": "/uploads/blog_image/blog_13.jpg",
     "author": "Doctor Fresh",
     "date": "2025-05-12",
     "categories": [
@@ -300,7 +300,7 @@ export const blogPosts = [
     "title": "9 Best Water Purifier 2022- Don’t LOSE This Deal | Avail NOW",
     "metaTitle": "9 Best Water Purifier 2022- Don’t LOSE This Deal | Avail NOW",
     "metaDescription": "Which water purifier is best in 2025? Here’s a complete guide listing the top water purifiers for home use in 2025 with advanced features and expert picks.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_14.jpg",
+    "image": "/uploads/blog_image/blog_14.jpg",
     "author": "Doctor Fresh",
     "date": "2025-05-13",
     "categories": [],
@@ -315,7 +315,7 @@ export const blogPosts = [
     "title": "What Is MTDS In Water Purifier | MTDS Working & Advantages",
     "metaTitle": "What Is MTDS In Water Purifier | MTDS Working & Advantages",
     "metaDescription": "What is MTDS in water purifier? MTDS stands for Manually TDS controller. With this regulator user can easily controller their drinking water TDS.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_15.jpg",
+    "image": "/uploads/blog_image/blog_15.jpg",
     "author": "Doctor Fresh",
     "date": "2022-01-06",
     "categories": [
@@ -338,7 +338,7 @@ export const blogPosts = [
     "title": "How To Choose Water Purifier- Never Ignore These Facts",
     "metaTitle": "How To Choose Water Purifier- Never Ignore These Facts",
     "metaDescription": "How to choose water purifier?- Here we have discussed how you can choose the water purifier for home.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_16.jpg",
+    "image": "/uploads/blog_image/blog_16.jpg",
     "author": "Doctor Fresh",
     "date": "2022-01-19",
     "categories": [
@@ -355,7 +355,7 @@ export const blogPosts = [
     "title": "What Is MF In Water Purifier?",
     "metaTitle": "What Is MF In Water Purifier?",
     "metaDescription": "MF in water purifier stands for Micro Filtration. This removes bacteria, dirt, and other suspended particles from the water.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_17.jpg",
+    "image": "/uploads/blog_image/blog_17.jpg",
     "author": "Doctor Fresh",
     "date": "2022-03-10",
     "categories": [],
@@ -370,7 +370,7 @@ export const blogPosts = [
     "title": "What Is UF In Water Purifier?",
     "metaTitle": "What Is UF In Water Purifier?",
     "metaDescription": "UF in water purifier stands for Ultra-Filtration, eliminating contamination. Discover top UF water purifiers from DoctorFresh and get the best RO service for your home.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_18.jpg",
+    "image": "/uploads/blog_image/blog_18.jpg",
     "author": "Doctor Fresh",
     "date": "2025-05-10",
     "categories": [],
@@ -385,7 +385,7 @@ export const blogPosts = [
     "title": "What Is UV In Water Purifier & How Effective It Is Against Water Impurities",
     "metaTitle": "What Is UV In Water Purifier & How Effective It Is Against Water Impurities",
     "metaDescription": "UV in water purifiers is a technology that uses ultraviolet light to eliminate microbial contamination, ensuring safe and clean drinking water effectively.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_19.jpg",
+    "image": "/uploads/blog_image/blog_19.jpg",
     "author": "Doctor Fresh",
     "date": "2025-06-02",
     "categories": [
@@ -402,7 +402,7 @@ export const blogPosts = [
     "title": "Why Every Home in 2025 Needs a TDS Meter for Pure & Healthy Drinking Water",
     "metaTitle": "Why Every Home in 2025 Needs a TDS Meter for Pure & Healthy Drinking Water",
     "metaDescription": "Measure water TDS in seconds with the best TDS meter. Check out DoctorFresh's list of the top 5 TDS meters in India 2022 and buy the best for your home today",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_20.jpg",
+    "image": "/uploads/blog_image/blog_20.jpg",
     "author": "Doctor Fresh",
     "date": "2025-05-31",
     "categories": [
@@ -419,7 +419,7 @@ export const blogPosts = [
     "title": "How to Check TDS of Water: A Complete Guide for Safe Drinking Water",
     "metaTitle": "How to Check TDS of Water: A Complete Guide for Safe Drinking Water",
     "metaDescription": "Reduce TDS in water with RO purifiers, distillation, or deionization. Safe TDS levels (50-150 PPM) ensure pure drinking water. Get DoctorFresh RO today!",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_21.jpg",
+    "image": "/uploads/blog_image/blog_21.jpg",
     "author": "Doctor Fresh",
     "date": "2025-03-24",
     "categories": [
@@ -436,7 +436,7 @@ export const blogPosts = [
     "title": "Which Is The Best Water Purifier Under 15000",
     "metaTitle": "Which Is The Best Water Purifier Under 15000",
     "metaDescription": "Best water purifiers under 15000- Here is the list of best water purifiers under 15000. Choose the required purifier and shop for the best among all.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_22.jpg",
+    "image": "/uploads/blog_image/blog_22.jpg",
     "author": "Doctor Fresh",
     "date": "2025-05-08",
     "categories": [
@@ -453,7 +453,7 @@ export const blogPosts = [
     "title": "Understanding the Basics: How Does a Reverse Osmosis Plant Work?",
     "metaTitle": "Understanding the Basics: How Does a Reverse Osmosis Plant Work?",
     "metaDescription": "An efficient reverse osmosis plant can speed up the water cycling process as there are no chemicals in the water when RO water drains from a home water system.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_23.jpg",
+    "image": "/uploads/blog_image/blog_23.jpg",
     "author": "Doctor Fresh",
     "date": "2025-05-24",
     "categories": [
@@ -470,7 +470,7 @@ export const blogPosts = [
     "title": "RO Service Price in India 2025: Key Facts Before Booking",
     "metaTitle": "RO Service Price in India 2025: Key Facts Before Booking",
     "metaDescription": "Discover updated RO service price trends in India for 2025. Learn what affects maintenance costs and how to choose the best service for your water purifier.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_24.jpg",
+    "image": "/uploads/blog_image/blog_24.jpg",
     "author": "Doctor Fresh",
     "date": "2025-05-15",
     "categories": [
@@ -487,7 +487,7 @@ export const blogPosts = [
     "title": "DoctorFresh vs. Local RO Technicians – Who Offers Better Service in 2025?",
     "metaTitle": "DoctorFresh vs. Local RO Technicians – Who Offers Better Service in 2025?",
     "metaDescription": "DoctorFresh vs Local RO Technicians – Compare RO Service Quality, Pricing, Coverage, and Customer Satisfaction in 2025 to Choose the Best Water Purifier Service",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_25.jpg",
+    "image": "/uploads/blog_image/blog_25.jpg",
     "author": "DoctorFresh",
     "date": "2025-05-27",
     "categories": [
@@ -504,7 +504,7 @@ export const blogPosts = [
     "title": "How to Choose the Right RO Service for Your Home: A Helpful Guide for Indian Households",
     "metaTitle": "How to Choose the Right RO Service for Your Home: A Helpful Guide for Indian Households",
     "metaDescription": "Learn how to choose the right RO service for your home. Compare plans, avoid scams, and find trusted water purifier service near you with expert tips.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_26.jpg",
+    "image": "/uploads/blog_image/blog_26.jpg",
     "author": "Doctor Fresh",
     "date": "2025-06-07",
     "categories": [
@@ -521,7 +521,7 @@ export const blogPosts = [
     "title": "What is the TDS Level Recommended for RO Water Purification",
     "metaTitle": "What is the TDS Level Recommended for RO Water Purification",
     "metaDescription": "Learn the ideal TDS level for RO water (50–150 ppm) and why it matters for taste, health, and safety. Get expert tips on managing TDS in Indian water purifiers.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_27.jpg",
+    "image": "/uploads/blog_image/blog_27.jpg",
     "author": "Gyan - He is a seasoned water treatment specialist with over 9 years of hands-on experience in the field of water purification, filtration technologies, and RO system optimization.",
     "date": "2025-09-25",
     "categories": [
@@ -538,7 +538,7 @@ export const blogPosts = [
     "title": "Best RO Services in Bahadurgarh - Why Timely RO Filter Replacement Matters",
     "metaTitle": "Best RO Services in Bahadurgarh - Why Timely RO Filter Replacement Matters",
     "metaDescription": "RO Service in Bahadurgarh by Doctor Fresh ensures pure water with expert care, fast 1-hour response, and reliable RO maintenance for healthy living.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_28.jpg",
+    "image": "/uploads/blog_image/blog_28.jpg",
     "author": "Gyan - He is a seasoned water treatment specialist with over 9 years of hands-on experience in the field of water purification, filtration technologies, and RO system optimization.",
     "date": "2025-10-03",
     "categories": [
@@ -555,7 +555,7 @@ export const blogPosts = [
     "title": "Understanding Alkaline Water Purification - RO Service in Ghziabad",
     "metaTitle": "Understanding Alkaline Water Purification - RO Service in Ghziabad",
     "metaDescription": "Learn about alkaline water purifiers, ionization technology, health benefits, maintenance tips, and trusted providers including RO Service in Ghaziabad.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_29.jpg",
+    "image": "/uploads/blog_image/blog_29.jpg",
     "author": "Gyan - He is a seasoned water treatment specialist with over 9 years of hands-on experience in the field of water purification, filtration technologies, and RO system optimization.",
     "date": "2025-10-11",
     "categories": [
@@ -572,7 +572,7 @@ export const blogPosts = [
     "title": "RO Service in Pune - Top 10 Service Provider in India",
     "metaTitle": "RO Service in Pune - Top 10 Service Provider in India",
     "metaDescription": "Need RO Service in Pune? Book professional water purifier repair and maintenance near you. Affordable prices and 100% satisfaction guaranteed.",
-    "image": "https://www.doctorfresh.in/uploads/blog_image/blog_30.jpg",
+    "image": "/uploads/blog_image/blog_30.jpg",
     "author": "Gyan - He is a seasoned water treatment specialist with over 9 years of hands-on experience in the field of water purification, filtration technologies, and RO system optimization.",
     "date": "2025-11-05",
     "categories": [

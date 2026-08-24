@@ -21,3 +21,18 @@ _audit/prod/
 _audit/cat/
 _audit/blog/
 _audit/legal/
+
+# Database introspection dump — contains sample rows (admin/user/vendor
+# credentials, payment keys). Regenerate locally with _audit/introspect-db.js.
+_audit/db-schema.json
+
+# /public is served verbatim, so only real media belongs under public/uploads.
+# These come from the PHP server's upload directory and would otherwise be
+# publicly downloadable (installer, database dumps, source archives).
+public/uploads/**/*.php
+public/uploads/**/*.sql
+public/uploads/**/*.zip
+public/uploads/installation/
+public/uploads/file_products/
+public/uploads/**/.htaccess
+**/.DS_Store

@@ -132,3 +132,39 @@ family). The remaining location pages render on demand.
 The SQL database is untouched — no migration, no MongoDB, no backend rewrite.
 This phase delivers the frontend only, structured so the existing backend can be
 connected next without rebuilding the UI.
+
+## Database (existing SQL)
+
+The app reads the **existing** DoctorFresh MySQL database. It is read-only —
+no migrations, no schema changes, no writes.
+
+1. `cp .env.example .env.local` and fill in `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`.
+2. `node _audit/introspect-db.js` — prints the real tables/columns and writes
+   `_audit/db-schema.json`.
+3. Reconcile any name differences in `lib/sql/schema.js` (that is the only file
+   that knows table/column names).
+4. `npm run dev`, then open `/api/health` — `"source": "sql"` means the site is
+   being served from the database.
+
+Without credentials, or if the database is unreachable, every catalog function
+falls back to the extracted data in `data/` and the site keeps working.
+
+| File | Role |
+| --- | --- |
+| `lib/db.js` | connection pool, `query()`, `ping()` |
+| `lib/sql/schema.js` | table + column names (edit here) |
+| `lib/sql/map.js` | SQL rows → the shape the UI already uses |
+| `lib/sql/repository.js` | the queries, memoised for the build |
+| `lib/catalog.js` | what pages call; SQL-or-static, unchanged API |
+| `lib/sql/media.js` | resolves image names against the files in `public/uploads` |
+
+### Images
+
+All catalogue media is served by this app from `public/uploads` (product photos,
+blog images, banners), so `next/image` optimises it and nothing is fetched from
+the old host at runtime. The database only records how many images a product
+has, not their filenames, and the admin panel numbering is not always 1-based —
+so `lib/sql/media.js` indexes the upload directories and uses the real names.
+Set `DB_UPLOADS_BASE_URL` to a CDN or absolute URL if the media ever moves off
+the app. Structured data (JSON-LD, OG tags) still emits absolute URLs via
+`absoluteUrl()`, which is what crawlers need.

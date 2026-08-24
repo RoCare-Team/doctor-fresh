@@ -42,7 +42,6 @@ export default function CartView() {
                 fill
                 sizes="96px"
                 className="object-contain p-1.5"
-                unoptimized
               />
             </Link>
 

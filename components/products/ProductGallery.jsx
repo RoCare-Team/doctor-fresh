@@ -30,7 +30,6 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
                 fill
                 sizes="74px"
                 className="object-contain p-1"
-                unoptimized
               />
             </button>
           ))}
@@ -46,7 +45,6 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
             priority
             sizes="(max-width: 1024px) 90vw, 520px"
             className="object-contain p-5"
-            unoptimized
           />
         </div>
 

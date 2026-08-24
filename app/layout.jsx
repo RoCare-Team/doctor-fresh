@@ -43,7 +43,7 @@ const organizationJsonLd = {
   '@type': 'Organization',
   name: 'Doctor Fresh',
   url: SITE_URL,
-  logo: imageUrl(brand.logo),
+  logo: `${SITE_URL}${brand.logo}`,
   email: brand.email,
   telephone: brand.phone,
   address: brand.offices.map((o) => ({ '@type': 'PostalAddress', streetAddress: o.address, addressCountry: 'IN' })),

@@ -3,6 +3,10 @@ import Breadcrumb from '@/components/common/Breadcrumb';
 import { getAllCategories, getProductsByCategory } from '@/lib/catalog';
 import { metaFor } from '@/lib/utils';
 
+// Catalogue pages are rebuilt in the background every 5 minutes so edits made
+// in the existing admin panel appear without a redeploy.
+export const revalidate = 300;
+
 export const metadata = metaFor({
   title: 'All product categories',
   description:
@@ -10,8 +14,13 @@ export const metadata = metaFor({
   path: '/all-category',
 });
 
-export default function AllCategoryPage() {
-  const categories = getAllCategories();
+export default async function AllCategoryPage() {
+  const categories = await getAllCategories();
+
+  // product counts are resolved up front so the JSX below stays a plain render
+  const countBySlug = Object.fromEntries(
+    await Promise.all(categories.map(async (c) => [c.slug, (await getProductsByCategory(c.slug)).length])),
+  );
 
   return (
     <>
@@ -31,7 +40,7 @@ export default function AllCategoryPage() {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {categories.map((c) => {
-          const count = getProductsByCategory(c.slug).length;
+          const count = countBySlug[c.slug];
           return (
             <section key={c.slug} className="df-card p-5">
               <div className="mb-3 flex items-baseline justify-between gap-3">

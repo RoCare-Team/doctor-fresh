@@ -84,7 +84,7 @@ export default function CheckoutView() {
             {items.map((i) => (
               <li key={i.id} className="flex gap-3">
                 <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded border border-line">
-                  <Image src={imageUrl(i.image)} alt="" fill sizes="48px" className="object-contain p-1" unoptimized />
+                  <Image src={imageUrl(i.image)} alt="" fill sizes="48px" className="object-contain p-1" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="line-clamp-2 text-[13.5px] leading-snug text-ink-700">{i.name}</p>

@@ -5,13 +5,17 @@ import BlogCard from '@/components/blogs/BlogCard';
 import { getBlogCategories, getBlogCategory, getBlogPostsByCategory } from '@/lib/catalog';
 import { metaFor, cx } from '@/lib/utils';
 
-export function generateStaticParams() {
-  return getBlogCategories().map((c) => ({ category: c.slug }));
+// Catalogue pages are rebuilt in the background every 5 minutes so edits made
+// in the existing admin panel appear without a redeploy.
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  return (await getBlogCategories()).map((c) => ({ category: c.slug }));
 }
 
 export async function generateMetadata({ params }) {
   const { category: slug } = await params;
-  const category = getBlogCategory(slug);
+  const category = await getBlogCategory(slug);
   if (!category) return {};
 
   return metaFor({
@@ -23,11 +27,11 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogCategoryPage({ params }) {
   const { category: slug } = await params;
-  const category = getBlogCategory(slug);
+  const category = await getBlogCategory(slug);
   if (!category) notFound();
 
-  const posts = getBlogPostsByCategory(slug);
-  const categories = getBlogCategories();
+  const posts = await getBlogPostsByCategory(slug);
+  const categories = await getBlogCategories();
 
   return (
     <>

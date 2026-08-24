@@ -12,8 +12,12 @@ import BlogCard from '@/components/blogs/BlogCard';
 import DealSlider from '@/components/home/DealSlider';
 import Reveal from '@/components/common/Reveal';
 import { getProductsByIds, getAllBlogPosts, getCategoryImage } from '@/lib/catalog';
-import { heroSlides, trustBadges, categoryTiles, waterTest, rails, todaysDeal, brand } from '@/data/site';
+import { trustBadges, categoryTiles, waterTest, rails, todaysDeal, brand } from '@/data/site';
 import { metaFor } from '@/lib/utils';
+
+// Catalogue pages are rebuilt in the background every 5 minutes so edits made
+// in the existing admin panel appear without a redeploy.
+export const revalidate = 300;
 
 export const metadata = metaFor({
   title: brand.homeTitle,
@@ -72,16 +76,21 @@ const RAIL_COPY = {
   },
 };
 
-export default function HomePage() {
-  const deals = getProductsByIds(todaysDeal).slice(0, 4);
-  const posts = getAllBlogPosts().slice(0, 3);
+export default async function HomePage() {
+  const deals = (await getProductsByIds(todaysDeal)).slice(0, 4);
+  const posts = (await getAllBlogPosts()).slice(0, 3);
 
   // give every category tile a real product photo (the stored icons are 62px)
-  const tiles = categoryTiles.map((t) => ({ ...t, image: getCategoryImage(t.href) }));
+  const tiles = await Promise.all(
+    categoryTiles.map(async (t) => ({ ...t, image: await getCategoryImage(t.href) })),
+  );
+
+  // rails are resolved up front so the JSX below stays a plain render
+  const railProducts = await Promise.all(rails.map((r) => getProductsByIds(r.productIds)));
 
   return (
     <>
-      <Hero slides={heroSlides} />
+      <Hero />
 
       <TrustBadges badges={trustBadges} />
 
@@ -164,7 +173,7 @@ export default function HomePage() {
           eyebrow={RAIL_COPY[rail.title]?.eyebrow}
           subtitle={RAIL_COPY[rail.title]?.subtitle}
           href={rail.href}
-          products={getProductsByIds(rail.productIds)}
+          products={railProducts[i]}
           tone={i % 2 === 1 ? 'muted' : 'plain'}
         />
       ))}
