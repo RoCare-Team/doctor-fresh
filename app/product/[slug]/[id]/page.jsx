@@ -10,6 +10,7 @@ import Accordion from '@/components/common/Accordion';
 import ProductRail from '@/components/products/ProductRail';
 import Rating from '@/components/common/Rating';
 import { getProductRoutes, getProductById, getRelatedProducts } from '@/lib/catalog';
+import ReviewForm from '@/components/products/ReviewForm';
 import { absoluteUrl, formatPrice, imageUrl, metaFor, SITE_URL } from '@/lib/utils';
 
 // Catalogue pages are rebuilt in the background every 5 minutes so edits made
@@ -297,12 +298,17 @@ export default async function ProductPage({ params }) {
         </div>
 
         {/* ------------------------------------------------------------ reviews */}
-        {product.rating || product.reviews.length ? (
-          <section id="reviews" className="mt-12 border-t border-line pt-10">
-            <h2 className="mb-5 text-xl font-semibold text-ink-900 md:text-2xl">Ratings &amp; reviews</h2>
+        <section id="reviews" className="mt-12 border-t border-line pt-10">
+          <h2 className="mb-5 text-xl font-semibold text-ink-900 md:text-2xl">Ratings &amp; reviews</h2>
+          {product.rating || product.reviews.length ? (
             <ProductReviews reviews={product.reviews} rating={product.rating} reviewCount={product.reviewCount} />
-          </section>
-        ) : null}
+          ) : (
+            <p className="text-[14.5px] text-ink-400">No reviews yet — be the first to rate this product.</p>
+          )}
+          <div className="max-w-2xl">
+            <ReviewForm productId={product.id} />
+          </div>
+        </section>
 
         {/* --------------------------------------------------------------- FAQ */}
         {product.faqs.length ? (

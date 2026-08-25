@@ -4,9 +4,10 @@ import { CalendarDays, Clock, User } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import BlogCard from '@/components/blogs/BlogCard';
 import BlogImage from '@/components/blogs/BlogImage';
+import BlogComments from '@/components/blogs/BlogComments';
 import Button from '@/components/common/Button';
-import { getAllBlogPosts, getBlogPost, getRelatedBlogPosts, getBlogCategory } from '@/lib/catalog';
-import { brand } from '@/data/site';
+import { getAllBlogPosts, getBlogPost, getRelatedBlogPosts, getBlogCategory, getBrand } from '@/lib/catalog';
+
 import { absoluteUrl, formatDate, imageUrl, metaFor, SITE_URL } from '@/lib/utils';
 
 // Catalogue pages are rebuilt in the background every 5 minutes so edits made
@@ -36,6 +37,7 @@ export default async function BlogPostPage({ params }) {
   if (!post) notFound();
 
   const related = await getRelatedBlogPosts(post, 3);
+  const brand = await getBrand();
 
   // category labels come from the catalog layer, so they are resolved up front
   const categoryLabels = Object.fromEntries(
@@ -134,6 +136,7 @@ export default async function BlogPostPage({ params }) {
                 <Button href="/water-purifier-service" variant="outline">Book RO service</Button>
               </div>
             </div>
+            <BlogComments path={post.url} />
           </article>
 
           <aside className="lg:sticky lg:top-[138px] lg:self-start">

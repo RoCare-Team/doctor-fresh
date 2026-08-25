@@ -1,170 +1,164 @@
 # DoctorFresh — Next.js frontend
 
-Frontend rebuild of [www.doctorfresh.in](https://www.doctorfresh.in) using
-Next.js (App Router), React and plain JavaScript/JSX. The existing site's
-information architecture, URLs, catalogue and content are preserved; only the
-UI/UX is redesigned.
+Rebuild of [www.doctorfresh.in](https://www.doctorfresh.in) on Next.js (App
+Router), React and plain JavaScript/JSX. Every URL, product, page and piece of
+copy is preserved; the UI is redesigned and the content comes from the site's
+existing MySQL database.
 
 ## Stack
 
 | | |
 | --- | --- |
 | Framework | Next.js 15 (App Router) |
-| Language | JavaScript + JSX (no TypeScript, no `.tsx`) |
-| Styling | Tailwind CSS v4 + a small design-token layer in `app/globals.css` |
+| Language | JavaScript + JSX — no TypeScript, no `.tsx` |
+| Styling | Tailwind CSS v4 + design tokens in `app/globals.css` |
 | Icons | `lucide-react` |
-| Components | Functional components only |
-
-Runtime dependencies are `next`, `react`, `react-dom` and `lucide-react` — nothing else.
+| Database | `mysql2` against the existing `dotindoc_website` schema |
 
 ## Getting started
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
-npm run build
-npm start
+cp .env.example .env.local     # fill in DB_*, AUTH_SECRET, OTP_TOKEN
+npm run dev                    # http://localhost:3000
+npm run build && npm start
 ```
 
-## Project structure
+`/api/health` reports whether the database is reachable and how many rows it is
+serving.
 
-```
-app/                          route tree (App Router)
-  layout.jsx                  header, footer, cart provider, global metadata
-  page.jsx                    homepage
-  [slug]/                     national service pages + 21,400 location SEO pages
-  all-category/
-  blog/[id]/[slug]/           blog detail
-  blogs/                      blog listing
-  blogs/[category]/           blog topic
-  cart/  cart-checkout/
-  category/[category]/[subcategory]/[brand]/
-  compare/  careers/  contact/  login/  partner/
-  legal/[slug]/               policy pages
-  product/[slug]/[id]/        product detail
-  registration/  search/  spare-parts/  store-locator/
-  robots.js  not-found.jsx  globals.css
+## Where the content comes from
 
-components/
-  layout/     Header, HeaderClient, MobileMenu, Footer
-  home/       Hero, TrustBadges, CategoryTiles, WaterTestSection
-  products/   ProductCard, ProductGrid, ProductRail, ProductGallery,
-              ProductTabs, ProductReviews, AddToCartButtons
-  categories/ CategoryProducts (filters + sort + load more), SeoContent
-  services/   ServicePage, ServicePackages, ServiceBookingForm
-  blogs/      BlogCard
-  cart/       CartProvider, CartView, CheckoutView
-  forms/      Field primitives, ContactForm, PartnerForm, AuthForm, NewsletterForm
-  common/     Button, Breadcrumb, SectionHeading, Accordion, FaqSection, Rating
+Nothing is hardcoded or duplicated — the app reads the same tables the PHP site
+reads:
 
-data/         generated data layer (see below)
-lib/          catalog.js (data access), utils.js, forms.js
-_audit/       crawl of the live site + extractors + ROUTES.md checklist
-```
-
-## Data layer
-
-`data/` mirrors the existing SQL records and was **extracted from the live
-site**, not invented:
-
-| File | Contents |
+| Content | Tables |
 | --- | --- |
-| `products.js` | 98 products — ids, slugs, images, price/MRP/discount, category, attributes, specifications, description, reviews, FAQs |
-| `categories.js` | 18 categories, 48 subcategories, per-page SEO copy and FAQs |
-| `blogs.js` | 30 posts with full article HTML, dates, authors, topics |
-| `services.js` | 3 national service pages + 10 location page templates (packages with real prices, FAQs, SEO sections) |
-| `locations.js` | 21,400 location slugs across 10 URL families |
-| `site.js` | brand, header/footer, hero slides, trust badges, water-test form, store locations, legal pages |
+| Products, prices, specs, reviews | `product`, `attribute`, `attribute_filter`, `product_reviews` |
+| Categories and subcategories | `category`, `sub_category` |
+| Blog | `blog`, `blog_category` |
+| The 22,195 flat SEO URLs | `landing_pages` |
+| Brand, footer, policies, slides | `general_settings`, `social_links`, `slides` |
+| Accounts | `user` |
+| Orders | `sale`, `stock`, `payment_transactions` |
 
-**Pages never import `data/` directly.** All reads go through `lib/catalog.js`.
-When the existing SQL/API is connected, only that file changes — each function
-becomes a query and no UI component needs to be touched.
+**Pages never query the database directly.** Everything goes through
+`lib/catalog.js`, which throws if the database cannot answer rather than
+serving something invented. Next.js keeps the last successfully rendered page,
+so a brief outage shows the previous real content.
 
-Form submissions go through `lib/forms.js`, which records the existing backend
-endpoint for each form (`/request/form/submit.php`, `/home/subscribe`,
-`/cart-checkout`, …) and currently acknowledges submission in the UI only.
+| File | Role |
+| --- | --- |
+| `lib/db.js` | pool, `query()`, `mutate()`, `ping()` |
+| `lib/sql/schema.js` | table + column names — the only file that knows them |
+| `lib/sql/map.js` | SQL rows → the shape the UI uses |
+| `lib/sql/repository.js` | catalogue queries, memoised |
+| `lib/sql/landing.js` | the SEO/location pages |
+| `lib/sql/site.js` | settings, social links, policies, slides |
+| `lib/sql/orders.js` | pricing, order creation, stock |
+| `lib/sql/easebuzz.js` | online payment |
+| `lib/sql/media.js` | resolves image names against `public/uploads` |
+| `lib/catalog.js` | what pages call |
 
-The extractors that produced `data/` live in `_audit/` and can be re-run:
+`data/site.js` is what is left of the old data layer: layout copy the database
+does not hold (trust badges, the water-test panel, form field lists, store
+addresses). No product, price, page or customer data.
 
-```bash
-cd _audit
-node extract-products.js && node extract-categories.js && node extract-blogs.js
-node extract-services.js && node extract-site.js && node extract-locations.js
-node build-data.js          # writes ../data/*.js
-```
+> The MySQL account is shared with the live PHP site and capped at 30
+> connections, so the pool is deliberately small (`DB_CONNECTION_LIMIT=3`),
+> retries back off, and queries are batched per family rather than per page.
+
+## Images
+
+All media is served from `public/uploads`, so `next/image` optimises it and
+nothing is fetched from the old host at runtime. The database records how many
+images a product has but not their filenames, and the numbering is not always
+1-based — `lib/sql/media.js` indexes the directories and uses the real names.
+Set `DB_UPLOADS_BASE_URL` to move media to a CDN. Structured data still emits
+absolute URLs via `absoluteUrl()`.
+
+## Sign-in (mobile + OTP)
+
+Accounts live in the site's existing `user` table — an account created here is
+the same account the PHP site knows. No column was added.
+
+Codes are issued, sent and checked by the shared RO Care OTP service
+(`roservice_sendotp.php` / `service_otp_verify.php`). The code never reaches
+this app, so there is nothing here to store or leak.
+
+`OTP_TOKEN` is **server-side only**. The send endpoint refuses a request
+without the `X-App-Token` header, so exposing it through a `NEXT_PUBLIC_`
+variable would let anyone send messages from your account.
+
+Both endpoints answer HTTP 200 whatever happens and put the verdict in the
+`error` field, so the body is what is trusted. Rate limiting — one code a
+minute, five an hour, five wrong attempts — is applied here; the service does
+not do it.
+
+The session is a signed httpOnly cookie (30 days). Set **`AUTH_SECRET`** in
+production: sign-in refuses to work without it rather than using a guessable key.
+
+## Checkout
+
+Three steps, matching the current site: review the order, delivery address,
+payment. Payment methods are the ones switched on in `business_settings`.
+
+Every number — price, GST, shipping, coupon discount — is calculated on the
+server from the catalogue. The browser only ever sends product ids and
+quantities, so a tampered price cannot reach an order.
+
+* **Cash on delivery** completes immediately and takes the stock.
+* **Online payment** posts to the site's existing `easebuzz.php`, which holds
+  the merchant credentials, and sends the visitor to the hosted page. Stock is
+  only taken once the gateway confirms the payment — an abandoned payment must
+  not hold stock.
+
+Orders are written to `sale` with the same `payment_status` / `delivery_status`
+shapes the PHP checkout writes, plus a `stock` movement per line, so they
+appear in the existing admin panel.
 
 ## URL compatibility
 
-Every existing URL is preserved. See **[`_audit/ROUTES.md`](_audit/ROUTES.md)**
-for the full inventory and verification results.
+Every existing URL is preserved — see
+**[`_audit/ROUTES.md`](_audit/ROUTES.md)**. Legacy `.php` URLs issue the same
+301s the live site serves, and the older legal-page spellings
+(`/legal/terms-conditions`, `/legal/privacy-policy`, `/legal/return_policy`)
+still resolve.
 
-Two behaviours worth noting:
-
-* Legacy `.php` URLs (`/partner.php`, `/store-locator.php`,
-  `/water-purifier-service.php`) issue permanent redirects — the same 301s the
-  live site serves today.
-* Location pages are resolved from the slug rather than a fixed list, because
-  the live site returns 200 for any slug under a location prefix (including
-  `/ro-service-kanchipurum` and `/ro-service-pimpri%20chinchwad`). The sitemap
-  list is used for prerendering and internal linking.
+`PRERENDER_PER_FAMILY` (default 40) controls how many city pages per service
+family are built up front; the rest render on demand and are then cached. A
+slug with no published row renders the not-found page, which is what the live
+site does with an unknown slug.
 
 ## Rendering
 
 Server Components by default. `"use client"` is limited to genuinely
-interactive parts: header menus, mobile drawer, product gallery, product tabs,
-category filters, cart/checkout, accordions and forms.
+interactive parts: header menus, mobile drawer, product gallery and tabs,
+category filters, cart, checkout, accordions and forms.
 
-678 pages are prerendered at build time (homepage, all categories, all
-products, all blogs, all static pages, and the 40 highest-value locations per
-family). The remaining location pages render on demand.
+The header reads the session from `/api/auth/me` in the browser rather than
+from the layout: touching `cookies()` in a server component would opt the whole
+tree out of static rendering and turn all 706 prerendered pages into
+per-request renders.
 
 ## SEO
 
-* Per-route `title`, `description`, canonical, robots, Open Graph and Twitter tags.
-* Structured data: `Organization` (layout), `Product` + `FAQPage` (product pages),
-  `Article` (blog posts), `LocalBusiness` (location pages), `BreadcrumbList`
-  (every breadcrumb), `FAQPage` (category and service FAQs).
-* `app/robots.js` reproduces the current robots.txt rules; XML sitemaps remain
-  served by the existing backend.
+* Per-route title, description, canonical, robots, Open Graph and Twitter tags.
+* Structured data: `Organization`, `Product` + `FAQPage`, `Article`,
+  `LocalBusiness`, `BreadcrumbList`.
+* `NEXT_PUBLIC_SITE_INDEXABLE=false` keeps staging out of search results;
+  set it to `true` in production.
 
-## Not in scope for this phase
+## Still to do
 
-The SQL database is untouched — no migration, no MongoDB, no backend rewrite.
-This phase delivers the frontend only, structured so the existing backend can be
-connected next without rebuilding the UI.
+* Contact, newsletter, service booking and callback forms are not yet written
+  to `contact_message`, `subscribe`, `leads` and `request_call_back`.
+* No order history page for signed-in customers.
+* Blog comments (`comment`, `comment_reply`) are not shown.
+* The WhatsApp order notification the PHP checkout sends is not wired up.
 
-## Database (existing SQL)
+## `_audit/`
 
-The app reads the **existing** DoctorFresh MySQL database. It is read-only —
-no migrations, no schema changes, no writes.
-
-1. `cp .env.example .env.local` and fill in `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`.
-2. `node _audit/introspect-db.js` — prints the real tables/columns and writes
-   `_audit/db-schema.json`.
-3. Reconcile any name differences in `lib/sql/schema.js` (that is the only file
-   that knows table/column names).
-4. `npm run dev`, then open `/api/health` — `"source": "sql"` means the site is
-   being served from the database.
-
-Without credentials, or if the database is unreachable, every catalog function
-falls back to the extracted data in `data/` and the site keeps working.
-
-| File | Role |
-| --- | --- |
-| `lib/db.js` | connection pool, `query()`, `ping()` |
-| `lib/sql/schema.js` | table + column names (edit here) |
-| `lib/sql/map.js` | SQL rows → the shape the UI already uses |
-| `lib/sql/repository.js` | the queries, memoised for the build |
-| `lib/catalog.js` | what pages call; SQL-or-static, unchanged API |
-| `lib/sql/media.js` | resolves image names against the files in `public/uploads` |
-
-### Images
-
-All catalogue media is served by this app from `public/uploads` (product photos,
-blog images, banners), so `next/image` optimises it and nothing is fetched from
-the old host at runtime. The database only records how many images a product
-has, not their filenames, and the admin panel numbering is not always 1-based —
-so `lib/sql/media.js` indexes the upload directories and uses the real names.
-Set `DB_UPLOADS_BASE_URL` to a CDN or absolute URL if the media ever moves off
-the app. Structured data (JSON-LD, OG tags) still emits absolute URLs via
-`absoluteUrl()`, which is what crawlers need.
+The original crawl of the live site, the extractors that produced the first
+data layer, `introspect-db.js` (prints the real schema) and
+`ROUTES.md` (the URL inventory and verification results).

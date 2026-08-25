@@ -32,10 +32,12 @@ export function Textarea({ label, name, className, rows = 4, ...rest }) {
 }
 
 export function Select({ label, name, options = [], placeholder, className, ...rest }) {
+  // A controlled select must not also carry defaultValue.
+  const uncontrolled = rest.value === undefined ? { defaultValue: '' } : {};
   return (
     <div className={className}>
       {label ? <Label htmlFor={name} required={rest.required}>{label}</Label> : null}
-      <select id={name} name={name} defaultValue="" className={cx(BASE, 'h-11 appearance-none pr-9')} {...rest}>
+      <select id={name} name={name} {...uncontrolled} className={cx(BASE, 'h-11 appearance-none pr-9 disabled:bg-surface-muted disabled:text-ink-300')} {...rest}>
         {placeholder ? <option value="" disabled>{placeholder}</option> : null}
         {options.map((o) => (
           <option key={o.value ?? o} value={o.value ?? o}>

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Star } from 'lucide-react';
 import AddToCartButtons from '@/components/products/AddToCartButtons';
+import WishlistButton from '@/components/products/WishlistButton';
 import { formatPrice, imageUrl } from '@/lib/utils';
 
 /**
@@ -20,7 +21,7 @@ export default function ProductCard({ product, compact = false }) {
   const showDiscount = hasPrice && product.mrp > product.price && product.discountPercent > 0;
 
   return (
-    <article className="df-product-card group flex h-full flex-col overflow-hidden">
+    <article className="df-product-card group relative flex h-full flex-col overflow-hidden">
       {/* ------------------------------------------------- image (fixed well) */}
       <Link href={product.url} className="relative block p-2.5">
         {/* product shots are photographed on white, so the well is white and the
@@ -68,6 +69,13 @@ export default function ProductCard({ product, compact = false }) {
           ) : null}
         </div>
       </Link>
+
+      {/* Sits outside the link so the heart does not open the product. */}
+      <WishlistButton
+        productId={product.id}
+        className="absolute right-3 top-[52px] z-10 h-8 w-8 bg-white/95 shadow-[0_2px_8px_-4px_rgb(6_59_76_/_0.4)]"
+        size={16}
+      />
 
       {/* ------------------------------------------------------------ content */}
       <div className="flex flex-1 flex-col px-4 pb-4 pt-1">

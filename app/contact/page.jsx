@@ -1,7 +1,8 @@
 import { Phone, Mail, MapPin, Globe, Clock, MessageCircle } from 'lucide-react';
+import { getBrand } from '@/lib/catalog';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import ContactForm from '@/components/forms/ContactForm';
-import { brand, contactPage } from '@/data/site';
+import { contactPage } from '@/data/site';
 import { metaFor } from '@/lib/utils';
 
 export const metadata = metaFor({
@@ -12,7 +13,8 @@ export const metadata = metaFor({
   path: '/contact',
 });
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const brand = await getBrand();
   return (
     <>
       <div className="border-b border-line bg-surface-muted">

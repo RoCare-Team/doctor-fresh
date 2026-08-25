@@ -14,7 +14,7 @@ const POINTS = [
 ];
 
 export default function WaterTestSection({ waterTest }) {
-  const { status, error, send, sending } = useFormSubmit('/request/form/submit.php');
+  const { status, error, send, sending } = useFormSubmit('/api/forms/lead');
 
   return (
     <section id="water-test" className="relative scroll-mt-[156px] overflow-hidden bg-ink-900">

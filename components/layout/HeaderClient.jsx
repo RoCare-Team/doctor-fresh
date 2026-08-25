@@ -5,11 +5,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  Search, ShoppingCart, User, Menu, ChevronDown, LayoutGrid, Repeat2,
+  Search, ShoppingCart, Menu, ChevronDown, LayoutGrid, Repeat2,
 } from 'lucide-react';
 import { useCart } from '@/components/cart/CartProvider';
 import { imageUrl, cx } from '@/lib/utils';
 import MobileMenu from './MobileMenu';
+import AccountMenu from './AccountMenu';
 
 // Category navigation row. Every entry points at a route that already exists.
 const NAV = [
@@ -177,13 +178,7 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
               <span className="mt-0.5 text-[12.5px] text-ink-400">Compare</span>
             </Link>
 
-            <Link
-              href="/login"
-              className="flex flex-col items-center rounded-lg px-3 py-1.5 text-ink-700 transition-colors hover:bg-surface-muted"
-            >
-              <User size={20} aria-hidden="true" />
-              <span className="mt-0.5 hidden text-[12.5px] text-ink-400 lg:block">Account</span>
-            </Link>
+            <AccountMenu />
 
             <Link
               href="/cart"

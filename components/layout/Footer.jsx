@@ -3,9 +3,7 @@ import Image from 'next/image';
 import {
   Phone, Mail, Globe, MapPin, Facebook, Twitter, Linkedin, Instagram, Youtube, Mails,
 } from 'lucide-react';
-import {
-  brand, footer, popularServices, popularRoServiceCities, popularWaterPurifierCities,
-} from '@/data/site';
+import { getBrand, getFooterLinks } from '@/lib/catalog';
 import { imageUrl } from '@/lib/utils';
 import NewsletterForm from '@/components/forms/NewsletterForm';
 
@@ -38,8 +36,10 @@ function LinkColumn({ title, links }) {
   );
 }
 
-export default function Footer() {
-  const popularCities = [...popularRoServiceCities, ...popularWaterPurifierCities].slice(0, 14);
+export default async function Footer() {
+  const [brand, footer] = await Promise.all([getBrand(), getFooterLinks()]);
+  const popularServices = footer.popularServices;
+  const popularCities = [...footer.popularRoServiceCities, ...footer.popularWaterPurifierCities].slice(0, 8);
 
   return (
     <footer className="bg-ink-900 text-white">
@@ -102,27 +102,13 @@ export default function Footer() {
         </div>
 
         <div className="lg:col-span-2">
-          <LinkColumn title="Useful Links" links={footer.usefulLinks} />
+          <LinkColumn title="Popular Services" links={popularServices} />
         </div>
 
+        {/* Cities get their own column rather than sitting under the services,
+            so both lists read at the same level. */}
         <div className="lg:col-span-2">
-          <LinkColumn title="Popular Services" links={popularServices} />
-
-          <h3 className="mb-3 mt-8 text-[14px] font-semibold uppercase tracking-[0.1em] text-white">
-            Popular Cities
-          </h3>
-          <ul className="flex flex-wrap gap-x-3 gap-y-2">
-            {popularCities.map((l) => (
-              <li key={`city-${l.href}`}>
-                <Link
-                  href={l.href}
-                  className="text-[13.5px] text-white/55 transition-colors hover:text-white"
-                >
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <LinkColumn title="Popular Cities" links={popularCities} />
         </div>
 
         <div className="lg:col-span-2">

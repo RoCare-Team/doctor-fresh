@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Droplets } from 'lucide-react';
 import { imageUrl, cx } from '@/lib/utils';
 import Reveal from '@/components/common/Reveal';
 
@@ -123,12 +123,13 @@ export default function CategoryTiles({ tiles = [] }) {
                     className="object-contain p-2 transition-transform duration-300 ease-out group-hover:scale-[1.06]"
                   />
                 ) : (
-                  <Image
-                    src={imageUrl(t.icon)}
-                    alt=""
-                    width={62}
-                    height={53}
-                    className="h-20 w-auto opacity-70 transition-transform duration-300 ease-out group-hover:scale-[1.06]"
+                  /* A few categories (STP, ETP) carry no product photo yet, so
+                     the tile shows a mark rather than an empty image. */
+                  <Droplets
+                    size={52}
+                    strokeWidth={1.4}
+                    className="text-primary-500/45 transition-transform duration-300 ease-out group-hover:scale-[1.06]"
+                    aria-hidden="true"
                   />
                 )}
               </div>

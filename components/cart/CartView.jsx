@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
 import { useCart } from './CartProvider';
 import Button from '@/components/common/Button';
-import { formatPrice, imageUrl } from '@/lib/utils';
+import SafeImage from '@/components/common/SafeImage';
+import { formatPrice } from '@/lib/utils';
 
 export default function CartView() {
   const { items, ready, subtotal, mrpTotal, savings, setQty, remove } = useCart();
@@ -36,9 +36,8 @@ export default function CartView() {
         {items.map((item) => (
           <article key={item.id} className="flex gap-4 df-card p-4">
             <Link href={item.url} className="relative h-20 w-20 shrink-0 overflow-hidden rounded border border-line sm:h-24 sm:w-24">
-              <Image
-                src={imageUrl(item.image)}
-                alt=""
+              <SafeImage
+                src={item.image}
                 fill
                 sizes="96px"
                 className="object-contain p-1.5"

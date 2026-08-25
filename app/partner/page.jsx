@@ -1,7 +1,8 @@
 import { Handshake, TrendingUp, Headset, PackageCheck } from 'lucide-react';
+import { getBrand } from '@/lib/catalog';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import PartnerForm from '@/components/forms/PartnerForm';
-import { partnerPage, brand } from '@/data/site';
+import { partnerPage } from '@/data/site';
 import { metaFor } from '@/lib/utils';
 
 export const metadata = metaFor({
@@ -19,7 +20,8 @@ const BENEFITS = [
   { icon: Handshake, title: 'Territory support', text: 'Marketing material, pricing support and lead sharing in your area.' },
 ];
 
-export default function PartnerPage() {
+export default async function PartnerPage() {
+  const brand = await getBrand();
   return (
     <>
       <div className="border-b border-line bg-surface-muted">

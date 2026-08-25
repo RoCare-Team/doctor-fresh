@@ -8,7 +8,7 @@ import { cx } from '@/lib/utils';
 
 export default function PartnerForm({ tabs = [], fields = [] }) {
   const [active, setActive] = useState(0);
-  const { status, error, send, sending, reset } = useFormSubmit('/request/form/submit.php');
+  const { status, error, send, sending, reset } = useFormSubmit('/api/forms/partner');
 
   const byName = Object.fromEntries(fields.map((f) => [f.name, f]));
   const activeTab = tabs[active] || 'Become A Partner';

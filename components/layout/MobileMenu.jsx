@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { X, ChevronDown, Phone, Mail, MessageCircle } from 'lucide-react';
+import { X, ChevronDown, Phone, Mail, MessageCircle, LogIn, UserPlus } from 'lucide-react';
 import { imageUrl, cx } from '@/lib/utils';
 
 const QUICK_LINKS = [
@@ -130,6 +130,27 @@ export default function MobileMenu({ open, onClose, categories, blogCategories, 
           ))}
         </ul>
       </nav>
+
+      {/* The header's account dropdown is not reachable on a phone, so signing
+          in and registering get their own row here. */}
+      <div className="grid shrink-0 grid-cols-2 gap-2 border-t border-line px-4 py-3">
+        <Link
+          href="/login"
+          onClick={onClose}
+          className="flex items-center justify-center gap-1.5 rounded-md border border-line-strong px-3 py-2.5 text-[14px] font-medium text-ink-700 transition-colors hover:border-primary-500 hover:text-primary-800"
+        >
+          <LogIn size={15} aria-hidden="true" />
+          Sign in
+        </Link>
+        <Link
+          href="/registration"
+          onClick={onClose}
+          className="flex items-center justify-center gap-1.5 rounded-md bg-primary-500 px-3 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-primary-900"
+        >
+          <UserPlus size={15} aria-hidden="true" />
+          Register
+        </Link>
+      </div>
 
       <div className="shrink-0 space-y-2 border-t border-line bg-surface-muted px-4 py-4 text-[14px]">
         <a href={`tel:${brand.phoneRaw}`} className="flex items-center gap-2 text-ink-700">

@@ -1,6 +1,7 @@
 import Breadcrumb from '@/components/common/Breadcrumb';
+import { getBrand } from '@/lib/catalog';
 import Button from '@/components/common/Button';
-import { careers, brand } from '@/data/site';
+import { careers } from '@/data/site';
 import { metaFor } from '@/lib/utils';
 
 export const metadata = metaFor({
@@ -9,7 +10,8 @@ export const metadata = metaFor({
   path: '/careers',
 });
 
-export default function CareersPage() {
+export default async function CareersPage() {
+  const brand = await getBrand();
   return (
     <>
       <div className="border-b border-line bg-surface-muted">

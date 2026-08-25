@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { getAllCategories, getBlogCategories } from '@/lib/catalog';
-import { brand } from '@/data/site';
+import { getAllCategories, getBlogCategories, getBrand } from '@/lib/catalog';
+
 import HeaderClient from './HeaderClient';
 
 export default async function Header() {
@@ -14,6 +14,7 @@ export default async function Header() {
   }));
 
   const blogCategories = await getBlogCategories();
+  const brand = await getBrand();
 
   return (
     <header className="sticky top-0 z-50 bg-white">

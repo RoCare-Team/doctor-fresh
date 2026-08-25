@@ -5,7 +5,7 @@ import { Input, Textarea, FormNote } from '@/components/forms/Field';
 import Button from '@/components/common/Button';
 
 export default function ContactForm({ fields = [] }) {
-  const { status, error, send, sending } = useFormSubmit('/request/form/submit.php');
+  const { status, error, send, sending } = useFormSubmit('/api/forms/contact');
 
   const byName = Object.fromEntries(fields.map((f) => [f.name, f]));
 

@@ -1,24 +1,67 @@
 'use client';
 
-import { useFormSubmit } from '@/lib/forms';
+import { useEffect, useState } from 'react';
 import { Input, Select, Textarea, FormNote } from '@/components/forms/Field';
 import Button from '@/components/common/Button';
 
-const SERVICE_TYPES = [
-  'RO Routine Service',
-  'RO Repair',
-  'Installation',
-  'Uninstallation',
-  'AMC Plan',
-  'Free Water Test',
-  'New Purchase Enquiry',
-];
+/**
+ * The booking form on every service and location page.
+ *
+ * It writes to the site's `leads` table, and its dropdowns are the same ones
+ * the PHP form uses: `ro_status`, `ro_status_query` (which depends on the
+ * chosen status), `ro_units`, `states` and `cities`.
+ */
+export default function ServiceBookingForm({ location, serviceLabel = 'RO Service', pageId, options }) {
+  const [roStatus, setRoStatus] = useState('');
+  const [state, setState] = useState('');
+  const [cities, setCities] = useState([]);
+  const [status, setStatus] = useState('idle'); // idle | sending | done | error
+  const [error, setError] = useState('');
 
-export default function ServiceBookingForm({ location, serviceLabel = 'RO Service' }) {
-  const { status, error, send, sending } = useFormSubmit('/request/form/submit.php');
+  const queries = options?.queriesByStatus?.[roStatus] || [];
+
+  // Cities are fetched for the chosen state, as the PHP form does.
+  useEffect(() => {
+    if (!state) { setCities([]); return undefined; }
+
+    let cancelled = false;
+    fetch(`/api/forms/cities?state=${encodeURIComponent(state)}`)
+      .then((r) => r.json())
+      .then((d) => { if (!cancelled) setCities(d.cities || []); })
+      .catch(() => { if (!cancelled) setCities([]); });
+
+    return () => { cancelled = true; };
+  }, [state]);
+
+  async function send(event) {
+    event.preventDefault();
+    setStatus('sending');
+    setError('');
+
+    const form = event.currentTarget;
+    const values = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      const res = await fetch('/api/forms/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...values, pageId }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) throw new Error(data.error || 'Could not send your request.');
+
+      setStatus('done');
+      form.reset();
+      setRoStatus('');
+      setState('');
+    } catch (err) {
+      setError(err.message);
+      setStatus('error');
+    }
+  }
 
   return (
-    <div id="book" className="scroll-mt-[156px] df-card p-5 md:p-6">
+    <div id="book" className="scroll-mt-39 df-card p-5 md:p-6">
       <h2 className="text-lg font-semibold text-ink-900">
         Book {serviceLabel}
         {location ? ` in ${location}` : ''}
@@ -28,41 +71,68 @@ export default function ServiceBookingForm({ location, serviceLabel = 'RO Servic
       </p>
 
       <form onSubmit={send} className="mt-5 grid gap-3.5 sm:grid-cols-2">
-        <input type="hidden" name="enquiry_type" value={`${serviceLabel} Booking`} />
-        <input type="hidden" name="city" value={location || ''} />
+        <Input label="Full name" name="name" required placeholder="Your name" autoComplete="name" />
+        <Input label="Mobile number" name="mobile" type="tel" required pattern="[0-9]{10}" maxLength={10} placeholder="10 digit mobile number" autoComplete="tel" />
+        <Input label="Email" name="email" type="email" placeholder="you@example.com" autoComplete="email" />
 
-        <Input label="Full name" name="name" required placeholder="Your name" />
-        <Input label="Mobile number" name="mobile" type="tel" required placeholder="10 digit mobile number" pattern="[0-9]{10}" />
-        <Input label="Email" name="email" type="email" placeholder="you@example.com" />
-        <Input label="Pin code" name="c_pincode" placeholder="Enter pin code" />
+        <Select
+          label="Your RO status"
+          name="roStatus"
+          placeholder="Select"
+          options={options?.roStatus || []}
+          value={roStatus}
+          onChange={(e) => setRoStatus(e.target.value)}
+        />
+
         <Select
           label="Service required"
-          name="serv_type"
+          name="queryFor"
           required
-          placeholder="Select a service"
-          options={SERVICE_TYPES}
+          placeholder={roStatus ? 'Select a service' : 'Choose your RO status first'}
+          options={queries}
+          disabled={!queries.length}
           className="sm:col-span-2"
         />
+
+        <Select
+          label="State"
+          name="state"
+          placeholder="Select state"
+          options={options?.states || []}
+          value={state}
+          onChange={(e) => setState(e.target.value)}
+        />
+        <Select
+          label="City"
+          name="city"
+          placeholder={state ? 'Select city' : 'Choose a state first'}
+          options={cities}
+          disabled={!cities.length}
+        />
+
+        <Select label="Units" name="unit" placeholder="Select" options={options?.units || []} />
+        <Input label="Preferred date" name="bookDate" type="date" />
+
         <Textarea
           label="Address / requirement"
-          name="message"
+          name="address"
           rows={3}
           placeholder="House no., area, nearby landmark or describe the issue"
           className="sm:col-span-2"
         />
 
         <div className="sm:col-span-2">
-          <Button type="submit" size="lg" disabled={sending} full>
-            {sending ? 'Sending…' : 'Request a callback'}
+          <Button type="submit" size="lg" disabled={status === 'sending'} full>
+            {status === 'sending' ? 'Sending…' : 'Request a callback'}
           </Button>
         </div>
 
-        {status !== 'idle' ? (
+        {status !== 'idle' && status !== 'sending' ? (
           <div className="sm:col-span-2">
             <FormNote
               status={status}
               error={error}
-              doneMessage="Booking received — our service team will call you within 30 minutes."
+              doneMessage="Request received — our service team will call you shortly."
             />
           </div>
         ) : null}

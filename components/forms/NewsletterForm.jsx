@@ -3,7 +3,7 @@
 import { useFormSubmit } from '@/lib/forms';
 
 export default function NewsletterForm() {
-  const { status, send, sending } = useFormSubmit('/home/subscribe');
+  const { status, send, sending } = useFormSubmit('/api/forms/subscribe');
 
   return (
     <form onSubmit={send} className="flex w-full max-w-md items-center gap-2.5">

@@ -11,19 +11,26 @@ import ProductRail from '@/components/products/ProductRail';
 import BlogCard from '@/components/blogs/BlogCard';
 import DealSlider from '@/components/home/DealSlider';
 import Reveal from '@/components/common/Reveal';
-import { getProductsByIds, getAllBlogPosts, getCategoryImage } from '@/lib/catalog';
-import { trustBadges, categoryTiles, waterTest, rails, todaysDeal, brand } from '@/data/site';
+import {
+  getProductsByIds, getAllBlogPosts, getCategoryImage, getHomeSections, getBrand,
+} from '@/lib/catalog';
+// Layout copy the database does not hold: which badges the theme shows and
+// the water-test panel. Everything else on this page comes from the catalogue.
+import { trustBadges, waterTest } from '@/data/site';
 import { metaFor } from '@/lib/utils';
 
 // Catalogue pages are rebuilt in the background every 5 minutes so edits made
 // in the existing admin panel appear without a redeploy.
 export const revalidate = 300;
 
-export const metadata = metaFor({
-  title: brand.homeTitle,
-  description: brand.tagline,
-  path: '/',
-});
+export async function generateMetadata() {
+  const brand = await getBrand();
+  return metaFor({
+    title: brand.title || brand.name,
+    description: brand.tagline,
+    path: '/',
+  });
+}
 
 const SERVICES = [
   {
@@ -77,6 +84,8 @@ const RAIL_COPY = {
 };
 
 export default async function HomePage() {
+  const brand = await getBrand();
+  const { rails, todaysDeal, categoryTiles } = await getHomeSections();
   const deals = (await getProductsByIds(todaysDeal)).slice(0, 4);
   const posts = (await getAllBlogPosts()).slice(0, 3);
 
