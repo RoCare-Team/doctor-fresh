@@ -149,13 +149,45 @@ per-request renders.
 * `NEXT_PUBLIC_SITE_INDEXABLE=false` keeps staging out of search results;
   set it to `true` in production.
 
+## Admin panel
+
+A separate area at **/admin**, signed in with the email and password already on
+the `admin` row (SHA-1, as the PHP panel stores it — the same credentials work
+in both).
+
+| Section | What it does |
+| --- | --- |
+| Dashboard | Orders and sales today, work waiting, latest orders |
+| Orders | Filter, search, change delivery status, mark paid |
+| Products | Price, discount, stock, Live / Featured / Deal, meta |
+| Categories | Name and search listing |
+| Customers | Search, orders and spend per customer |
+| Enquiries | Leads, callbacks and messages, each markable as done |
+| Blogs | Title, category, author, body HTML, meta |
+| Coupons | Create, list, delete |
+| Settings | The `general_settings` rows the storefront reads |
+
+To add an admin or change a password:
+
+```bash
+node scripts/admin-user.js
+```
+
+The password is typed in the terminal and never echoed. The product form only
+writes the fields it shows — images, attributes and specifications are left as
+the old panel set them.
+
+The admin area sits outside the shop layout (`app/(shop)/` holds the
+storefront), so it carries none of the shop chrome and is never indexed.
+
 ## Still to do
 
-* Contact, newsletter, service booking and callback forms are not yet written
-  to `contact_message`, `subscribe`, `leads` and `request_call_back`.
-* No order history page for signed-in customers.
-* Blog comments (`comment`, `comment_reply`) are not shown.
 * The WhatsApp order notification the PHP checkout sends is not wired up.
+* Creating and deleting products and categories still happens in the old panel —
+  those also touch images, menus and subcategories.
+* Easebuzz has never completed a payment on the live site either
+  (`payment_transactions` holds 79 in-process rows and no successes), so the
+  return callback needs one real end-to-end test.
 
 ## `_audit/`
 

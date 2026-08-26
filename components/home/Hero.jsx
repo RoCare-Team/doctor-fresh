@@ -9,7 +9,7 @@ import { cx } from '@/lib/utils';
 // Campaign artwork from /public/images. Each banner keeps its left third clear,
 // which is where the copy sits.
 const BANNERS = [
-  '/images/banner1.png',
+  // '/images/banner1.png',
   '/images/banner5.png',
   '/images/banner4.png',
 ];

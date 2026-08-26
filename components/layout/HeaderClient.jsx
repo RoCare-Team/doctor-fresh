@@ -132,7 +132,13 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
             <Menu size={22} aria-hidden="true" />
           </button>
 
-          <Link href="/" className="shrink-0" aria-label="Doctor Fresh home">
+          {/* a hard outline around the wordmark reads as a stray border, so the
+              focus cue here is a tint rather than a rectangle */}
+          <Link
+            href="/"
+            aria-label="Doctor Fresh home"
+            className="shrink-0 rounded-lg focus-visible:bg-primary-50 focus-visible:outline-none"
+          >
             <Image
               src={imageUrl(brand.logo)}
               alt="Doctor Fresh"
