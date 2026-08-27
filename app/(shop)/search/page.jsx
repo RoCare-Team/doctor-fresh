@@ -2,6 +2,8 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import ProductGrid from '@/components/products/ProductGrid';
+import EmptyState from '@/components/common/EmptyState';
+import Button from '@/components/common/Button';
 import { searchProducts, getAllCategories } from '@/lib/catalog';
 import { metaFor } from '@/lib/utils';
 
@@ -41,13 +43,12 @@ async function Results({ query }) {
 
   if (!results.length) {
     return (
-      <div className="rounded-[14px] border border-dashed border-line-strong bg-surface-muted px-6 py-14 text-center">
-        <h2 className="text-lg font-semibold text-ink-900">No products found for “{query}”</h2>
-        <p className="mt-1.5 text-[14.5px] text-ink-400">
-          Try a shorter search term, or browse{' '}
-          <Link href="/all-category" className="text-primary-700 hover:text-primary-800">all categories</Link>.
-        </p>
-      </div>
+      <EmptyState
+        title={`No products found for “${query}”`}
+        message="Try a shorter search term — a model name or just 'RO' often works better than a full sentence."
+      >
+        <Button href="/all-category">Browse all categories</Button>
+      </EmptyState>
     );
   }
 

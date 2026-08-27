@@ -1,14 +1,29 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
 import { useCart } from './CartProvider';
 import Button from '@/components/common/Button';
 import SafeImage from '@/components/common/SafeImage';
+import SignInPrompt from '@/components/auth/SignInPrompt';
+import { whenSession } from '@/lib/useSession';
 import { formatPrice } from '@/lib/utils';
 
 export default function CartView() {
   const { items, ready, subtotal, mrpTotal, savings, setQty, remove } = useCart();
+  const router = useRouter();
+  const [askSignIn, setAskSignIn] = useState(false);
+
+  /** An order belongs to an account, so the ask happens here rather than at the end. */
+  async function goToCheckout() {
+    if (await whenSession()) {
+      router.push('/cart-checkout');
+      return;
+    }
+    setAskSignIn(true);
+  }
 
   if (!ready) {
     return <div className="h-40 animate-pulse rounded-[14px] bg-surface-muted" />;
@@ -130,7 +145,9 @@ export default function CartView() {
             </div>
           </dl>
 
-          <Button href="/cart-checkout" size="lg" full className="mt-5">
+          <SignInPrompt open={askSignIn} onClose={() => setAskSignIn(false)} next="/cart-checkout" />
+
+          <Button type="button" onClick={goToCheckout} size="lg" full className="mt-5">
             Proceed to checkout
           </Button>
 

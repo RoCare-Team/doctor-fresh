@@ -43,7 +43,7 @@ export default function MobileMenu({ open, onClose, categories, blogCategories, 
           aria-label="Doctor Fresh home"
           className="rounded-lg focus-visible:bg-primary-50 focus-visible:outline-none"
         >
-          <Image src={imageUrl(brand.logo)} alt="Doctor Fresh" width={1714} height={389} className="h-9 w-auto" />
+          <Image src={imageUrl(brand.logo)} alt="Doctor Fresh" width={878} height={188} className="h-9 w-auto" />
         </Link>
         <button
           type="button"

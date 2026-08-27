@@ -6,6 +6,20 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { Input, FormNote } from '@/components/forms/Field';
 import Button from '@/components/common/Button';
+import { refreshSession } from '@/lib/useSession';
+
+/**
+ * Where to go once signed in.
+ *
+ * `?next=` is read off the URL rather than through `useSearchParams`, which
+ * would force these otherwise static pages to render per request. Only a path
+ * on this site is accepted — an absolute URL here would be an open redirect.
+ */
+function returnTo() {
+  if (typeof window === 'undefined') return '/';
+  const next = new URLSearchParams(window.location.search).get('next');
+  return next && /^\/(?!\/)/.test(next) ? next : '/';
+}
 
 /**
  * Sign-in and registration, both on the site's existing mobile + OTP flow.
@@ -24,6 +38,14 @@ export default function AuthForm({ mode = 'login' }) {
   const [seconds, setSeconds] = useState(0);
   const [details, setDetails] = useState({ name: '', email: '', mobile: '' });
   const codeRef = useRef(null);
+
+  // Set after mount, not during render: the server has no URL to read and the
+  // two would disagree at hydration.
+  const [carry, setCarry] = useState('');
+  useEffect(() => {
+    const next = returnTo();
+    setCarry(next === '/' ? '' : `?next=${encodeURIComponent(next)}`);
+  }, []);
 
   // Resend countdown — the API allows one code per minute per number.
   useEffect(() => {
@@ -82,7 +104,8 @@ export default function AuthForm({ mode = 'login' }) {
       await post('/api/auth/verify-otp', { ...details, otp, mode });
       // Server components read the session cookie, so the tree is refreshed
       // rather than the state being duplicated on the client.
-      router.replace('/');
+      refreshSession();
+      router.replace(returnTo());
       router.refresh();
     } catch (err) {
       setError(err.message);
@@ -181,7 +204,7 @@ export default function AuthForm({ mode = 'login' }) {
       <p className="mt-5 text-center text-[14px] text-ink-400">
         {isRegister ? 'Already have an account? ' : 'New to Doctor Fresh? '}
         <Link
-          href={isRegister ? '/login' : '/registration'}
+          href={(isRegister ? '/login' : '/registration') + carry}
           className="font-medium text-primary-700 hover:text-primary-800"
         >
           {isRegister ? 'Sign in' : 'Create an account'}

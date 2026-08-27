@@ -43,6 +43,17 @@ export async function POST(request) {
     return fail('Invalid request.');
   }
 
+  // An order belongs to an account: it is what puts it in "My orders" and what
+  // support searches on later. The UI asks before checkout, so reaching here
+  // signed out means the cookie expired mid-flow.
+  const session = await getSession();
+  if (!session) {
+    return Response.json(
+      { ok: false, error: 'Please sign in to place your order.', signIn: true },
+      { status: 401 },
+    );
+  }
+
   const form = body.address || {};
 
   for (const [field, label] of REQUIRED) {
@@ -74,8 +85,6 @@ export async function POST(request) {
   // products and how many.
   const priced = await priceBasket(body.items, body.coupon);
   if (priced.error) return fail(priced.error);
-
-  const session = await getSession();
 
   const address = {
     ...form, name, mobile, email: email || '', payment: chosen.id,

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { User, LogOut, LogIn, UserPlus, Package } from 'lucide-react';
+import { useSession, refreshSession } from '@/lib/useSession';
 
 /**
  * The account control in the header. Signed out it offers signing in and
@@ -16,19 +17,10 @@ import { User, LogOut, LogIn, UserPlus, Package } from 'lucide-react';
  */
 export default function AccountMenu() {
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  const { user } = useSession();
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const boxRef = useRef(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch('/api/auth/me')
-      .then((r) => r.json())
-      .then((d) => { if (!cancelled) setUser(d.user); })
-      .catch(() => {});
-    return () => { cancelled = true; };
-  }, []);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -97,7 +89,7 @@ export default function AccountMenu() {
   async function signOut() {
     setBusy(true);
     await fetch('/api/auth/logout', { method: 'POST' });
-    setUser(null);
+    await refreshSession();
     setOpen(false);
     setBusy(false);
     router.refresh();

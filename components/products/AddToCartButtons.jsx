@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShoppingCart, Check, Minus, Plus } from 'lucide-react';
 import { useCart } from '@/components/cart/CartProvider';
+import SignInPrompt from '@/components/auth/SignInPrompt';
+import { whenSession } from '@/lib/useSession';
 import Button from '@/components/common/Button';
 
 /**
@@ -15,6 +17,7 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
   const router = useRouter();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
+  const [askSignIn, setAskSignIn] = useState(false);
 
   const purchasable = Boolean(product.price) && product.inStock !== false;
   const max = product.maxQty || 99;
@@ -25,9 +28,18 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
     setTimeout(() => setAdded(false), 1600);
   }
 
-  function handleBuyNow() {
+  /**
+   * The product goes in the basket either way: if the visitor has to sign in
+   * first, it is waiting for them when they come back rather than lost.
+   */
+  async function handleBuyNow() {
     add(product, layout === 'detail' ? qty : 1);
-    router.push('/cart-checkout');
+
+    if (await whenSession()) {
+      router.push('/cart-checkout');
+      return;
+    }
+    setAskSignIn(true);
   }
 
   if (!purchasable) {
@@ -47,9 +59,14 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
     );
   }
 
+  const prompt = (
+    <SignInPrompt open={askSignIn} onClose={() => setAskSignIn(false)} next="/cart-checkout" />
+  );
+
   if (layout === 'card') {
     return (
       <div className="flex gap-2.5">
+        {prompt}
         <button
           type="button"
           onClick={handleBuyNow}
@@ -71,6 +88,7 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
 
   return (
     <div className="space-y-4">
+      {prompt}
       <div className="flex items-center gap-4">
         <span className="text-[14px] font-medium text-ink-700">Quantity</span>
         <div className="inline-flex h-11 items-center rounded-md border border-line-strong">

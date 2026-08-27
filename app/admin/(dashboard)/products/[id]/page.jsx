@@ -2,8 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { getProduct, listCategories } from '@/lib/sql/admin-catalog';
-import ProductForm from '@/components/admin/ProductForm';
-import ProductImages from '@/components/admin/ProductImages';
+import ProductEditor from '@/components/admin/ProductEditor';
 import SafeImage from '@/components/common/SafeImage';
 
 export const dynamic = 'force-dynamic';
@@ -46,10 +45,7 @@ export default async function AdminProductPage({ params }) {
       </div>
 
       <div className="mt-6 max-w-3xl">
-        <ProductImages productId={product.id} />
-        <div className="mt-4">
-          <ProductForm product={product} categories={categories || []} />
-        </div>
+        <ProductEditor product={product} categories={categories || []} />
       </div>
     </>
   );

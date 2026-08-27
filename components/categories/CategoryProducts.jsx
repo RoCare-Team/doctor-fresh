@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { SlidersHorizontal, X } from 'lucide-react';
 import ProductGrid from '@/components/products/ProductGrid';
 import Button from '@/components/common/Button';
+import EmptyState from '@/components/common/EmptyState';
 import { formatPrice, cx } from '@/lib/utils';
 
 const SORTS = [
@@ -57,13 +58,36 @@ export default function CategoryProducts({ products = [], subcategories = [], ac
 
   const hasFilters = Boolean(maxPrice) || inStockOnly;
 
+  function clearFilters() {
+    setMaxPrice(null);
+    setInStockOnly(false);
+    setVisible(PAGE_SIZE);
+  }
+
+  // Names the filter that is responsible, so it is obvious what to relax.
+  const reasons = [
+    maxPrice ? `nothing here is under ${formatPrice(maxPrice)}` : null,
+    inStockOnly ? 'nothing is in stock right now' : null,
+  ].filter(Boolean).join(', and ');
+  const clearedMessage = reasons
+    ? `${reasons.charAt(0).toUpperCase()}${reasons.slice(1)}. Try widening your filters.`
+    : 'Try widening your filters.';
+
   /* ------------------------------------------------------------- sidebar */
+
+  // Each option is a padded row rather than a bare line of text. Several
+  // category names wrap onto two lines, and with only a small margin between
+  // items a wrapped name ran into the next one.
+  const ROW = 'block rounded-md px-2 py-[7px] text-[14px] leading-[1.45] transition-colors';
+
   const filterControls = (
-    <div className="space-y-7">
+    <div className="divide-y divide-line">
       {subcategories.length ? (
-        <div>
-          <h2 className="mb-2.5 text-[15px] font-semibold text-ink-900">Category</h2>
-          <ul className="space-y-1.5">
+        <div className="py-5">
+          <h2 className="mb-2 text-[13px] font-semibold uppercase tracking-wide text-ink-400">
+            Category
+          </h2>
+          <ul className="-mx-2 space-y-px">
             {subcategories.map((s) => {
               const isActive = s.slug === activeSlug;
               return (
@@ -72,10 +96,10 @@ export default function CategoryProducts({ products = [], subcategories = [], ac
                     href={s.href}
                     aria-current={isActive ? 'page' : undefined}
                     className={cx(
-                      'block text-[14px] leading-snug transition-colors',
+                      ROW,
                       isActive
-                        ? 'font-semibold text-ink-900'
-                        : 'text-ink-500 hover:text-primary-600 hover:underline',
+                        ? 'bg-primary-50 font-semibold text-primary-800'
+                        : 'text-ink-500 hover:bg-surface-muted hover:text-primary-700',
                     )}
                   >
                     {s.name}
@@ -88,12 +112,20 @@ export default function CategoryProducts({ products = [], subcategories = [], ac
       ) : null}
 
       {priceBuckets.length ? (
-        <div>
-          <h2 className="mb-2.5 text-[15px] font-semibold text-ink-900">Price</h2>
-          <ul className="space-y-1.5">
+        <div className="py-5">
+          <h2 className="mb-2 text-[13px] font-semibold uppercase tracking-wide text-ink-400">
+            Price
+          </h2>
+          <ul className="-mx-2 space-y-px">
             {priceBuckets.map((b) => (
               <li key={b}>
-                <label className="flex cursor-pointer items-center gap-2.5 text-[14px] text-ink-500 transition-colors hover:text-primary-600 has-[:checked]:font-semibold has-[:checked]:text-ink-900">
+                <label
+                  className={cx(
+                    ROW,
+                    'flex cursor-pointer items-center gap-2.5 text-ink-500 hover:bg-surface-muted hover:text-primary-700',
+                    'has-checked:bg-primary-50 has-checked:font-semibold has-checked:text-primary-800',
+                  )}
+                >
                   <input
                     type="radio"
                     name="price"
@@ -109,42 +141,52 @@ export default function CategoryProducts({ products = [], subcategories = [], ac
         </div>
       ) : null}
 
-      <div>
-        <h2 className="mb-2.5 text-[15px] font-semibold text-ink-900">Availability</h2>
-        <label className="flex cursor-pointer items-center gap-2.5 text-[14px] text-ink-500 transition-colors hover:text-primary-600 has-[:checked]:font-semibold has-[:checked]:text-ink-900">
-          <input
-            type="checkbox"
-            checked={inStockOnly}
-            onChange={(e) => { setInStockOnly(e.target.checked); setVisible(PAGE_SIZE); }}
-            className="accent-primary-500"
-          />
-          In stock only
-        </label>
+      <div className="py-5">
+        <h2 className="mb-2 text-[13px] font-semibold uppercase tracking-wide text-ink-400">
+          Availability
+        </h2>
+        <div className="-mx-2">
+          <label
+            className={cx(
+              ROW,
+              'flex cursor-pointer items-center gap-2.5 text-ink-500 hover:bg-surface-muted hover:text-primary-700',
+              'has-checked:bg-primary-50 has-checked:font-semibold has-checked:text-primary-800',
+            )}
+          >
+            <input
+              type="checkbox"
+              checked={inStockOnly}
+              onChange={(e) => { setInStockOnly(e.target.checked); setVisible(PAGE_SIZE); }}
+              className="accent-primary-500"
+            />
+            In stock only
+          </label>
+        </div>
       </div>
 
       {hasFilters ? (
-        <button
-          type="button"
-          onClick={() => { setMaxPrice(null); setInStockOnly(false); setVisible(PAGE_SIZE); }}
-          className="text-[14px] font-medium text-primary-600 transition-colors hover:text-primary-700 hover:underline"
-        >
-          Clear filters
-        </button>
+        <div className="py-5">
+          <button
+            type="button"
+            onClick={clearFilters}
+            className="text-[14px] font-medium text-primary-600 transition-colors hover:text-primary-700 hover:underline"
+          >
+            Clear filters
+          </button>
+        </div>
       ) : null}
     </div>
   );
 
   if (!products.length) {
     return (
-      <div className="rounded-[14px] border border-dashed border-line-strong bg-surface-muted px-6 py-12 text-center">
-        <p className="text-sm text-ink-500">
-          Products in this category are available on request.
-        </p>
-        <div className="mt-4 flex flex-wrap justify-center gap-3">
-          <Button href="/contact">Request a quotation</Button>
-          <Button href="tel:9311587716" variant="outline">Call +91-9311587716</Button>
-        </div>
-      </div>
+      <EmptyState
+        title="Nothing listed here yet"
+        message="Products in this category are available on request — tell us what you need and we will quote it."
+      >
+        <Button href="/contact">Request a quotation</Button>
+        <Button href="tel:9311587716" variant="outline">Call +91-9311587716</Button>
+      </EmptyState>
     );
   }
 
@@ -189,13 +231,27 @@ export default function CategoryProducts({ products = [], subcategories = [], ac
       </div>
 
       {/* ----------------------------------------------- sidebar + results */}
-      <div className="grid gap-7 lg:grid-cols-[210px_1fr] lg:gap-9">
+      <div className="grid gap-7 lg:grid-cols-[232px_1fr] lg:gap-9">
+        {/* On desktop the filters are their own panel, lifted off the page so
+            they read as a control surface rather than loose links. In the
+            mobile sheet they already sit on white, so the card is not repeated. */}
         <aside className="hidden lg:block">
-          <div className="sticky top-[138px]">{filterControls}</div>
+          <div className="sticky top-[138px] rounded-[14px] border border-line bg-white px-4 shadow-[0_4px_16px_-10px_rgb(6_59_76_/_0.28)]">
+            {filterControls}
+          </div>
         </aside>
 
         <div>
-          <ProductGrid products={filtered.slice(0, visible)} />
+          {filtered.length ? (
+            <ProductGrid products={filtered.slice(0, visible)} />
+          ) : (
+            <EmptyState
+              title="No products match these filters"
+              message={clearedMessage}
+            >
+              <Button type="button" onClick={clearFilters}>Clear filters</Button>
+            </EmptyState>
+          )}
 
           {visible < filtered.length ? (
             <div className="mt-8 flex justify-center">

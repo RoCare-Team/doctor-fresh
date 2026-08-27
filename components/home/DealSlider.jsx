@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import SafeImage from '@/components/common/SafeImage';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { formatPrice, imageUrl, cx } from '@/lib/utils';
+import { formatPrice, cx } from '@/lib/utils';
 
 /**
  * Compact deal carousel used inside the Today's Deal banner. Two cards are
@@ -51,32 +51,35 @@ export default function DealSlider({ deals = [] }) {
           <li key={p.id} className="w-[78%] shrink-0 snap-start sm:w-[calc(50%-0.5rem)]">
             <Link
               href={p.url}
-              className="group flex h-full flex-col rounded-2xl bg-white p-3 transition-shadow duration-200 hover:shadow-[0_14px_28px_-16px_rgb(6_59_76_/_0.5)]"
+              className="group flex h-full flex-col rounded-2xl bg-white p-2 transition-shadow duration-200 hover:shadow-[0_14px_28px_-16px_rgb(6_59_76_/_0.5)]"
             >
-              <span className="flex gap-3">
-                <span className="relative h-[68px] w-[68px] shrink-0 overflow-hidden rounded-lg bg-surface-tint">
-                  <Image
-                    src={imageUrl(p.images[0])}
+              {/* The product leads the card. The well is white and unpadded
+                  because the photos are shot on white: a tinted frame around
+                  them boxed the product into a small square in the middle. */}
+              <span className="relative block">
+                <span className="relative block h-[156px] w-full overflow-hidden rounded-xl bg-white sm:h-[176px]">
+                  <SafeImage
+                    src={p.images?.[0]}
                     alt=""
                     fill
-                    sizes="68px"
-                    className="object-contain p-1.5 transition-transform duration-300 group-hover:scale-105"
+                    sizes="(max-width: 640px) 78vw, 300px"
+                    className="object-contain transition-transform duration-300 group-hover:scale-[1.06]"
+                    iconSize={28}
                   />
                 </span>
 
-                <span className="min-w-0 flex-1">
-                  {p.discountPercent > 0 ? (
-                    <span className="mb-1 inline-block rounded bg-primary-600 px-1.5 py-[2px] text-[10.5px] font-bold uppercase tracking-wide text-white">
-                      {p.discountPercent}% off
-                    </span>
-                  ) : null}
-                  <span className="line-clamp-2 block min-h-[32px] text-[13px] font-medium leading-tight text-ink-900 transition-colors group-hover:text-primary-700">
-                    {p.name}
+                {p.discountPercent > 0 ? (
+                  <span className="absolute right-1.5 top-1.5 rounded-md bg-primary-600 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-white">
+                    {p.discountPercent}% off
                   </span>
-                </span>
+                ) : null}
               </span>
 
-              <span className="mt-2.5 flex items-center justify-between gap-2 border-t border-line pt-2.5">
+              <span className="mt-1.5 line-clamp-2 block min-h-[32px] px-1 text-[13px] font-medium leading-tight text-ink-900 transition-colors group-hover:text-primary-700">
+                {p.name}
+              </span>
+
+              <span className="mt-auto flex items-center justify-between gap-2 px-1 pt-1.5">
                 {p.price ? (
                   <span className="flex flex-wrap items-baseline gap-x-1.5">
                     <span className="text-[16px] font-semibold tracking-tight text-ink-900">

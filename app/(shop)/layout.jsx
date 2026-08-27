@@ -15,7 +15,10 @@ export async function generateMetadata() {
     },
     description: brand.tagline,
     applicationName: brand.name,
-    icons: { icon: imageUrl(brand.favicon) },
+    icons: {
+      icon: imageUrl(brand.favicon),
+      apple: imageUrl(brand.favicon), // home-screen icon on iOS
+    },
     openGraph: { siteName: brand.name, type: 'website', locale: 'en_IN' },
     twitter: { card: 'summary_large_image', site: '@DoctorFreshIN' },
   };

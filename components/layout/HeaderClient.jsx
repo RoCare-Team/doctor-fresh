@@ -142,8 +142,8 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
             <Image
               src={imageUrl(brand.logo)}
               alt="Doctor Fresh"
-              width={1714}
-              height={389}
+              width={878}
+              height={188}
               priority
               className="h-9 w-auto lg:h-[52px]"
             />

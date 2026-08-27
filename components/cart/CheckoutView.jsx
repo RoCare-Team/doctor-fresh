@@ -3,11 +3,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Lock, Check } from 'lucide-react';
+import { Lock, Check, ShieldCheck } from 'lucide-react';
 import { useCart } from './CartProvider';
 import { Input, Textarea, FormNote } from '@/components/forms/Field';
 import Button from '@/components/common/Button';
 import SafeImage from '@/components/common/SafeImage';
+import { useSession, refreshSession } from '@/lib/useSession';
 import { formatPrice, cx } from '@/lib/utils';
 
 /**
@@ -21,6 +22,7 @@ import { formatPrice, cx } from '@/lib/utils';
  */
 export default function CheckoutView() {
   const { items, ready, clear } = useCart();
+  const { user, loading: sessionLoading } = useSession();
   const router = useRouter();
 
   const [step, setStep] = useState(1);
@@ -90,6 +92,14 @@ export default function CheckoutView() {
         body: JSON.stringify({ address, items: lines, coupon: couponCode, payment }),
       });
       const data = await res.json().catch(() => ({}));
+
+      // The session expired while the form was open — swapping back to the
+      // sign-in panel is clearer than an error above a form they cannot submit.
+      if (data.signIn) {
+        await refreshSession();
+        return;
+      }
+
       if (!res.ok || !data.ok) throw new Error(data.error || 'Could not place your order. Please try again.');
 
       if (data.redirect) {
@@ -115,6 +125,30 @@ export default function CheckoutView() {
         <h2 className="text-lg font-semibold text-ink-900">Nothing to check out</h2>
         <p className="mt-1.5 text-[14.5px] text-ink-400">Add a product to your cart first.</p>
         <Button href="/all-category" className="mt-5">Browse products</Button>
+      </div>
+    );
+  }
+
+  // Reached directly rather than through the Buy Now prompt. The basket is
+  // untouched — the visitor only has to sign in to carry on.
+  if (sessionLoading) return <div className="h-64 animate-pulse rounded-[14px] bg-surface-muted" />;
+
+  if (!user) {
+    return (
+      <div className="mx-auto max-w-md rounded-[14px] border border-line bg-white px-6 py-12 text-center">
+        <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary-50 text-primary-600">
+          <ShieldCheck size={24} aria-hidden="true" />
+        </span>
+        <h2 className="mt-4 text-[19px] font-semibold text-ink-900">Sign in to place your order</h2>
+        <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-500">
+          Your basket is saved. Sign in or create an account and you will come straight back here.
+        </p>
+        <div className="mt-6 space-y-2.5">
+          <Button href="/registration?next=%2Fcart-checkout" size="lg" full>Create an account</Button>
+          <Button href="/login?next=%2Fcart-checkout" variant="outline" size="lg" full>
+            I already have an account
+          </Button>
+        </div>
       </div>
     );
   }

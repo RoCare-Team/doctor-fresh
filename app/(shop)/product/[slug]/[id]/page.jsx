@@ -6,6 +6,7 @@ import ProductGallery from '@/components/products/ProductGallery';
 import ProductTabs from '@/components/products/ProductTabs';
 import ProductReviews from '@/components/products/ProductReviews';
 import AddToCartButtons from '@/components/products/AddToCartButtons';
+import QuotationButton from '@/components/products/QuotationButton';
 import Accordion from '@/components/common/Accordion';
 import ProductRail from '@/components/products/ProductRail';
 import Rating from '@/components/common/Rating';
@@ -183,6 +184,8 @@ export default async function ProductPage({ params }) {
               Call a water expert — +91-9311587716
             </a>
 
+            <QuotationButton productId={product.id} productName={product.name} />
+
             <ul className="mt-6 grid gap-2.5 border-t border-line pt-6 sm:grid-cols-2">
               {TRUST.map((t) => {
                 const Icon = t.icon;
@@ -244,7 +247,7 @@ export default async function ProductPage({ params }) {
               },
               {
                 id: 'features',
-                label: 'Features',
+                label: 'Attribute',
                 content: product.attributes.length ? (
                   <dl className="grid max-w-4xl gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
                     {product.attributes.map((a) => (
@@ -259,19 +262,12 @@ export default async function ProductPage({ params }) {
               {
                 id: 'installation',
                 label: 'Installation & Service',
-                content: (
+                // Only when the column holds something. Writing a house note in
+                // here would be inventing product copy that is not in the
+                // catalogue.
+                content: product.installationHtml ? (
                   <div className="max-w-3xl space-y-4">
-                    {product.installationHtml ? (
-                      <div className="df-prose" dangerouslySetInnerHTML={{ __html: product.installationHtml }} />
-                    ) : (
-                      <div className="df-prose">
-                        <p>
-                          Installation and commissioning is handled by Doctor Fresh certified technicians.
-                          Every visit includes wall mounting, inlet water assembly connection and a free
-                          water quality (TDS) test.
-                        </p>
-                      </div>
-                    )}
+                    <div className="df-prose" dangerouslySetInnerHTML={{ __html: product.installationHtml }} />
                     <div className="flex flex-wrap gap-3">
                       <Link href="/water-purifier-installation" className="text-[14.5px] font-medium text-primary-700 hover:text-primary-800">
                         Installation / Uninstallation →
@@ -284,7 +280,7 @@ export default async function ProductPage({ params }) {
                       </Link>
                     </div>
                   </div>
-                ),
+                ) : null,
               },
               {
                 id: 'shipping',
