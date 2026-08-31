@@ -1,6 +1,7 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { CartProvider } from '@/components/cart/CartProvider';
+import RequestWizardTrigger from '@/components/forms/RequestWizardTrigger';
 import { getBrand } from '@/lib/catalog';
 import { SITE_URL, imageUrl } from '@/lib/utils';
 
@@ -57,6 +58,7 @@ export default async function ShopLayout({ children }) {
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        <RequestWizardTrigger />
       </CartProvider>
     </>
   );
