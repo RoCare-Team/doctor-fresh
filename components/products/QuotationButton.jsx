@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { X, FileText } from 'lucide-react';
+import { X, FileText, Download } from 'lucide-react';
 import { Input, FormNote } from '@/components/forms/Field';
 import Button from '@/components/common/Button';
 
@@ -50,7 +50,9 @@ export default function QuotationButton({ productId, productName }) {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error(data.error || 'Could not send your request.');
+
       setStatus('sent');
+      window.location.assign(`/api/brochure/${productId}`);
     } catch (err) {
       setError(err.message);
       setStatus('error');
@@ -100,8 +102,22 @@ export default function QuotationButton({ productId, productName }) {
 
             {status === 'sent' ? (
               <div className="mt-6">
-                <FormNote status="done" doneMessage="Thank you — our team will call you shortly with the quotation and brochure." />
-                <Button type="button" variant="outline" full className="mt-4" onClick={() => setOpen(false)}>
+                <FormNote
+                  status="done"
+                  doneMessage="Thank you — your brochure is downloading, and our team will call you shortly."
+                />
+
+                {/* The download starts on its own; this is here for a second copy,
+                    and for anyone whose browser blocked the first one. */}
+                <a
+                  href={`/api/brochure/${productId}`}
+                  className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary-500 text-[15px] font-semibold text-white transition-colors hover:bg-ink-900"
+                >
+                  <Download size={17} aria-hidden="true" />
+                  Download the PDF
+                </a>
+
+                <Button type="button" variant="outline" full className="mt-2.5" onClick={() => setOpen(false)}>
                   Close
                 </Button>
               </div>
