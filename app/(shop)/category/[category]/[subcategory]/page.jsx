@@ -24,6 +24,7 @@ export async function generateMetadata({ params }) {
   return metaFor({
     title: found.subcategory.metaTitle || `${found.subcategory.name} - Doctor Fresh`,
     description: found.subcategory.metaDescription,
+    keywords: found.subcategory.keywords,
     path: found.subcategory.href,
   });
 }

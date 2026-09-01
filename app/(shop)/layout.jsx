@@ -16,6 +16,13 @@ export async function generateMetadata() {
     },
     description: brand.tagline,
     applicationName: brand.name,
+    // From `general_settings`: meta_keywords, meta_author. Every page keeps its
+    // own keywords; these are the fallback for pages that carry none.
+    keywords: brand.keywords
+      ? brand.keywords.split(',').map((k) => k.trim()).filter(Boolean)
+      : undefined,
+    authors: brand.author ? [{ name: brand.author }] : undefined,
+    publisher: brand.name,
     icons: {
       icon: imageUrl(brand.favicon),
       apple: imageUrl(brand.favicon), // home-screen icon on iOS

@@ -30,6 +30,8 @@ export async function generateMetadata({ params }) {
   return metaFor({
     title: product.metaTitle || product.name,
     description: product.metaDescription,
+    // `tag` on the product row — the same keywords the current site prints.
+    keywords: product.keywords,
     path: `/product/${slug}/${product.id}`,
     image: product.images[0],
   });
