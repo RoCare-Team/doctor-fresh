@@ -1,4 +1,5 @@
 import { listCustomers } from '@/lib/sql/admin-catalog';
+import Pagination, { paginate } from '@/components/admin/Pagination';
 import AdminTable from '@/components/admin/AdminTable';
 import SearchBox from '@/components/admin/SearchBox';
 import { formatPrice, formatDate } from '@/lib/utils';
@@ -9,7 +10,9 @@ export const metadata = { title: 'Customers' };
 export default async function AdminCustomersPage({ searchParams }) {
   const params = await searchParams;
   const search = (params?.q || '').trim();
-  const customers = await listCustomers({ search, limit: 300 });
+  const page = Number(params?.page) || 1;
+  const view = paginate(await listCustomers({ search, limit: 1000 }) || [], page);
+  const customers = view.rows;
 
   return (
     <>
@@ -46,6 +49,8 @@ export default async function AdminCustomersPage({ searchParams }) {
           </tr>
         ))}
       </AdminTable>
+
+      <Pagination {...view} params={{ q: search }} label="customers" />
     </>
   );
 }

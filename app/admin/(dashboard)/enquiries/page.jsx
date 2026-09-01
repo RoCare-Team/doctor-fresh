@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { listLeads, listCallbacks, listMessages } from '@/lib/sql/admin';
 import HandledToggle from '@/components/admin/HandledToggle';
+import Pagination, { paginate } from '@/components/admin/Pagination';
 import { formatDate, cx } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
@@ -15,6 +16,7 @@ const TABS = [
 export default async function AdminEnquiriesPage({ searchParams }) {
   const params = await searchParams;
   const tab = TABS.some((t) => t.id === params?.tab) ? params.tab : 'leads';
+  const page = Number(params?.page) || 1;
 
   const [leads, callbacks, messages] = await Promise.all([
     tab === 'leads' ? listLeads({ limit: 200 }) : [],
@@ -22,7 +24,8 @@ export default async function AdminEnquiriesPage({ searchParams }) {
     tab === 'messages' ? listMessages({ limit: 200 }) : [],
   ]);
 
-  const rows = { leads, callbacks, messages }[tab];
+  const view = paginate({ leads, callbacks, messages }[tab], page);
+  const rows = view.rows;
 
   return (
     <>
@@ -112,6 +115,8 @@ export default async function AdminEnquiriesPage({ searchParams }) {
           ))}
         </ul>
       )}
+
+      <Pagination {...view} params={{ tab }} label="enquiries" />
     </>
   );
 }

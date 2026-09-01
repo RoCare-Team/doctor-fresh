@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Pagination, { paginate } from '@/components/admin/Pagination';
 import { listBlogs } from '@/lib/sql/admin-catalog';
 import AdminTable from '@/components/admin/AdminTable';
 import { formatDate } from '@/lib/utils';
@@ -6,8 +7,12 @@ import { formatDate } from '@/lib/utils';
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Blogs' };
 
-export default async function AdminBlogsPage() {
-  const posts = await listBlogs({ limit: 200 });
+export default async function AdminBlogsPage({ searchParams }) {
+  const params = await searchParams;
+  const page = Number(params?.page) || 1;
+
+  const view = paginate(await listBlogs({ limit: 500 }) || [], page);
+  const posts = view.rows;
 
   return (
     <>
@@ -48,6 +53,8 @@ export default async function AdminBlogsPage() {
           </tr>
         ))}
       </AdminTable>
+
+      <Pagination {...view} label="posts" />
     </>
   );
 }

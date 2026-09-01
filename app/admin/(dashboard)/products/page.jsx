@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Pagination, { paginate } from '@/components/admin/Pagination';
 import { Plus } from 'lucide-react';
 import { listProducts, listCategories } from '@/lib/sql/admin-catalog';
 import AdminTable from '@/components/admin/AdminTable';
@@ -13,18 +14,22 @@ export default async function AdminProductsPage({ searchParams }) {
   const params = await searchParams;
   const search = (params?.q || '').trim();
   const categoryId = params?.category || '';
+  const page = Number(params?.page) || 1;
 
-  const [products, categories] = await Promise.all([
-    listProducts({ search, categoryId, limit: 400 }),
+  const [allProducts, categories] = await Promise.all([
+    listProducts({ search, categoryId, limit: 1000 }),
     listCategories(),
   ]);
+
+  const view = paginate(allProducts || [], page);
+  const products = view.rows;
 
   return (
     <>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-[22px] font-semibold text-ink-900">Products</h1>
         <span className="flex items-center gap-4">
-          <span className="text-[14px] text-ink-400">{products?.length ?? 0} shown</span>
+          <span className="text-[14px] text-ink-400">{view.total} products</span>
           <Link
             href="/admin/products/new"
             className="inline-flex items-center gap-1.5 rounded-lg bg-primary-500 px-4 py-2 text-[14px] font-medium text-white transition-colors hover:bg-primary-900"
@@ -114,6 +119,8 @@ export default async function AdminProductsPage({ searchParams }) {
           </tr>
         ))}
       </AdminTable>
+
+      <Pagination {...view} params={{ q: search, category: categoryId }} label="products" />
     </>
   );
 }

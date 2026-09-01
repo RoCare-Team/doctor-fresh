@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Pagination, { paginate } from '@/components/admin/Pagination';
 import { Search } from 'lucide-react';
 import { listOrders, DELIVERY_STATUSES } from '@/lib/sql/admin';
 import { formatPrice, formatDate, cx } from '@/lib/utils';
@@ -11,8 +12,10 @@ export default async function AdminOrdersPage({ searchParams }) {
   const params = await searchParams;
   const status = params?.status || '';
   const search = (params?.q || '').trim();
+  const page = Number(params?.page) || 1;
 
-  const orders = await listOrders({ status, search, limit: 200 });
+  const view = paginate(await listOrders({ status, search, limit: 500 }) || [], page);
+  const orders = view.rows;
 
   return (
     <>
@@ -107,6 +110,8 @@ export default async function AdminOrdersPage({ searchParams }) {
           </tbody>
         </table>
       </div>
+
+      <Pagination {...view} params={{ status, q: search }} label="orders" />
     </>
   );
 }

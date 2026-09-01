@@ -1,4 +1,5 @@
 import { listCoupons } from '@/lib/sql/admin-catalog';
+import Pagination, { paginate } from '@/components/admin/Pagination';
 import AdminTable from '@/components/admin/AdminTable';
 import CouponForm from '@/components/admin/CouponForm';
 import CouponDelete from '@/components/admin/CouponDelete';
@@ -7,9 +8,15 @@ import { formatDate, formatPrice, cx } from '@/lib/utils';
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Coupons' };
 
-export default async function AdminCouponsPage() {
-  const coupons = await listCoupons({ limit: 200 });
-  const live = (coupons || []).filter((c) => !c.expired).length;
+export default async function AdminCouponsPage({ searchParams }) {
+  const params = await searchParams;
+  const page = Number(params?.page) || 1;
+
+  const all = await listCoupons({ limit: 500 }) || [];
+  const live = all.filter((c) => !c.expired).length;
+
+  const view = paginate(all, page);
+  const coupons = view.rows;
 
   return (
     <>
@@ -59,6 +66,8 @@ export default async function AdminCouponsPage() {
           </tr>
         ))}
       </AdminTable>
+
+      <Pagination {...view} label="coupons" />
     </>
   );
 }

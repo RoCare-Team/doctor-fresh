@@ -4,6 +4,7 @@ import { listBrochures } from '@/lib/sql/admin-catalog';
 import { listQuotations } from '@/lib/sql/admin';
 import HandledToggle from '@/components/admin/HandledToggle';
 import SafeImage from '@/components/common/SafeImage';
+import Pagination, { paginate } from '@/components/admin/Pagination';
 import { formatPrice, formatDate, cx } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
@@ -18,6 +19,7 @@ export default async function AdminBrochuresPage({ searchParams }) {
   const params = await searchParams;
   const tab = TABS.some((t) => t.id === params?.tab) ? params.tab : 'requests';
   const search = String(params?.q || '').trim();
+  const page = Number(params?.page) || 1;
 
   const [requests, products] = await Promise.all([
     tab === 'requests' ? listQuotations({ limit: 300 }) : [],
@@ -50,15 +52,15 @@ export default async function AdminBrochuresPage({ searchParams }) {
       </div>
 
       {tab === 'requests'
-        ? <Requests rows={requests || []} />
-        : <Products rows={products || []} search={search} />}
+        ? <Requests rows={requests || []} page={page} />
+        : <Products rows={products || []} search={search} page={page} />}
     </>
   );
 }
 
 /* ------------------------------------------------- who asked for a brochure */
 
-function Requests({ rows }) {
+function Requests({ rows, page }) {
   const open = rows.filter((r) => !r.handled).length;
 
   if (!rows.length) {
@@ -69,6 +71,8 @@ function Requests({ rows }) {
     );
   }
 
+  const view = paginate(rows, page);
+
   return (
     <>
       <p className="mt-4 text-[14px] text-ink-500">
@@ -77,7 +81,7 @@ function Requests({ rows }) {
       </p>
 
       <ul className="mt-3 space-y-3">
-        {rows.map((r) => (
+        {view.rows.map((r) => (
           <li
             key={r.id}
             className={cx('rounded-xl border bg-white p-4 md:p-5', r.handled ? 'border-line opacity-70' : 'border-line')}
@@ -128,15 +132,18 @@ function Requests({ rows }) {
           </li>
         ))}
       </ul>
+
+      <Pagination {...view} params={{ tab: 'requests' }} label="requests" />
     </>
   );
 }
 
 /* --------------------------------------------- what each brochure will show */
 
-function Products({ rows, search }) {
+function Products({ rows, search, page }) {
   const thin = rows.filter((r) => !r.specCount && !r.hasDescription).length;
   const downloads = rows.reduce((n, r) => n + r.downloads, 0);
+  const view = paginate(rows, page);
 
   return (
     <>
@@ -172,7 +179,7 @@ function Products({ rows, search }) {
             </tr>
           </thead>
           <tbody>
-            {rows.map((r) => (
+            {view.rows.map((r) => (
               <tr key={r.id} className="border-b border-line last:border-0">
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
@@ -232,6 +239,8 @@ function Products({ rows, search }) {
           <p className="px-4 py-14 text-center text-ink-400">No products match that search.</p>
         ) : null}
       </div>
+
+      <Pagination {...view} params={{ tab: 'products', q: search }} label="products" />
     </>
   );
 }
