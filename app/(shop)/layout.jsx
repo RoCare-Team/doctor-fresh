@@ -3,18 +3,25 @@ import Footer from '@/components/layout/Footer';
 import { CartProvider } from '@/components/cart/CartProvider';
 import RequestWizardTrigger from '@/components/forms/RequestWizardTrigger';
 import { getBrand } from '@/lib/catalog';
+import { homeMeta } from '@/data/site';
 import { SITE_URL, imageUrl } from '@/lib/utils';
 
-/** Title, description and icon all come from `general_settings`. */
+/**
+ * The site-wide fallback. Every page sets its own title and description, so
+ * this only shows on the error pages — but `general_settings.system_title` and
+ * `meta_description` still hold the installer's placeholders ("Doctor Fresh",
+ * "Meta Des"), which the live site never renders either. The home page copy is
+ * the honest default, so it is what is used here too.
+ */
 export async function generateMetadata() {
   const brand = await getBrand();
 
   return {
     title: {
-      default: brand.title || brand.name,
+      default: homeMeta.title,
       template: `%s | ${brand.name}`,
     },
-    description: brand.tagline,
+    description: homeMeta.description,
     applicationName: brand.name,
     // From `general_settings`: meta_keywords, meta_author. Every page keeps its
     // own keywords; these are the fallback for pages that carry none.

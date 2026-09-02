@@ -9,6 +9,20 @@
 //
 // Nothing in this file is product, price, page or customer data.
 
+/**
+ * The home page's title and description.
+ *
+ * These are the only meta tags the PHP site writes into its view rather than
+ * reading from a table: `general_settings` holds "Doctor Fresh" and "Meta Des"
+ * in `system_title` and `meta_description`, which the live home page ignores.
+ * Every other page carries its own meta in its own row, so this is the one
+ * place the copy has to live. Kept identical to what doctorfresh.in serves.
+ */
+export const homeMeta = {
+  title: 'Doctor Fresh - Complete Solution for Water Purifiers, Home and Kitchen Appliances',
+  description: 'Doctor Fresh Offers best Water purifier, Kitchen Appliances, Air Purifiers & Vacuum Cleaners. We are most trusted brand in home appliances industries.',
+};
+
 export const trustBadges = [
   {
     "icon": "/uploads/others/free.png",

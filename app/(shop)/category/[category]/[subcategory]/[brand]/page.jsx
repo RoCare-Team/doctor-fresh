@@ -3,16 +3,15 @@ import Breadcrumb from '@/components/common/Breadcrumb';
 import CategoryProducts from '@/components/categories/CategoryProducts';
 import SeoContent from '@/components/categories/SeoContent';
 import FaqSection from '@/components/common/FaqSection';
-import { getAllCategories, getSubcategory, getProductsBySubcategory, getProductsByIds } from '@/lib/catalog';
+import {
+  getAllCategories, getSubcategory, getProductsBySubcategory, getProductsByIds,
+  SUBCATEGORY_BRANDS as BRANDS,
+} from '@/lib/catalog';
 import { metaFor } from '@/lib/utils';
 
 // Catalogue pages are rebuilt in the background every 5 minutes so edits made
 // in the existing admin panel appear without a redeploy.
 export const revalidate = 300;
-
-// The live site exposes a brand level under every subcategory (currently only
-// "doctor-fresh"). The URLs are linked from the mega menu, so they are kept.
-const BRANDS = { 'doctor-fresh': 'Doctor Fresh' };
 
 export async function generateStaticParams() {
   return (await getAllCategories()).flatMap((c) =>

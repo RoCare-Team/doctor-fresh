@@ -18,7 +18,7 @@ import {
 } from '@/lib/catalog';
 // Layout copy the database does not hold: which badges the theme shows and
 // the water-test panel. Everything else on this page comes from the catalogue.
-import { trustBadges, waterTest } from '@/data/site';
+import { trustBadges, waterTest, homeMeta } from '@/data/site';
 import { metaFor } from '@/lib/utils';
 
 // Catalogue pages are rebuilt in the background every 5 minutes so edits made
@@ -29,10 +29,9 @@ import { metaFor } from '@/lib/utils';
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
-  const brand = await getBrand();
   return metaFor({
-    title: brand.title || brand.name,
-    description: brand.tagline,
+    title: homeMeta.title,
+    description: homeMeta.description,
     path: '/',
   });
 }
