@@ -1,7 +1,8 @@
 import Link from 'next/link';
+import { cookies } from 'next/headers';
 import Image from 'next/image';
 import {
-  ShieldCheck, Wrench, Timer, Cog, ArrowRight, Phone, Droplets, Flame,
+  ArrowRight, Phone, Droplets, Flame,
 } from 'lucide-react';
 import Hero from '@/components/home/Hero';
 import TrustBadges from '@/components/home/TrustBadges';
@@ -9,6 +10,7 @@ import CategoryTiles from '@/components/home/CategoryTiles';
 import WaterTestSection from '@/components/home/WaterTestSection';
 import ProductRail from '@/components/products/ProductRail';
 import BlogCard from '@/components/blogs/BlogCard';
+import HomeColumns from '@/components/home/HomeColumns';
 import DealSlider from '@/components/home/DealSlider';
 import Reveal from '@/components/common/Reveal';
 import {
@@ -21,7 +23,10 @@ import { metaFor } from '@/lib/utils';
 
 // Catalogue pages are rebuilt in the background every 5 minutes so edits made
 // in the existing admin panel appear without a redeploy.
-export const revalidate = 300;
+// Recently Viewed is read from this visitor's cookie, so the page is rendered
+// per request. Everything on it still comes from the cached catalogue, so
+// that costs a render rather than a round of database queries.
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
   const brand = await getBrand();
@@ -31,33 +36,6 @@ export async function generateMetadata() {
     path: '/',
   });
 }
-
-const SERVICES = [
-  {
-    title: 'RO Repair & Service',
-    description: 'Certified technicians, same-day visits and a 30-day service warranty on every repair.',
-    href: '/water-purifier-service',
-    icon: Wrench,
-  },
-  {
-    title: 'Installation / Uninstallation',
-    description: 'Wall mounting, inlet connection and a free TDS check included on every visit.',
-    href: '/water-purifier-installation',
-    icon: ShieldCheck,
-  },
-  {
-    title: 'AMC Plans',
-    description: 'Annual maintenance with scheduled servicing and genuine spare parts.',
-    href: '/water-purifier-amc',
-    icon: Timer,
-  },
-  {
-    title: 'Spare Parts',
-    description: 'Genuine filters, membranes, pumps and cartridges for every Doctor Fresh model.',
-    href: '/spare-parts',
-    icon: Cog,
-  },
-];
 
 // Copy for the product rails. The rails and their products come from site data.
 const RAIL_COPY = {
@@ -83,9 +61,20 @@ const RAIL_COPY = {
   },
 };
 
+/** The handful of fields the small cards need — not the whole product. */
+const cardFields = (p) => ({
+  id: p.id,
+  name: p.name,
+  url: p.url,
+  image: p.images?.[0] || null,
+  price: p.price,
+  mrp: p.mrp,
+  category: p.category?.name || '',
+});
+
 export default async function HomePage() {
   const brand = await getBrand();
-  const { rails, todaysDeal, categoryTiles } = await getHomeSections();
+  const { rails, todaysDeal, categoryTiles, latest, mostViewed } = await getHomeSections();
   const deals = (await getProductsByIds(todaysDeal)).slice(0, 4);
   const posts = (await getAllBlogPosts()).slice(0, 3);
 
@@ -96,6 +85,22 @@ export default async function HomePage() {
 
   // rails are resolved up front so the JSX below stays a plain render
   const railProducts = await Promise.all(rails.map((r) => getProductsByIds(r.productIds)));
+  // What this visitor last looked at, from the cookie the product pages set.
+  const recentIds = String((await cookies()).get('df_recent')?.value || '')
+    .split(',')
+    .map(Number)
+    .filter((id) => Number.isInteger(id) && id > 0)
+    .slice(0, 3);
+
+  const [latestProducts, mostViewedProducts, recentProducts] = await Promise.all([
+    getProductsByIds(latest),
+    getProductsByIds(mostViewed),
+    getProductsByIds(recentIds),
+  ]);
+
+  // getProductsByIds makes no promise about order, and newest-first is the point.
+  const byId = new Map(recentProducts.map((p) => [p.id, p]));
+  const recent = recentIds.map((id) => byId.get(id)).filter(Boolean);
 
   return (
     <>
@@ -187,46 +192,12 @@ export default async function HomePage() {
         />
       ))}
 
-      {/* --------------------------------------------------------- services */}
-      <section className="df-container df-section">
-        <Reveal className="mb-8 max-w-2xl">
-          <p className="df-eyebrow">After you buy</p>
-          <h2 className="mt-2 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
-            Service &amp; Support
-          </h2>
-          <p className="mt-2 text-[15.5px] text-ink-400">
-            A nationwide RO service network with transparent pricing and genuine spare parts.
-          </p>
-        </Reveal>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {SERVICES.map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <Reveal key={s.href} delay={i * 70} className="h-full">
-              <Link
-                href={s.href}
-                className="df-card df-card-hover group flex flex-col p-6"
-              >
-                <span className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-primary-800 transition-colors group-hover:bg-primary-500 group-hover:text-white">
-                  <Icon size={21} aria-hidden="true" />
-                </span>
-                <h3 className="text-[17px] font-semibold text-ink-900">{s.title}</h3>
-                <p className="mt-2 flex-1 text-[14.5px] leading-relaxed text-ink-400">{s.description}</p>
-                <span className="mt-5 inline-flex items-center gap-1.5 text-[14.5px] font-medium text-primary-700">
-                  Learn more
-                  <ArrowRight
-                    size={15}
-                    className="transition-transform group-hover:translate-x-1"
-                    aria-hidden="true"
-                  />
-                </span>
-              </Link>
-              </Reveal>
-            );
-          })}
-        </div>
-      </section>
+      <HomeColumns
+        latest={latestProducts.map(cardFields)}
+        recent={recent.map(cardFields)}
+        mostViewed={mostViewedProducts.map(cardFields)}
+      />
 
       {/* ------------------------------------------------------------ blogs */}
       <section className="border-y border-line bg-surface-muted">

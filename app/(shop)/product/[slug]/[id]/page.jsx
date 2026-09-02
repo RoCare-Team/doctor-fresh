@@ -7,6 +7,7 @@ import ProductTabs from '@/components/products/ProductTabs';
 import ProductReviews from '@/components/products/ProductReviews';
 import AddToCartButtons from '@/components/products/AddToCartButtons';
 import QuotationButton from '@/components/products/QuotationButton';
+import RecentlyViewed from '@/components/products/RecentlyViewed';
 import Accordion from '@/components/common/Accordion';
 import ProductRail from '@/components/products/ProductRail';
 import Rating from '@/components/common/Rating';
@@ -95,6 +96,9 @@ export default async function ProductPage({ params }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+
+      {/* Records the view against this visitor’s cookie, for the home page. */}
+      <RecentlyViewed productId={product.id} />
 
       <div className="border-b border-line bg-surface-muted">
         <div className="df-container py-4">
