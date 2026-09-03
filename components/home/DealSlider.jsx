@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import SafeImage from '@/components/common/SafeImage';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { formatPrice, cx } from '@/lib/utils';
+import SliderDots, { pageState, goToPage } from '@/components/common/SliderDots';
+import { formatPrice } from '@/lib/utils';
 
 /**
  * Compact deal carousel used inside the Today's Deal banner. Two cards are
@@ -13,42 +13,32 @@ import { formatPrice, cx } from '@/lib/utils';
  */
 export default function DealSlider({ deals = [] }) {
   const trackRef = useRef(null);
-  const [atStart, setAtStart] = useState(true);
-  const [atEnd, setAtEnd] = useState(false);
+  const [{ pages, current }, setPaging] = useState({ pages: 1, current: 0 });
 
-  function updateArrows() {
-    const el = trackRef.current;
-    if (!el) return;
-    setAtStart(el.scrollLeft <= 4);
-    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 4);
+  function update() {
+    setPaging(pageState(trackRef.current));
   }
 
   useEffect(() => {
-    updateArrows();
-    const onResize = () => updateArrows();
+    update();
+    const onResize = () => update();
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, [deals.length]);
 
-  function scrollBy(direction) {
-    const el = trackRef.current;
-    if (!el) return;
-    el.scrollBy({ left: direction * Math.round(el.clientWidth * 0.5), behavior: 'smooth' });
-  }
+  const goTo = (page) => goToPage(trackRef.current, page);
 
   if (!deals.length) return null;
-
-  const showArrows = deals.length > 2;
 
   return (
     <div className="relative">
       <ul
         ref={trackRef}
-        onScroll={updateArrows}
+        onScroll={update}
         className="df-no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1"
       >
         {deals.map((p) => (
-          <li key={p.id} className="w-[78%] shrink-0 snap-start sm:w-[calc(50%-0.5rem)]">
+          <li key={p.id} className="w-[calc(50%-0.375rem)] shrink-0 snap-start sm:w-[calc(50%-0.5rem)]">
             <Link
               href={p.url}
               className="group flex h-full flex-col rounded-2xl bg-white p-2 transition-shadow duration-200 hover:shadow-[0_14px_28px_-16px_rgb(6_59_76_/_0.5)]"
@@ -102,38 +92,13 @@ export default function DealSlider({ deals = [] }) {
         ))}
       </ul>
 
-      {showArrows ? (
-        <div className="mt-4 flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => scrollBy(-1)}
-            disabled={atStart}
-            aria-label="Previous deals"
-            className={cx(
-              'flex h-9 w-9 items-center justify-center rounded-full border transition-colors',
-              atStart
-                ? 'cursor-default border-white/15 text-white/30'
-                : 'border-white/30 text-white hover:border-white/60 hover:bg-white/10',
-            )}
-          >
-            <ChevronLeft size={17} aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollBy(1)}
-            disabled={atEnd}
-            aria-label="More deals"
-            className={cx(
-              'flex h-9 w-9 items-center justify-center rounded-full border transition-colors',
-              atEnd
-                ? 'cursor-default border-white/15 text-white/30'
-                : 'border-white/30 text-white hover:border-white/60 hover:bg-white/10',
-            )}
-          >
-            <ChevronRight size={17} aria-hidden="true" />
-          </button>
-        </div>
-      ) : null}
+      <SliderDots
+        pages={pages}
+        current={current}
+        onSelect={goTo}
+        tone="dark"
+        label="Deals, page"
+      />
     </div>
   );
 }

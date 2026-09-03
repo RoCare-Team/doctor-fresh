@@ -2,24 +2,21 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { User, LogOut, LogIn, UserPlus, Package } from 'lucide-react';
-import { useSession, refreshSession } from '@/lib/useSession';
+import { User, LogIn, UserPlus } from 'lucide-react';
+import { useSession } from '@/lib/useSession';
 
 /**
  * The account control in the header. Signed out it offers signing in and
- * creating an account; signed in it shows the visitor's first name and a
- * sign-out button.
+ * creating an account; signed in it is a link straight to the profile, where
+ * orders, the wishlist and signing out all live.
  *
  * The session is fetched from the browser rather than passed down from the
  * layout: reading the cookie on the server would make every page render per
  * request instead of being served from the prerendered build.
  */
 export default function AccountMenu() {
-  const router = useRouter();
   const { user } = useSession();
   const [open, setOpen] = useState(false);
-  const [busy, setBusy] = useState(false);
   const boxRef = useRef(null);
 
   useEffect(() => {
@@ -86,60 +83,19 @@ export default function AccountMenu() {
 
   const firstName = (user.name || '').split(' ')[0] || user.mobile;
 
-  async function signOut() {
-    setBusy(true);
-    await fetch('/api/auth/logout', { method: 'POST' });
-    await refreshSession();
-    setOpen(false);
-    setBusy(false);
-    router.refresh();
-  }
-
+  // Signed in, the control is the profile itself — one click, no menu in the
+  // way. Signing out moved into the account area, beside everything else the
+  // customer manages there.
   return (
-    <div ref={boxRef} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        aria-haspopup="menu"
-        className="flex flex-col items-center rounded-lg px-3 py-1.5 text-ink-700 transition-colors hover:bg-surface-muted"
-      >
-        <User size={20} aria-hidden="true" />
-        <span className="mt-0.5 hidden max-w-22.5 truncate text-[12.5px] text-ink-400 lg:block">
-          {firstName}
-        </span>
-      </button>
-
-      {open ? (
-        <div
-          role="menu"
-          className="absolute right-0 top-full z-50 mt-1 w-60 rounded-xl border border-line bg-white p-1.5 shadow-lg"
-        >
-          <div className="border-b border-line px-3 py-2.5">
-            <p className="truncate text-[14px] font-medium text-ink-900">{user.name || 'Your account'}</p>
-            <p className="mt-0.5 text-[13px] text-ink-400">+91 {user.mobile}</p>
-          </div>
-
-          <Link
-            href="/profile"
-            onClick={() => setOpen(false)}
-            className="mt-1 flex items-center gap-2 rounded-lg px-3 py-2.5 text-[14px] text-ink-700 transition-colors hover:bg-surface-muted"
-          >
-            <Package size={15} aria-hidden="true" />
-            My orders &amp; profile
-          </Link>
-
-          <button
-            type="button"
-            onClick={signOut}
-            disabled={busy}
-            className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-[14px] text-ink-700 transition-colors hover:bg-surface-muted disabled:text-ink-300"
-          >
-            <LogOut size={15} aria-hidden="true" />
-            {busy ? 'Signing out…' : 'Sign out'}
-          </button>
-        </div>
-      ) : null}
-    </div>
+    <Link
+      href="/profile"
+      className="flex flex-col items-center rounded-lg px-3 py-1.5 text-ink-700 transition-colors hover:bg-surface-muted"
+    >
+      <User size={20} aria-hidden="true" />
+      <span className="mt-0.5 hidden max-w-22.5 truncate text-[12.5px] text-ink-400 lg:block">
+        {firstName}
+      </span>
+    </Link>
   );
 }
+

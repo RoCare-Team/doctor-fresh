@@ -123,15 +123,6 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
       {/* ---------------------------------------------------------- main bar */}
       <div className="border-b border-line bg-white">
         <div className="df-container flex h-[68px] items-center gap-3 lg:h-[86px] lg:gap-8">
-          <button
-            type="button"
-            onClick={() => setMobileOpen(true)}
-            aria-label="Open menu"
-            className="-ml-1 rounded-md p-2 text-ink-700 transition-colors hover:bg-surface-muted lg:hidden"
-          >
-            <Menu size={22} aria-hidden="true" />
-          </button>
-
           {/* a hard outline around the wordmark reads as a stray border, so the
               focus cue here is a tint rather than a rectangle */}
           <Link
@@ -203,6 +194,18 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
               </span>
               <span className="mt-0.5 hidden text-[12.5px] text-ink-400 lg:block">Cart</span>
             </Link>
+
+            {/* Last on the row so it sits on the edge of the screen, where a
+                thumb reaches it. On desktop the nav bar below carries these
+                links, so it is not needed. */}
+            <button
+              type="button"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+              className="-mr-1 rounded-md p-2 text-ink-700 transition-colors hover:bg-surface-muted lg:hidden"
+            >
+              <Menu size={22} aria-hidden="true" />
+            </button>
           </div>
         </div>
 
