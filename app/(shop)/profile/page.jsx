@@ -7,7 +7,7 @@ import Button from '@/components/common/Button';
 import CartSummaryCard from '@/components/account/CartSummaryCard';
 import { getSession } from '@/lib/auth/session';
 import { getProfile, getOrdersForUser, getWishlistIds } from '@/lib/sql/account';
-import { getProductsByIds } from '@/lib/catalog';
+import { getProductsByIds, cardProduct } from '@/lib/catalog';
 import { formatPrice, formatDate, metaFor } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
@@ -38,7 +38,7 @@ export default async function ProfilePage() {
   ]);
   if (!profile) redirect('/login');
 
-  const wishlist = wishlistIds.length ? await getProductsByIds(wishlistIds) : [];
+  const wishlist = wishlistIds.length ? (await getProductsByIds(wishlistIds)).map(cardProduct) : [];
   const spent = orders.reduce((sum, o) => sum + o.total, 0);
 
   return (

@@ -5,7 +5,7 @@ import SeoContent from '@/components/categories/SeoContent';
 import FaqSection from '@/components/common/FaqSection';
 import {
   getAllCategories, getSubcategory, getProductsBySubcategory, getProductsByIds,
-  SUBCATEGORY_BRANDS as BRANDS,
+  SUBCATEGORY_BRANDS as BRANDS, cardProduct,
 } from '@/lib/catalog';
 import { metaFor } from '@/lib/utils';
 
@@ -46,7 +46,8 @@ export default async function BrandSubcategoryPage({ params }) {
   const seen = new Set();
   const products = [...owned, ...listed]
     .filter((p) => (seen.has(p.id) ? false : seen.add(p.id)))
-    .filter((p) => p.name.toLowerCase().includes('doctor fresh') || brand === 'doctor-fresh');
+    .filter((p) => p.name.toLowerCase().includes('doctor fresh') || brand === 'doctor-fresh')
+    .map(cardProduct);
 
   return (
     <>

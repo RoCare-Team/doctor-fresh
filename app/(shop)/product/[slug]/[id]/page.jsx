@@ -11,7 +11,7 @@ import RecentlyViewed from '@/components/products/RecentlyViewed';
 import Accordion from '@/components/common/Accordion';
 import ProductRail from '@/components/products/ProductRail';
 import Rating from '@/components/common/Rating';
-import { getProductRoutes, getProductById, getRelatedProducts } from '@/lib/catalog';
+import { getProductRoutes, getProductById, getRelatedProducts, cardProduct } from '@/lib/catalog';
 import ReviewForm from '@/components/products/ReviewForm';
 import { absoluteUrl, formatPrice, imageUrl, metaFor, SITE_URL } from '@/lib/utils';
 
@@ -50,7 +50,7 @@ export default async function ProductPage({ params }) {
   const product = await getProductById(id);
   if (!product) notFound();
 
-  const related = await getRelatedProducts(product, 10);
+  const related = (await getRelatedProducts(product, 10)).map(cardProduct);
   const specs = product.specifications.filter((s) => s.value && s.value !== '-');
   const highlights = product.attributes.slice(0, 6);
 

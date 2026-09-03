@@ -109,7 +109,11 @@ export default function RequestWizard({ onClose }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="wizard-title"
-        className="relative flex max-h-[92vh] w-full max-w-[620px] flex-col overflow-hidden rounded-t-2xl bg-white shadow-2xl sm:rounded-2xl"
+        // A small dialog rather than a near-full-screen panel — the size the
+        // current site's popup uses. Two field columns inside 560px keeps the
+        // inputs readable; the fields scroll, the header and Submit do not.
+        // On phones it stays a bottom sheet.
+        className="relative flex max-h-[88vh] w-full max-w-140 flex-col overflow-hidden rounded-t-2xl bg-white shadow-2xl sm:max-h-130 sm:rounded-2xl"
       >
         <div className="flex shrink-0 items-center justify-between border-b border-line bg-primary-500 px-5 py-2.5">
           <h2 id="wizard-title" className="text-[16px] font-semibold text-white">
@@ -141,136 +145,142 @@ export default function RequestWizard({ onClose }) {
             </button>
           </div>
         ) : (
-          <form onSubmit={submit} className="df-scrollbar min-h-0 flex-1 overflow-y-auto px-5 py-4">
-            <Legend>Basic details</Legend>
+          <form onSubmit={submit} className="flex min-h-0 flex-1 flex-col">
+            {/* Only the fields scroll. Submit sits below in its own bar, so it
+                is reachable without scrolling to the end of the form. */}
+            <div className="df-scrollbar min-h-0 flex-1 overflow-y-auto px-5 py-4">
+              <Legend>Basic details</Legend>
 
-            <div className="grid gap-2.5 sm:grid-cols-2 md:grid-cols-3">
-              <Field
-                placeholder="Full Name"
-                value={form.name}
-                onChange={(v) => set({ name: v })}
-                required
-                maxLength={100}
-                autoComplete="name"
-              />
-              <Field
-                placeholder="10 Digit Mobile Number"
-                value={form.mobile}
-                onChange={(v) => set({ mobile: v.replace(/\D/g, '').slice(0, 10) })}
-                required
-                inputMode="numeric"
-                autoComplete="tel"
-              />
-              <Field
-                placeholder="Your Email"
-                type="email"
-                value={form.email}
-                onChange={(v) => set({ email: v })}
-                maxLength={150}
-                autoComplete="email"
-              />
-              <Picker
-                value={form.leadType}
-                onChange={(v) => set({ leadType: v })}
-                required
-                placeholder="Select Category"
-                options={options.leadTypes.map((t) => ({ value: t.id, label: t.name }))}
-              />
-              <Field
-                placeholder="Enter Pin Code"
-                value={form.pincode}
-                onChange={(v) => set({ pincode: v.replace(/\D/g, '').slice(0, 6) })}
-                inputMode="numeric"
-              />
-              <Picker
-                value={form.state}
-                onChange={(v) => set({ state: v, city: '' })}
-                required
-                placeholder="Select State"
-                options={options.states.map((s) => ({ value: s, label: s }))}
-              />
-              <Picker
-                value={form.city}
-                onChange={(v) => set({ city: v })}
-                required
-                disabled={!form.state}
-                placeholder={form.state ? 'Select City' : 'Select a state first'}
-                options={cities.map((c) => ({ value: c.name, label: c.name }))}
-              />
-            </div>
-
-            <Legend className="mt-4">What is it for?</Legend>
-
-            {/* Three separate answers, so they keep their own groups — but on a
-                wide dialog they sit on one line instead of stacking. */}
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-              <Choices
-                name="complainType"
-                value={form.complainType}
-                onChange={(v) => set({ complainType: v })}
-                options={COMPLAIN}
-              />
-
-              {isService ? (
-                <Choices
-                  name="serviceType"
-                  value={form.serviceType}
-                  onChange={(v) => set({ serviceType: v })}
-                  options={SERVICE_TYPES}
+              <div className="grid gap-2.5 sm:grid-cols-2">
+                <Field
+                  placeholder="Full Name"
+                  value={form.name}
+                  onChange={(v) => set({ name: v })}
+                  required
+                  maxLength={100}
+                  autoComplete="name"
                 />
-              ) : (
-                <Choices
-                  name="purchaseType"
-                  value={form.purchaseType}
-                  onChange={(v) => set({ purchaseType: v })}
-                  options={PURCHASE_TYPES}
+                <Field
+                  placeholder="10 Digit Mobile Number"
+                  value={form.mobile}
+                  onChange={(v) => set({ mobile: v.replace(/\D/g, '').slice(0, 10) })}
+                  required
+                  inputMode="numeric"
+                  autoComplete="tel"
                 />
-              )}
+                <Field
+                  placeholder="Your Email"
+                  type="email"
+                  value={form.email}
+                  onChange={(v) => set({ email: v })}
+                  maxLength={150}
+                  autoComplete="email"
+                />
+                <Picker
+                  value={form.leadType}
+                  onChange={(v) => set({ leadType: v })}
+                  required
+                  placeholder="Select Category"
+                  options={options.leadTypes.map((t) => ({ value: t.id, label: t.name }))}
+                />
+                <Field
+                  placeholder="Enter Pin Code"
+                  value={form.pincode}
+                  onChange={(v) => set({ pincode: v.replace(/\D/g, '').slice(0, 6) })}
+                  inputMode="numeric"
+                />
+                <Picker
+                  value={form.state}
+                  onChange={(v) => set({ state: v, city: '' })}
+                  required
+                  placeholder="Select State"
+                  options={options.states.map((s) => ({ value: s, label: s }))}
+                />
+                <Picker
+                  value={form.city}
+                  onChange={(v) => set({ city: v })}
+                  required
+                  disabled={!form.state}
+                  placeholder={form.state ? 'Select City' : 'Select a state first'}
+                  options={cities.map((c) => ({ value: c.name, label: c.name }))}
+                />
+              </div>
 
-              <Choices
-                name="domesticOrCommercial"
-                value={form.domesticOrCommercial}
-                onChange={(v) => set({ domesticOrCommercial: v })}
-                options={USE_TYPES}
-              />
+              <Legend className="mt-4">What is it for?</Legend>
+
+              {/* Three separate answers, so they keep their own groups — but on a
+                  wide dialog they sit on one line instead of stacking. */}
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                <Choices
+                  name="complainType"
+                  value={form.complainType}
+                  onChange={(v) => set({ complainType: v })}
+                  options={COMPLAIN}
+                />
+
+                {isService ? (
+                  <Choices
+                    name="serviceType"
+                    value={form.serviceType}
+                    onChange={(v) => set({ serviceType: v })}
+                    options={SERVICE_TYPES}
+                  />
+                ) : (
+                  <Choices
+                    name="purchaseType"
+                    value={form.purchaseType}
+                    onChange={(v) => set({ purchaseType: v })}
+                    options={PURCHASE_TYPES}
+                  />
+                )}
+
+                <Choices
+                  name="domesticOrCommercial"
+                  value={form.domesticOrCommercial}
+                  onChange={(v) => set({ domesticOrCommercial: v })}
+                  options={USE_TYPES}
+                />
+              </div>
+
+              <Legend className="mt-4">Address</Legend>
+              <div className="grid gap-2.5 sm:grid-cols-2">
+                <Field
+                  placeholder="House No. / Building No."
+                  value={form.houseNo}
+                  onChange={(v) => set({ houseNo: v })}
+                  maxLength={120}
+                />
+                <Field
+                  placeholder="Road Name / Area"
+                  value={form.area}
+                  onChange={(v) => set({ area: v })}
+                  maxLength={160}
+                />
+                <Field
+                  placeholder="Nearby landmark — shop, school, etc."
+                  value={form.nearBy}
+                  onChange={(v) => set({ nearBy: v })}
+                  maxLength={200}
+                  className="sm:col-span-2"
+                />
+              </div>
+
+              {status === 'error' ? (
+                <p className="mt-4 rounded-md border border-danger/30 bg-danger/5 px-3.5 py-2.5 text-[14px] text-danger">
+                  {error}
+                </p>
+              ) : null}
             </div>
 
-            <Legend className="mt-4">Address</Legend>
-            <div className="grid gap-2.5 sm:grid-cols-2 md:grid-cols-3">
-              <Field
-                placeholder="House No. / Building No."
-                value={form.houseNo}
-                onChange={(v) => set({ houseNo: v })}
-                maxLength={120}
-              />
-              <Field
-                placeholder="Road Name / Area"
-                value={form.area}
-                onChange={(v) => set({ area: v })}
-                maxLength={160}
-              />
-              <Field
-                placeholder="Nearby landmark — shop, school, etc."
-                value={form.nearBy}
-                onChange={(v) => set({ nearBy: v })}
-                maxLength={200}
-                className="sm:col-span-2 md:col-span-1"
-              />
+            <div className="shrink-0 border-t border-line px-5 py-3">
+              <button
+                type="submit"
+                disabled={status === 'sending'}
+                className="h-11 w-full rounded-lg bg-primary-500 text-[14.5px] font-semibold text-white transition-colors hover:bg-ink-900 disabled:opacity-60"
+              >
+                {status === 'sending' ? 'Submitting…' : 'Submit'}
+              </button>
             </div>
-
-            {status === 'error' ? (
-              <p className="mt-4 rounded-md border border-danger/30 bg-danger/5 px-3.5 py-2.5 text-[14px] text-danger">
-                {error}
-              </p>
-            ) : null}
-
-            <button
-              type="submit"
-              disabled={status === 'sending'}
-              className="mt-4 h-11 w-full rounded-lg bg-primary-500 text-[14.5px] font-semibold text-white transition-colors hover:bg-ink-900 disabled:opacity-60"
-            >
-              {status === 'sending' ? 'Submitting…' : 'Submit'}
-            </button>
           </form>
         )}
       </div>

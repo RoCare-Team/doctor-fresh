@@ -143,7 +143,6 @@ export default function LandingPage({ page, products = [], nearby = [], breadcru
         <div className="mt-4">
           <ProductRail
             title="Recommended by Doctor Fresh"
-            eyebrow="Shop the range"
             products={products}
             href="/all-category"
           />

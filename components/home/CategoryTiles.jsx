@@ -42,13 +42,9 @@ export default function CategoryTiles({ tiles = [] }) {
     <section className="df-section df-container">
       <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="df-eyebrow">Browse the range</p>
-          <h2 className="mt-2 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
+          <h2 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
             Shop by Category
           </h2>
-          <p className="mt-2 text-[15.5px] text-ink-400">
-            Find the perfect solution for your pure water needs
-          </p>
         </div>
 
         <div className="flex items-center gap-4">

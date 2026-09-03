@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import LandingPage from '@/components/services/LandingPage';
 import {
-  getLandingPage, getLandingRoutes, getNearbyPages, getProductsByIds, getBrand,
+  getLandingPage, getLandingRoutes, getNearbyPages, getProductsByIds, getBrand, cardProduct,
 } from '@/lib/catalog';
 import { getFormOptions } from '@/lib/sql/forms';
 import ServiceBooking from '@/components/services/ServiceBooking';
@@ -55,12 +55,14 @@ export default async function FlatSlugPage({ params }) {
   const page = await getLandingPage(slug);
   if (!page) notFound();
 
-  const [products, nearby, brand, formOptions] = await Promise.all([
+  const [productRows, nearby, brand, formOptions] = await Promise.all([
     getProductsByIds(page.productIds),
     getNearbyPages(page, 24),
     getBrand(),
     getFormOptions(),
   ]);
+
+  const products = productRows.map(cardProduct);
 
   // Service pages book a visit through the RO Care service system; product
   // pages (RO plants, softeners) do not.

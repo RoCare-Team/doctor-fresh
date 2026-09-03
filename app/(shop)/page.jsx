@@ -15,6 +15,7 @@ import DealSlider from '@/components/home/DealSlider';
 import Reveal from '@/components/common/Reveal';
 import {
   getProductsByIds, getAllBlogPosts, getCategoryImage, getHomeSections, getBrand,
+  cardProduct,
 } from '@/lib/catalog';
 // Layout copy the database does not hold: which badges the theme shows and
 // the water-test panel. Everything else on this page comes from the catalogue.
@@ -36,30 +37,6 @@ export async function generateMetadata() {
   });
 }
 
-// Copy for the product rails. The rails and their products come from site data.
-const RAIL_COPY = {
-  'Featured Products': {
-    eyebrow: 'Handpicked',
-    subtitle: 'Our most recommended systems, chosen by Doctor Fresh water experts.',
-  },
-  'Water Purifier': {
-    eyebrow: 'For your home',
-    subtitle: 'RO, UV, UF and alkaline purifiers for every water source and family size.',
-  },
-  'RO Plant': {
-    eyebrow: 'Commercial & industrial',
-    subtitle: '50 LPH to 10,000 LPH plants for offices, hotels, schools and factories.',
-  },
-  'Water Softener': {
-    eyebrow: 'Hard water solved',
-    subtitle: 'Protect your bathroom fittings, geysers and washing machine from scaling.',
-  },
-  'Water Ionizer': {
-    eyebrow: 'Alkaline water',
-    subtitle: 'Ionized alkaline water with adjustable pH for everyday wellness.',
-  },
-};
-
 /** The handful of fields the small cards need — not the whole product. */
 const cardFields = (p) => ({
   id: p.id,
@@ -74,7 +51,7 @@ const cardFields = (p) => ({
 export default async function HomePage() {
   const brand = await getBrand();
   const { rails, todaysDeal, categoryTiles, latest, mostViewed } = await getHomeSections();
-  const deals = (await getProductsByIds(todaysDeal)).slice(0, 4);
+  const deals = (await getProductsByIds(todaysDeal)).slice(0, 4).map(cardProduct);
   const posts = (await getAllBlogPosts()).slice(0, 3);
 
   // give every category tile a real product photo (the stored icons are 62px)
@@ -83,7 +60,8 @@ export default async function HomePage() {
   );
 
   // rails are resolved up front so the JSX below stays a plain render
-  const railProducts = await Promise.all(rails.map((r) => getProductsByIds(r.productIds)));
+  const railProducts = (await Promise.all(rails.map((r) => getProductsByIds(r.productIds))))
+    .map((list) => list.map(cardProduct));
   // What this visitor last looked at, from the cookie the product pages set.
   const recentIds = String((await cookies()).get('df_recent')?.value || '')
     .split(',')
@@ -183,8 +161,6 @@ export default async function HomePage() {
         <ProductRail
           key={rail.title}
           title={rail.title}
-          eyebrow={RAIL_COPY[rail.title]?.eyebrow}
-          subtitle={RAIL_COPY[rail.title]?.subtitle}
           href={rail.href}
           products={railProducts[i]}
           tone={i % 2 === 1 ? 'muted' : 'plain'}

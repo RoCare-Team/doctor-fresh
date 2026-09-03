@@ -10,7 +10,7 @@ import Reveal from '@/components/common/Reveal';
 /**
  * Horizontally scrollable product row — CSS scroll-snap only, no carousel library.
  */
-export default function ProductRail({ title, eyebrow, subtitle, href, products = [], tone = 'plain' }) {
+export default function ProductRail({ title, href, products = [], tone = 'plain' }) {
   const trackRef = useRef(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
@@ -40,16 +40,17 @@ export default function ProductRail({ title, eyebrow, subtitle, href, products =
   return (
     <section className={cx(tone === 'muted' && 'border-y border-line bg-surface-muted')}>
       <div className="df-container df-section">
-        <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            {eyebrow ? <p className="df-eyebrow">{eyebrow}</p> : null}
-            <h2 className="mt-2 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
-              {title}
-            </h2>
-            {subtitle ? <p className="mt-2 max-w-xl text-[15.5px] text-ink-400">{subtitle}</p> : null}
-          </div>
+        {/* Three tracks so the heading is centred on the section itself, not
+            on the space left over beside the controls. The empty first track
+            mirrors the controls in the third. */}
+        <Reveal className="mb-4 grid items-center gap-3 text-center sm:grid-cols-[1fr_auto_1fr]">
+          <span className="hidden sm:block" aria-hidden="true" />
 
-          <div className="flex items-center gap-4">
+          <h2 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
+            {title}
+          </h2>
+
+          <div className="flex items-center justify-center gap-4 sm:justify-end">
             {href ? (
               <Link
                 href={href}

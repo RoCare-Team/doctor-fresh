@@ -116,7 +116,9 @@ export const headerNav = [
 ];
 export const contactPage = {
   "metaTitle": "Contact",
-  "metaDescription": "Meta Des",
+  // The live page ships the installer's "Meta Des" placeholder here, which is
+  // no description at all. Left empty so the page's own copy is used.
+  "metaDescription": "",
   "formTitle": "Contact Form",
   "fields": [
     {

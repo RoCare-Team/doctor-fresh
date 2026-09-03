@@ -4,7 +4,7 @@ import Breadcrumb from '@/components/common/Breadcrumb';
 import ProductGrid from '@/components/products/ProductGrid';
 import EmptyState from '@/components/common/EmptyState';
 import Button from '@/components/common/Button';
-import { searchProducts, getAllCategories } from '@/lib/catalog';
+import { searchProducts, getAllCategories, cardProduct } from '@/lib/catalog';
 import { metaFor } from '@/lib/utils';
 
 export const metadata = metaFor({
@@ -15,7 +15,7 @@ export const metadata = metaFor({
 });
 
 async function Results({ query }) {
-  const results = query ? await searchProducts(query) : [];
+  const results = query ? (await searchProducts(query)).map(cardProduct) : [];
 
   if (!query) {
     const categories = await getAllCategories();

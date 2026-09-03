@@ -22,7 +22,9 @@ export default function HomeColumns({ latest = [], recent = [], mostViewed = [] 
   if (!columns.length) return null;
 
   return (
-    <section className="border-t border-line bg-surface-muted">
+    // White here so the tinted column panels read as panels. The blog section
+    // that follows is tinted, so the page keeps alternating.
+    <section className="border-t border-line bg-white">
       <div
         className={cx(
           'df-container df-section grid gap-5 md:grid-cols-2',
@@ -39,7 +41,10 @@ export default function HomeColumns({ latest = [], recent = [], mostViewed = [] 
 
 function Column({ title, eyebrow, href, products }) {
   return (
-    <div className="flex flex-col rounded-2xl border border-line bg-white p-5">
+    // The column is a panel of its own so it is obvious which rows belong to
+    // "Latest" and which to "Most Viewed". It is tinted rather than white:
+    // against a white panel the white rows inside would lose their edges.
+    <div className="flex flex-col rounded-2xl border border-line bg-surface-muted p-4">
       <div className="mb-1 flex items-start justify-between gap-3">
         <div>
           <p className="text-[12px] font-semibold uppercase tracking-wide text-primary-600">{eyebrow}</p>
@@ -56,8 +61,9 @@ function Column({ title, eyebrow, href, products }) {
         ) : null}
       </div>
 
-      {/* hairlines between rows, rather than a box inside a box */}
-      <ul className="divide-y divide-line">
+      {/* Each row is a card of its own: the hairlines this used to have read
+          as one long undivided block once the rows got shorter. */}
+      <ul className="mt-3 space-y-2.5">
         {products.map((p) => (
           <li key={p.id}>
             <MiniCard product={p} />
@@ -70,43 +76,43 @@ function Column({ title, eyebrow, href, products }) {
 
 function MiniCard({ product }) {
   return (
-    <Link href={product.url} className="group -mx-2 flex items-center gap-4 rounded-xl px-2 py-4 transition-colors hover:bg-primary-50/60">
+    <Link href={product.url} className="df-card df-card-hover group flex items-center gap-3.5 p-2.5">
       {/* The photos are shot on white with their own margin, so the well is
           white and unpadded — a tint and a gap around them only made the
           product look smaller than the space it was given. */}
-      <span className="relative h-[84px] w-[84px] shrink-0 overflow-hidden rounded-xl bg-white sm:h-[104px] sm:w-[104px]">
+      <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-white sm:h-18 sm:w-18">
         <SafeImage
           src={product.image}
           alt=""
           fill
-          sizes="(max-width: 640px) 84px, 104px"
+          sizes="(max-width: 640px) 64px, 72px"
           className="object-contain transition-transform duration-300 group-hover:scale-105"
-          iconSize={30}
+          iconSize={26}
         />
       </span>
 
       <span className="min-w-0 flex-1">
-        <span className="line-clamp-2 block text-[15px] font-medium leading-snug text-ink-900 transition-colors group-hover:text-primary-700">
+        <span className="line-clamp-2 block text-[14px] font-medium leading-snug text-ink-900 transition-colors group-hover:text-primary-700">
           {product.name}
         </span>
         {product.category ? (
-          <span className="mt-1 block text-[13px] text-ink-400">{product.category}</span>
+          <span className="mt-0.5 block text-[12px] text-ink-400">{product.category}</span>
         ) : null}
 
-        <span className="mt-2 flex flex-wrap items-baseline gap-x-2">
+        <span className="mt-1 flex flex-wrap items-baseline gap-x-2">
           {product.price ? (
             <>
-              <span className="text-[17px] font-semibold tracking-tight text-ink-900">
+              <span className="text-[15px] font-semibold tracking-tight text-ink-900">
                 {formatPrice(product.price)}
               </span>
               {product.mrp > product.price ? (
-                <span className="text-[13px] text-ink-300 line-through">
+                <span className="text-[12px] text-ink-300 line-through">
                   {formatPrice(product.mrp)}
                 </span>
               ) : null}
             </>
           ) : (
-            <span className="text-[14px] font-medium text-primary-700">On request</span>
+            <span className="text-[13px] font-medium text-primary-700">On request</span>
           )}
         </span>
       </span>

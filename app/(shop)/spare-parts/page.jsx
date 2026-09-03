@@ -2,7 +2,7 @@ import Breadcrumb from '@/components/common/Breadcrumb';
 import CategoryProducts from '@/components/categories/CategoryProducts';
 import SeoContent from '@/components/categories/SeoContent';
 import FaqSection from '@/components/common/FaqSection';
-import { getCategory, getProductsByCategory, getProductsByIds } from '@/lib/catalog';
+import { getCategory, getProductsByCategory, getProductsByIds, cardProduct } from '@/lib/catalog';
 import { metaFor } from '@/lib/utils';
 
 // Catalogue pages are rebuilt in the background every 5 minutes so edits made
@@ -23,7 +23,9 @@ export default async function SparePartsPage() {
   const listed = await getProductsByIds(category?.productIds || []);
   const owned = await getProductsByCategory(CATEGORY_SLUG);
   const seen = new Set();
-  const products = [...owned, ...listed].filter((p) => (seen.has(p.id) ? false : seen.add(p.id)));
+  const products = [...owned, ...listed]
+    .filter((p) => (seen.has(p.id) ? false : seen.add(p.id)))
+    .map(cardProduct);
 
   return (
     <>

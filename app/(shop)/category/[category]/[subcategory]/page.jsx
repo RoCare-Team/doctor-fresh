@@ -3,7 +3,9 @@ import Breadcrumb from '@/components/common/Breadcrumb';
 import CategoryProducts from '@/components/categories/CategoryProducts';
 import SeoContent from '@/components/categories/SeoContent';
 import FaqSection from '@/components/common/FaqSection';
-import { getAllCategories, getSubcategory, getProductsBySubcategory, getProductsByIds } from '@/lib/catalog';
+import {
+  getAllCategories, getSubcategory, getProductsBySubcategory, getProductsByIds, cardProduct,
+} from '@/lib/catalog';
 import { metaFor } from '@/lib/utils';
 
 // Catalogue pages are rebuilt in the background every 5 minutes so edits made
@@ -38,7 +40,9 @@ export default async function SubcategoryPage({ params }) {
   const listed = await getProductsByIds(subcategory.productIds);
   const owned = await getProductsBySubcategory(category.slug, subcategory.slug);
   const seen = new Set();
-  const products = [...owned, ...listed].filter((p) => (seen.has(p.id) ? false : seen.add(p.id)));
+  const products = [...owned, ...listed]
+    .filter((p) => (seen.has(p.id) ? false : seen.add(p.id)))
+    .map(cardProduct);
 
   return (
     <>
