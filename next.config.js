@@ -35,9 +35,16 @@ const nextConfig = {
   // behaviour means every existing inbound link still resolves.
   async redirects() {
     return [
-      { source: '/partner.php', destination: '/partner', permanent: true },
-      { source: '/store-locator.php', destination: '/store-locator', permanent: true },
-      { source: '/water-purifier-service.php', destination: '/water-purifier-service', permanent: true },
+      /**
+       * Every page of the PHP site answered at /slug.php and this one serves
+       * the same page at /slug. Google has years of those URLs indexed and
+       * other sites link to them, so each one is sent on permanently rather
+       * than answering 404 and losing what it earned.
+       *
+       * The links in our own copy are rewritten where they are read
+       * (lib/sql/html.js), so this catches inbound traffic, not our own pages.
+       */
+      { source: '/:slug.php', destination: '/:slug', permanent: true },
       { source: '/category/0/0-0', destination: '/all-category', permanent: true },
     ];
   },
