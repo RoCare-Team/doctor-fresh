@@ -4,7 +4,9 @@
 // redirected to the confirmation page — the same work easebuzz_success() does
 // in Home.php.
 
+import { after } from 'next/server';
 import { markPaymentSuccess, parseTxnId } from '@/lib/sql/easebuzz';
+import { sendOrderPlacedWhatsApp } from '@/lib/whatsapp';
 import { reserveStockForOrder } from '@/lib/sql/orders';
 
 export const dynamic = 'force-dynamic';
@@ -26,6 +28,12 @@ async function handle(request, payload) {
     guestId = result?.guestId || null;
     // Stock was held back until the payment was confirmed.
     if (saleId) await reserveStockForOrder(saleId);
+
+    // An online order is only placed once it is paid, so this is where the
+    // customer hears about it — and only the first time, not on a refresh.
+    if (result && !result.wasPaid) {
+      after(() => sendOrderPlacedWhatsApp({ name: result.name, mobile: result.mobile }));
+    }
   } catch (err) {
     // The customer has paid; never show them an error over our bookkeeping.
     console.error('[easebuzz] could not finalise the order:', err.message);

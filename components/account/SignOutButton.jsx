@@ -17,6 +17,8 @@ export default function SignOutButton({ variant = 'row' }) {
   async function signOut() {
     setBusy(true);
     await fetch('/api/auth/logout', { method: 'POST' });
+    // Re-reading the session is also what empties the cart: the cart provider
+    // listens for it and drops a basket whose account is no longer signed in.
     await refreshSession();
     router.push('/');
     router.refresh();

@@ -42,7 +42,9 @@ export default function Button({
   );
 
   if (href) {
-    const external = /^(https?:|tel:|mailto:)/.test(href);
+    // An /api/ route is a file or a redirect, never a page: next/link would
+    // prefetch it and try to render the response, so it gets a plain anchor.
+    const external = /^(https?:|tel:|mailto:)/.test(href) || href.startsWith('/api/');
     if (external) {
       return (
         <a href={href} className={classes} {...rest}>

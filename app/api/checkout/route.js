@@ -5,7 +5,9 @@
 // page to send the visitor to — the same sequence Home.php → cart_finish()
 // follows.
 
+import { after } from 'next/server';
 import { isDbEnabled } from '@/lib/db';
+import { sendOrderPlacedWhatsApp } from '@/lib/whatsapp';
 import { priceBasket, createOrder, getPaymentOptions } from '@/lib/sql/orders';
 import { createPaymentTransaction, initiateEasebuzz } from '@/lib/sql/easebuzz';
 import { getSession } from '@/lib/auth/session';
@@ -111,6 +113,10 @@ export async function POST(request) {
   const href = order.guestId ? `/order/${order.guestId}` : `/order/${order.saleId}`;
 
   if (!online) {
+    // A cash order is final the moment it is written, so the customer hears
+    // about it now. after() sends it once the response is on its way, so a
+    // slow WhatsApp API never holds up — or fails — the checkout.
+    after(() => sendOrderPlacedWhatsApp({ name, mobile }));
     return Response.json({ ok: true, saleId: order.saleId, saleCode: order.saleCode, href });
   }
 

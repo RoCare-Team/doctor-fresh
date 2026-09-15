@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { CheckCircle2, Package, Truck } from 'lucide-react';
+import {
+  CheckCircle2, Package, Truck, Download,
+} from 'lucide-react';
 import Button from '@/components/common/Button';
 import { getOrder } from '@/lib/sql/orders';
 import { getSession } from '@/lib/auth/session';
@@ -117,6 +119,13 @@ export default async function OrderPage({ params }) {
           ) : null}
 
           <div className="mt-7 flex flex-wrap gap-3">
+            {/* Same reference the page was opened with — a sale id for a signed-in
+                buyer, the guest id for a guest — which the invoice route checks
+                the same way this page does. */}
+            <Button href={`/api/orders/invoice/${encodeURIComponent(ref)}`} variant="soft">
+              <Download size={16} aria-hidden="true" />
+              Download invoice
+            </Button>
             <Button href="/all-category">Continue shopping</Button>
             <Button href={`tel:${brand.phoneRaw}`} variant="outline">Call {brand.phone}</Button>
           </div>

@@ -5,10 +5,10 @@
 // sale that belongs to someone else, and a guest order is reached by the same
 // unguessable guest id the confirmation page uses.
 
-import { getOrder } from '@/lib/sql/orders';
+import { getOrder, getGstNumber } from '@/lib/sql/orders';
 import { getSession } from '@/lib/auth/session';
 import { getBrand } from '@/lib/catalog';
-import { buildInvoice, invoiceFileName } from '@/lib/invoice';
+import { buildInvoice, invoiceFileName, realGstin } from '@/lib/invoice';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,11 +28,21 @@ export async function GET(request, { params }) {
   );
   if (!order) return new Response('Order not found.', { status: 404 });
 
-  const brand = await getBrand().catch(() => ({ name: 'Doctor Fresh' }));
+  const [brand, gst] = await Promise.all([
+    getBrand().catch(() => ({ name: 'Doctor Fresh' })),
+    getGstNumber().catch(() => null),
+  ]);
 
   let pdf;
   try {
-    pdf = await buildInvoice({ order, brand });
+    pdf = await buildInvoice({
+      order,
+      brand,
+      gstin: realGstin(gst),
+      // The logo is fetched over HTTP: on a serverless host the public folder
+      // is served by the CDN, not bundled with the function.
+      origin: new URL(request.url).origin,
+    });
   } catch (err) {
     console.error('[invoice] could not build the PDF:', err.message);
     return new Response('Could not build the invoice.', { status: 502 });

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  Search, ShoppingCart, Menu, ChevronDown, LayoutGrid, Repeat2,
+  Search, ShoppingCart, Menu, ChevronDown, LayoutGrid,
 } from 'lucide-react';
 import { useCart } from '@/components/cart/CartProvider';
 import { imageUrl, cx } from '@/lib/utils';
@@ -167,14 +167,6 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
           </form>
 
           <div className="ml-auto flex items-center gap-1 lg:gap-1.5">
-            <Link
-              href="/compare"
-              className="hidden flex-col items-center rounded-lg px-3 py-1.5 text-ink-700 transition-colors hover:bg-surface-muted lg:flex"
-            >
-              <Repeat2 size={20} aria-hidden="true" />
-              <span className="mt-0.5 text-[12.5px] text-ink-400">Compare</span>
-            </Link>
-
             <AccountMenu />
 
             <Link
