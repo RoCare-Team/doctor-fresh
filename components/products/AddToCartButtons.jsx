@@ -65,22 +65,33 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
 
   if (layout === 'card') {
     return (
-      <div className="flex flex-col gap-2 sm:flex-row sm:gap-2.5">
+      // On a half-width phone card two labelled buttons do not fit side by
+      // side, and stacked they read as a form. So there it is one row: Buy Now
+      // takes the width and the cart is an icon beside it, the way shop apps
+      // lay it out. From sm up both carry their labels.
+      <div className="flex gap-2 sm:gap-2.5">
         {prompt}
         <button
           type="button"
           onClick={handleBuyNow}
-          className="inline-flex h-10 flex-1 items-center justify-center rounded-full bg-primary-500 px-3 text-[13.5px] font-semibold text-white transition-all hover:bg-ink-900 active:scale-[0.97] sm:h-11 sm:text-[14px]"
+          className="inline-flex h-9.5 flex-1 items-center justify-center rounded-lg bg-primary-500 px-2 text-[13.5px] font-semibold text-white shadow-[0_6px_14px_-8px_rgb(21_151_197/0.9)] transition-all hover:bg-ink-900 active:scale-[0.97] sm:h-11 sm:rounded-full sm:px-3 sm:text-[14px] sm:shadow-none"
         >
           Buy Now
         </button>
         <button
           type="button"
           onClick={handleAdd}
-          className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full border border-primary-500 bg-white px-3 text-[13.5px] font-medium text-primary-600 transition-all hover:bg-primary-50 active:scale-[0.97] sm:h-11 sm:text-[14px]"
+          aria-label={added ? 'Added to cart' : 'Add to cart'}
+          className={`inline-flex h-9.5 w-9.5 shrink-0 items-center justify-center gap-1.5 rounded-lg border transition-all active:scale-[0.97] sm:h-11 sm:w-auto sm:flex-1 sm:rounded-full sm:px-3 sm:text-[14px] sm:font-medium ${
+            added
+              ? 'border-success bg-success text-white'
+              : 'border-primary-500 bg-white text-primary-600 hover:bg-primary-50'
+          }`}
         >
-          {added ? <Check size={15} aria-hidden="true" /> : null}
-          {added ? 'Added' : 'Add to Cart'}
+          {added
+            ? <Check size={16} strokeWidth={2.5} aria-hidden="true" />
+            : <ShoppingCart size={16} aria-hidden="true" className="sm:hidden" />}
+          <span className="hidden sm:inline">{added ? 'Added' : 'Add to Cart'}</span>
         </button>
       </div>
     );

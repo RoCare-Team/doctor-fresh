@@ -13,14 +13,16 @@ export default function CheckoutPage() {
   return (
     <>
       <div className="border-b border-line bg-surface-muted">
-        <div className="df-container py-4">
+        <div className="df-container py-2.5">
           <Breadcrumb items={[{ name: 'Cart', href: '/cart' }, { name: 'Checkout', href: '/cart-checkout' }]} />
         </div>
       </div>
 
-      <div className="df-container py-8 md:py-10">
-      <h1 className="mb-7 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">Checkout</h1>
-      <CheckoutView />
+      <div className="df-container py-4">
+        {/* The stepper and breadcrumb already say where the visitor is; a
+            large visible title only pushed the form below the fold. */}
+        <h1 className="sr-only">Checkout</h1>
+        <CheckoutView />
       </div>
     </>
   );

@@ -4,7 +4,7 @@ import { ArrowLeft, User, MapPin, Phone, Mail } from 'lucide-react';
 import { getOrder, DELIVERY_STATUSES } from '@/lib/sql/admin';
 import OrderControls from '@/components/admin/OrderControls';
 import StatusPill from '@/components/admin/StatusPill';
-import { formatPrice, formatDate } from '@/lib/utils';
+import { formatPrice, formatDate, cx } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Order' };
@@ -32,7 +32,17 @@ export default async function AdminOrderPage({ params }) {
             {order.paymentType === 'cash_on_delivery' ? 'Cash on delivery' : order.paymentType}
           </p>
         </div>
-        <StatusPill status={order.delivery} />
+        <div className="flex items-center gap-1.5">
+          <span
+            className={cx(
+              'inline-block whitespace-nowrap rounded-full px-2.5 py-1 text-[12.5px] font-medium',
+              order.paid ? 'bg-success/12 text-success' : 'bg-surface-muted text-ink-500',
+            )}
+          >
+            {order.paid ? 'Paid' : 'Payment due'}
+          </span>
+          <StatusPill status={order.delivery} />
+        </div>
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">

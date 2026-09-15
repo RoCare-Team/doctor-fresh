@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Package, Clock, Inbox, Phone, Mail, IndianRupee } from 'lucide-react';
 import { getDashboard, listOrders } from '@/lib/sql/admin';
-import { formatPrice, formatDate } from '@/lib/utils';
+import { formatPrice, formatDate, cx } from '@/lib/utils';
 import StatusPill from '@/components/admin/StatusPill';
 
 export const dynamic = 'force-dynamic';
@@ -72,7 +72,19 @@ export default async function AdminDashboard() {
                   <span className="block text-[12.5px] text-ink-400">{o.customer.mobile}</span>
                 </td>
                 <td className="hidden px-4 py-3 text-ink-500 sm:table-cell">{formatDate(o.placedAt)}</td>
-                <td className="px-4 py-3"><StatusPill status={o.delivery} /></td>
+                <td className="px-4 py-3">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span
+                      className={cx(
+                        'inline-block whitespace-nowrap rounded-full px-2.5 py-1 text-[12.5px] font-medium',
+                        o.paid ? 'bg-success/12 text-success' : 'bg-surface-muted text-ink-500',
+                      )}
+                    >
+                      {o.paid ? 'Paid' : 'Due'}
+                    </span>
+                    <StatusPill status={o.delivery} />
+                  </div>
+                </td>
                 <td className="px-4 py-3 text-right font-medium text-ink-900">{formatPrice(o.total)}</td>
               </tr>
             ))}

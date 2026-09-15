@@ -1,13 +1,18 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Lock, Check, ShieldCheck } from 'lucide-react';
+import {
+  Lock, Check, ShieldCheck, ShoppingBag, MapPin, CreditCard, ArrowLeft, ArrowRight, Pencil,
+} from 'lucide-react';
 import { useCart } from './CartProvider';
-import { Input, Textarea, FormNote } from '@/components/forms/Field';
+import { FormNote } from '@/components/forms/Field';
 import Button from '@/components/common/Button';
 import SafeImage from '@/components/common/SafeImage';
+import AddressStep from './AddressStep';
 import { useSession, refreshSession } from '@/lib/useSession';
 import { formatPrice, cx } from '@/lib/utils';
 
@@ -33,6 +38,94 @@ export default function CheckoutView() {
   const [couponError, setCouponError] = useState('');
   const [placing, setPlacing] = useState(false);
   const [error, setError] = useState('');
+  // The address confirmed in step 2, shown back on the payment step.
+  const [address, setAddress] = useState(null);
+  // Saved addresses to pick from, which one is picked ('new' for the form),
+  // and what has been typed into the form.
+  const [saved, setSaved] = useState([]);
+  const [choice, setChoice] = useState('new');
+  const [draft, setDraft] = useState(EMPTY_ADDRESS);
+  const [addressErrors, setAddressErrors] = useState({});
+  const formRef = useRef(null);
+  const topRef = useRef(null);
+
+  const updateDraft = (patch) => {
+    setDraft((d) => ({ ...d, ...patch }));
+    // A field the customer is correcting stops showing its error.
+    setAddressErrors((e) => {
+      const next = { ...e };
+      Object.keys(patch).forEach((k) => { delete next[k]; });
+      return next;
+    });
+  };
+
+  /**
+   * Fill in what the account already knows: saved addresses to pick from, and
+   * the name, mobile and email for a new one. Nothing is overwritten that the
+   * customer has started typing.
+   */
+  useEffect(() => {
+    if (!user) return undefined;
+    let live = true;
+    fetch('/api/account/addresses')
+      .then((r) => r.json())
+      .then((data) => {
+        if (!live || !data.ok) return;
+        setSaved(data.addresses || []);
+        if (data.addresses?.length) setChoice(0);
+        setDraft((d) => ({
+          ...d,
+          name: d.name || data.contact?.name || user.name || '',
+          mobile: d.mobile || data.contact?.mobile || String(user.mobile || '').slice(-10),
+          email: d.email || data.contact?.email || '',
+        }));
+      })
+      .catch(() => {});
+    return () => { live = false; };
+  }, [user]);
+
+  /** The address that would be delivered to right now. */
+  const currentAddress = () => (typeof choice === 'number' && saved[choice]
+    ? { ...EMPTY_ADDRESS, ...saved[choice] }
+    : draft);
+
+  /**
+   * Moves to a step. The page is left where it is unless the stepper has
+   * scrolled out of sight — after a long address form on a phone — so the new
+   * step never opens with the visitor looking at the bottom of the old one.
+   */
+  function goTo(next) {
+    setError('');
+    setStep(next);
+    const top = topRef.current?.getBoundingClientRect().top ?? 0;
+    // Below the sticky header (about 140px) means it is already in view.
+    if (top < 140) topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /**
+   * Checked here with the same rules the server applies, so a mistake shows
+   * beside its field instead of coming back as an error at the last step.
+   */
+  function continueToPayment() {
+    const a = currentAddress();
+    const problems = validateAddress(a);
+
+    if (Object.keys(problems).length) {
+      // A saved address that no longer passes is opened in the form to fix.
+      if (typeof choice === 'number') {
+        setDraft(a);
+        setChoice('new');
+      }
+      setAddressErrors(problems);
+      const first = Object.keys(problems)[0];
+      requestAnimationFrame(() => formRef.current?.querySelector(`[name="${first}"]`)?.focus());
+      return;
+    }
+
+    setAddressErrors({});
+    setAddress(a);
+    goTo(3);
+  }
 
   const lines = items.map((i) => ({ id: i.id, qty: i.qty }));
   const linesKey = JSON.stringify(lines);
@@ -80,16 +173,21 @@ export default function CheckoutView() {
 
   async function placeOrder(event) {
     event.preventDefault();
+    // Enter in a field on an earlier step moves the visitor on, never places
+    // an order they have not reached the end of.
+    if (step === 1) { goTo(2); return; }
+    if (step === 2) { continueToPayment(); return; }
     setPlacing(true);
     setError('');
 
-    const address = Object.fromEntries(new FormData(event.currentTarget).entries());
+    // The address confirmed at step 2 — not whatever the form fields hold now.
+    const delivery = address || currentAddress();
 
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address, items: lines, coupon: couponCode, payment }),
+        body: JSON.stringify({ address: delivery, items: lines, coupon: couponCode, payment }),
       });
       const data = await res.json().catch(() => ({}));
 
@@ -155,162 +253,265 @@ export default function CheckoutView() {
 
   const totals = quote?.totals;
   const paymentOptions = quote?.paymentOptions || [];
+  const chosenPayment = paymentOptions.find((o) => o.id === payment);
+  const itemCount = items.reduce((n, i) => n + i.qty, 0);
 
   return (
-    <form onSubmit={placeOrder} className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-8">
-      <div className="space-y-4">
-        {/* ------------------------------------------------------- 1. orders */}
-        <Section n={1} title="Your order" open={step >= 1} done={step > 1}>
-          <ul className="divide-y divide-line">
-            {items.map((i) => (
-              <li key={i.id} className="flex gap-4 py-3.5 first:pt-0">
-                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded border border-line">
-                  <SafeImage src={i.image} fill sizes="56px" className="object-contain p-1" iconSize={18} />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <Link href={i.url} className="line-clamp-2 text-[14.5px] leading-snug text-ink-900 hover:text-primary-800">
-                    {i.name}
-                  </Link>
-                  <p className="mt-0.5 text-[13px] text-ink-400">Qty {i.qty}</p>
-                </div>
-                <p className="shrink-0 text-[14.5px] text-ink-700">
-                  {formatPrice((quote?.items?.find((q) => Number(q.id) === Number(i.id))?.price ?? i.price) * i.qty)}
-                </p>
-              </li>
-            ))}
-          </ul>
+    <form ref={formRef} onSubmit={placeOrder} className="space-y-3">
+      <div ref={topRef} className="flex scroll-mt-44 justify-center">
+        <Stepper step={step} onBack={goTo} />
+      </div>
 
-          <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-4">
-            <input
-              value={couponInput}
-              onChange={(e) => setCouponInput(e.target.value)}
-              placeholder="Coupon code"
-              aria-label="Coupon code"
-              className="h-10 min-w-0 flex-1 rounded-md border border-line-strong bg-white px-3.5 text-sm text-ink-900 outline-none transition-colors placeholder:text-ink-300 focus:border-primary-500"
-            />
-            <button
-              type="button"
-              onClick={applyCoupon}
-              className="h-10 rounded-md border border-line-strong px-4 text-[14px] font-medium text-ink-700 transition-colors hover:border-primary-500 hover:text-primary-800"
-            >
-              Apply
-            </button>
-          </div>
-          {couponError ? <p className="mt-2 text-[13.5px] text-danger">{couponError}</p> : null}
-          {quote?.coupon ? (
-            <p className="mt-2 inline-flex items-center gap-1.5 text-[13.5px] text-success">
-              <Check size={14} aria-hidden="true" />
-              Coupon {quote.coupon.code} applied
-            </p>
-          ) : null}
-
-          {step === 1 ? (
-            <Button type="button" className="mt-5" onClick={() => setStep(2)}>Next</Button>
-          ) : null}
-        </Section>
-
-        {/* --------------------------------------------- 2. delivery address */}
-        <Section n={2} title="Delivery address" open={step >= 2} done={step > 2}>
-          <div className="grid gap-3.5 sm:grid-cols-2">
-            <Input label="Full name" name="name" required placeholder="Full name" autoComplete="name" />
-            <Input label="Mobile number" name="mobile" type="tel" required pattern="[0-9]{10}" maxLength={10} placeholder="10 digit mobile number" autoComplete="tel" />
-            <Input label="Email" name="email" type="email" placeholder="you@example.com" autoComplete="email" className="sm:col-span-2" />
-            <Input label="House / building no." name="house_no" required placeholder="House No. / Building No." className="sm:col-span-2" />
-            <Input label="Road name / area" name="area" required placeholder="Road name / area" className="sm:col-span-2" />
-            <Input label="Nearby landmark" name="near_by" placeholder="Nearby famous place / shop / school" className="sm:col-span-2" />
-            <Input label="City" name="city" required placeholder="City" autoComplete="address-level2" />
-            <Input label="State" name="state" required placeholder="State" autoComplete="address-level1" />
-            <Input label="Pin code" name="c_pincode" required pattern="[0-9]{6}" maxLength={6} placeholder="6 digit pin code" autoComplete="postal-code" />
-            <Textarea label="Delivery instructions" name="message" rows={2} placeholder="Optional" className="sm:col-span-2" />
-          </div>
-
-          {step === 2 ? (
-            <Button type="button" className="mt-5" onClick={() => setStep(3)}>Next</Button>
-          ) : null}
-        </Section>
-
-        {/* ------------------------------------------------ 3. payment method */}
-        <Section n={3} title="Payment" open={step >= 3}>
-          {paymentOptions.length ? (
-            <ul className="space-y-2">
-              {paymentOptions.map((option) => (
-                <li key={option.id}>
-                  <label
-                    className={cx(
-                      'flex cursor-pointer items-center gap-3 rounded-md border px-3.5 py-3 text-[14.5px] transition-colors',
-                      option.ready
-                        ? 'border-line-strong text-ink-700 hover:border-primary-300 has-checked:border-primary-500 has-checked:bg-primary-50'
-                        : 'cursor-not-allowed border-line bg-surface-muted text-ink-300',
-                    )}
-                  >
-                    <input
-                      type="radio"
-                      name="payment"
-                      value={option.id}
-                      checked={payment === option.id}
-                      disabled={!option.ready}
-                      onChange={() => setPayment(option.id)}
-                      className="accent-primary-600"
-                      required
-                    />
-                    <span className="flex-1">{option.label}</span>
-                    {!option.ready ? <span className="text-[12.5px]">Not available yet</span> : null}
-                  </label>
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-6">
+        <div className="min-w-0">
+          {/* ------------------------------------------------------ 1. order */}
+          <Panel
+            active={step === 1}
+            icon={ShoppingBag}
+            title="Review your order"
+            note={`${itemCount} item${itemCount === 1 ? '' : 's'}`}
+          >
+            <ul className="divide-y divide-line">
+              {items.map((i) => (
+                <li key={i.id} className="flex gap-4 py-3 first:pt-0">
+                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-line bg-white">
+                    <SafeImage src={i.image} fill sizes="64px" className="object-contain p-1" iconSize={18} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <Link href={i.url} className="line-clamp-2 text-[14.5px] font-medium leading-snug text-ink-900 hover:text-primary-800">
+                      {i.name}
+                    </Link>
+                    <p className="mt-1 text-[13px] text-ink-400">Qty {i.qty}</p>
+                  </div>
+                  <p className="shrink-0 text-[15px] font-semibold text-ink-900">
+                    {formatPrice((quote?.items?.find((q) => Number(q.id) === Number(i.id))?.price ?? i.price) * i.qty)}
+                  </p>
                 </li>
               ))}
             </ul>
-          ) : (
-            <p className="text-[14.5px] text-ink-400">Loading payment options…</p>
-          )}
-        </Section>
-      </div>
 
-      {/* --------------------------------------------------------- summary */}
-      <aside className="lg:sticky lg:top-34.5 lg:self-start">
-        <div className="df-card p-5">
-          <h2 className="text-[16px] font-semibold text-ink-900">Order summary</h2>
-
-          <dl className="mt-4 space-y-2.5 text-[14.5px]">
-            <Row label="Subtotal" value={totals ? formatPrice(totals.subtotal) : '—'} />
-            {totals?.discount > 0 ? (
-              <Row label={`Coupon (${quote.coupon?.code})`} value={`− ${formatPrice(totals.discount)}`} tone="success" />
-            ) : null}
-            <Row label="GST" value={totals ? formatPrice(totals.tax) : '—'} />
-            <Row
-              label="Shipping"
-              value={totals ? (totals.shipping ? formatPrice(totals.shipping) : 'Free') : '—'}
-              tone={totals && !totals.shipping ? 'success' : undefined}
-            />
-            <div className="flex justify-between border-t border-line pt-3 text-[16px] font-semibold text-ink-900">
-              <dt>Grand total</dt>
-              <dd>{totals ? formatPrice(totals.grandTotal) : '—'}</dd>
+            <div className="mt-3 rounded-lg border border-dashed border-line-strong bg-surface-muted p-3">
+              <p className="mb-2 text-[13px] font-medium text-ink-700">Have a coupon?</p>
+              <div className="flex flex-wrap items-center gap-2">
+                <input
+                  value={couponInput}
+                  onChange={(e) => setCouponInput(e.target.value)}
+                  placeholder="Enter coupon code"
+                  aria-label="Coupon code"
+                  className="h-10 min-w-0 flex-1 rounded-md border border-line-strong bg-white px-3.5 text-sm text-ink-900 outline-none transition-colors placeholder:text-ink-300 focus:border-primary-500"
+                />
+                <button
+                  type="button"
+                  onClick={applyCoupon}
+                  className="h-10 rounded-md border border-primary-500 bg-white px-4 text-[14px] font-medium text-primary-700 transition-colors hover:bg-primary-50"
+                >
+                  Apply
+                </button>
+              </div>
+              {couponError ? <p className="mt-2 text-[13.5px] text-danger">{couponError}</p> : null}
+              {quote?.coupon ? (
+                <p className="mt-2 inline-flex items-center gap-1.5 text-[13.5px] text-success">
+                  <Check size={14} aria-hidden="true" />
+                  Coupon {quote.coupon.code} applied
+                </p>
+              ) : null}
             </div>
-          </dl>
 
-          <Button type="submit" size="lg" full className="mt-5" disabled={placing || !totals || step < 3}>
-            {placing ? 'Placing order…' : 'Place order'}
-          </Button>
+            <StepActions>
+              <Button href="/cart" variant="ghost">
+                <ArrowLeft size={16} aria-hidden="true" />
+                Back to cart
+              </Button>
+              <Button type="button" size="lg" className="w-full sm:w-auto" onClick={() => goTo(2)}>
+                Continue to address
+                <ArrowRight size={16} aria-hidden="true" />
+              </Button>
+            </StepActions>
+          </Panel>
 
-          {!quote?.ok && quote?.error ? (
-            <div className="mt-3"><FormNote status="error" error={quote.error} /></div>
-          ) : null}
-          {error ? <div className="mt-3"><FormNote status="error" error={error} /></div> : null}
+          {/* -------------------------------------------- 2. delivery address */}
+          <Panel
+            active={step === 2}
+            icon={MapPin}
+            title="Delivery address"
+            note={saved.length ? 'Pick a saved address or add a new one' : 'Where should we deliver?'}
+          >
+            <AddressStep
+              addresses={saved}
+              choice={choice}
+              onChoose={(c) => { setChoice(c); setAddressErrors({}); }}
+              draft={draft}
+              onDraft={updateDraft}
+              errors={addressErrors}
+            />
 
-          <p className="mt-3 flex items-center justify-center gap-1.5 text-[13px] text-ink-400">
-            <Lock size={13} aria-hidden="true" />
-            Your details are sent securely
-          </p>
+            <StepActions>
+              <Button type="button" variant="ghost" onClick={() => goTo(1)}>
+                <ArrowLeft size={16} aria-hidden="true" />
+                Back
+              </Button>
+              <Button type="button" size="lg" className="w-full sm:w-auto" onClick={continueToPayment}>
+                Continue to payment
+                <ArrowRight size={16} aria-hidden="true" />
+              </Button>
+            </StepActions>
+          </Panel>
 
-          <p className="mt-2 text-center text-[13px] text-ink-400">
-            By placing the order you agree to our{' '}
-            <Link href="/legal/terms-and-conditions" className="text-primary-700 hover:underline">
-              terms and conditions
-            </Link>.
-          </p>
+          {/* ------------------------------------------------------ 3. payment */}
+          <Panel active={step === 3} icon={CreditCard} title="Payment" note="Choose how you want to pay">
+            {address ? (
+              <div className="mb-4 flex items-start justify-between gap-4 rounded-lg border border-line bg-surface-muted p-3">
+                <div className="min-w-0 text-[14px] leading-relaxed text-ink-700">
+                  <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-400">Delivering to</p>
+                  <p className="mt-1 font-semibold text-ink-900">{address.name}</p>
+                  <p>
+                    {[address.house_no, address.area, address.near_by && `Near ${address.near_by}`]
+                      .filter(Boolean).join(', ')}
+                  </p>
+                  <p>{[address.city, address.state].filter(Boolean).join(', ')} – {address.c_pincode}</p>
+                  <p className="text-ink-500">+91 {address.mobile}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => goTo(2)}
+                  className="inline-flex shrink-0 items-center gap-1 text-[13.5px] font-medium text-primary-700 hover:text-primary-800"
+                >
+                  <Pencil size={13} aria-hidden="true" />
+                  Change
+                </button>
+              </div>
+            ) : null}
+
+            {paymentOptions.length ? (
+              <ul className="space-y-2.5">
+                {paymentOptions.map((option) => (
+                  <li key={option.id}>
+                    <label
+                      className={cx(
+                        'flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3.5 text-[15px] transition-colors',
+                        option.ready
+                          ? 'border-line-strong text-ink-800 hover:border-primary-300 has-checked:border-primary-500 has-checked:bg-primary-50 has-checked:shadow-[0_0_0_3px_var(--color-primary-100)]'
+                          : 'cursor-not-allowed border-line bg-surface-muted text-ink-300',
+                      )}
+                    >
+                      <input
+                        type="radio"
+                        name="payment"
+                        value={option.id}
+                        checked={payment === option.id}
+                        disabled={!option.ready}
+                        onChange={() => setPayment(option.id)}
+                        className="h-4 w-4 accent-primary-600"
+                        required
+                      />
+                      <span className="flex-1 font-medium">{option.label}</span>
+                      {!option.ready ? <span className="text-[12.5px]">Not available yet</span> : null}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-[14.5px] text-ink-400">Loading payment options…</p>
+            )}
+
+            {error ? <div className="mt-4 lg:hidden"><FormNote status="error" error={error} /></div> : null}
+
+            <StepActions>
+              <Button type="button" variant="ghost" onClick={() => goTo(2)}>
+                <ArrowLeft size={16} aria-hidden="true" />
+                Back
+              </Button>
+              {/* The summary beside the steps carries this button on a wide
+                  screen; on a phone that summary sits below, out of sight. */}
+              <div className="w-full sm:w-auto lg:hidden">
+                <Button type="submit" size="lg" full disabled={placing || !totals}>
+                  {placing ? 'Placing order…' : `Place order${totals ? ` · ${formatPrice(totals.grandTotal)}` : ''}`}
+                </Button>
+              </div>
+            </StepActions>
+          </Panel>
         </div>
-      </aside>
+
+        {/* ------------------------------------------------------- summary */}
+        <aside className="lg:sticky lg:top-34.5 lg:self-start">
+          <div className="df-card p-5">
+            <h2 className="text-[16px] font-semibold text-ink-900">Order summary</h2>
+
+            <dl className="mt-4 space-y-2.5 text-[14.5px]">
+              <Row
+                label={`Subtotal (${itemCount} item${itemCount === 1 ? '' : 's'})`}
+                value={totals ? formatPrice(totals.subtotal) : '—'}
+              />
+              {totals?.discount > 0 ? (
+                <Row label={`Coupon (${quote.coupon?.code})`} value={`− ${formatPrice(totals.discount)}`} tone="success" />
+              ) : null}
+              <Row label="GST" value={totals ? formatPrice(totals.tax) : '—'} />
+              <Row
+                label="Shipping"
+                value={totals ? (totals.shipping ? formatPrice(totals.shipping) : 'Free') : '—'}
+                tone={totals && !totals.shipping ? 'success' : undefined}
+              />
+              <div className="flex justify-between border-t border-line pt-3 text-[16px] font-semibold text-ink-900">
+                <dt>Grand total</dt>
+                <dd>{totals ? formatPrice(totals.grandTotal) : '—'}</dd>
+              </div>
+            </dl>
+
+            {step === 3 && chosenPayment ? (
+              <p className="mt-3 text-[13px] text-ink-500">
+                Paying by <span className="font-medium text-ink-700">{chosenPayment.label}</span>
+              </p>
+            ) : null}
+
+            {/* Desktop only: on a phone the payment step has its own button.
+                The wrapper hides it — Button's own inline-flex would override
+                a `hidden` passed to it directly. */}
+            <div className="mt-5 hidden lg:block">
+              <Button type="submit" size="lg" full disabled={placing || !totals || step < 3}>
+                {placing ? 'Placing order…' : step < 3 ? `Complete step ${step} of 3` : 'Place order'}
+              </Button>
+            </div>
+
+            {!quote?.ok && quote?.error ? (
+              <div className="mt-3"><FormNote status="error" error={quote.error} /></div>
+            ) : null}
+            {error ? <div className="mt-3 hidden lg:block"><FormNote status="error" error={error} /></div> : null}
+
+            <p className="mt-3 flex items-center justify-center gap-1.5 text-[13px] text-ink-400">
+              <Lock size={13} aria-hidden="true" />
+              Your details are sent securely
+            </p>
+
+            <p className="mt-2 text-center text-[13px] text-ink-400">
+              By placing the order you agree to our{' '}
+              <Link href="/legal/terms-and-conditions" className="text-primary-700 hover:underline">
+                terms and conditions
+              </Link>.
+            </p>
+          </div>
+        </aside>
+      </div>
     </form>
   );
+}
+
+const EMPTY_ADDRESS = {
+  name: '', mobile: '', email: '', house_no: '', area: '', near_by: '', city: '', state: '', c_pincode: '', message: '',
+};
+
+/** The rules /api/checkout applies, so the customer hears about them here first. */
+function validateAddress(a) {
+  const e = {};
+  const text = (v) => String(v || '').trim();
+  if (text(a.name).length < 2) e.name = 'Enter the full name';
+  if (!/^[6-9]\d{9}$/.test(String(a.mobile || '').replace(/\D/g, '').slice(-10))) e.mobile = 'Enter a valid 10-digit mobile number';
+  if (!/^\d{6}$/.test(text(a.c_pincode))) e.c_pincode = 'Enter a 6-digit pin code';
+  if (!text(a.house_no)) e.house_no = 'Enter your house or flat number';
+  if (!text(a.area)) e.area = 'Enter your area or road';
+  if (!text(a.city)) e.city = 'Enter your city';
+  if (!text(a.state)) e.state = 'Enter your state';
+  if (text(a.email) && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text(a.email))) e.email = 'Enter a valid email';
+  return e;
 }
 
 function Row({ label, value, tone }) {
@@ -322,24 +523,123 @@ function Row({ label, value, tone }) {
   );
 }
 
-function Section({ n, title, open, done, children }) {
-  return (
-    <section className="df-card p-5">
-      <h2 className="flex items-center gap-2.5 text-[16px] font-semibold text-ink-900">
-        <span
-          className={cx(
-            'flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[12.5px] font-semibold',
-            done ? 'bg-success text-white' : open ? 'bg-primary-500 text-white' : 'bg-surface-muted text-ink-400',
-          )}
-        >
-          {done ? <Check size={13} aria-hidden="true" /> : n}
-        </span>
-        {title}
-      </h2>
+const STEPS = [
+  { n: 1, label: 'Order', hint: 'Review items', icon: ShoppingBag },
+  { n: 2, label: 'Address', hint: 'Delivery details', icon: MapPin },
+  { n: 3, label: 'Payment', hint: 'Pay and confirm', icon: CreditCard },
+];
 
-      {/* Later steps stay mounted so their fields are part of the form, but
-          collapse until the visitor gets to them. */}
-      <div className={cx('mt-4', open ? '' : 'hidden')}>{children}</div>
+/**
+ * The progress bar across the top, kept to a single row so the step itself
+ * starts within the first screen. A finished step can be clicked to go back to
+ * it; a later one cannot be jumped to, so the address is always checked before
+ * payment.
+ */
+function Stepper({ step, onBack }) {
+  return (
+    <nav aria-label="Checkout progress" className="df-card w-full max-w-2xl px-2 py-2 sm:px-3">
+      <ol className="flex items-center">
+        {STEPS.map(({ n, label, hint, icon: Icon }, index) => {
+          const done = n < step;
+          const current = n === step;
+          const last = index === STEPS.length - 1;
+
+          const content = (
+            <>
+              <span
+                className={cx(
+                  'flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 transition-colors',
+                  done && 'border-primary-500 bg-primary-500 text-white',
+                  current && 'border-primary-500 bg-white text-primary-600 shadow-[0_0_0_3px_var(--color-primary-100)]',
+                  !done && !current && 'border-line-strong bg-white text-ink-300',
+                )}
+              >
+                {done
+                  ? <Check size={16} strokeWidth={2.5} aria-hidden="true" />
+                  : <Icon size={16} aria-hidden="true" />}
+              </span>
+              <span className={cx('min-w-0 text-left leading-tight', !current && 'hidden sm:block')}>
+                <span
+                  className={cx(
+                    'block whitespace-nowrap text-[13px] font-semibold sm:text-[14px]',
+                    current && 'text-primary-700',
+                    done && 'text-ink-900',
+                    !done && !current && 'text-ink-400',
+                  )}
+                >
+                  <span className="sr-only">{`Step ${n}: `}</span>
+                  {label}
+                </span>
+                <span className="hidden whitespace-nowrap text-[12px] text-ink-400 md:block">{hint}</span>
+              </span>
+            </>
+          );
+
+          return (
+            <li
+              key={n}
+              className={cx('flex items-center', !last && 'flex-1')}
+              aria-current={current ? 'step' : undefined}
+            >
+              {done ? (
+                <button
+                  type="button"
+                  onClick={() => onBack(n)}
+                  className="flex shrink-0 items-center gap-2 rounded-full p-1 transition-colors hover:bg-surface-muted sm:gap-2.5 sm:pr-3"
+                  aria-label={`Back to ${label}`}
+                >
+                  {content}
+                </button>
+              ) : (
+                <span
+                  className={cx(
+                    'flex shrink-0 items-center gap-2 rounded-full p-1 sm:gap-2.5 sm:pr-3',
+                    current && 'bg-primary-50 pr-3',
+                  )}
+                >
+                  {content}
+                </span>
+              )}
+
+              {/* The line to the next step, filled once this step is done. */}
+              {!last ? (
+                <span aria-hidden="true" className="mx-1.5 h-0.5 min-w-4 flex-1 overflow-hidden rounded-full bg-line sm:mx-2">
+                  <span
+                    className={cx('block h-full bg-primary-500 transition-all duration-300', done ? 'w-full' : 'w-0')}
+                  />
+                </span>
+              ) : null}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
+function Panel({ active, icon: Icon, title, note, children }) {
+  // Every step stays mounted — its fields belong to the one form that is
+  // submitted — and only the current one is shown.
+  return (
+    <section className={cx('df-card p-4 sm:p-5', !active && 'hidden')}>
+      <div className="mb-3 flex items-center gap-3 border-b border-line pb-3">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-600">
+          <Icon size={17} aria-hidden="true" />
+        </span>
+        <div className="min-w-0">
+          <h2 className="text-[17px] font-semibold leading-tight text-ink-900">{title}</h2>
+          {note ? <p className="text-[13px] text-ink-400">{note}</p> : null}
+        </div>
+      </div>
+      {children}
     </section>
+  );
+}
+
+function StepActions({ children }) {
+  return (
+    <div className="mt-4 flex flex-col-reverse gap-2 border-t border-line pt-3 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+      {children}
+    </div>
   );
 }

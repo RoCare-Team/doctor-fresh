@@ -39,7 +39,7 @@ export default function ProductCard({ product, compact = false }) {
         </div>
 
         {/* one row keeps the rating and the discount badge from ever colliding */}
-        <div className="pointer-events-none absolute inset-x-2.5 top-2.5 flex items-start justify-between gap-1.5 sm:inset-x-4 sm:top-4 sm:gap-2">
+        <div className="pointer-events-none absolute inset-x-4 top-4 hidden items-start justify-between gap-2 sm:flex">
           <span className="flex flex-col items-start gap-1.5">
             {product.rating ? (
               <span className="inline-flex items-center gap-1.5 rounded-md bg-white/95 px-1.5 py-1 shadow-[0_2px_8px_-4px_rgb(6_59_76_/_0.4)]">
@@ -68,31 +68,51 @@ export default function ProductCard({ product, compact = false }) {
             </span>
           ) : null}
         </div>
+        {/* Phone: the badges share a narrow photo, so each takes a corner —
+            discount top left, rating bottom left, the heart top right. */}
+        <div className="pointer-events-none absolute inset-2.5 sm:hidden">
+          {showDiscount ? (
+            <span className="absolute left-1.5 top-1.5 rounded-md bg-primary-600 px-1.5 py-0.5 text-[10.5px] font-bold uppercase text-white">
+              {`${product.discountPercent}% off`}
+            </span>
+          ) : null}
+          {product.rating ? (
+            <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-0.5 rounded-md bg-success px-1.5 py-0.5 text-[10.5px] font-semibold text-white">
+              {product.rating.toFixed(1)}
+              <Star size={9} fill="currentColor" strokeWidth={0} aria-hidden="true" />
+            </span>
+          ) : null}
+          {!product.inStock ? (
+            <span className="absolute bottom-1.5 right-1.5 rounded-md bg-ink-900/85 px-1.5 py-0.5 text-[10.5px] font-medium text-white">
+              Out of stock
+            </span>
+          ) : null}
+        </div>
       </Link>
 
       {/* Sits outside the link so the heart does not open the product. */}
       <WishlistButton
         productId={product.id}
-        className="absolute right-2.5 top-11 z-10 h-8 w-8 bg-white/95 shadow-[0_2px_8px_-4px_rgb(6_59_76_/_0.4)] sm:right-3 sm:top-[52px]"
+        className="absolute right-4 top-4 z-10 h-7 w-7 bg-white/95 shadow-[0_2px_8px_-4px_rgb(6_59_76_/_0.4)] sm:right-3 sm:top-[52px] sm:h-8 sm:w-8"
         size={16}
       />
 
       {/* ------------------------------------------------------------ content */}
-      <div className="flex flex-1 flex-col px-3 pb-3.5 pt-1 sm:px-4 sm:pb-4">
+      <div className="flex flex-1 flex-col px-2.5 pb-2.5 pt-0.5 sm:px-4 sm:pb-4 sm:pt-1">
         {/* two reserved lines so titles of any length align across a row */}
-        <h3 className="min-h-[38px] text-[14px] font-semibold leading-snug text-ink-900 sm:min-h-[44px] sm:text-[16px]">
+        <h3 className="min-h-[36px] text-[13.5px] font-medium leading-snug text-ink-900 sm:min-h-[44px] sm:text-[16px] sm:font-semibold">
           <Link href={product.url} className="line-clamp-2 transition-colors hover:text-primary-600">
             {product.name}
           </Link>
         </h3>
 
-        <p className="mt-1.5 hidden line-clamp-2 min-h-[40px] text-[13px] leading-relaxed text-ink-400 sm:block">
+        <p className="mt-1.5 hidden min-h-10 text-[13px] leading-relaxed text-ink-400 sm:line-clamp-2">
           {product.metaDescription || ''}
         </p>
 
         {/* price + actions are pinned to the bottom of every card */}
-        <div className="mt-auto pt-3">
-          <div className="min-h-[34px] sm:min-h-[62px]">
+        <div className="mt-auto pt-2 sm:pt-3">
+          <div className="min-h-[42px] sm:min-h-[62px]">
             {hasPrice ? (
               <>
                 {/* On a half-width card the price leads on its own line and the
@@ -100,16 +120,19 @@ export default function ProductCard({ product, compact = false }) {
                     more rows of small grey type there, so they wait for room. */}
                 <p className="flex flex-wrap items-baseline gap-x-1.5 font-semibold text-ink-900">
                   <span className="hidden text-[15px] sm:inline">Best Price:</span>
-                  <span className="text-[17px]">{formatPrice(product.price)}</span>
+                  <span className="text-[16px] font-bold sm:text-[17px] sm:font-semibold">{formatPrice(product.price)}</span>
                   {product.unit ? (
-                    <span className="text-[12px] font-normal text-ink-400">{product.unit}</span>
-                  ) : null}
-                  {product.mrp > product.price ? (
-                    <span className="text-[13px] font-medium text-ink-300 line-through sm:hidden">
-                      {formatPrice(product.mrp)}
-                    </span>
+                    <span className="hidden text-[12px] font-normal text-ink-400 sm:inline">{product.unit}</span>
                   ) : null}
                 </p>
+                {product.mrp > product.price ? (
+                  <p className="mt-0.5 flex items-baseline gap-1.5 text-[12px] sm:hidden">
+                    <span className="text-ink-300 line-through">{formatPrice(product.mrp)}</span>
+                    {showDiscount ? (
+                      <span className="font-semibold text-success">{`${product.discountPercent}% off`}</span>
+                    ) : null}
+                  </p>
+                ) : null}
                 {product.mrp > product.price ? (
                   <p className="mt-0.5 hidden text-[13.5px] font-medium text-ink-400 sm:block">
                     MRP <span className="line-through">{formatPrice(product.mrp)}</span>
@@ -128,7 +151,7 @@ export default function ProductCard({ product, compact = false }) {
           </div>
 
           {!compact ? (
-            <div className="mt-3">
+            <div className="mt-2.5 sm:mt-3">
               <AddToCartButtons product={product} layout="card" />
             </div>
           ) : null}
