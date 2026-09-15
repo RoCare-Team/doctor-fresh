@@ -6,7 +6,7 @@ import BlogCard from '@/components/blogs/BlogCard';
 import BlogImage from '@/components/blogs/BlogImage';
 import BlogComments from '@/components/blogs/BlogComments';
 import Button from '@/components/common/Button';
-import { getAllBlogPosts, getBlogPost, getRelatedBlogPosts, getBlogCategory, getBrand } from '@/lib/catalog';
+import { getBlogPost, getRelatedBlogPosts, getBlogCategory, getBrand } from '@/lib/catalog';
 
 import { absoluteUrl, formatDate, imageUrl, metaFor, SITE_URL } from '@/lib/utils';
 
@@ -15,7 +15,9 @@ import { absoluteUrl, formatDate, imageUrl, metaFor, SITE_URL } from '@/lib/util
 export const revalidate = 300;
 
 export async function generateStaticParams() {
-  return (await getAllBlogPosts()).map((p) => ({ id: String(p.id), slug: p.slug }));
+  // Built on first visit and then cached, rather than at deploy — only the
+  // pages a visitor reaches first are prerendered.
+  return [];
 }
 
 export async function generateMetadata({ params }) {

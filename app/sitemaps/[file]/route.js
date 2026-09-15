@@ -5,16 +5,17 @@
 
 import { SITE_INDEXABLE } from '@/lib/utils';
 import {
-  LANDING_SITEMAPS, SITEMAP_FILES,
+  LANDING_SITEMAPS,
   mainEntries, productEntries, blogEntries, landingEntries,
   urlsetXml, xmlResponse,
 } from '@/lib/sitemap';
 
 export const revalidate = 3600;
 
-/** Prebuilt at deploy time; the rest of the site's routes work the same way. */
 export function generateStaticParams() {
-  return SITEMAP_FILES.map((file) => ({ file: `${file}.xml` }));
+  // Built on first visit and then cached, rather than at deploy — only the
+  // pages a visitor reaches first are prerendered.
+  return [];
 }
 
 async function entriesFor(name) {

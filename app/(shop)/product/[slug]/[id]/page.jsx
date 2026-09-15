@@ -11,7 +11,7 @@ import RecentlyViewed from '@/components/products/RecentlyViewed';
 import Accordion from '@/components/common/Accordion';
 import ProductRail from '@/components/products/ProductRail';
 import Rating from '@/components/common/Rating';
-import { getProductRoutes, getProductById, getRelatedProducts, cardProduct } from '@/lib/catalog';
+import { getProductById, getRelatedProducts, cardProduct } from '@/lib/catalog';
 import ReviewForm from '@/components/products/ReviewForm';
 import { absoluteUrl, formatPrice, imageUrl, metaFor, SITE_URL } from '@/lib/utils';
 
@@ -20,7 +20,9 @@ import { absoluteUrl, formatPrice, imageUrl, metaFor, SITE_URL } from '@/lib/uti
 export const revalidate = 300;
 
 export async function generateStaticParams() {
-  return getProductRoutes();
+  // Built on first visit and then cached, rather than at deploy — only the
+  // pages a visitor reaches first are prerendered.
+  return [];
 }
 
 export async function generateMetadata({ params }) {

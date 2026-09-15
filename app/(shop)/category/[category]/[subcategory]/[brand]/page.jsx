@@ -4,7 +4,7 @@ import CategoryProducts from '@/components/categories/CategoryProducts';
 import SeoContent from '@/components/categories/SeoContent';
 import FaqSection from '@/components/common/FaqSection';
 import {
-  getAllCategories, getSubcategory, getProductsBySubcategory, getProductsByIds,
+  getSubcategory, getProductsBySubcategory, getProductsByIds,
   SUBCATEGORY_BRANDS as BRANDS, cardProduct,
 } from '@/lib/catalog';
 import { metaFor } from '@/lib/utils';
@@ -14,11 +14,9 @@ import { metaFor } from '@/lib/utils';
 export const revalidate = 300;
 
 export async function generateStaticParams() {
-  return (await getAllCategories()).flatMap((c) =>
-    c.subcategories.flatMap((s) =>
-      Object.keys(BRANDS).map((brand) => ({ category: c.slug, subcategory: s.slug, brand })),
-    ),
-  );
+  // Built on first visit and then cached, rather than at deploy — only the
+  // pages a visitor reaches first are prerendered.
+  return [];
 }
 
 export async function generateMetadata({ params }) {

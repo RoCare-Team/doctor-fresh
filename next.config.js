@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+
+  // The database is on a remote host whose link speed swings widely. On a slow
+  // minute a page can take longer than Next's default 60 seconds to render,
+  // and three such attempts fail the whole deploy; this gives it room.
+  staticPageGenerationTimeout: 180,
   outputFileTracingRoot: __dirname,
 
   images: {

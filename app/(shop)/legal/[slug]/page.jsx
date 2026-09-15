@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Breadcrumb from '@/components/common/Breadcrumb';
-import { getLegalPage, getLegalSlugs } from '@/lib/catalog';
+import { getLegalPage } from '@/lib/catalog';
 import { metaFor } from '@/lib/utils';
 
 /**
@@ -10,7 +10,9 @@ import { metaFor } from '@/lib/utils';
 export const revalidate = 300;
 
 export async function generateStaticParams() {
-  return (await getLegalSlugs()).map((slug) => ({ slug }));
+  // Built on first visit and then cached, rather than at deploy — only the
+  // pages a visitor reaches first are prerendered.
+  return [];
 }
 
 export async function generateMetadata({ params }) {

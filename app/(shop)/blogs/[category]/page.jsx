@@ -10,7 +10,9 @@ import { metaFor, cx } from '@/lib/utils';
 export const revalidate = 300;
 
 export async function generateStaticParams() {
-  return (await getBlogCategories()).map((c) => ({ category: c.slug }));
+  // Built on first visit and then cached, rather than at deploy — only the
+  // pages a visitor reaches first are prerendered.
+  return [];
 }
 
 export async function generateMetadata({ params }) {
