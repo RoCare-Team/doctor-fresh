@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  Search, ShoppingCart, Menu, ChevronDown, LayoutGrid,
+  Search, ShoppingCart, Menu, ChevronDown, LayoutGrid, Lock,
 } from 'lucide-react';
 import { useCart } from '@/components/cart/CartProvider';
 import { imageUrl, cx } from '@/lib/utils';
@@ -35,6 +35,8 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
   const router = useRouter();
   const pathname = usePathname();
   const { count } = useCart();
+  // Checkout runs in a stripped-down header — see the main bar below.
+  const focused = pathname === '/cart-checkout';
 
   useEffect(() => {
     setOpenMenu(null);
@@ -140,8 +142,19 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
             />
           </Link>
 
+          {/* Checkout is a room with one door: search, the category nav and the
+              menu would all lead out of a payment the visitor is part way
+              through, so the header keeps only the logo and a lock. */}
+          {focused ? (
+            <span className="ml-auto inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap text-[13px] font-medium text-ink-500 sm:text-[14px]">
+              <Lock size={14} aria-hidden="true" className="text-success" />
+              Secure
+              <span className="hidden sm:inline">checkout</span>
+            </span>
+          ) : null}
+
           {/* search is the visual anchor of the header */}
-          <form onSubmit={submitSearch} role="search" className="hidden max-w-2xl flex-1 md:block">
+          <form onSubmit={submitSearch} role="search" className={cx('hidden max-w-2xl flex-1 md:block', focused && 'md:hidden')}>
             <div className="group relative">
               <Search
                 size={18}
@@ -194,7 +207,10 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
               type="button"
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
-              className="-mr-1 rounded-md p-2 text-ink-700 transition-colors hover:bg-surface-muted lg:hidden"
+              className={cx(
+                '-mr-1 rounded-md p-2 text-ink-700 transition-colors hover:bg-surface-muted lg:hidden',
+                focused && 'hidden',
+              )}
             >
               <Menu size={22} aria-hidden="true" />
             </button>
@@ -202,7 +218,7 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
         </div>
 
         {/* mobile search */}
-        <form onSubmit={submitSearch} role="search" className="df-container pb-3 md:hidden">
+        <form onSubmit={submitSearch} role="search" className={cx('df-container pb-3 md:hidden', focused && 'hidden')}>
           <div className="relative">
             <Search
               size={16}
@@ -227,6 +243,7 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
         ref={navRef}
         className={cx(
           'relative hidden bg-white lg:block',
+          focused && 'lg:hidden',
           navHidden ? 'border-b-0' : 'border-b border-line',
         )}
       >

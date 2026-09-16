@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { listCustomers } from '@/lib/sql/admin-catalog';
 import Pagination, { paginate } from '@/components/admin/Pagination';
 import AdminTable from '@/components/admin/AdminTable';
@@ -36,7 +37,12 @@ export default async function AdminCustomersPage({ searchParams }) {
         {(customers || []).map((c) => (
           <tr key={c.id} className="transition-colors hover:bg-surface-muted">
             <td className="px-4 py-3">
-              <span className="font-medium text-ink-900">{c.name}</span>
+              <Link
+                href={`/admin/customers/${c.id}`}
+                className="font-medium text-primary-700 hover:text-primary-800"
+              >
+                {c.name}
+              </Link>
               {c.email ? <span className="block text-[12.5px] text-ink-400">{c.email}</span> : null}
             </td>
             <td className="px-4 py-3">

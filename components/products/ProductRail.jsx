@@ -39,18 +39,20 @@ export default function ProductRail({ title, href, products = [], tone = 'plain'
         {/* Three tracks so the heading is centred on the section itself, not
             on the space left over beside the link. The empty first track
             mirrors the link in the third. */}
-        <Reveal className="mb-4 grid items-center gap-3 text-center sm:grid-cols-[1fr_auto_1fr]">
+        {/* On a phone the title and the link share one row — stacked and
+            centred they cost a third of a screen before the first card. */}
+        <Reveal className="mb-3 flex items-baseline justify-between gap-3 sm:mb-4 sm:grid sm:items-center sm:text-center sm:grid-cols-[1fr_auto_1fr]">
           <span className="hidden sm:block" aria-hidden="true" />
 
-          <h2 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
+          <h2 className="text-[19px] font-semibold tracking-tight text-ink-900 sm:text-[26px] md:text-[32px]">
             {title}
           </h2>
 
-          <div className="flex items-center justify-center sm:justify-end">
+          <div className="flex shrink-0 items-center justify-end">
             {href ? (
               <Link
                 href={href}
-                className="inline-flex items-center gap-1.5 text-[15px] font-medium text-primary-700 transition-colors hover:text-primary-800"
+                className="inline-flex items-center gap-1 whitespace-nowrap text-[13.5px] font-medium text-primary-700 transition-colors hover:text-primary-800 sm:gap-1.5 sm:text-[15px]"
               >
                 View all
                 <ArrowRight size={16} aria-hidden="true" />

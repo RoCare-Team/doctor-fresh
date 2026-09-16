@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShieldCheck } from 'lucide-react';
 import { Input, FormNote } from '@/components/forms/Field';
+import PasswordInput from '@/components/forms/PasswordInput';
 import Button from '@/components/common/Button';
 
 /**
@@ -55,10 +56,9 @@ export default function AdminLogin() {
           placeholder="you@doctorfresh.in"
           autoComplete="username"
         />
-        <Input
+        <PasswordInput
           label="Password"
           name="password"
-          type="password"
           required
           placeholder="••••••••"
           autoComplete="current-password"

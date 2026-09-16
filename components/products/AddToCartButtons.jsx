@@ -131,14 +131,28 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <Button type="button" onClick={handleAdd} variant="outline" size="lg" className="sm:flex-1">
+      {/* Two equal columns at every width — the pair reads as one action row
+          the way it does on a shopping app, instead of stacking into a form. */}
+      <div className="grid grid-cols-2 gap-3">
+        <button
+          type="button"
+          onClick={handleAdd}
+          className={`inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border text-[15px] font-semibold transition-all active:scale-[0.98] ${
+            added
+              ? 'border-success bg-success text-white'
+              : 'border-primary-500 bg-white text-primary-600 hover:bg-primary-50'
+          }`}
+        >
           {added ? <Check size={17} aria-hidden="true" /> : <ShoppingCart size={17} aria-hidden="true" />}
-          {added ? 'Added to cart' : 'Add to Cart'}
-        </Button>
-        <Button type="button" onClick={handleBuyNow} variant="primary" size="lg" className="sm:flex-1">
+          {added ? 'Added' : 'Add to Cart'}
+        </button>
+        <button
+          type="button"
+          onClick={handleBuyNow}
+          className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-primary-500 text-[15px] font-semibold text-white shadow-[0_10px_20px_-12px_rgb(21_151_197/0.9)] transition-all hover:bg-ink-900 active:scale-[0.98]"
+        >
           Buy Now
-        </Button>
+        </button>
       </div>
     </div>
   );

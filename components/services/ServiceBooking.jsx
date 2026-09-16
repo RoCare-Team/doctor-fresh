@@ -101,21 +101,21 @@ export default function ServiceBooking({ services = [], groups = [], states = []
           on top than a mid-page section would. */}
       <div className="df-container pb-12 pt-6 md:pb-16 md:pt-8">
         {/* ------------------------------------------------------------ head */}
-        <Reveal className="mb-7 flex flex-wrap items-end justify-between gap-4">
+        <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-2 md:mb-7">
           <div>
             <p className="df-eyebrow">Book a visit</p>
-            <h2 className="mt-2 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
+            <h2 className="mt-1 text-[21px] font-semibold tracking-tight text-ink-900 sm:text-[26px] md:mt-2 md:text-[32px]">
               Select a service
             </h2>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[14px] text-ink-500">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12.5px] text-ink-500 sm:gap-x-5 sm:text-[14px]">
             <span className="inline-flex items-center gap-1.5">
-              <Star size={15} className="text-warning" fill="currentColor" strokeWidth={0} aria-hidden="true" />
+              <Star size={14} className="text-warning" fill="currentColor" strokeWidth={0} aria-hidden="true" />
               <strong className="font-semibold text-ink-900">4.5</strong> · 25 lakh+ bookings
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <BadgeCheck size={15} className="text-success" aria-hidden="true" />
+              <BadgeCheck size={14} className="text-success" aria-hidden="true" />
               Certified technicians
             </span>
           </div>
@@ -166,10 +166,12 @@ export default function ServiceBooking({ services = [], groups = [], states = []
                         : 'border-line hover:border-primary-200 hover:shadow-[0_10px_28px_-18px_rgb(6_59_76/0.35)]',
                     )}
                   >
-                    <div className="flex gap-4 p-4 sm:gap-5 sm:p-5">
-                      <div className="relative hidden h-29 w-29 shrink-0 overflow-hidden rounded-xl bg-surface-muted sm:block">
+                    <div className="flex gap-3.5 p-3.5 sm:gap-5 sm:p-5">
+                      {/* A phone gets the same photo, thumbnail size: a row of
+                          plain text reads as a price list, not as a service. */}
+                      <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-surface-muted sm:h-29 sm:w-29">
                         {s.image ? (
-                          <Image src={s.image} alt="" fill sizes="116px" className="object-cover" unoptimized />
+                          <Image src={s.image} alt="" fill sizes="(max-width: 640px) 80px, 116px" className="object-cover" unoptimized />
                         ) : (
                           <span className="flex h-full w-full items-center justify-center">
                             <Wrench size={26} className="text-ink-300" aria-hidden="true" />
@@ -183,36 +185,55 @@ export default function ServiceBooking({ services = [], groups = [], states = []
                       </div>
 
                       <div className="flex min-w-0 flex-1 flex-col">
-                        <h3 className="text-[16.5px] font-semibold leading-snug text-ink-900 md:text-[17px]">
+                        <h3 className="text-[15.5px] font-semibold leading-snug text-ink-900 sm:text-[16.5px] md:text-[17px]">
                           {s.name}
                         </h3>
 
                         {s.points.length ? (
-                          <ul className="mt-2 space-y-1">
+                          // Two lines are enough to say what the visit covers
+                          // on a phone; the rest wait for a wider screen.
+                          <ul className="mt-1.5 space-y-1 sm:mt-2">
                             {s.points.slice(0, 4).map((p, i) => (
-                              <li key={i} className="flex gap-2 text-[13.5px] leading-snug text-ink-500">
+                              <li
+                                key={i}
+                                className={cx(
+                                  'gap-2 text-[13px] leading-snug text-ink-500 sm:text-[13.5px]',
+                                  i < 2 ? 'flex' : 'hidden sm:flex',
+                                )}
+                              >
                                 <Check size={14} className="mt-0.5 shrink-0 text-success" aria-hidden="true" />
-                                <span className="min-w-0">{p}</span>
+                                <span className="min-w-0 line-clamp-2 sm:line-clamp-none">{p}</span>
                               </li>
                             ))}
                           </ul>
                         ) : null}
 
-                        <div className="mt-auto flex flex-wrap items-end justify-between gap-3 pt-4">
-                          <span className="flex items-baseline gap-2">
-                            <span className="text-[19px] font-semibold text-ink-900">{formatPrice(s.price)}</span>
+                        <div className="mt-auto flex flex-wrap items-end justify-between gap-2.5 pt-3 sm:gap-3 sm:pt-4">
+                          <span className="flex items-baseline gap-1.5 sm:gap-2">
+                            <span className="text-[18px] font-bold text-ink-900 sm:text-[19px] sm:font-semibold">
+                              {formatPrice(s.price)}
+                            </span>
                             {off ? (
-                              <span className="text-[14px] text-ink-300 line-through">{formatPrice(s.mrp)}</span>
+                              <>
+                                <span className="text-[13px] text-ink-300 line-through sm:text-[14px]">
+                                  {formatPrice(s.mrp)}
+                                </span>
+                                {/* The image badge is the discount on a wide
+                                    screen; beside a thumbnail it needs saying. */}
+                                <span className="text-[12.5px] font-semibold text-success sm:hidden">
+                                  {off}% off
+                                </span>
+                              </>
                             ) : null}
                           </span>
 
                           {qty ? (
-                            <span className="inline-flex items-center overflow-hidden rounded-xl border border-primary-500">
+                            <span className="ml-auto inline-flex items-center overflow-hidden rounded-xl border border-primary-500">
                               <button
                                 type="button"
                                 onClick={() => setQty(s.id, qty - 1)}
                                 aria-label={`Remove one ${s.name}`}
-                                className="px-3 py-2 text-primary-700 transition-colors hover:bg-primary-50"
+                                className="px-2.5 py-1.5 text-primary-700 transition-colors hover:bg-primary-50 sm:px-3 sm:py-2"
                               >
                                 <Minus size={15} aria-hidden="true" />
                               </button>
@@ -223,7 +244,7 @@ export default function ServiceBooking({ services = [], groups = [], states = []
                                 type="button"
                                 onClick={() => setQty(s.id, qty + 1)}
                                 aria-label={`Add one ${s.name}`}
-                                className="px-3 py-2 text-primary-700 transition-colors hover:bg-primary-50"
+                                className="px-2.5 py-1.5 text-primary-700 transition-colors hover:bg-primary-50 sm:px-3 sm:py-2"
                               >
                                 <Plus size={15} aria-hidden="true" />
                               </button>
@@ -232,7 +253,7 @@ export default function ServiceBooking({ services = [], groups = [], states = []
                             <button
                               type="button"
                               onClick={() => setQty(s.id, 1)}
-                              className="rounded-xl bg-primary-500 px-6 py-2.5 text-[14.5px] font-semibold text-white shadow-sm transition-colors hover:bg-primary-900"
+                              className="ml-auto rounded-xl bg-primary-500 px-5 py-2 text-[14px] font-semibold text-white shadow-sm transition-colors hover:bg-primary-900 sm:px-6 sm:py-2.5 sm:text-[14.5px]"
                             >
                               Add
                             </button>
@@ -323,16 +344,25 @@ export default function ServiceBooking({ services = [], groups = [], states = []
         </div>
 
         {/* ------------------------------------------------------- details */}
-        <div ref={formRef} className="mt-6 scroll-mt-39 overflow-hidden rounded-2xl border border-line bg-white">
-          <div className="border-b border-line px-5 py-4 md:px-6">
+        {/* On a phone the whole address form under the list is a wall of empty
+            boxes before anything has been chosen, so it waits for the first
+            service. A wide screen has room for both at once. */}
+        <div
+          ref={formRef}
+          className={cx(
+            'mt-5 scroll-mt-39 overflow-hidden rounded-2xl border border-line bg-white md:mt-6',
+            !lines.length && 'hidden lg:block',
+          )}
+        >
+          <div className="border-b border-line px-4 py-3.5 sm:px-5 sm:py-4 md:px-6">
             <h3 className="text-[16px] font-semibold text-ink-900">Where should we come?</h3>
             <p className="mt-1 text-[13.5px] text-ink-400">
               Our team calls you to confirm the slot before the visit.
             </p>
           </div>
 
-          <form onSubmit={book} className="p-5 md:p-6">
-            <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+          <form onSubmit={book} className="p-4 sm:p-5 md:p-6">
+            <div className="grid gap-3 sm:grid-cols-2 sm:gap-3.5 lg:grid-cols-3">
               <Input label="Full name" name="name" required placeholder="Your name" autoComplete="name" />
               <Input label="Mobile number" name="mobile" type="tel" required pattern="[0-9]{10}" maxLength={10} placeholder="10 digit mobile number" autoComplete="tel" />
               <Input label="Email" name="email" type="email" placeholder="you@example.com" autoComplete="email" />

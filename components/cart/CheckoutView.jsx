@@ -38,12 +38,8 @@ export default function CheckoutView() {
   const [couponError, setCouponError] = useState('');
   const [placing, setPlacing] = useState(false);
   const [error, setError] = useState('');
-  // The address confirmed in step 2, shown back on the payment step.
+  // The address confirmed on the address step, shown back later in the flow.
   const [address, setAddress] = useState(null);
-  // Saved addresses to pick from, which one is picked ('new' for the form),
-  // and what has been typed into the form.
-  const [saved, setSaved] = useState([]);
-  const [choice, setChoice] = useState('new');
   const [draft, setDraft] = useState(EMPTY_ADDRESS);
   const [addressErrors, setAddressErrors] = useState({});
   const formRef = useRef(null);
@@ -60,9 +56,8 @@ export default function CheckoutView() {
   };
 
   /**
-   * Fill in what the account already knows: saved addresses to pick from, and
-   * the name, mobile and email for a new one. Nothing is overwritten that the
-   * customer has started typing.
+   * Fill in what the account already knows — the name, mobile and email it was
+   * registered with. Nothing is overwritten that the customer has typed.
    */
   useEffect(() => {
     if (!user) return undefined;
@@ -71,8 +66,6 @@ export default function CheckoutView() {
       .then((r) => r.json())
       .then((data) => {
         if (!live || !data.ok) return;
-        setSaved(data.addresses || []);
-        if (data.addresses?.length) setChoice(0);
         setDraft((d) => ({
           ...d,
           name: d.name || data.contact?.name || user.name || '',
@@ -85,9 +78,7 @@ export default function CheckoutView() {
   }, [user]);
 
   /** The address that would be delivered to right now. */
-  const currentAddress = () => (typeof choice === 'number' && saved[choice]
-    ? { ...EMPTY_ADDRESS, ...saved[choice] }
-    : draft);
+  const currentAddress = () => draft;
 
   /**
    * Moves to a step. The page is left where it is unless the stepper has
@@ -106,16 +97,11 @@ export default function CheckoutView() {
    * Checked here with the same rules the server applies, so a mistake shows
    * beside its field instead of coming back as an error at the last step.
    */
-  function continueToPayment() {
+  function continueToSummary() {
     const a = currentAddress();
     const problems = validateAddress(a);
 
     if (Object.keys(problems).length) {
-      // A saved address that no longer passes is opened in the form to fix.
-      if (typeof choice === 'number') {
-        setDraft(a);
-        setChoice('new');
-      }
       setAddressErrors(problems);
       const first = Object.keys(problems)[0];
       requestAnimationFrame(() => formRef.current?.querySelector(`[name="${first}"]`)?.focus());
@@ -124,7 +110,7 @@ export default function CheckoutView() {
 
     setAddressErrors({});
     setAddress(a);
-    goTo(3);
+    goTo(2);
   }
 
   const lines = items.map((i) => ({ id: i.id, qty: i.qty }));
@@ -175,8 +161,8 @@ export default function CheckoutView() {
     event.preventDefault();
     // Enter in a field on an earlier step moves the visitor on, never places
     // an order they have not reached the end of.
-    if (step === 1) { goTo(2); return; }
-    if (step === 2) { continueToPayment(); return; }
+    if (step === 1) { continueToSummary(); return; }
+    if (step === 2) { goTo(3); return; }
     setPlacing(true);
     setError('');
 
@@ -258,19 +244,79 @@ export default function CheckoutView() {
 
   return (
     <form ref={formRef} onSubmit={placeOrder} className="space-y-3">
-      <div ref={topRef} className="flex scroll-mt-44 justify-center">
-        <Stepper step={step} onBack={goTo} />
+      {/* The bar an app puts over a checkout: where you are, and the way back
+          out of it — on a phone the title sits over the steps, on a wide
+          screen they share one row. */}
+      <div
+        ref={topRef}
+        className="df-card flex scroll-mt-44 flex-col gap-1.5 p-2 sm:flex-row sm:items-center sm:gap-3 sm:px-3"
+      >
+        <div className="flex min-w-0 items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => (step > 1 ? goTo(step - 1) : router.push('/cart'))}
+            aria-label={step > 1 ? 'Back to the previous step' : 'Back to cart'}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink-700 transition-colors hover:bg-surface-muted"
+          >
+            <ArrowLeft size={18} aria-hidden="true" />
+          </button>
+          <h2 className="truncate text-[15px] font-semibold text-ink-900 sm:text-[16px]">
+            {step === 1 ? 'Add delivery address' : STEP_TITLES[step]}
+          </h2>
+        </div>
+
+        <div className="min-w-0 flex-1 sm:max-w-lg">
+          <Stepper step={step} onBack={goTo} />
+        </div>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-6">
         <div className="min-w-0">
-          {/* ------------------------------------------------------ 1. order */}
-          <Panel
-            active={step === 1}
-            icon={ShoppingBag}
-            title="Review your order"
-            note={`${itemCount} item${itemCount === 1 ? '' : 's'}`}
-          >
+          {/* -------------------------------------------- 1. delivery address */}
+          <Panel active={step === 1} title="Delivery address">
+            <AddressStep
+              draft={draft}
+              onDraft={updateDraft}
+              errors={addressErrors}
+            />
+
+            <StepActions>
+              <Button href="/cart" variant="ghost">
+                <ArrowLeft size={16} aria-hidden="true" />
+                Back to cart
+              </Button>
+              <Button type="button" size="lg" className="w-full sm:w-auto" onClick={continueToSummary}>
+                Save and continue
+                <ArrowRight size={16} aria-hidden="true" />
+              </Button>
+            </StepActions>
+          </Panel>
+
+          {/* ---------------------------------------------- 2. order summary */}
+          <Panel active={step === 2} title="Order summary">
+            {address ? (
+              <div className="mb-4 flex items-start justify-between gap-4 rounded-lg border border-line bg-surface-muted p-3">
+                <div className="min-w-0 text-[14px] leading-relaxed text-ink-700">
+                  <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-400">Delivering to</p>
+                  <p className="mt-1 font-semibold text-ink-900">{address.name}</p>
+                  <p>
+                    {[address.house_no, address.area, address.near_by && `Near ${address.near_by}`]
+                      .filter(Boolean).join(', ')}
+                  </p>
+                  <p>{[address.city, address.state].filter(Boolean).join(', ')} – {address.c_pincode}</p>
+                  <p className="text-ink-500">+91 {address.mobile}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => goTo(1)}
+                  className="inline-flex shrink-0 items-center gap-1 text-[13.5px] font-medium text-primary-700 hover:text-primary-800"
+                >
+                  <Pencil size={13} aria-hidden="true" />
+                  Change
+                </button>
+              </div>
+            ) : null}
+
             <ul className="divide-y divide-line">
               {items.map((i) => (
                 <li key={i.id} className="flex gap-4 py-3 first:pt-0">
@@ -318,39 +364,11 @@ export default function CheckoutView() {
             </div>
 
             <StepActions>
-              <Button href="/cart" variant="ghost">
-                <ArrowLeft size={16} aria-hidden="true" />
-                Back to cart
-              </Button>
-              <Button type="button" size="lg" className="w-full sm:w-auto" onClick={() => goTo(2)}>
-                Continue to address
-                <ArrowRight size={16} aria-hidden="true" />
-              </Button>
-            </StepActions>
-          </Panel>
-
-          {/* -------------------------------------------- 2. delivery address */}
-          <Panel
-            active={step === 2}
-            icon={MapPin}
-            title="Delivery address"
-            note={saved.length ? 'Pick a saved address or add a new one' : 'Where should we deliver?'}
-          >
-            <AddressStep
-              addresses={saved}
-              choice={choice}
-              onChoose={(c) => { setChoice(c); setAddressErrors({}); }}
-              draft={draft}
-              onDraft={updateDraft}
-              errors={addressErrors}
-            />
-
-            <StepActions>
               <Button type="button" variant="ghost" onClick={() => goTo(1)}>
                 <ArrowLeft size={16} aria-hidden="true" />
                 Back
               </Button>
-              <Button type="button" size="lg" className="w-full sm:w-auto" onClick={continueToPayment}>
+              <Button type="button" size="lg" className="w-full sm:w-auto" onClick={() => goTo(3)}>
                 Continue to payment
                 <ArrowRight size={16} aria-hidden="true" />
               </Button>
@@ -358,7 +376,7 @@ export default function CheckoutView() {
           </Panel>
 
           {/* ------------------------------------------------------ 3. payment */}
-          <Panel active={step === 3} icon={CreditCard} title="Payment" note="Choose how you want to pay">
+          <Panel active={step === 3} title="Payment">
             {address ? (
               <div className="mb-4 flex items-start justify-between gap-4 rounded-lg border border-line bg-surface-muted p-3">
                 <div className="min-w-0 text-[14px] leading-relaxed text-ink-700">
@@ -373,7 +391,7 @@ export default function CheckoutView() {
                 </div>
                 <button
                   type="button"
-                  onClick={() => goTo(2)}
+                  onClick={() => goTo(1)}
                   className="inline-flex shrink-0 items-center gap-1 text-[13.5px] font-medium text-primary-700 hover:text-primary-800"
                 >
                   <Pencil size={13} aria-hidden="true" />
@@ -497,6 +515,7 @@ export default function CheckoutView() {
 
 const EMPTY_ADDRESS = {
   name: '', mobile: '', email: '', house_no: '', area: '', near_by: '', city: '', state: '', c_pincode: '', message: '',
+  address_type: 'Home',
 };
 
 /** The rules /api/checkout applies, so the customer hears about them here first. */
@@ -523,11 +542,19 @@ function Row({ label, value, tone }) {
   );
 }
 
+// Address first, the way shopping apps ask: where it goes decides the delivery
+// charge and the payment options, so it is settled before the money.
 const STEPS = [
-  { n: 1, label: 'Order', hint: 'Review items', icon: ShoppingBag },
-  { n: 2, label: 'Address', hint: 'Delivery details', icon: MapPin },
+  { n: 1, label: 'Address', hint: 'Delivery details', icon: MapPin },
+  { n: 2, label: 'Order Summary', hint: 'Review items', icon: ShoppingBag },
   { n: 3, label: 'Payment', hint: 'Pay and confirm', icon: CreditCard },
 ];
+
+const STEP_TITLES = {
+  1: 'Delivery address',
+  2: 'Order summary',
+  3: 'Payment',
+};
 
 /**
  * The progress bar across the top, kept to a single row so the step itself
@@ -537,7 +564,7 @@ const STEPS = [
  */
 function Stepper({ step, onBack }) {
   return (
-    <nav aria-label="Checkout progress" className="df-card w-full max-w-2xl px-2 py-2 sm:px-3">
+    <nav aria-label="Checkout progress" className="w-full">
       <ol className="flex items-center">
         {STEPS.map(({ n, label, hint, icon: Icon }, index) => {
           const done = n < step;
@@ -617,20 +644,12 @@ function Stepper({ step, onBack }) {
   );
 }
 
-function Panel({ active, icon: Icon, title, note, children }) {
+function Panel({ active, title, children }) {
   // Every step stays mounted — its fields belong to the one form that is
-  // submitted — and only the current one is shown.
+  // submitted — and only the current one is shown. The bar above the panels
+  // names the step, so the panel itself carries no heading of its own.
   return (
-    <section className={cx('df-card p-4 sm:p-5', !active && 'hidden')}>
-      <div className="mb-3 flex items-center gap-3 border-b border-line pb-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-600">
-          <Icon size={17} aria-hidden="true" />
-        </span>
-        <div className="min-w-0">
-          <h2 className="text-[17px] font-semibold leading-tight text-ink-900">{title}</h2>
-          {note ? <p className="text-[13px] text-ink-400">{note}</p> : null}
-        </div>
-      </div>
+    <section className={cx('df-card p-4 sm:p-5', !active && 'hidden')} aria-label={title}>
       {children}
     </section>
   );

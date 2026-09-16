@@ -8,6 +8,8 @@ import ProductReviews from '@/components/products/ProductReviews';
 import AddToCartButtons from '@/components/products/AddToCartButtons';
 import QuotationButton from '@/components/products/QuotationButton';
 import RecentlyViewed from '@/components/products/RecentlyViewed';
+import DeliveryCheck from '@/components/products/DeliveryCheck';
+import MobileBuyBar from '@/components/products/MobileBuyBar';
 import Accordion from '@/components/common/Accordion';
 import ProductRail from '@/components/products/ProductRail';
 import Rating from '@/components/common/Rating';
@@ -103,14 +105,14 @@ export default async function ProductPage({ params }) {
       <RecentlyViewed productId={product.id} />
 
       <div className="border-b border-line bg-surface-muted">
-        <div className="df-container py-4">
+        <div className="df-container py-2.5">
           <Breadcrumb items={breadcrumbItems} />
         </div>
       </div>
 
-      <div className="df-container py-8 md:py-10">
+      <div className="df-container py-4 pb-24 md:py-6 lg:pb-10">
         {/* ------------------------------------------------- gallery + buy box */}
-        <div className="grid gap-8 lg:grid-cols-2 lg:gap-14">
+        <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
           <div className="lg:sticky lg:top-[138px] lg:self-start">
             <ProductGallery
               images={product.images}
@@ -124,43 +126,63 @@ export default async function ProductPage({ params }) {
             {product.subcategory ? (
               <Link
                 href={product.subcategory.href}
-                className="text-[13.5px] font-medium uppercase tracking-wide text-primary-700 hover:text-primary-800"
+                className="text-[12px] font-semibold uppercase tracking-wide text-primary-700 hover:text-primary-800"
               >
                 {product.subcategory.name}
               </Link>
             ) : null}
 
-            <h1 className="mt-2 text-[24px] font-semibold leading-snug tracking-tight text-ink-900 md:text-[30px]">
+            <h1 className="mt-1.5 text-[19px] font-semibold leading-snug tracking-tight text-ink-900 sm:text-[24px] md:text-[28px]">
               {product.name}
             </h1>
 
-            {product.rating ? (
-              <div className="mt-3 flex items-center gap-2">
-                <Rating value={product.rating} />
-                {product.reviewCount ? (
-                  <a href="#reviews" className="text-[14px] text-ink-400 underline-offset-2 hover:text-primary-800 hover:underline">
-                    {product.reviewCount} reviews
-                  </a>
-                ) : null}
-              </div>
-            ) : null}
+            {/* Rating and availability read as one line of proof under the name. */}
+            <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-2">
+              {product.rating ? (
+                <>
+                  <Rating value={product.rating} />
+                  {product.reviewCount ? (
+                    <a href="#reviews" className="text-[13.5px] text-ink-400 underline-offset-2 hover:text-primary-800 hover:underline">
+                      {product.reviewCount} ratings
+                    </a>
+                  ) : null}
+                  <span className="hidden h-3 w-px bg-line-strong sm:block" />
+                </>
+              ) : null}
+              <span className={`text-[13.5px] font-semibold ${product.inStock ? 'text-success' : 'text-danger'}`}>
+                {product.inStock ? 'In stock' : 'Currently out of stock'}
+              </span>
+            </div>
 
-            <div className="mt-6 rounded-[14px] border border-line bg-surface-muted p-5">
+            {/* ------------------------------------------------------ price */}
+            <div className="mt-4 border-y border-line py-4">
               {product.price ? (
                 <>
-                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <span className="text-[32px] font-semibold tracking-tight text-ink-900">{formatPrice(product.price)}</span>
-                    {product.unit ? <span className="text-sm text-ink-400">{product.unit}</span> : null}
-                    {product.mrp > product.price ? (
-                      <span className="text-[16px] text-ink-300 line-through">{formatPrice(product.mrp)}</span>
-                    ) : null}
-                    {product.saveLabel ? (
-                      <span className="rounded bg-success/10 px-2 py-0.5 text-[13.5px] font-medium text-success">
-                        {product.saveLabel}
+                  <div className="flex flex-wrap items-end gap-x-2.5 gap-y-1">
+                    {product.discountPercent > 0 ? (
+                      <span className="text-[17px] font-semibold text-success sm:text-[19px]">
+                        {`-${product.discountPercent}%`}
                       </span>
                     ) : null}
+                    <span className="text-[28px] font-bold leading-none tracking-tight text-ink-900 sm:text-[34px]">
+                      {formatPrice(product.price)}
+                    </span>
+                    {product.unit ? <span className="text-[13px] text-ink-400">{product.unit}</span> : null}
                   </div>
-                  <p className="mt-1.5 text-[13.5px] text-ink-400">Inclusive of all taxes</p>
+
+                  {product.mrp > product.price ? (
+                    <p className="mt-2 text-[13.5px] text-ink-400">
+                      {'M.R.P. '}
+                      <span className="line-through">{formatPrice(product.mrp)}</span>
+                      <span className="ml-2 font-semibold text-success">
+                        {`You save ${formatPrice(product.mrp - product.price)}`}
+                      </span>
+                    </p>
+                  ) : null}
+
+                  <p className="mt-1 text-[12.5px] text-ink-400">
+                    Inclusive of all taxes · Free shipping across India
+                  </p>
                 </>
               ) : (
                 <div>
@@ -170,36 +192,37 @@ export default async function ProductPage({ params }) {
                   </p>
                 </div>
               )}
-
-              <p className="mt-3 text-[14px]">
-                {product.inStock ? (
-                  <span className="font-medium text-success">In stock</span>
-                ) : (
-                  <span className="font-medium text-danger">Currently out of stock</span>
-                )}
-              </p>
             </div>
 
-            <div className="mt-6">
+            <div id="buy-actions" className="mt-5">
               <AddToCartButtons product={product} layout="detail" />
             </div>
 
-            <a
-              href="tel:9311587716"
-              className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-dashed border-primary-300 bg-primary-50/60 px-4 py-3.5 text-[14.5px] font-medium text-primary-800 transition-colors hover:border-primary-500 hover:bg-primary-50"
-            >
-              <Phone size={16} aria-hidden="true" />
-              Call a water expert — +91-9311587716
-            </a>
+            <div className="mt-4 space-y-3">
+              <DeliveryCheck />
 
-            <QuotationButton productId={product.id} productName={product.name} />
+              <a
+                href="tel:9311587716"
+                className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-primary-300 bg-primary-50/60 px-4 py-3 text-[14px] font-medium text-primary-800 transition-colors hover:border-primary-500 hover:bg-primary-50"
+              >
+                <Phone size={16} aria-hidden="true" />
+                Call a water expert — +91-9311587716
+              </a>
 
-            <ul className="mt-6 grid gap-2.5 border-t border-line pt-6 sm:grid-cols-2">
+              <QuotationButton productId={product.id} productName={product.name} />
+            </div>
+
+            {/* Four promises as tiles — on a phone they stay readable at two
+                across instead of becoming a wall of grey bullet text. */}
+            <ul className="mt-5 grid grid-cols-2 gap-2">
               {TRUST.map((t) => {
                 const Icon = t.icon;
                 return (
-                  <li key={t.label} className="flex items-start gap-2.5 text-[14px] text-ink-500">
-                    <Icon size={16} className="mt-0.5 shrink-0 text-primary-700" aria-hidden="true" />
+                  <li
+                    key={t.label}
+                    className="flex flex-col gap-1.5 rounded-xl border border-line bg-surface-muted px-3 py-2.5 text-[12.5px] font-medium leading-snug text-ink-700 sm:flex-row sm:items-center sm:gap-2.5 sm:text-[13.5px]"
+                  >
+                    <Icon size={17} className="shrink-0 text-primary-700" aria-hidden="true" />
                     {t.label}
                   </li>
                 );
@@ -207,13 +230,15 @@ export default async function ProductPage({ params }) {
             </ul>
 
             {highlights.length ? (
-              <div className="mt-7 rounded-[14px] border border-line bg-surface-muted p-4">
-                <h2 className="mb-3 text-[15px] font-semibold text-ink-900">Product highlights</h2>
-                <dl className="grid gap-x-6 gap-y-2 sm:grid-cols-2">
+              <div className="mt-5 overflow-hidden rounded-xl border border-line">
+                <h2 className="border-b border-line bg-surface-muted px-4 py-2.5 text-[14px] font-semibold text-ink-900">
+                  Product highlights
+                </h2>
+                <dl className="divide-y divide-line">
                   {highlights.map((a) => (
-                    <div key={a.label} className="flex flex-col">
-                      <dt className="text-[13px] uppercase tracking-wide text-ink-300">{a.label}</dt>
-                      <dd className="text-[14.5px] text-ink-700">{a.values.join(', ')}</dd>
+                    <div key={a.label} className="flex gap-3 px-4 py-2.5 text-[13.5px]">
+                      <dt className="w-[38%] shrink-0 text-ink-400">{a.label}</dt>
+                      <dd className="font-medium text-ink-700">{a.values.join(', ')}</dd>
                     </div>
                   ))}
                 </dl>
@@ -340,6 +365,8 @@ export default async function ProductPage({ params }) {
           </section>
         ) : null}
       </div>
+
+      <MobileBuyBar product={product} />
 
       {related.length ? (
         <div className="border-t border-line pt-2">

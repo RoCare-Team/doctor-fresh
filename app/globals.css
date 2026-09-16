@@ -111,8 +111,13 @@
     .df-container { padding-inline: 1.5rem; }
   }
 
-  /* Consistent vertical rhythm for every homepage section (56px → 80px). */
-  .df-section { padding-block: 3rem; }
+  /* Consistent vertical rhythm for every homepage section. A phone shows one
+     section at a time, so the air between two of them is halved there — at
+     3rem each, two neighbours left a 96px band of empty white. */
+  .df-section { padding-block: 1.75rem; }
+  @media (min-width: 640px) {
+    .df-section { padding-block: 2.5rem; }
+  }
   @media (min-width: 768px) {
     .df-section { padding-block: 4.25rem; }
   }
@@ -164,6 +169,17 @@
     opacity: 1;
     transform: none;
     will-change: auto;
+  }
+  /* A phone scrolls fast and in short steps, and a heading that is still
+     waiting for its fade reads as a missing heading. Below `sm` everything is
+     simply there; the reveal stays a desktop flourish. */
+  @media (max-width: 639px) {
+    .df-reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+      will-change: auto;
+    }
   }
 
   /* Hero copy plays once on load, staggered by --df-delay. */
