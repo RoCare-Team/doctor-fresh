@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard, Package, ShoppingBag, Layers, Users, Inbox,
-  Newspaper, Ticket, Settings, ExternalLink, LogOut, Menu, X, FileText,
+  Newspaper, Ticket, Settings, ExternalLink, LogOut, Menu, X, FileText, Shuffle, Loader2,
 } from 'lucide-react';
 import { cx, imageUrl } from '@/lib/utils';
 
@@ -18,6 +18,7 @@ const NAV = [
   { href: '/admin/orders', label: 'Orders', icon: ShoppingBag },
   { href: '/admin/products', label: 'Products', icon: Package },
   { href: '/admin/categories', label: 'Categories', icon: Layers },
+  { href: '/admin/uniredirect', label: 'uniredirected urls redirecting', icon: Shuffle },
   { href: '/admin/brochures', label: 'Brochures', icon: FileText },
   { href: '/admin/customers', label: 'Customers', icon: Users },
   { href: '/admin/enquiries', label: 'Enquiries', icon: Inbox },
@@ -38,6 +39,25 @@ export default function AdminShell({ admin, brand, children }) {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  // The section being opened, from the click until its page has arrived.
+  const [pendingHref, setPendingHref] = useState(null);
+
+  // The new page is on screen once the path changes; the timer is only a
+  // safety net so a failed load never leaves the loader spinning for good.
+  useEffect(() => { setPendingHref(null); }, [pathname]);
+  useEffect(() => {
+    if (!pendingHref) return undefined;
+    const t = setTimeout(() => setPendingHref(null), 20000);
+    return () => clearTimeout(t);
+  }, [pendingHref]);
+
+  function startNavigation(event, href) {
+    setOpen(false);
+    // A new tab or window loads elsewhere — nothing to wait for here.
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+    const here = href === '/admin' ? pathname === '/admin' : pathname === href;
+    if (!here) setPendingHref(href);
+  }
 
   // Read after mount: the server cannot know the preference, and rendering the
   // wrong width first would make the sidebar jump.
@@ -70,14 +90,15 @@ export default function AdminShell({ admin, brand, children }) {
 
   /** The drawer is never collapsed, so the state is passed in rather than read. */
   const renderNav = (isCollapsed) => (
-    <nav className={cx('flex-1 space-y-0.5 overflow-y-auto', isCollapsed ? 'px-2 py-3' : 'p-3')}>
+    <nav className={cx('df-rail-scroll flex-1 space-y-0.5 overflow-y-auto', isCollapsed ? 'px-2 py-3' : 'p-3')}>
       {NAV.map((item) => {
         const Icon = item.icon;
         return (
           <Link
             key={item.href}
             href={item.href}
-            onClick={() => setOpen(false)}
+            onClick={(e) => startNavigation(e, item.href)}
+            aria-busy={pendingHref === item.href}
             // The label is gone when collapsed, so it becomes the accessible
             // name and the hover tooltip instead.
             title={isCollapsed ? item.label : undefined}
@@ -85,12 +106,16 @@ export default function AdminShell({ admin, brand, children }) {
             className={cx(
               'flex items-center rounded-lg text-[14px] transition-colors',
               isCollapsed ? 'justify-center px-0 py-3' : 'gap-2.5 px-3 py-2.5',
-              isActive(item)
-                ? 'bg-primary-500 font-medium text-white'
-                : 'text-white/70 hover:bg-white/10 hover:text-white',
+              pendingHref === item.href
+                ? 'bg-white/15 font-medium text-white'
+                : isActive(item) && !pendingHref
+                  ? 'bg-primary-500 font-medium text-white'
+                  : 'text-white/70 hover:bg-white/10 hover:text-white',
             )}
           >
-            <Icon size={isCollapsed ? 19 : 17} aria-hidden="true" />
+            {pendingHref === item.href
+              ? <Loader2 size={isCollapsed ? 19 : 17} className="shrink-0 animate-spin" aria-hidden="true" />
+              : <Icon size={isCollapsed ? 19 : 17} className="shrink-0" aria-hidden="true" />}
             {isCollapsed ? null : item.label}
           </Link>
         );
@@ -109,8 +134,8 @@ export default function AdminShell({ admin, brand, children }) {
       >
         <div
           className={cx(
-            'flex h-14 shrink-0 items-center',
-            collapsed ? 'justify-center px-2' : 'gap-2 pl-4 pr-2',
+            'flex h-18 shrink-0 items-center border-b border-white/10',
+            collapsed ? 'justify-center px-2' : 'gap-2.5 pl-4 pr-2',
           )}
         >
           {collapsed ? null : (
@@ -165,7 +190,7 @@ export default function AdminShell({ admin, brand, children }) {
             className="fixed inset-0 z-40 bg-ink-900/50 lg:hidden"
           />
           <aside className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-ink-900 lg:hidden">
-            <div className="flex h-14 shrink-0 items-center justify-between px-5">
+            <div className="flex h-18 shrink-0 items-center justify-between border-b border-white/10 px-5">
               <Link href="/admin" onClick={() => setOpen(false)} className="flex items-center gap-2">
                 <Wordmark brand={brand} />
                 <span className="text-[13px] text-white/50">admin</span>
@@ -181,7 +206,13 @@ export default function AdminShell({ admin, brand, children }) {
 
       {/* ------------------------------------------------------------ main */}
       <div className="min-w-0 flex-1">
-        <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-line bg-white px-4">
+        <header className="sticky top-0 z-30 flex h-18 items-center gap-3 border-b border-line bg-white px-4 shadow-[0_6px_20px_-18px_rgb(6_59_76/0.5)] md:px-6">
+          {/* A thin bar along the top edge while a section loads. */}
+          {pendingHref ? (
+            <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-0.5 overflow-hidden bg-primary-100">
+              <span className="df-progress block h-full w-1/3 rounded-full bg-primary-500" />
+            </span>
+          ) : null}
           <button
             type="button"
             onClick={() => setOpen(true)}
@@ -191,19 +222,83 @@ export default function AdminShell({ admin, brand, children }) {
             <Menu size={19} aria-hidden="true" />
           </button>
 
-          <span className="ml-auto text-[13.5px] text-ink-500">{admin.name}</span>
+          <div className="ml-auto flex items-center gap-2.5">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-primary-400 to-primary-700 text-[14px] font-semibold uppercase text-white shadow-[0_6px_14px_-8px_rgb(21_151_197/0.9)]">
+              {String(admin.name || 'A').trim().split(/\s+/).map((w) => w[0]).slice(0, 2).join('')}
+            </span>
+            <span className="hidden leading-tight sm:block">
+              <span className="block text-[14px] font-semibold text-ink-900">{admin.name}</span>
+              <span className="block text-[12px] text-ink-400">Administrator</span>
+            </span>
+          </div>
+          <span className="mx-1 hidden h-8 w-px bg-line sm:block" aria-hidden="true" />
           <button
             type="button"
             onClick={signOut}
             disabled={busy}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong px-3 py-1.5 text-[13.5px] text-ink-700 transition-colors hover:border-danger hover:text-danger disabled:opacity-50"
+            className="inline-flex h-10 items-center gap-2 rounded-xl border border-line-strong px-3.5 text-[14px] font-medium text-ink-700 transition-colors hover:border-danger hover:bg-danger/5 hover:text-danger disabled:opacity-50"
           >
-            <LogOut size={14} aria-hidden="true" />
+            <LogOut size={15} aria-hidden="true" />
             {busy ? 'Signing out…' : 'Sign out'}
           </button>
         </header>
 
-        <main className="p-4 md:p-6">{children}</main>
+        <main className="relative px-4 pb-4 pt-3 md:px-6 md:pb-6 md:pt-3" aria-busy={Boolean(pendingHref)}>
+          {children}
+
+          {/* The old page stays underneath, faded, with the loader over it —
+              the click is answered at once even while the next page is still
+              being read from the database. */}
+          {pendingHref ? <PageLoader item={NAV.find((n) => n.href === pendingHref)} /> : null}
+        </main>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Shown over the current page while the next section loads: two counter-turning
+ * rings around that section's own icon, its name, and a sweeping bar — big
+ * enough to read as "working on it" at a glance, not a stalled screen.
+ */
+function PageLoader({ item }) {
+  const Icon = item?.icon || LayoutDashboard;
+  const label = item?.label || 'page';
+
+  return (
+    <div className="df-fade-in absolute inset-0 z-20 flex justify-center bg-surface-muted/75 pt-[18vh] backdrop-blur-[2px]">
+      <div
+        role="status"
+        className="h-fit w-[min(17rem,calc(100%-2rem))] overflow-hidden rounded-2xl border border-white bg-white/95 text-center shadow-[0_30px_70px_-30px_rgb(6_59_76/0.55)]"
+      >
+        <div className="relative bg-linear-to-b from-primary-50 to-white px-5 pb-4 pt-6">
+          <div className="relative mx-auto h-20 w-20">
+            {/* soft halo */}
+            <span className="absolute inset-0 animate-ping rounded-full bg-primary-300/30 [animation-duration:1.8s]" />
+            {/* outer ring */}
+            <span className="absolute inset-0 animate-spin rounded-full border-4 border-primary-100 border-t-primary-600 border-r-primary-500 [animation-duration:0.9s]" />
+            {/* inner ring, turning the other way */}
+            <span className="df-spin-reverse absolute inset-2.5 rounded-full border-[3px] border-transparent border-b-primary-400 border-l-primary-300" />
+            {/* the section being opened */}
+            <span className="absolute inset-5 flex items-center justify-center rounded-full bg-linear-to-br from-primary-400 to-primary-700 text-white shadow-[0_10px_22px_-8px_rgb(21_151_197/0.95)]">
+              <Icon size={18} strokeWidth={2.2} aria-hidden="true" />
+            </span>
+          </div>
+
+          <p className="mt-4 text-[15.5px] font-semibold capitalize text-ink-900">{`Opening ${label}`}</p>
+          <p className="mt-1 flex items-center justify-center gap-1 text-[12.5px] text-ink-400">
+            Fetching the latest data
+            <span className="inline-flex gap-0.5" aria-hidden="true">
+              <span className="h-1 w-1 animate-bounce rounded-full bg-primary-500" />
+              <span className="h-1 w-1 animate-bounce rounded-full bg-primary-500 [animation-delay:150ms]" />
+              <span className="h-1 w-1 animate-bounce rounded-full bg-primary-500 [animation-delay:300ms]" />
+            </span>
+          </p>
+        </div>
+
+        <span className="block h-1 overflow-hidden bg-primary-100" aria-hidden="true">
+          <span className="df-progress block h-full w-1/3 rounded-full bg-linear-to-r from-primary-300 via-primary-500 to-primary-300" />
+        </span>
       </div>
     </div>
   );
@@ -226,7 +321,7 @@ function Wordmark({ brand }) {
         alt={brand.name || 'Doctor Fresh'}
         width={878}
         height={188}
-        className="h-5 w-auto"
+        className="h-6 w-auto"
       />
     </span>
   );

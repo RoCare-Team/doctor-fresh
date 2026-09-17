@@ -141,12 +141,19 @@ export function CartProvider({ children }) {
       mrpTotal,
       savings: Math.max(0, mrpTotal - subtotal),
 
+      /** Whether a product is already in the basket. */
+      has(id) {
+        return items.some((i) => String(i.id) === String(id));
+      },
+
+      /**
+       * Puts a product in the basket once. A second tap on a product card or
+       * Buy Now must not quietly turn one purifier into two — the quantity is
+       * changed on the cart page, where the customer can see it.
+       */
       add(product, qty = 1) {
         setItems((current) => {
-          const found = current.find((i) => i.id === product.id);
-          if (found) {
-            return current.map((i) => (i.id === product.id ? { ...i, qty: i.qty + qty } : i));
-          }
+          if (current.some((i) => String(i.id) === String(product.id))) return current;
           return [
             ...current,
             {

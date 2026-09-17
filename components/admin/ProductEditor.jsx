@@ -13,10 +13,11 @@ import ProductDetails from '@/components/admin/ProductDetails';
  * table and FAQ — and the count beside each tab says at a glance what a product
  * is still missing.
  */
+// Photos close the Details screen rather than taking a tab of their own, so
+// everything below the basics is worked through on one page, top to bottom.
 const TABS = [
   { id: 'basics', label: 'Basics' },
-  { id: 'photos', label: 'Photos' },
-  { id: 'details', label: 'Details' },
+  { id: 'details', label: 'Details & Images' },
 ];
 
 export default function ProductEditor({ product, categories }) {
@@ -60,8 +61,16 @@ export default function ProductEditor({ product, categories }) {
       </div>
 
       {tab === 'basics' ? <ProductForm product={product} categories={categories} /> : null}
-      {tab === 'photos' ? <ProductImages productId={product.id} /> : null}
-      {tab === 'details' ? <ProductDetails product={product} /> : null}
+      {tab === 'details' ? (
+        <>
+          <ProductDetails product={product} />
+          {/* Outside the details form on purpose: an upload is saved the moment
+              it lands and must not submit that form. */}
+          <div className="mt-6">
+            <ProductImages productId={product.id} />
+          </div>
+        </>
+      ) : null}
     </>
   );
 }

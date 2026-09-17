@@ -46,7 +46,7 @@ function MobileNav({ active, profile, counts }) {
           {initials(profile?.name, profile?.mobile)}
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block truncate text-[14.5px] font-semibold text-ink-900">
+          <span className="block truncate text-[14.5px] font-semibold capitalize text-ink-900">
             {profile?.name || 'Your account'}
           </span>
           <span className="block truncate text-[12.5px] text-ink-400">+91 {profile?.mobile}</span>
@@ -102,84 +102,97 @@ function DesktopNav({ active, profile, counts }) {
     <div className="hidden lg:sticky lg:top-34.5 lg:block lg:self-start">
       <nav aria-label="My profile" className="df-card overflow-hidden">
         {/* Who is signed in, so the panel beside it never has to repeat it. */}
-        <div className="flex items-center gap-3 border-b border-line bg-linear-to-br from-primary-50 to-surface-muted px-4 py-4">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary-500 text-[15px] font-semibold text-white">
-            {initials(profile?.name, profile?.mobile)}
-          </span>
-          <span className="min-w-0">
-            <span className="block truncate text-[15px] font-semibold text-ink-900">
-              {profile?.name || 'Your account'}
+        <div className="relative overflow-hidden bg-linear-to-br from-primary-500 to-primary-700 px-4 pb-4 pt-5 text-white">
+          <span aria-hidden="true" className="absolute -right-8 -top-10 h-28 w-28 rounded-full bg-white/10" />
+          <span aria-hidden="true" className="absolute -bottom-12 right-10 h-20 w-20 rounded-full bg-white/5" />
+
+          <div className="relative flex items-center gap-3">
+            <span className="flex h-13 w-13 shrink-0 items-center justify-center rounded-full bg-white text-[17px] font-bold text-primary-700 shadow-[0_6px_16px_-8px_rgb(0_0_0/0.45)]">
+              {initials(profile?.name, profile?.mobile)}
             </span>
-            <span className="block truncate text-[13px] text-ink-400">
-              +91 {profile?.mobile}
+            <span className="min-w-0">
+              <span className="block truncate text-[16px] font-semibold capitalize">
+                {profile?.name || 'Your account'}
+              </span>
+              <span className="block truncate text-[13px] text-white/80">
+                +91 {profile?.mobile}
+              </span>
             </span>
-          </span>
+          </div>
         </div>
 
-        <ul>
+        {/* Each section is its own rounded row with air around it, so the
+            list reads as separate choices rather than one ruled block. */}
+        <ul className="space-y-1 p-2">
           {ACCOUNT_TABS.map(({ id, label, hint, icon: Icon }) => {
             const current = id === active;
             const count = counts[id];
 
             return (
-              <li key={id} className="border-b border-line last:border-0">
+              <li key={id}>
                 <Link
                   href={id === 'profile' ? '/profile' : `/profile?tab=${id}`}
                   aria-current={current ? 'page' : undefined}
                   className={cx(
-                    'group relative flex items-center gap-3 py-3 pl-4 pr-3 transition-colors',
-                    current ? 'bg-primary-50/70' : 'hover:bg-surface-muted',
+                    'group flex items-center gap-3 rounded-xl border px-2.5 py-2.5 transition-all',
+                    current
+                      ? 'border-primary-200 bg-primary-50 shadow-[0_4px_14px_-10px_rgb(21_151_197/0.8)]'
+                      : 'border-transparent hover:border-line hover:bg-surface-muted',
                   )}
                 >
-                  {/* The active marker is a rule on the edge, not a full fill,
-                      so the sidebar stays quiet next to the panel. */}
-                  {current ? (
-                    <span aria-hidden="true" className="absolute inset-y-0 left-0 w-0.5 bg-primary-500" />
-                  ) : null}
-
-                  <Icon
-                    size={17}
-                    aria-hidden="true"
-                    className={current ? 'text-primary-600' : 'text-ink-300 group-hover:text-ink-500'}
-                  />
+                  <span
+                    className={cx(
+                      'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors',
+                      current
+                        ? 'bg-primary-500 text-white'
+                        : 'bg-surface-muted text-ink-500 group-hover:bg-white group-hover:text-primary-600',
+                    )}
+                  >
+                    <Icon size={17} aria-hidden="true" />
+                  </span>
 
                   <span className="min-w-0 flex-1">
                     <span
                       className={cx(
-                        'block text-[14.5px]',
+                        'block text-[14.5px] leading-tight',
                         current ? 'font-semibold text-primary-800' : 'font-medium text-ink-800',
                       )}
                     >
                       {label}
                     </span>
-                    <span className="block text-[12.5px] text-ink-400">{hint}</span>
+                    <span className="mt-0.5 block text-[12.5px] text-ink-400">{hint}</span>
                   </span>
 
                   {count ? (
                     <span
                       className={cx(
-                        'rounded-full px-2 py-0.5 text-[12px] font-semibold',
-                        current ? 'bg-primary-500 text-white' : 'bg-surface-muted text-ink-500',
+                        'min-w-6 rounded-full px-1.5 py-0.5 text-center text-[12px] font-semibold',
+                        current ? 'bg-primary-500 text-white' : 'bg-white text-ink-500 ring-1 ring-line',
                       )}
                     >
                       {count}
                     </span>
                   ) : (
                     <ChevronRight
-                      size={15}
+                      size={16}
                       aria-hidden="true"
-                      className="text-ink-300 opacity-0 transition-opacity group-hover:opacity-100"
+                      className={cx(
+                        'transition-all',
+                        current ? 'text-primary-500' : 'text-ink-300 group-hover:translate-x-0.5',
+                      )}
                     />
                   )}
                 </Link>
               </li>
             );
           })}
-
-          <li className="border-t border-line">
-            <SignOutButton />
-          </li>
         </ul>
+
+        {/* Leaving the account is a different kind of action from moving
+            between its sections, so it sits apart and in its own colour. */}
+        <div className="border-t border-line p-2">
+          <SignOutButton />
+        </div>
       </nav>
     </div>
   );

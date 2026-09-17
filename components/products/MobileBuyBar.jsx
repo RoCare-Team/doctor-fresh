@@ -15,11 +15,12 @@ import { formatPrice } from '@/lib/utils';
  * leads with the full buy box.
  */
 export default function MobileBuyBar({ product, watch = 'buy-actions' }) {
-  const { add } = useCart();
+  const { add, has } = useCart();
   const router = useRouter();
   const [show, setShow] = useState(false);
-  const [added, setAdded] = useState(false);
   const [askSignIn, setAskSignIn] = useState(false);
+  // The same answer the buy box above gives — straight from the basket.
+  const added = has(product.id);
 
   useEffect(() => {
     const target = document.getElementById(watch);
@@ -36,9 +37,11 @@ export default function MobileBuyBar({ product, watch = 'buy-actions' }) {
   if (!product.price || product.inStock === false) return null;
 
   function handleAdd() {
+    if (added) {
+      router.push('/cart');
+      return;
+    }
     add(product, 1);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1600);
   }
 
   async function handleBuyNow() {

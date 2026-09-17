@@ -44,7 +44,7 @@ export default async function AdminProductPage({ params }) {
         </Link>
       </div>
 
-      <div className="mt-6 max-w-3xl">
+      <div className="mt-6 max-w-5xl">
         <ProductEditor product={product} categories={categories || []} />
       </div>
     </>

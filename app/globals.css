@@ -294,6 +294,103 @@
   }
   .df-prose th { background: var(--color-surface-muted); font-weight: 600; color: var(--color-ink-900); }
   .df-prose .table-responsive { overflow-x: auto; }
+  .df-prose blockquote {
+    margin-block: 1rem;
+    border-left: 3px solid var(--color-primary-300);
+    background: var(--color-surface-muted);
+    padding: 0.6rem 1rem;
+    color: var(--color-ink-700);
+  }
+  .df-prose code {
+    background: var(--color-surface-muted);
+    border-radius: 4px;
+    padding: 0.1rem 0.35rem;
+    font-size: 0.875em;
+    color: var(--color-ink-900);
+  }
+  .df-prose pre {
+    background: var(--color-ink-900);
+    color: #e6f4f9;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+  }
+  .df-prose pre code { background: transparent; color: inherit; padding: 0; }
+  .df-prose hr { margin-block: 1.5rem; border-top: 1px solid var(--color-line-strong); }
+  .df-prose s { color: var(--color-ink-400); }
+
+  /* The TipTap editing surface: the same prose, plus what only exists while
+     editing — a table that must show its grid while empty, selected cells, the
+     column-resize handle and a placeholder on an empty document. */
+  /* The admin's page-loading bar: a segment sweeping along the top edge. */
+  @keyframes df-progress {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(300%); }
+  }
+  .df-progress { animation: df-progress 1.1s ease-in-out infinite; }
+  @keyframes df-spin-reverse { to { transform: rotate(-360deg); } }
+  .df-spin-reverse { animation: df-spin-reverse 1.4s linear infinite; }
+  @keyframes df-fade-in { from { opacity: 0; } to { opacity: 1; } }
+  .df-fade-in { animation: df-fade-in 0.18s ease-out both; }
+
+  .df-editor .ProseMirror { outline: none; min-height: 14rem; }
+  .df-editor .ProseMirror > *:first-child { margin-top: 0; }
+  .df-editor .ProseMirror table { display: table; table-layout: fixed; border-collapse: collapse; overflow: hidden; }
+  .df-editor .ProseMirror td,
+  .df-editor .ProseMirror th { position: relative; min-width: 4rem; vertical-align: top; }
+  .df-editor .ProseMirror .selectedCell::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgb(21 151 197 / 0.12);
+    pointer-events: none;
+  }
+  .df-editor .ProseMirror .column-resize-handle {
+    position: absolute;
+    right: -2px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--color-primary-400);
+    pointer-events: none;
+  }
+  .df-editor .ProseMirror.resize-cursor { cursor: col-resize; }
+  .df-editor .ProseMirror img.ProseMirror-selectednode { outline: 3px solid var(--color-primary-400); }
+  .df-editor .df-raw-html {
+    margin-block: 0.85rem;
+    border: 1px dashed var(--color-line-strong);
+    border-radius: 10px;
+    background: var(--color-surface-muted);
+    padding: 0.5rem 0.75rem 0.65rem;
+    cursor: pointer;
+  }
+  .df-editor .df-raw-html.ProseMirror-selectednode { border-color: var(--color-primary-500); box-shadow: 0 0 0 3px var(--color-primary-100); }
+  .df-editor .df-raw-html__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-primary-700);
+  }
+  .df-editor .df-raw-html pre {
+    margin: 0.35rem 0 0;
+    max-height: 9rem;
+    overflow: auto;
+    background: var(--color-ink-900);
+    color: #e6f4f9;
+    border-radius: 8px;
+    padding: 0.5rem 0.65rem;
+    font-size: 12px;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .df-editor .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    color: var(--color-ink-300);
+    pointer-events: none;
+  }
 
   .df-scrollbar {
     scrollbar-width: thin;
@@ -303,6 +400,18 @@
   .df-scrollbar::-webkit-scrollbar-thumb {
     background: var(--color-line-strong);
     border-radius: 999px;
+  }
+
+  /* The admin sidebar: the scrollbar is there (so nothing shifts) but invisible
+     until the pointer is over the menu, and then a thin light line on the navy. */
+  .df-rail-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    transition: scrollbar-color 0.2s ease;
+  }
+  .df-rail-scroll:hover,
+  .df-rail-scroll:focus-within {
+    scrollbar-color: rgb(255 255 255 / 0.28) transparent;
   }
 
   .df-no-scrollbar { scrollbar-width: none; }

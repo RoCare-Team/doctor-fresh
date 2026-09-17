@@ -49,7 +49,8 @@ export default function CartView() {
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-8">
       <div className="space-y-3">
         {items.map((item) => (
-          <article key={item.id} className="flex gap-4 df-card p-4">
+          <article key={item.id} className="df-card overflow-hidden">
+          <div className="flex gap-4 p-4">
             <Link href={item.url} className="relative h-20 w-20 shrink-0 overflow-hidden rounded border border-line sm:h-24 sm:w-24">
               <SafeImage
                 src={item.image}
@@ -95,21 +96,27 @@ export default function CartView() {
                   </button>
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <span className="text-[15px] font-semibold text-ink-900">
-                    {formatPrice(item.price * item.qty)}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => remove(item.id)}
-                    className="inline-flex items-center gap-1.5 text-[13.5px] text-ink-400 transition-colors hover:text-danger"
-                  >
-                    <Trash2 size={14} aria-hidden="true" />
-                    Remove
-                  </button>
-                </div>
+                <span className="text-[15px] font-semibold text-ink-900">
+                  {formatPrice(item.price * item.qty)}
+                </span>
               </div>
             </div>
+          </div>
+
+          {/* Removing gets its own strip along the bottom of the line, the way
+              shop apps do it: a proper tap target in its own colour, instead
+              of small grey text squeezed in beside the price. */}
+          <div className="flex border-t border-line sm:justify-end">
+            <button
+              type="button"
+              onClick={() => remove(item.id)}
+              aria-label={`Remove ${item.name} from cart`}
+              className="inline-flex h-11 flex-1 items-center justify-center gap-2 text-[14px] font-medium text-danger transition-colors hover:bg-danger/5 active:bg-danger/10 sm:h-10 sm:flex-none sm:px-5"
+            >
+              <Trash2 size={16} aria-hidden="true" />
+              Remove
+            </button>
+          </div>
           </article>
         ))}
 

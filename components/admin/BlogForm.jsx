@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input, Select, Textarea, FormNote } from '@/components/forms/Field';
+import RichTextEditor from '@/components/admin/RichTextEditor';
 import Button from '@/components/common/Button';
 
 /**
@@ -62,12 +63,12 @@ export default function BlogForm({ post, categories }) {
         <h2 className="text-[15px] font-semibold text-ink-900">Content</h2>
         <div className="mt-4 grid gap-3.5">
           <Textarea label="Excerpt" name="excerpt" rows={3} defaultValue={post.excerpt} maxLength={1000} />
-          <Textarea
-            label="Body (HTML)"
+          <RichTextEditor
             name="contentHtml"
-            rows={18}
+            label="Body"
             defaultValue={post.contentHtml}
-            className="[&_textarea]:font-mono [&_textarea]:text-[13px]"
+            placeholder="Write the article…"
+            minHeight="min-h-96"
           />
         </div>
       </section>

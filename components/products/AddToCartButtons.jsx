@@ -13,19 +13,24 @@ import Button from '@/components/common/Button';
  * layout="detail" – quantity stepper + Add to Cart + Buy Now on the product page
  */
 export default function AddToCartButtons({ product, layout = 'card' }) {
-  const { add } = useCart();
+  const { add, has } = useCart();
   const router = useRouter();
   const [qty, setQty] = useState(1);
-  const [added, setAdded] = useState(false);
   const [askSignIn, setAskSignIn] = useState(false);
 
   const purchasable = Boolean(product.price) && product.inStock !== false;
   const max = product.maxQty || 99;
+  // Read from the basket itself, not a timer: once a product is in, the button
+  // says so on every card and page until it is taken out on the cart page.
+  const added = has(product.id);
 
   function handleAdd() {
+    // A second tap opens the basket rather than adding the product again.
+    if (added) {
+      router.push('/cart');
+      return;
+    }
     add(product, layout === 'detail' ? qty : 1);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1600);
   }
 
   /**
@@ -82,6 +87,7 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
           type="button"
           onClick={handleAdd}
           aria-label={added ? 'Added to cart' : 'Add to cart'}
+          title={added ? 'Already in your cart — tap to view it' : undefined}
           className={`inline-flex h-9.5 w-9.5 shrink-0 items-center justify-center gap-1.5 rounded-lg border transition-all active:scale-[0.97] sm:h-11 sm:w-auto sm:flex-1 sm:rounded-full sm:px-3 sm:text-[14px] sm:font-medium ${
             added
               ? 'border-success bg-success text-white'

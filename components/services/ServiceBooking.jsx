@@ -10,6 +10,10 @@ import Button from '@/components/common/Button';
 import Reveal from '@/components/common/Reveal';
 import { formatPrice, cx } from '@/lib/utils';
 
+// One visit covers a household or a small office; more units than this is a
+// site survey, which the team quotes on a call rather than books online.
+const MAX_PER_SERVICE = 5;
+
 const PROMISES = [
   'Affordable, upfront pricing',
   'Certified technicians',
@@ -58,7 +62,7 @@ export default function ServiceBooking({ services = [], groups = [], states = []
   const setQty = (id, qty) => setPicked((current) => {
     const next = { ...current };
     if (qty <= 0) delete next[id];
-    else next[id] = qty;
+    else next[id] = Math.min(qty, MAX_PER_SERVICE);
     return next;
   });
 
@@ -243,8 +247,10 @@ export default function ServiceBooking({ services = [], groups = [], states = []
                               <button
                                 type="button"
                                 onClick={() => setQty(s.id, qty + 1)}
+                                disabled={qty >= MAX_PER_SERVICE}
                                 aria-label={`Add one ${s.name}`}
-                                className="px-2.5 py-1.5 text-primary-700 transition-colors hover:bg-primary-50 sm:px-3 sm:py-2"
+                                title={qty >= MAX_PER_SERVICE ? `Up to ${MAX_PER_SERVICE} per booking` : undefined}
+                                className="px-2.5 py-1.5 text-primary-700 transition-colors hover:bg-primary-50 disabled:cursor-not-allowed disabled:text-ink-300 disabled:hover:bg-transparent sm:px-3 sm:py-2"
                               >
                                 <Plus size={15} aria-hidden="true" />
                               </button>
@@ -259,6 +265,17 @@ export default function ServiceBooking({ services = [], groups = [], states = []
                             </button>
                           )}
                         </div>
+
+                        {/* Said once the plus stops working, so a greyed button
+                            is never a mystery. */}
+                        {qty >= MAX_PER_SERVICE ? (
+                          <p className="mt-2 text-right text-[12.5px] text-ink-400">
+                            {`Maximum ${MAX_PER_SERVICE} per booking. For more, call `}
+                            <a href="tel:9311587716" className="font-medium text-primary-700 hover:text-primary-800">
+                              +91-9311587716
+                            </a>
+                          </p>
+                        ) : null}
                       </div>
                     </div>
                   </li>

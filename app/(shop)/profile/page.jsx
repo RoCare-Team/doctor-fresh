@@ -68,7 +68,7 @@ export default async function ProfilePage({ searchParams }) {
 
   return (
     <div className="bg-surface-muted">
-      <div className="df-container py-8 md:py-11">
+      <div className="df-container pb-10 pt-4 md:pb-14 md:pt-6">
         <div className="grid gap-6 lg:grid-cols-[268px_minmax(0,1fr)] lg:gap-8">
           <AccountNav
             active={active}
@@ -108,7 +108,7 @@ export default async function ProfilePage({ searchParams }) {
 function Panel({ title, note, children }) {
   return (
     <section>
-      <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+      <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
         <h1 className="text-[21px] font-semibold tracking-tight text-ink-900 md:text-[25px]">
           {title}
         </h1>
@@ -127,8 +127,10 @@ function ProfilePanel({ profile, orders, savedCount }) {
   return (
     <Panel title="Profile" note={profile.memberSince ? `Member since ${formatDate(profile.memberSince)}` : null}>
       {/* The three figures a customer opens this page to see. */}
-      <div className="grid gap-3 sm:grid-cols-3">
-        <Metric icon={Wallet} label="Total purchase" value={formatPrice(spent.total)} accent />
+      {/* On a phone the money figure takes the full width and the two counts
+          share the row under it, instead of three tall cards in a column. */}
+      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3">
+        <Metric icon={Wallet} label="Total purchase" value={formatPrice(spent.total)} accent className="col-span-2 sm:col-span-1" />
         <Metric icon={Package} label="Orders placed" value={String(orders.length)} />
         <Metric icon={Heart} label="Saved products" value={String(savedCount)} />
       </div>
@@ -298,17 +300,20 @@ function OrdersPanel({ orders }) {
 
 /* ------------------------------------------------------------ small pieces */
 
-function Metric({ icon: Icon, label, value, accent = false }) {
+function Metric({
+  icon: Icon, label, value, accent = false, className,
+}) {
   return (
     <div
       className={cx(
-        'df-card flex items-center gap-3 p-4',
+        'df-card flex items-center gap-3 p-3.5 sm:p-4',
         accent && 'bg-linear-to-br from-primary-50 to-white',
+        className,
       )}
     >
       <span
         className={cx(
-          'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl',
+          'flex h-9 w-9 shrink-0 items-center justify-center rounded-xl sm:h-10 sm:w-10',
           accent ? 'bg-primary-500 text-white' : 'bg-surface-muted text-primary-700',
         )}
       >
@@ -346,11 +351,18 @@ function Card({ title, action, children }) {
 function Detail({ icon: Icon, label, value, last = false }) {
   return (
     <div className={cx('flex items-start gap-3 px-4 py-3', !last && 'border-b border-line')}>
-      <Icon size={16} aria-hidden="true" className="mt-0.5 shrink-0 text-ink-300" />
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-600">
+        <Icon size={15} aria-hidden="true" />
+      </span>
       <span className="min-w-0">
         <span className="block text-[12.5px] text-ink-400">{label}</span>
-        <span className="block text-[14.5px] text-ink-900">
-          {value || <span className="text-ink-300">Not added</span>}
+        <span className="block wrap-break-word text-[14.5px] text-ink-900">
+          {/* An empty detail is an invitation, not a dead end. */}
+          {value || (
+            <Link href="/profile?tab=edit" className="font-medium text-primary-700 hover:text-primary-800">
+              + Add {label.toLowerCase()}
+            </Link>
+          )}
         </span>
       </span>
     </div>

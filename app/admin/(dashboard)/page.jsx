@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import {
-  Package, Clock, Inbox, Phone, Mail, IndianRupee, ChevronRight, ShoppingBag, Wallet,
+  Clock, Inbox, Phone, Mail, ChevronRight, ShoppingBag, Wallet, Users, Plus, Shuffle, ArrowRight, CheckCircle2,
 } from 'lucide-react';
 import {
-  getDashboard, listOrders, RANGES, rangeStart, DEFAULT_RANGE,
+  getDashboard, getDailyOrders, listOrders, RANGES, rangeStart, DEFAULT_RANGE,
 } from '@/lib/sql/admin';
+import { getAdminSession } from '@/lib/admin/session';
 import RangeSelect from '@/components/admin/RangeSelect';
+import OrdersChart from '@/components/admin/OrdersChart';
 import { formatPrice, formatDate, cx } from '@/lib/utils';
 import StatusPill from '@/components/admin/StatusPill';
 
@@ -15,48 +17,156 @@ export const metadata = { title: 'Dashboard' };
 export default async function AdminDashboard({ searchParams }) {
   const params = await searchParams;
   const rangeId = params?.range || DEFAULT_RANGE;
-  const [stats, recent] = await Promise.all([
+  const [stats, recent, daily, admin] = await Promise.all([
     getDashboard(rangeId),
     listOrders({ from: rangeStart(rangeId), limit: 25 }),
+    getDailyOrders(14),
+    getAdminSession(),
   ]);
   const { range } = stats;
 
-  const cards = [
-    // The whole order book leads, then the window chosen above.
-    { label: 'All orders', value: stats.totalOrders, icon: ShoppingBag, href: '/admin/orders' },
-    { label: 'All sales (paid)', value: formatPrice(stats.totalSales), icon: Wallet, href: '/admin/orders' },
-    // With "All orders" chosen these two would repeat the pair above, so they
-    // only appear once a narrower window is picked.
-    ...(range.id === 'all' ? [] : [
-      { label: `Orders ${range.noun}`, value: stats.ordersToday, icon: Package, href: '/admin/orders' },
-      { label: `Sales ${range.noun}`, value: formatPrice(stats.salesToday), icon: IndianRupee, href: '/admin/orders' },
-    ]),
+  // Greeting and date on the Indian clock, whatever zone the server runs in.
+  const now = new Date();
+  const hour = Number(now.toLocaleString('en-IN', { hour: 'numeric', hour12: false, timeZone: 'Asia/Kolkata' }));
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  const today = now.toLocaleDateString('en-IN', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata',
+  });
+  const firstName = String(admin?.name || 'there').trim().split(/\s+/)[0];
+
+  const tiles = [
+    {
+      label: 'All orders', value: stats.totalOrders.toLocaleString('en-IN'), note: range.id === 'all' ? 'orders placed so far' : `${stats.ordersToday} ${range.noun}`,
+      icon: ShoppingBag, href: '/admin/orders', tone: 'from-primary-500 to-primary-700', wash: 'bg-primary-50',
+    },
+    {
+      label: 'Paid sales', value: formatPrice(stats.totalSales), note: range.id === 'all' ? 'collected from paid orders' : `${formatPrice(stats.salesToday)} ${range.noun}`,
+      icon: Wallet, href: '/admin/orders', tone: 'from-emerald-500 to-emerald-700', wash: 'bg-emerald-50',
+    },
+    {
+      label: 'Customers', value: stats.customers.toLocaleString('en-IN'), note: 'registered accounts',
+      icon: Users, href: '/admin/customers', tone: 'from-violet-500 to-violet-700', wash: 'bg-violet-50',
+    },
+    {
+      label: 'Orders to process', value: stats.pendingOrders.toLocaleString('en-IN'), note: 'waiting for delivery',
+      icon: Clock, href: '/admin/orders?status=pending', tone: 'from-amber-400 to-amber-600', wash: 'bg-amber-50',
+    },
+  ];
+
+  const attention = [
     { label: 'Orders to process', value: stats.pendingOrders, icon: Clock, href: '/admin/orders?status=pending' },
     { label: 'Open enquiries', value: stats.openLeads, icon: Inbox, href: '/admin/enquiries' },
     { label: 'Callback requests', value: stats.openCallbacks, icon: Phone, href: '/admin/enquiries?tab=callbacks' },
     { label: 'Unread messages', value: stats.unreadMessages, icon: Mail, href: '/admin/enquiries?tab=messages' },
   ];
+  const quickActions = [
+    { label: 'Add product', icon: Plus, href: '/admin/products/new' },
+    { label: 'View orders', icon: ShoppingBag, href: '/admin/orders' },
+    { label: 'Redirects', icon: Shuffle, href: '/admin/uniredirect' },
+  ];
 
   return (
     <>
-      <h1 className="text-[22px] font-semibold text-ink-900">Dashboard</h1>
+      {/* ------------------------------------------------------------ welcome */}
+      <section className="relative overflow-hidden rounded-3xl bg-linear-to-br from-primary-500 via-primary-700 to-ink-900 px-5 py-5 text-white shadow-[0_24px_50px_-30px_rgb(6_59_76/0.8)] md:px-7 md:py-5">
+        <span aria-hidden="true" className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/10" />
+        <span aria-hidden="true" className="absolute -bottom-24 right-40 h-56 w-56 rounded-full bg-white/5" />
+        <span aria-hidden="true" className="absolute right-10 top-4 hidden h-20 w-20 rounded-full border-10 border-white/10 md:block" />
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {cards.map(({ label, value, icon: Icon, href }) => (
+        <div className="relative flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p className="text-[12.5px] font-medium !text-white/75">{today}</p>
+            <h1 className="mt-0.5 text-[22px] font-bold tracking-tight !text-white md:text-[26px]">
+              {`${greeting}, ${firstName}`}
+              <span aria-hidden="true"> 👋</span>
+            </h1>
+            <p className="mt-1 max-w-xl text-[13.5px] leading-relaxed !text-white/85">
+              {stats.pendingOrders
+                ? `${stats.pendingOrders} orders are waiting to be processed, and ${stats.ordersToday} orders came in ${range.noun}.`
+                : 'Every order is on its way — nothing waiting to be processed.'}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {quickActions.map(({ label, icon: Icon, href }) => (
+              <Link
+                key={href}
+                href={href}
+                className="inline-flex h-9 items-center gap-2 rounded-xl bg-white/12 px-3.5 text-[13.5px] font-semibold text-white ring-1 ring-white/20 backdrop-blur transition-colors hover:bg-white hover:text-primary-800"
+              >
+                <Icon size={16} aria-hidden="true" />
+                {label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ------------------------------------------------------------- tiles */}
+      <div className="mt-5 grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
+        {tiles.map(({
+          label, value, note, icon: Icon, href, tone, wash,
+        }) => (
           <Link
             key={label}
             href={href}
-            className="flex items-center gap-3 rounded-xl border border-line bg-white p-4 transition-colors hover:border-primary-300"
+            className="group relative overflow-hidden rounded-2xl border border-line bg-white p-4 transition-all sm:p-5 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_-24px_rgb(6_59_76/0.55)]"
           >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-700">
-              <Icon size={18} aria-hidden="true" />
-            </span>
-            <span>
-              <span className="block text-[13px] text-ink-400">{label}</span>
-              <span className="block text-[19px] font-semibold text-ink-900">{value}</span>
+            <span aria-hidden="true" className={cx('absolute -right-8 -top-8 h-28 w-28 rounded-full transition-transform group-hover:scale-110', wash)} />
+            <div className="relative flex flex-col-reverse items-start justify-between gap-3 sm:flex-row">
+              <div className="min-w-0">
+                <p className="text-[12.5px] font-medium text-ink-400 sm:text-[13.5px]">{label}</p>
+                <p className="mt-1.5 truncate text-[22px] font-bold leading-none tracking-tight text-ink-900 sm:mt-2 sm:text-[28px]">{value}</p>
+                <p className="mt-2 text-[12px] leading-snug text-ink-400 sm:mt-2.5 sm:text-[12.5px]">{note}</p>
+              </div>
+              <span className={cx('flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-br text-white sm:h-12 sm:w-12 sm:rounded-2xl shadow-[0_10px_20px_-10px_rgb(6_59_76/0.6)]', tone)}>
+                <Icon size={22} aria-hidden="true" />
+              </span>
+            </div>
+            {/* Sits in the corner, over the card rather than below it, so the
+                hover hint never adds height to the tile. */}
+            <span className="absolute bottom-3 right-4 hidden items-center gap-1 text-[12.5px] font-semibold text-primary-700 opacity-0 transition-opacity group-hover:opacity-100 lg:inline-flex">
+              View
+              <ArrowRight size={13} aria-hidden="true" />
             </span>
           </Link>
         ))}
+      </div>
+
+      {/* ---------------------------------------------- chart + to-do column */}
+      <div className="mt-5 grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <section className="flex flex-col rounded-2xl border border-line bg-white p-5">
+          <OrdersChart days={daily} />
+        </section>
+
+        <section className="rounded-2xl border border-line bg-white p-5">
+          <h2 className="text-[15px] font-semibold text-ink-900">Needs your attention</h2>
+          <ul className="mt-3 space-y-1.5">
+            {attention.map(({ label, value, icon: Icon, href }) => (
+              <li key={label}>
+                <Link
+                  href={href}
+                  className="group flex items-center gap-3 rounded-xl border border-line px-3 py-2 transition-colors hover:border-primary-200 hover:bg-primary-50/50"
+                >
+                  <span className={cx(
+                    'flex h-8 w-8 shrink-0 items-center justify-center rounded-lg',
+                    value ? 'bg-amber-50 text-amber-600' : 'bg-emerald-50 text-emerald-600',
+                  )}
+                  >
+                    {value ? <Icon size={17} aria-hidden="true" /> : <CheckCircle2 size={17} aria-hidden="true" />}
+                  </span>
+                  <span className="min-w-0 flex-1 text-[14px] font-medium text-ink-800">{label}</span>
+                  {value ? (
+                    <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[13px] font-bold tabular-nums text-amber-700">{value}</span>
+                  ) : (
+                    <span className="text-[12.5px] font-medium text-emerald-600">All clear</span>
+                  )}
+                  <ChevronRight size={15} className="text-ink-300 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
 
       {/* The window sits over the table it filters — and the cards above read

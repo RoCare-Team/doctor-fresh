@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { Plus, Trash2, GripVertical } from 'lucide-react';
-import { Input, Textarea, FormNote } from '@/components/forms/Field';
+import { FormNote } from '@/components/forms/Field';
 import Button from '@/components/common/Button';
+import RichTextEditor from '@/components/admin/RichTextEditor';
 
 /**
  * Everything the product page shows below the buy box: the description, the
@@ -62,21 +63,14 @@ export default function ProductDetails({ product }) {
   return (
     <form onSubmit={save} className="space-y-4">
       <section className="rounded-xl border border-line bg-white p-5">
-        <h2 className="text-[15px] font-semibold text-ink-900">About this product</h2>
-        <p className="mt-1 text-[13px] text-ink-400">
-          Shown under the Description tab. Basic HTML works — <code>&lt;p&gt;</code>,{' '}
-          <code>&lt;ul&gt;&lt;li&gt;</code>, <code>&lt;strong&gt;</code>.
-        </p>
-        <div className="mt-4">
-          <Textarea
-            label=""
-            name="descriptionHtml"
-            rows={10}
-            defaultValue={product.descriptionHtml}
-            placeholder="<p>What this product does, who it suits, what is in the box…</p>"
-            className="[&_textarea]:font-mono [&_textarea]:text-[13px]"
-          />
-        </div>
+        <RichTextEditor
+          name="descriptionHtml"
+          label="Description"
+          hint="Shown under the Description tab on the product page."
+          defaultValue={product.descriptionHtml}
+          placeholder="What this product does, who it suits, what is in the box…"
+          minHeight="min-h-72"
+        />
       </section>
 
       {/* ------------------------------------------------------ specifications */}
@@ -184,20 +178,20 @@ export default function ProductDetails({ product }) {
           Their own tabs on the product page. Left blank, the standard Doctor Fresh
           installation note is shown instead.
         </p>
-        <div className="mt-4 grid gap-3.5">
-          <Textarea
-            label="Installation & service"
+        <div className="mt-4 grid gap-6">
+          <RichTextEditor
             name="installationHtml"
-            rows={4}
+            label="Installation & service"
             defaultValue={product.installationHtml}
-            className="[&_textarea]:font-mono [&_textarea]:text-[13px]"
+            placeholder="What the installation covers, visit charges, service support…"
+            minHeight="min-h-40"
           />
-          <Textarea
-            label="Billing & shipping"
+          <RichTextEditor
             name="shippingHtml"
-            rows={4}
+            label="Billing & shipping"
             defaultValue={product.shippingHtml}
-            className="[&_textarea]:font-mono [&_textarea]:text-[13px]"
+            placeholder="Delivery time, shipping charges, invoice details…"
+            minHeight="min-h-40"
           />
         </div>
       </section>
