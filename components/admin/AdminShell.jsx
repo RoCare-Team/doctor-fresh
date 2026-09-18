@@ -7,6 +7,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard, Package, ShoppingBag, Layers, Users, Inbox,
   Newspaper, Ticket, Settings, ExternalLink, LogOut, Menu, X, FileText, Shuffle, Loader2,
+  Wrench,
 } from 'lucide-react';
 import { cx, imageUrl } from '@/lib/utils';
 
@@ -18,6 +19,7 @@ const NAV = [
   { href: '/admin/orders', label: 'Orders', icon: ShoppingBag },
   { href: '/admin/products', label: 'Products', icon: Package },
   { href: '/admin/categories', label: 'Categories', icon: Layers },
+  { href: '/admin/service-pages', label: 'Service pages', icon: Wrench },
   { href: '/admin/uniredirect', label: 'uniredirected urls redirecting', icon: Shuffle },
   { href: '/admin/brochures', label: 'Brochures', icon: FileText },
   { href: '/admin/customers', label: 'Customers', icon: Users },

@@ -2,8 +2,9 @@ import Link from 'next/link';
 import {
   Layers, Package, CircleCheck, CircleAlert, Pencil, ExternalLink, Search,
 } from 'lucide-react';
-import { listCategories } from '@/lib/sql/admin-catalog';
+import { listCategories, listSubcategoryPages } from '@/lib/sql/admin-catalog';
 import SafeImage from '@/components/common/SafeImage';
+import NewCategoryButton from '@/components/admin/NewCategoryButton';
 import { cx } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
@@ -22,9 +23,16 @@ function seoGaps(c) {
 export default async function AdminCategoriesPage({ searchParams }) {
   const params = await searchParams;
   const search = (params?.q || '').trim().toLowerCase();
-  const all = (await listCategories()) || [];
+  const [cats, subList] = await Promise.all([listCategories(), listSubcategoryPages()]);
+  const all = cats || [];
+  const subsOf = new Map();
+  for (const sc of subList || []) {
+    if (!subsOf.has(sc.categoryId)) subsOf.set(sc.categoryId, []);
+    subsOf.get(sc.categoryId).push(sc);
+  }
   const categories = search
-    ? all.filter((c) => `${c.name} ${c.slug}`.toLowerCase().includes(search))
+    ? all.filter((c) => [c.name, c.slug, ...(subsOf.get(Number(c.id)) || []).flatMap((sc) => [sc.name, sc.slug])]
+      .join(' ').toLowerCase().includes(search))
     : all;
 
   const totalProducts = all.reduce((n, c) => n + c.products, 0);
@@ -43,10 +51,11 @@ export default async function AdminCategoriesPage({ searchParams }) {
         <div>
           <h1 className="text-[22px] font-semibold text-ink-900">Categories</h1>
           <p className="mt-0.5 max-w-2xl text-[13.5px] text-ink-400">
-            Edit the name, search listing, page heading, content and FAQs. Adding or removing a category still happens in the old panel.
+            Create categories and subcategories, and edit each page's search listing, heading, content and FAQs.
           </p>
         </div>
-        <form action="/admin/categories" className="w-full sm:w-64">
+        <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
+        <form action="/admin/categories" className="min-w-0 flex-1 sm:w-60 sm:flex-none">
           <span className="relative block">
             <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-300" aria-hidden="true" />
             <input
@@ -58,6 +67,13 @@ export default async function AdminCategoriesPage({ searchParams }) {
             />
           </span>
         </form>
+          <NewCategoryButton
+            kind="subcategory"
+            variant="secondary"
+            categories={all.map((c) => ({ id: c.id, name: c.name, slug: c.slug }))}
+          />
+          <NewCategoryButton />
+        </div>
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-3 xl:grid-cols-4">
@@ -122,6 +138,28 @@ export default async function AdminCategoriesPage({ searchParams }) {
                 {c.metaTitle || 'No meta title yet'}
               </p>
 
+              {subsOf.get(Number(c.id))?.length ? (
+                <div className="mt-2.5 flex flex-wrap gap-1.5">
+                  {subsOf.get(Number(c.id)).slice(0, 3).map((sc) => (
+                    <Link
+                      key={sc.id}
+                      href={`/admin/categories/${c.id}/sub/${sc.id}`}
+                      title={`Edit ${sc.name}`}
+                      className="max-w-full truncate rounded-full border border-line bg-surface-muted/60 px-2.5 py-0.5 text-[12px] font-medium text-ink-500 transition-colors hover:border-primary-300 hover:bg-primary-50 hover:text-primary-700"
+                    >
+                      {sc.name}
+                    </Link>
+                  ))}
+                  {subsOf.get(Number(c.id)).length > 3 ? (
+                    <Link href={href} className="rounded-full px-2 py-0.5 text-[12px] font-medium text-primary-700 hover:bg-primary-50">
+                      {`+${subsOf.get(Number(c.id)).length - 3} more`}
+                    </Link>
+                  ) : null}
+                </div>
+              ) : null}
+
+              {/* pushes the footer down so every card in a row lines up */}
+              <span aria-hidden="true" className="flex-1" />
               <div className="mt-3 flex items-center justify-between gap-2 border-t border-line pt-3">
                 {gaps.length ? (
                   <span className="inline-flex min-w-0 items-center gap-1.5 rounded-full bg-warning/12 px-2.5 py-1 text-[12px] font-medium text-warning">

@@ -1,7 +1,7 @@
 import { revalidatePath } from 'next/cache';
 import { requireAdmin, readJson, fail } from '@/lib/admin/guard';
 import {
-  updateCategory, getCategory, createCategory, deleteCategory,
+  updateSubcategory, getSubcategoryPage, createSubcategory, deleteSubcategory,
 } from '@/lib/sql/admin-catalog';
 import { saveRedirect } from '@/lib/sql/redirects';
 import { clearCache } from '@/lib/sql/cache';
@@ -16,33 +16,32 @@ export async function PATCH(request) {
   if (!body) return fail('Invalid request.');
 
   const id = Number(body.id);
-  if (!id) return fail('Unknown category.');
-  if (body.name !== undefined && !String(body.name).trim()) return fail('Enter a category name.');
+  if (!id) return fail('Unknown subcategory.');
+  if (body.name !== undefined && !String(body.name).trim()) return fail('Enter a subcategory name.');
   if (body.metaTitle !== undefined && String(body.metaTitle).length > 255) return fail('The meta title is longer than 255 characters.');
   if (body.metaDescription !== undefined && String(body.metaDescription).length > 255) {
     return fail('The meta description is longer than 255 characters.');
   }
 
   try {
-    await updateCategory(id, body);
+    await updateSubcategory(id, body);
   } catch (err) {
-    console.error('[admin] could not save the category:', err.message);
-    return fail('Could not save the category.', 502);
+    console.error('[admin] could not save the subcategory:', err.message);
+    return fail('Could not save the subcategory.', 502);
   }
 
-  // The storefront keeps the catalogue in memory and caches the page; both
-  // are refreshed so the change is visible on the next visit, not in minutes.
+  // Same refresh as a category: the in-memory catalogue and the cached pages
+  // under the parent category, which include this subcategory's page.
   clearCache();
-  const saved = await getCategory(id).catch(() => null);
+  const saved = await getSubcategoryPage(id).catch(() => null);
   try {
-    revalidatePath('/all-category');
-    if (saved?.slug) revalidatePath(`/category/${saved.slug}`, 'layout');
-  } catch { /* revalidation is best-effort; the page refreshes on its own schedule */ }
+    if (saved?.categorySlug) revalidatePath(`/category/${saved.categorySlug}`, 'layout');
+  } catch { /* best-effort; the page refreshes on its own schedule */ }
 
-  return Response.json({ ok: true, category: saved });
+  return Response.json({ ok: true, subcategory: saved });
 }
 
-/** A new category. It opens in the editor afterwards for the rest of its page. */
+/** A new subcategory under an existing category. */
 export async function POST(request) {
   const { response } = await requireAdmin();
   if (response) return response;
@@ -52,24 +51,23 @@ export async function POST(request) {
 
   let created;
   try {
-    created = await createCategory(body);
+    created = await createSubcategory(body);
   } catch (err) {
-    console.error('[admin] could not create the category:', err.message);
-    return fail('Could not create the category.', 502);
+    console.error('[admin] could not create the subcategory:', err.message);
+    return fail('Could not create the subcategory.', 502);
   }
   if (created.error) return fail(created.error);
 
-  // A new category joins the menus and the category list on every page.
   clearCache();
   try {
     revalidatePath('/', 'layout');
   } catch { /* best-effort */ }
 
-  return Response.json({ ok: true, id: created.id, slug: created.slug });
+  return Response.json({ ok: true, ...created });
 }
 
 /**
- * Deletes an empty category. With `redirectTo`, its old address gets a 301 to
+ * Deletes an empty subcategory. With `redirectTo`, its old address gets a 301 to
  * that page, so links and Google results keep landing somewhere useful.
  */
 export async function DELETE(request) {
@@ -78,14 +76,14 @@ export async function DELETE(request) {
 
   const body = await readJson(request);
   const id = Number(body?.id);
-  if (!id) return fail('Unknown category.');
+  if (!id) return fail('Unknown subcategory.');
 
   let done;
   try {
-    done = await deleteCategory(id);
+    done = await deleteSubcategory(id);
   } catch (err) {
-    console.error('[admin] could not delete the category:', err.message);
-    return fail('Could not delete the category.', 502);
+    console.error('[admin] could not delete the subcategory:', err.message);
+    return fail('Could not delete the subcategory.', 502);
   }
   if (done.error) return fail(done.error);
 

@@ -36,6 +36,9 @@ export default function RichTextEditor({
   name, label, hint, defaultValue = '', placeholder = 'Start writing…', minHeight = 'min-h-60',
 }) {
   const [html, setHtml] = useState(defaultValue || '');
+  // Set once the text is actually edited, so a form can leave stored HTML
+  // untouched when only other fields changed.
+  const [dirty, setDirty] = useState(false);
   const [mode, setMode] = useState('edit'); // edit | source
   const [preview, setPreview] = useState(false);
 
@@ -68,7 +71,7 @@ export default function RichTextEditor({
     editorProps: {
       attributes: { class: cx('df-prose max-w-none px-4 py-3', minHeight) },
     },
-    onUpdate: ({ editor: e }) => setHtml(e.isEmpty ? '' : expandRawHtml(e.getHTML())),
+    onUpdate: ({ editor: e }) => { setDirty(true); setHtml(e.isEmpty ? '' : expandRawHtml(e.getHTML())); },
   });
 
   const [linkDialog, setLinkDialog] = useState(false);
@@ -105,6 +108,7 @@ export default function RichTextEditor({
       ) : null}
 
       <input type="hidden" name={name} value={html} />
+      <input type="hidden" name={`${name}Changed`} value={dirty ? '1' : ''} />
 
       <div className="df-editor overflow-hidden rounded-xl border border-line-strong bg-white focus-within:border-primary-500">
         <Toolbar
@@ -119,7 +123,7 @@ export default function RichTextEditor({
         {mode === 'source' ? (
           <textarea
             value={html}
-            onChange={(e) => setHtml(e.target.value)}
+            onChange={(e) => { setDirty(true); setHtml(e.target.value); }}
             spellCheck={false}
             aria-label={`${label || 'Content'} HTML source`}
             className={cx(
