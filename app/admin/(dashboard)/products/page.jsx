@@ -7,11 +7,14 @@ import { listProducts, listCategories, listProductBrands } from '@/lib/sql/admin
 import ProductFilters from '@/components/admin/ProductFilters';
 import SafeImage from '@/components/common/SafeImage';
 import { formatPrice, cx } from '@/lib/utils';
+import { requirePage } from '@/lib/admin/guard';
+import { Can } from '@/components/admin/AdminAccess';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Products' };
 
 export default async function AdminProductsPage({ searchParams }) {
+  await requirePage('products');
   const params = await searchParams;
   const values = {
     q: (params?.q || '').trim(),
@@ -49,6 +52,7 @@ export default async function AdminProductsPage({ searchParams }) {
             {` product${view.total === 1 ? '' : 's'}`}
           </p>
         </div>
+        <Can section="products" action="create">
         <Link
           href="/admin/products/new"
           className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-primary-500 px-4 text-[14px] font-semibold text-white transition-colors hover:bg-ink-900"
@@ -56,6 +60,7 @@ export default async function AdminProductsPage({ searchParams }) {
           <Plus size={16} aria-hidden="true" />
           Add product
         </Link>
+        </Can>
       </div>
 
       <div className="mt-4">

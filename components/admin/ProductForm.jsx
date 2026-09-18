@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Input, Select, Textarea, FormNote } from '@/components/forms/Field';
 import Button from '@/components/common/Button';
 import { formatPrice } from '@/lib/utils';
+import { Can, ViewOnlyNote } from '@/components/admin/AdminAccess';
 
 /**
  * Editing a product.
@@ -137,9 +138,11 @@ export default function ProductForm({ product, categories }) {
       </section>
 
       <div className="flex flex-wrap items-center gap-3">
+        <Can section="products" action="edit" fallback={<ViewOnlyNote />}>
         <Button type="submit" disabled={status === 'saving'}>
-          {status === 'saving' ? 'Saving…' : 'Save product'}
-        </Button>
+            {status === 'saving' ? 'Saving…' : 'Save product'}
+          </Button>
+        </Can>
         {status === 'done' ? <span className="text-[14px] text-success">Saved</span> : null}
       </div>
 

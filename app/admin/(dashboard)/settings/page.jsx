@@ -1,10 +1,12 @@
 import { getSettingsForAdmin, EDITABLE_SETTINGS } from '@/lib/sql/admin-catalog';
 import SettingsForm from '@/components/admin/SettingsForm';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Settings' };
 
 export default async function AdminSettingsPage() {
+  await requirePage('settings');
   const values = await getSettingsForAdmin();
 
   return (

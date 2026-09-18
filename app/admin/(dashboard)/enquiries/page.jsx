@@ -3,6 +3,7 @@ import { listLeads, listCallbacks, listMessages } from '@/lib/sql/admin';
 import HandledToggle from '@/components/admin/HandledToggle';
 import Pagination, { paginate } from '@/components/admin/Pagination';
 import { formatDate, cx } from '@/lib/utils';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Enquiries' };
@@ -10,10 +11,10 @@ export const metadata = { title: 'Enquiries' };
 const TABS = [
   { id: 'leads', label: 'Service enquiries' },
   { id: 'callbacks', label: 'Callback requests' },
-  { id: 'messages', label: 'Messages' },
 ];
 
 export default async function AdminEnquiriesPage({ searchParams }) {
+  await requirePage('enquiries');
   const params = await searchParams;
   const tab = TABS.some((t) => t.id === params?.tab) ? params.tab : 'leads';
   const page = Number(params?.page) || 1;

@@ -10,11 +10,13 @@ import RangeSelect from '@/components/admin/RangeSelect';
 import OrdersChart from '@/components/admin/OrdersChart';
 import { formatPrice, formatDate, cx } from '@/lib/utils';
 import StatusPill from '@/components/admin/StatusPill';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Dashboard' };
 
 export default async function AdminDashboard({ searchParams }) {
+  await requirePage('dashboard');
   const params = await searchParams;
   const rangeId = params?.range || DEFAULT_RANGE;
   const [stats, recent, daily, admin] = await Promise.all([
@@ -57,7 +59,7 @@ export default async function AdminDashboard({ searchParams }) {
     { label: 'Orders to process', value: stats.pendingOrders, icon: Clock, href: '/admin/orders?status=pending' },
     { label: 'Open enquiries', value: stats.openLeads, icon: Inbox, href: '/admin/enquiries' },
     { label: 'Callback requests', value: stats.openCallbacks, icon: Phone, href: '/admin/enquiries?tab=callbacks' },
-    { label: 'Unread messages', value: stats.unreadMessages, icon: Mail, href: '/admin/enquiries?tab=messages' },
+    { label: 'Unread messages', value: stats.unreadMessages, icon: Mail, href: '/admin/messages' },
   ];
   const quickActions = [
     { label: 'Add product', icon: Plus, href: '/admin/products/new' },

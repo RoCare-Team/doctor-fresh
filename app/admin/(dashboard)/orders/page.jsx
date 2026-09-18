@@ -10,6 +10,7 @@ import RangeSelect from '@/components/admin/RangeSelect';
 import SafeImage from '@/components/common/SafeImage';
 import { formatPrice, formatDate, cx } from '@/lib/utils';
 import StatusPill from '@/components/admin/StatusPill';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Orders' };
@@ -23,6 +24,7 @@ const initials = (name = '') => name.trim().split(/\s+/).slice(0, 2).map((w) => 
 const timeOf = (ms) => new Date(ms).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata' });
 
 export default async function AdminOrdersPage({ searchParams }) {
+  await requirePage('orders');
   const params = await searchParams;
   const status = params?.status || '';
   const search = (params?.q || '').trim();

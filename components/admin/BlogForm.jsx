@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Input, Select, Textarea, FormNote } from '@/components/forms/Field';
 import RichTextEditor from '@/components/admin/RichTextEditor';
 import Button from '@/components/common/Button';
+import { Can, ViewOnlyNote } from '@/components/admin/AdminAccess';
 
 /**
  * Editing an article.
@@ -24,6 +25,10 @@ export default function BlogForm({ post, categories }) {
     setError('');
 
     const values = Object.fromEntries(new FormData(event.currentTarget).entries());
+    // The body is only sent when it was edited, so saving a new title never
+    // rewrites the stored HTML.
+    if (!values.contentHtmlChanged) delete values.contentHtml;
+    delete values.contentHtmlChanged;
 
     try {
       const res = await fetch('/api/admin/blogs', {
@@ -47,6 +52,7 @@ export default function BlogForm({ post, categories }) {
       <section className="rounded-xl border border-line bg-white p-5">
         <div className="grid gap-3.5 sm:grid-cols-2">
           <Input label="Title" name="title" defaultValue={post.title} required maxLength={500} className="sm:col-span-2" />
+          <Input label="URL" name="slug" defaultValue={post.slug} required maxLength={255} className="sm:col-span-2" />
           <Select
             label="Category"
             name="categoryId"
@@ -79,9 +85,11 @@ export default function BlogForm({ post, categories }) {
       </section>
 
       <div className="flex flex-wrap items-center gap-3">
+        <Can section="blogs" action="edit" fallback={<ViewOnlyNote />}>
         <Button type="submit" disabled={status === 'saving'}>
-          {status === 'saving' ? 'Saving…' : 'Save post'}
-        </Button>
+            {status === 'saving' ? 'Saving…' : 'Save post'}
+          </Button>
+        </Can>
         {status === 'done' ? <span className="text-[14px] text-success">Saved</span> : null}
       </div>
 

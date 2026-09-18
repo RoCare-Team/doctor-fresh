@@ -6,14 +6,16 @@ import { useRouter } from 'next/navigation';
 import {
   Trash2, X, Loader2, AlertTriangle, Lock,
 } from 'lucide-react';
+import { Can } from '@/components/admin/AdminAccess';
 
 /**
  * The danger zone at the foot of a category or subcategory editor. Only an
  * empty page can be deleted (`blocked` says why not); the old address can be
  * sent on with a 301 so links and Google results do not end on a 404.
  */
-export default function DeleteCategory({
+function DeleteCategoryInner({
   kind = 'category', id, name, path, blocked = '', redirectDefault = '/all-category', afterHref = '/admin/categories', endpoint = '',
+  note = 'Its content and FAQs are deleted with it.',
 }) {
   const isSub = kind === 'subcategory';
   const router = useRouter();
@@ -90,7 +92,7 @@ export default function DeleteCategory({
               <div className="min-w-0 flex-1">
                 <h2 id="del-cat-title" className="text-[17px] font-semibold text-ink-900">{`Delete “${name}”?`}</h2>
                 <p className="mt-1 text-[13.5px] leading-relaxed text-ink-500">
-                  {`The page ${path} will stop existing. Its content and FAQs are deleted with it.`}
+                  {`The page ${path} will stop existing. ${note}`}
                 </p>
               </div>
               <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="rounded-lg p-1.5 text-ink-400 hover:bg-surface-muted">
@@ -158,5 +160,14 @@ export default function DeleteCategory({
         document.body,
       ) : null}
     </section>
+  );
+}
+
+/** Shown only to admins whose role allows this; the server checks again on save. */
+export default function DeleteCategory(props) {
+  return (
+    <Can section={props.section || 'categories'} action={'delete'}>
+      <DeleteCategoryInner {...props} />
+    </Can>
   );
 }

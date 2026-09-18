@@ -5,6 +5,7 @@ import { Plus, Trash2, GripVertical } from 'lucide-react';
 import { FormNote } from '@/components/forms/Field';
 import Button from '@/components/common/Button';
 import RichTextEditor from '@/components/admin/RichTextEditor';
+import { Can, ViewOnlyNote } from '@/components/admin/AdminAccess';
 
 /**
  * Everything the product page shows below the buy box: the description, the
@@ -197,9 +198,11 @@ export default function ProductDetails({ product }) {
       </section>
 
       <div className="flex flex-wrap items-center gap-3">
+        <Can section="products" action="edit" fallback={<ViewOnlyNote />}>
         <Button type="submit" disabled={status === 'saving'}>
-          {status === 'saving' ? 'Saving…' : 'Save details'}
-        </Button>
+            {status === 'saving' ? 'Saving…' : 'Save details'}
+          </Button>
+        </Can>
         {status === 'saved' ? (
           <span className="text-[13.5px] text-success">
             Saved. The product page updates within 5 minutes.

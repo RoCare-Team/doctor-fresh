@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Check, Circle } from 'lucide-react';
 import { cx } from '@/lib/utils';
+import { Can } from '@/components/admin/AdminAccess';
 
 /** Marks an enquiry dealt with, or puts it back on the open list. */
-export default function HandledToggle({ kind, id, handled }) {
+function HandledToggleInner({ kind, id, handled }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -49,5 +50,14 @@ export default function HandledToggle({ kind, id, handled }) {
       </button>
       {error ? <span className="text-[12px] text-danger">{error}</span> : null}
     </span>
+  );
+}
+
+/** Shown only to admins whose role allows this; the server checks again on save. */
+export default function HandledToggle(props) {
+  return (
+    <Can section={({ message: 'messages', quotation: 'brochures' })[props.kind] || 'enquiries'} action={'edit'}>
+      <HandledToggleInner {...props} />
+    </Can>
   );
 }

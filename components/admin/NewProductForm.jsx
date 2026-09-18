@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Input, Select, Textarea, FormNote } from '@/components/forms/Field';
 import Button from '@/components/common/Button';
 import { formatPrice, cx } from '@/lib/utils';
+import { Can, ViewOnlyNote } from '@/components/admin/AdminAccess';
 
 /**
  * Creating a product.
@@ -192,9 +193,11 @@ export default function NewProductForm({ categories, subcategories }) {
       </section>
 
       <div className="flex flex-wrap items-center gap-3">
+        <Can section="products" action="create" fallback={<ViewOnlyNote />}>
         <Button type="submit" disabled={status === 'saving'}>
-          {status === 'saving' ? 'Creating…' : 'Create product'}
-        </Button>
+            {status === 'saving' ? 'Creating…' : 'Create product'}
+          </Button>
+        </Can>
         <span className="text-[13.5px] text-ink-400">Photos are added next.</span>
       </div>
 

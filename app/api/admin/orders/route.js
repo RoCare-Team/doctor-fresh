@@ -1,6 +1,6 @@
 // Updating an order from the admin area.
 
-import { getAdminSession } from '@/lib/admin/session';
+import { requireAdmin } from '@/lib/admin/guard';
 import { setDeliveryStatus, setPaymentPaid } from '@/lib/sql/admin';
 
 export const dynamic = 'force-dynamic';
@@ -8,8 +8,8 @@ export const dynamic = 'force-dynamic';
 const fail = (message, status = 400) => Response.json({ ok: false, error: message }, { status });
 
 export async function PATCH(request) {
-  const admin = await getAdminSession();
-  if (!admin) return fail('Please sign in.', 401);
+  const { response } = await requireAdmin('orders', 'edit');
+  if (response) return response;
 
   let body;
   try {

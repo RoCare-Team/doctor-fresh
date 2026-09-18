@@ -1,20 +1,21 @@
 // Marking an enquiry dealt with.
 
-import { getAdminSession } from '@/lib/admin/session';
-import { markHandled } from '@/lib/sql/admin';
+import { requireAdmin } from '@/lib/admin/guard';
+import { markHandled, deleteMessage } from '@/lib/sql/admin';
 
 export const dynamic = 'force-dynamic';
 
 export async function PATCH(request) {
-  const admin = await getAdminSession();
-  if (!admin) return Response.json({ ok: false, error: 'Please sign in.' }, { status: 401 });
-
   let body;
   try {
     body = await request.json();
   } catch {
     return Response.json({ ok: false, error: 'Invalid request.' }, { status: 400 });
   }
+
+  // Contact and partner messages have their own section; the rest are enquiries.
+  const { response } = await requireAdmin({ message: 'messages', quotation: 'brochures' }[body.kind] || 'enquiries', 'edit');
+  if (response) return response;
 
   try {
     const result = await markHandled(body.kind, Number(body.id), body.handled !== false);
@@ -24,5 +25,22 @@ export async function PATCH(request) {
     return Response.json({ ok: false, error: 'Could not save the change.' }, { status: 502 });
   }
 
+  return Response.json({ ok: true });
+}
+
+/** Deletes a contact or partner message — for spam. */
+export async function DELETE(request) {
+  const { response } = await requireAdmin('messages', 'delete');
+  if (response) return response;
+
+  const id = Number(new URL(request.url).searchParams.get('id'));
+  if (!id) return Response.json({ ok: false, error: 'Unknown message.' }, { status: 400 });
+
+  try {
+    await deleteMessage(id);
+  } catch (err) {
+    console.error('[admin] could not delete the message:', err.message);
+    return Response.json({ ok: false, error: 'Could not delete the message.' }, { status: 502 });
+  }
   return Response.json({ ok: true });
 }

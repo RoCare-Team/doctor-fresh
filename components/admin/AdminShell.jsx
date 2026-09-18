@@ -7,26 +7,33 @@ import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard, Package, ShoppingBag, Layers, Users, Inbox,
   Newspaper, Ticket, Settings, ExternalLink, LogOut, Menu, X, FileText, Shuffle, Loader2,
-  Wrench,
+  Wrench, Mail, Handshake, UserCog,
 } from 'lucide-react';
 import { cx, imageUrl } from '@/lib/utils';
+import { can, roleInfo } from '@/lib/admin/access';
+import { AdminAccessProvider } from '@/components/admin/AdminAccess';
 
 // Remembered per browser, so the rail is how it was left on the next visit.
 const COLLAPSED_KEY = 'df-admin-sidebar-collapsed';
 
+// `section` ties each entry to a permission; entries the signed-in admin
+// cannot open are left out of the menu.
 const NAV = [
-  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
-  { href: '/admin/orders', label: 'Orders', icon: ShoppingBag },
-  { href: '/admin/products', label: 'Products', icon: Package },
-  { href: '/admin/categories', label: 'Categories', icon: Layers },
-  { href: '/admin/service-pages', label: 'Service pages', icon: Wrench },
-  { href: '/admin/uniredirect', label: 'uniredirected urls redirecting', icon: Shuffle },
-  { href: '/admin/brochures', label: 'Brochures', icon: FileText },
-  { href: '/admin/customers', label: 'Customers', icon: Users },
-  { href: '/admin/enquiries', label: 'Enquiries', icon: Inbox },
-  { href: '/admin/blogs', label: 'Blogs', icon: Newspaper },
-  { href: '/admin/coupons', label: 'Coupons', icon: Ticket },
-  { href: '/admin/settings', label: 'Settings', icon: Settings },
+  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true, section: 'dashboard' },
+  { href: '/admin/orders', label: 'Orders', icon: ShoppingBag, section: 'orders' },
+  { href: '/admin/products', label: 'Products', icon: Package, section: 'products' },
+  { href: '/admin/categories', label: 'Categories', icon: Layers, section: 'categories' },
+  { href: '/admin/service-pages', label: 'Service pages', icon: Wrench, section: 'service_pages' },
+  { href: '/admin/uniredirect', label: 'uniredirected urls redirecting', icon: Shuffle, section: 'redirects' },
+  { href: '/admin/brochures', label: 'Brochures', icon: FileText, section: 'brochures' },
+  { href: '/admin/customers', label: 'Customers', icon: Users, section: 'customers' },
+  { href: '/admin/enquiries', label: 'Enquiries', icon: Inbox, section: 'enquiries' },
+  { href: '/admin/messages', label: 'Contact messages', icon: Mail, section: 'messages' },
+  { href: '/admin/partners', label: 'Partner requests', icon: Handshake, section: 'messages' },
+  { href: '/admin/blogs', label: 'Blogs', icon: Newspaper, section: 'blogs' },
+  { href: '/admin/coupons', label: 'Coupons', icon: Ticket, section: 'coupons' },
+  { href: '/admin/users', label: 'Admin users', icon: UserCog, section: 'users' },
+  { href: '/admin/settings', label: 'Settings', icon: Settings, section: 'settings' },
 ];
 
 /**
@@ -81,6 +88,8 @@ export default function AdminShell({ admin, brand, children }) {
     });
   }
 
+  const nav = NAV.filter((item) => can(admin.access, item.section));
+
   const isActive = (item) => (item.exact ? pathname === item.href : pathname.startsWith(item.href));
 
   async function signOut() {
@@ -93,7 +102,7 @@ export default function AdminShell({ admin, brand, children }) {
   /** The drawer is never collapsed, so the state is passed in rather than read. */
   const renderNav = (isCollapsed) => (
     <nav className={cx('df-rail-scroll flex-1 space-y-0.5 overflow-y-auto', isCollapsed ? 'px-2 py-3' : 'p-3')}>
-      {NAV.map((item) => {
+      {nav.map((item) => {
         const Icon = item.icon;
         return (
           <Link
@@ -230,7 +239,7 @@ export default function AdminShell({ admin, brand, children }) {
             </span>
             <span className="hidden leading-tight sm:block">
               <span className="block text-[14px] font-semibold text-ink-900">{admin.name}</span>
-              <span className="block text-[12px] text-ink-400">Administrator</span>
+              <span className="block text-[12px] text-ink-400">{roleInfo(admin.access?.role)?.label || 'Custom access'}</span>
             </span>
           </div>
           <span className="mx-1 hidden h-8 w-px bg-line sm:block" aria-hidden="true" />
@@ -246,7 +255,7 @@ export default function AdminShell({ admin, brand, children }) {
         </header>
 
         <main className="relative px-4 pb-4 pt-3 md:px-6 md:pb-6 md:pt-3" aria-busy={Boolean(pendingHref)}>
-          {children}
+          <AdminAccessProvider access={admin.access}>{children}</AdminAccessProvider>
 
           {/* The old page stays underneath, faded, with the loader over it —
               the click is answered at once even while the next page is still

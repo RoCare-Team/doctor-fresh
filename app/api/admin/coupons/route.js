@@ -4,7 +4,7 @@ import { createCoupon, deleteCoupon } from '@/lib/sql/admin-catalog';
 export const dynamic = 'force-dynamic';
 
 export async function POST(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin('coupons', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -30,7 +30,7 @@ export async function POST(request) {
 }
 
 export async function DELETE(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin('coupons', request);
   if (response) return response;
 
   const id = Number(new URL(request.url).searchParams.get('id'));

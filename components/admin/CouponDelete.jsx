@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Trash2 } from 'lucide-react';
+import { Can } from '@/components/admin/AdminAccess';
 
-export default function CouponDelete({ id, code }) {
+function CouponDeleteInner({ id, code }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
 
@@ -28,5 +29,14 @@ export default function CouponDelete({ id, code }) {
     >
       <Trash2 size={15} aria-hidden="true" />
     </button>
+  );
+}
+
+/** Shown only to admins whose role allows this; the server checks again on save. */
+export default function CouponDelete(props) {
+  return (
+    <Can section={'coupons'} action={'delete'}>
+      <CouponDeleteInner {...props} />
+    </Can>
   );
 }

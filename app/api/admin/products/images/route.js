@@ -93,7 +93,7 @@ const idFrom = (value) => Number(value) || 0;
 const ownName = (id, name) => new RegExp(`^product_${id}_\\d+\\.[a-z]+$`, 'i').test(String(name || ''));
 
 export async function GET(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin('products', request.method === 'GET' ? 'view' : 'edit');
   if (response) return response;
 
   const id = idFrom(new URL(request.url).searchParams.get('id'));
@@ -104,7 +104,7 @@ export async function GET(request) {
 
 /** Adds photos after the ones already there. */
 export async function POST(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin('products', request.method === 'GET' ? 'view' : 'edit');
   if (response) return response;
 
   let form;
@@ -153,7 +153,7 @@ export async function POST(request) {
 
 /** Replaces one photo in place: same position, new picture. */
 export async function PUT(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin('products', request.method === 'GET' ? 'view' : 'edit');
   if (response) return response;
 
   let form;
@@ -187,7 +187,7 @@ export async function PUT(request) {
 
 /** Makes one photo the main one by swapping its place with the first. */
 export async function PATCH(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin('products', request.method === 'GET' ? 'view' : 'edit');
   if (response) return response;
 
   let body;
@@ -218,7 +218,7 @@ export async function PATCH(request) {
 }
 
 export async function DELETE(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin('products', request.method === 'GET' ? 'view' : 'edit');
   if (response) return response;
 
   const url = new URL(request.url);

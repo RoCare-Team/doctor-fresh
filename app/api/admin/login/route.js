@@ -6,6 +6,7 @@
 import { isDbEnabled } from '@/lib/db';
 import { verifyAdminPassword } from '@/lib/sql/admin';
 import { adminCookie, cookieHeader } from '@/lib/admin/session';
+import { getAccess } from '@/lib/sql/admin-users';
 
 export const dynamic = 'force-dynamic';
 
@@ -55,6 +56,10 @@ export async function POST(request) {
   }
 
   attempts.delete(key);
+
+  // A switched-off account keeps its password but cannot sign in.
+  const access = await getAccess(admin.id, admin.role);
+  if (!access.active) return fail('This account has been switched off. Ask an owner to turn it back on.', 403);
 
   const response = Response.json({ ok: true, admin: { name: admin.name, email: admin.email } });
   response.headers.append('Set-Cookie', cookieHeader(adminCookie(admin)));

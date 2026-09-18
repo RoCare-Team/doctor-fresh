@@ -9,7 +9,7 @@ import { clearCache } from '@/lib/sql/cache';
 export const dynamic = 'force-dynamic';
 
 export async function PATCH(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin('categories', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -44,7 +44,7 @@ export async function PATCH(request) {
 
 /** A new category. It opens in the editor afterwards for the rest of its page. */
 export async function POST(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin('categories', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -73,7 +73,7 @@ export async function POST(request) {
  * that page, so links and Google results keep landing somewhere useful.
  */
 export async function DELETE(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin('categories', request);
   if (response) return response;
 
   const body = await readJson(request);

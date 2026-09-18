@@ -6,11 +6,13 @@ import { listProducts } from '@/lib/sql/admin-catalog';
 import LandingPageEditor from '@/components/admin/LandingPageEditor';
 import DeleteCategory from '@/components/admin/DeleteCategory';
 import { formatDate } from '@/lib/utils';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Edit service page' };
 
 export default async function AdminServicePageEdit({ params }) {
+  await requirePage('service_pages');
   const { id } = await params;
   const [page, families, products] = await Promise.all([
     getLandingPageForEdit(Number(id)),
@@ -54,6 +56,7 @@ export default async function AdminServicePageEdit({ params }) {
 
       <DeleteCategory
         kind="page"
+        section="service_pages"
         endpoint="/api/admin/service-pages"
         id={page.id}
         name={page.name || page.slug}

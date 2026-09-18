@@ -6,11 +6,13 @@ import OrderControls from '@/components/admin/OrderControls';
 import StatusPill from '@/components/admin/StatusPill';
 import SafeImage from '@/components/common/SafeImage';
 import { formatPrice, formatDate, formatDateTime, cx } from '@/lib/utils';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Order' };
 
 export default async function AdminOrderPage({ params }) {
+  await requirePage('orders');
   const { id } = await params;
   const order = await getOrder(Number(id));
   if (!order) notFound();

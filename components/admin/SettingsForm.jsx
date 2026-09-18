@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input, Textarea, FormNote } from '@/components/forms/Field';
 import Button from '@/components/common/Button';
+import { Can, ViewOnlyNote } from '@/components/admin/AdminAccess';
 
 /** Editing the settings rows the storefront reads. */
 export default function SettingsForm({ fields, values }) {
@@ -46,9 +47,11 @@ export default function SettingsForm({ fields, values }) {
       </div>
 
       <div className="mt-5 flex flex-wrap items-center gap-3">
+        <Can section="settings" action="edit" fallback={<ViewOnlyNote />}>
         <Button type="submit" disabled={status === 'saving'}>
-          {status === 'saving' ? 'Saving…' : 'Save settings'}
-        </Button>
+            {status === 'saving' ? 'Saving…' : 'Save settings'}
+          </Button>
+        </Can>
         {status === 'done' ? <span className="text-[14px] text-success">Saved</span> : null}
       </div>
 

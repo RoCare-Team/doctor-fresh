@@ -7,11 +7,13 @@ import ServicePageFilters from '@/components/admin/ServicePageFilters';
 import NewServicePageButton from '@/components/admin/NewServicePageButton';
 import Pagination from '@/components/admin/Pagination';
 import { cx, formatDate } from '@/lib/utils';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Service pages' };
 
 export default async function AdminServicePagesPage({ searchParams }) {
+  await requirePage('service_pages');
   const params = await searchParams;
   const filters = {
     q: (params?.q || '').trim(),

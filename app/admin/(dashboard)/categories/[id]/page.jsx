@@ -9,11 +9,13 @@ import { getCategory, listSubcategoryPages } from '@/lib/sql/admin-catalog';
 import CategoryEditor from '@/components/admin/CategoryEditor';
 import NewCategoryButton from '@/components/admin/NewCategoryButton';
 import DeleteCategory from '@/components/admin/DeleteCategory';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Edit category' };
 
 export default async function AdminCategoryPage({ params }) {
+  await requirePage('categories');
   const { id } = await params;
   const [category, allSubs] = await Promise.all([getCategory(Number(id)), listSubcategoryPages()]);
   if (!category) notFound();

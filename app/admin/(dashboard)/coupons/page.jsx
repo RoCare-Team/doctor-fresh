@@ -4,11 +4,13 @@ import AdminTable from '@/components/admin/AdminTable';
 import CouponForm from '@/components/admin/CouponForm';
 import CouponDelete from '@/components/admin/CouponDelete';
 import { formatDate, formatPrice, cx } from '@/lib/utils';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Coupons' };
 
 export default async function AdminCouponsPage({ searchParams }) {
+  await requirePage('coupons');
   const params = await searchParams;
   const page = Number(params?.page) || 1;
 

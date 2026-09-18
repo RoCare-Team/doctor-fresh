@@ -5,6 +5,7 @@ import {
   ImageIcon, UploadCloud, Trash2, Star, RefreshCw, Loader2, CheckCircle2,
 } from 'lucide-react';
 import { cx } from '@/lib/utils';
+import { Can } from '@/components/admin/AdminAccess';
 
 const ACCEPT = 'image/jpeg,image/png,image/webp,image/gif,image/avif,image/heic,image/heif';
 const MAX_MB = 10;
@@ -21,7 +22,7 @@ const kb = (bytes) => (bytes >= 1024 * 1024
  * Not a <form>: it sits next to the details form on the same screen, and an
  * upload must never submit (and save) that form.
  */
-export default function ProductImages({ productId }) {
+function ProductImagesInner({ productId }) {
   const [images, setImages] = useState(null); // null while loading
   const [busy, setBusy] = useState(''); // '' | 'upload' | <file name being changed>
   const [error, setError] = useState('');
@@ -270,5 +271,14 @@ export default function ProductImages({ productId }) {
         )}
       </div>
     </section>
+  );
+}
+
+/** Shown only to admins whose role allows this; the server checks again on save. */
+export default function ProductImages(props) {
+  return (
+    <Can section={'products'} action={'edit'}>
+      <ProductImagesInner {...props} />
+    </Can>
   );
 }

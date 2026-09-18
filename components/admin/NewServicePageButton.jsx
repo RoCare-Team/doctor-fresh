@@ -7,11 +7,12 @@ import {
   Plus, X, Loader2, AlertTriangle, FilePlus2,
 } from 'lucide-react';
 import { cx } from '@/lib/utils';
+import { Can } from '@/components/admin/AdminAccess';
 
 const slugify = (text) => String(text || '').toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
 /** "New page": heading, URL, service type and place — then the full editor. */
-export default function NewServicePageButton({ families = [] }) {
+function NewServicePageButtonInner({ families = [] }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [f, setF] = useState({});
@@ -160,5 +161,14 @@ export default function NewServicePageButton({ families = [] }) {
         document.body,
       ) : null}
     </>
+  );
+}
+
+/** Shown only to admins whose role allows this; the server checks again on save. */
+export default function NewServicePageButton(props) {
+  return (
+    <Can section={'service_pages'} action={'create'}>
+      <NewServicePageButtonInner {...props} />
+    </Can>
   );
 }

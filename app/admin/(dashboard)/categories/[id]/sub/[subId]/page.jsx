@@ -6,11 +6,13 @@ import { ArrowLeft, ExternalLink, Package } from 'lucide-react';
 import { getSubcategoryPage } from '@/lib/sql/admin-catalog';
 import CategoryEditor from '@/components/admin/CategoryEditor';
 import DeleteCategory from '@/components/admin/DeleteCategory';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Edit subcategory' };
 
 export default async function AdminSubcategoryPage({ params }) {
+  await requirePage('categories');
   const { id, subId } = await params;
   const sub = await getSubcategoryPage(Number(subId));
   // A subcategory opened under the wrong parent is sent nowhere rather than

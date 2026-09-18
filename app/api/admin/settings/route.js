@@ -4,7 +4,7 @@ import { updateSettings } from '@/lib/sql/admin-catalog';
 export const dynamic = 'force-dynamic';
 
 export async function PATCH(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin('settings', 'edit');
   if (response) return response;
 
   const body = await readJson(request);

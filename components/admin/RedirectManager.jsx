@@ -12,6 +12,7 @@ import {
   COLLECTIONS, REDIRECT_TYPES, SITE_HOST, sourceFor, cleanDestination, validateRule, typeInfo, parseImport,
 } from '@/lib/redirects';
 import { formatDate, cx } from '@/lib/utils';
+import { useCan } from '@/components/admin/AdminAccess';
 
 const PER_PAGE = 50;
 
@@ -27,6 +28,10 @@ const TYPE_TONE = {
  * searchable, filterable by type, editable one at a time or imported in bulk.
  */
 export default function RedirectManager() {
+  const allow = useCan();
+  const canCreate = allow('redirects', 'create');
+  const canEdit = allow('redirects', 'edit');
+  const canDelete = allow('redirects', 'delete');
   const [all, setAll] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState('');
@@ -150,6 +155,8 @@ export default function RedirectManager() {
             >
               <RefreshCw size={17} className={loading ? 'animate-spin' : ''} aria-hidden="true" />
             </button>
+            {canCreate ? (
+            <>
             <button
               type="button"
               onClick={() => setImporting(true)}
@@ -166,6 +173,8 @@ export default function RedirectManager() {
               <Plus size={16} aria-hidden="true" />
               Add Redirect
             </button>
+            </>
+            ) : null}
           </div>
         </div>
 
@@ -248,6 +257,7 @@ export default function RedirectManager() {
             <button type="button" onClick={() => setSelected(new Set())} className="h-9 rounded-lg px-3 text-[13.5px] text-ink-500 hover:text-ink-900">
               Clear
             </button>
+            {canDelete ? (
             <button
               type="button"
               onClick={() => remove([...selected])}
@@ -256,6 +266,7 @@ export default function RedirectManager() {
               <Trash2 size={14} aria-hidden="true" />
               Delete selected
             </button>
+            ) : null}
           </div>
         </div>
       ) : null}
@@ -318,8 +329,8 @@ export default function RedirectManager() {
                 <td className="border-b border-line px-4 py-3">
                   <div className="flex justify-end gap-0.5">
                     <IconBtn label="Test this redirect in a new tab" href={r.source} icon={ExternalLink} />
-                    <IconBtn label="Edit" icon={Pencil} onClick={() => setEditing(r)} />
-                    <IconBtn label="Delete" icon={Trash2} tone="danger" onClick={() => remove([r.id])} />
+                    {canEdit ? <IconBtn label="Edit" icon={Pencil} onClick={() => setEditing(r)} /> : null}
+                    {canDelete ? <IconBtn label="Delete" icon={Trash2} tone="danger" onClick={() => remove([r.id])} /> : null}
                   </div>
                 </td>
               </tr>
@@ -329,7 +340,7 @@ export default function RedirectManager() {
                   <p className="text-[15px] font-medium text-ink-700">
                     {inCollection.length ? 'No redirects match this search.' : `No ${current.label.toLowerCase()} redirects yet.`}
                   </p>
-                  {!inCollection.length ? (
+                  {!inCollection.length && canCreate ? (
                     <button type="button" onClick={() => setEditing({})} className="mt-2 text-[14px] font-medium text-primary-700 hover:text-primary-800">
                       + Add the first one
                     </button>

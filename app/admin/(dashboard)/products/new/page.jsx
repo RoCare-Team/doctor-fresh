@@ -2,11 +2,13 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { listCategories, listSubcategories } from '@/lib/sql/admin-catalog';
 import NewProductForm from '@/components/admin/NewProductForm';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'New product' };
 
 export default async function NewProductPage() {
+  await requirePage('products');
   const [categories, subcategories] = await Promise.all([listCategories(), listSubcategories()]);
 
   return (

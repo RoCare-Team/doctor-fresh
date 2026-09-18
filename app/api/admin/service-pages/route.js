@@ -19,7 +19,7 @@ function refresh(...slugs) {
 }
 
 export async function PATCH(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin('service_pages', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -48,7 +48,7 @@ export async function PATCH(request) {
 }
 
 export async function POST(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin('service_pages', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -68,7 +68,7 @@ export async function POST(request) {
 }
 
 export async function DELETE(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin('service_pages', request);
   if (response) return response;
 
   const body = await readJson(request);

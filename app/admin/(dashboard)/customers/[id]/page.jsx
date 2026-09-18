@@ -7,11 +7,13 @@ import { getCustomer } from '@/lib/sql/admin-catalog';
 import AdminTable from '@/components/admin/AdminTable';
 import StatusPill from '@/components/admin/StatusPill';
 import { formatPrice, formatDate, cx } from '@/lib/utils';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Customer' };
 
 export default async function AdminCustomerPage({ params }) {
+  await requirePage('customers');
   const { id } = await params;
   const customer = await getCustomer(id);
   if (!customer) notFound();

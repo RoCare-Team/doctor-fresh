@@ -4,11 +4,13 @@ import Pagination, { paginate } from '@/components/admin/Pagination';
 import AdminTable from '@/components/admin/AdminTable';
 import SearchBox from '@/components/admin/SearchBox';
 import { formatPrice, formatDate } from '@/lib/utils';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Customers' };
 
 export default async function AdminCustomersPage({ searchParams }) {
+  await requirePage('customers');
   const params = await searchParams;
   const search = (params?.q || '').trim();
   const page = Number(params?.page) || 1;

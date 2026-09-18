@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import RichTextEditor from '@/components/admin/RichTextEditor';
 import { cx } from '@/lib/utils';
+import { Can, ViewOnlyNote } from '@/components/admin/AdminAccess';
 
 // What search engines show before cutting a listing short.
 const TITLE_IDEAL = 60;
@@ -228,14 +229,16 @@ export default function CategoryEditor({ category, kind = 'category', path = '' 
       {/* ----------------------------------------------------- save bar */}
       <div className="sticky bottom-0 z-10 -mx-4 border-t border-line bg-white/95 px-4 py-3 backdrop-blur md:-mx-6 md:px-6">
         <div className="flex flex-wrap items-center gap-3">
+          <Can section="categories" action="edit" fallback={<ViewOnlyNote />}>
           <button
-            type="submit"
-            disabled={status === 'saving'}
-            className="inline-flex h-11 items-center gap-2 rounded-xl bg-primary-500 px-6 text-[15px] font-semibold text-white transition-colors hover:bg-ink-900 disabled:opacity-70"
-          >
-            {status === 'saving' ? <Loader2 size={16} className="animate-spin" aria-hidden="true" /> : <Save size={16} aria-hidden="true" />}
-            {status === 'saving' ? 'Saving…' : `Save ${noun}`}
-          </button>
+              type="submit"
+              disabled={status === 'saving'}
+              className="inline-flex h-11 items-center gap-2 rounded-xl bg-primary-500 px-6 text-[15px] font-semibold text-white transition-colors hover:bg-ink-900 disabled:opacity-70"
+            >
+              {status === 'saving' ? <Loader2 size={16} className="animate-spin" aria-hidden="true" /> : <Save size={16} aria-hidden="true" />}
+              {status === 'saving' ? 'Saving…' : `Save ${noun}`}
+            </button>
+          </Can>
           {status === 'saved' ? (
             <span className="inline-flex items-center gap-1.5 text-[14px] font-medium text-success">
               <CheckCircle2 size={16} aria-hidden="true" />

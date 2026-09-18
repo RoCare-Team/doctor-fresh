@@ -7,6 +7,7 @@ import {
   Plus, X, Loader2, AlertTriangle, FolderPlus, FolderTree,
 } from 'lucide-react';
 import { cx } from '@/lib/utils';
+import { Can } from '@/components/admin/AdminAccess';
 
 const slugify = (text) => String(text || '')
   .toLowerCase()
@@ -21,7 +22,7 @@ const slugify = (text) => String(text || '')
  *
  * `categories` lets a subcategory's parent be chosen; `parent` fixes it.
  */
-export default function NewCategoryButton({
+function NewCategoryButtonInner({
   kind = 'category', parent = null, categories = [], variant = 'primary', label,
 }) {
   const isSub = kind === 'subcategory';
@@ -235,5 +236,14 @@ export default function NewCategoryButton({
         document.body,
       ) : null}
     </>
+  );
+}
+
+/** Shown only to admins whose role allows this; the server checks again on save. */
+export default function NewCategoryButton(props) {
+  return (
+    <Can section={'categories'} action={'create'}>
+      <NewCategoryButtonInner {...props} />
+    </Can>
   );
 }

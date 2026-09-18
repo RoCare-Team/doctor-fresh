@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Check } from 'lucide-react';
 import { cx } from '@/lib/utils';
+import { Can } from '@/components/admin/AdminAccess';
 
 const LABEL = {
   pending: 'Pending',
@@ -13,7 +14,7 @@ const LABEL = {
 };
 
 /** Changing an order's delivery and payment state. */
-export default function OrderControls({ saleId, delivery, paid, statuses }) {
+function OrderControlsInner({ saleId, delivery, paid, statuses }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -85,5 +86,14 @@ export default function OrderControls({ saleId, delivery, paid, statuses }) {
       {error ? <p className="mt-3 text-[13.5px] text-danger">{error}</p> : null}
       {saved && !error ? <p className="mt-3 text-[13.5px] text-success">Saved</p> : null}
     </div>
+  );
+}
+
+/** Shown only to admins whose role allows this; the server checks again on save. */
+export default function OrderControls(props) {
+  return (
+    <Can section={'orders'} action={'edit'}>
+      <OrderControlsInner {...props} />
+    </Can>
   );
 }

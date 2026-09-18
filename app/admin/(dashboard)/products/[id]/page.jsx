@@ -4,14 +4,18 @@ import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { getProduct, listCategories } from '@/lib/sql/admin-catalog';
 import ProductEditor from '@/components/admin/ProductEditor';
 import SafeImage from '@/components/common/SafeImage';
+import DeleteCategory from '@/components/admin/DeleteCategory';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Edit product' };
 
 export default async function AdminProductPage({ params }) {
+  await requirePage('products');
   const { id } = await params;
   const [product, categories] = await Promise.all([getProduct(Number(id)), listCategories()]);
   if (!product) notFound();
+  const category = (categories || []).find((c) => Number(c.id) === Number(product.categoryId));
 
   return (
     <>
@@ -46,6 +50,20 @@ export default async function AdminProductPage({ params }) {
 
       <div className="mt-6 max-w-5xl">
         <ProductEditor product={product} categories={categories || []} />
+
+        <div className="mt-8">
+          <DeleteCategory
+            kind="product"
+            section="products"
+            endpoint="/api/admin/products"
+            id={product.id}
+            name={product.name}
+            path={`/product/${product.slug}/${product.id}`}
+            note="Past orders keep their own copy of it; it disappears from listings and search."
+            redirectDefault={category?.slug ? `/category/${category.slug}` : '/all-category'}
+            afterHref="/admin/products"
+          />
+        </div>
       </div>
     </>
   );

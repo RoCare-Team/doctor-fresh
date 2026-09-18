@@ -21,7 +21,7 @@ const EXTENSIONS = {
 };
 
 export async function POST(request) {
-  const { response } = await requireAdmin();
+  const { response } = await requireAdmin(['products', 'categories', 'blogs', 'service_pages'], 'edit');
   if (response) return response;
 
   let form;

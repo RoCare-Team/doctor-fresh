@@ -6,6 +6,7 @@ import HandledToggle from '@/components/admin/HandledToggle';
 import SafeImage from '@/components/common/SafeImage';
 import Pagination, { paginate } from '@/components/admin/Pagination';
 import { formatPrice, formatDate, cx } from '@/lib/utils';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Brochures' };
@@ -16,6 +17,7 @@ const TABS = [
 ];
 
 export default async function AdminBrochuresPage({ searchParams }) {
+  await requirePage('brochures');
   const params = await searchParams;
   const tab = TABS.some((t) => t.id === params?.tab) ? params.tab : 'requests';
   const search = String(params?.q || '').trim();

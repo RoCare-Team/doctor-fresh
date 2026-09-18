@@ -3,11 +3,15 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { getBlog, listBlogCategories } from '@/lib/sql/admin-catalog';
 import BlogForm from '@/components/admin/BlogForm';
+import BlogCover from '@/components/admin/BlogCover';
+import { blogImage } from '@/lib/sql/media';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Edit post' };
 
 export default async function AdminBlogPage({ params }) {
+  await requirePage('blogs');
   const { id } = await params;
   const [post, categories] = await Promise.all([getBlog(Number(id)), listBlogCategories()]);
   if (!post) notFound();
@@ -37,7 +41,8 @@ export default async function AdminBlogPage({ params }) {
         </Link>
       </div>
 
-      <div className="mt-6 max-w-3xl">
+      <div className="mt-6 max-w-3xl space-y-4">
+        <BlogCover id={post.id} initialSrc={blogImage(post.id) || ''} />
         <BlogForm post={post} categories={categories || []} />
       </div>
     </>

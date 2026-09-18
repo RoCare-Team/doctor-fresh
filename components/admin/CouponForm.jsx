@@ -5,9 +5,10 @@ import { useRouter } from 'next/navigation';
 import { Plus } from 'lucide-react';
 import { Input, Select, FormNote } from '@/components/forms/Field';
 import Button from '@/components/common/Button';
+import { Can } from '@/components/admin/AdminAccess';
 
 /** Creating a coupon. Discounts apply to the whole basket, as the PHP one does. */
-export default function CouponForm() {
+function CouponFormInner() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState('idle');
@@ -77,5 +78,14 @@ export default function CouponForm() {
 
       {status === 'error' ? <div className="mt-3"><FormNote status="error" error={error} /></div> : null}
     </form>
+  );
+}
+
+/** Shown only to admins whose role allows this; the server checks again on save. */
+export default function CouponForm(props) {
+  return (
+    <Can section={'coupons'} action={'create'}>
+      <CouponFormInner {...props} />
+    </Can>
   );
 }

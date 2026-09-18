@@ -6,6 +6,7 @@ import { listCategories, listSubcategoryPages } from '@/lib/sql/admin-catalog';
 import SafeImage from '@/components/common/SafeImage';
 import NewCategoryButton from '@/components/admin/NewCategoryButton';
 import { cx } from '@/lib/utils';
+import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Categories' };
@@ -21,6 +22,7 @@ function seoGaps(c) {
 }
 
 export default async function AdminCategoriesPage({ searchParams }) {
+  await requirePage('categories');
   const params = await searchParams;
   const search = (params?.q || '').trim().toLowerCase();
   const [cats, subList] = await Promise.all([listCategories(), listSubcategoryPages()]);
