@@ -13,6 +13,8 @@ import BlogCard from '@/components/blogs/BlogCard';
 import HomeColumns from '@/components/home/HomeColumns';
 import DealSlider from '@/components/home/DealSlider';
 import Reveal from '@/components/common/Reveal';
+import QuickLinks from '@/components/home/QuickLinks';
+import { quickLinksForHome } from '@/lib/sql/quick-links';
 import {
   getProductsByIds, getAllBlogPosts, getCategoryImage, getHomeSections, getBrand,
   cardProduct,
@@ -69,10 +71,12 @@ export default async function HomePage() {
     .filter((id) => Number.isInteger(id) && id > 0)
     .slice(0, 3);
 
-  const [latestProducts, mostViewedProducts, recentProducts] = await Promise.all([
+  const [latestProducts, mostViewedProducts, recentProducts, quickLinks] = await Promise.all([
     getProductsByIds(latest),
     getProductsByIds(mostViewed),
     getProductsByIds(recentIds),
+    // Sections made in the admin; nothing is shown until one exists.
+    quickLinksForHome().catch(() => []),
   ]);
 
   // getProductsByIds makes no promise about order, and newest-first is the point.
@@ -252,6 +256,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <QuickLinks sections={quickLinks} />
     </>
   );
 }

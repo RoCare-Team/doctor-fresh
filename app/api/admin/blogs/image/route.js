@@ -1,8 +1,9 @@
 // A post's cover image.
 //
-// Stored as public/uploads/blog_image/blog_<id>.webp — the name the storefront
-// already looks for — and converted to WebP on the way in. Any older cover for
-// the same post (blog_<id>.jpg, .png…) is removed so only one can be picked up.
+// Saved as blog_<id>.webp — the name the storefront already looks for — in
+// Vercel Blob when BLOB_READ_WRITE_TOKEN is set, otherwise in
+// public/uploads/blog_image. Converted to WebP on the way in. Covers that came
+// with the site stay as they are; an uploaded cover simply takes precedence.
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -11,6 +12,9 @@ import { revalidatePath } from 'next/cache';
 import { requireAdmin, fail } from '@/lib/admin/guard';
 import { forgetMedia } from '@/lib/sql/media';
 import { UPLOAD_DIRS } from '@/lib/sql/schema';
+import {
+  blobEnabled, listAll, putPublic, removeBlobs, warmMedia, BLOG_FILE,
+} from '@/lib/blob';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,14 +24,24 @@ const ACCEPTED = new Set([
   'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif', 'image/tiff', 'image/heic', 'image/heif',
 ]);
 
-async function removeCovers(id) {
+async function removeLocalCovers(id) {
   const pattern = new RegExp(`^blog_${id}\\.[a-z]+$`, 'i');
   const files = await fs.readdir(DIR).catch(() => []);
   await Promise.all(files.filter((f) => pattern.test(f)).map((f) => fs.unlink(path.join(DIR, f)).catch(() => {})));
 }
 
-function refresh() {
+/** This post's covers in Blob (normally one). */
+async function blobCovers(id) {
+  const blobs = await listAll(`uploads/blog_image/blog_${id}`);
+  return blobs.filter((b) => {
+    const m = b.pathname.split('/').pop().match(BLOG_FILE);
+    return m && Number(m[1]) === Number(id);
+  });
+}
+
+async function refresh() {
   forgetMedia(UPLOAD_DIRS.blog);
+  await warmMedia({ force: true }).catch(() => {});
   try {
     revalidatePath('/blogs', 'layout');
     revalidatePath('/blog', 'layout');
@@ -63,12 +77,21 @@ export async function POST(request) {
     return fail('That file could not be read as an image.');
   }
 
-  await fs.mkdir(DIR, { recursive: true });
-  await removeCovers(id);
-  await fs.writeFile(path.join(DIR, `blog_${id}.webp`), buffer);
-  refresh();
+  let src;
+  if (blobEnabled()) {
+    const old = await blobCovers(id);
+    const saved = await putPublic(`uploads/blog_image/blog_${id}.webp`, buffer, 'image/webp');
+    await removeBlobs(old.map((b) => b.url));
+    src = saved.url;
+  } else {
+    await fs.mkdir(DIR, { recursive: true });
+    await removeLocalCovers(id);
+    await fs.writeFile(path.join(DIR, `blog_${id}.webp`), buffer);
+    src = `/uploads/blog_image/blog_${id}.webp?v=${Date.now()}`;
+  }
 
-  return Response.json({ ok: true, src: `/uploads/blog_image/blog_${id}.webp?v=${Date.now()}`, size: buffer.length });
+  await refresh();
+  return Response.json({ ok: true, src, size: buffer.length });
 }
 
 export async function DELETE(request) {
@@ -78,7 +101,9 @@ export async function DELETE(request) {
   const id = Number(new URL(request.url).searchParams.get('id')) || 0;
   if (!id) return fail('Unknown post.');
 
-  await removeCovers(id);
-  refresh();
+  if (blobEnabled()) await removeBlobs((await blobCovers(id)).map((b) => b.url));
+  else await removeLocalCovers(id);
+
+  await refresh();
   return Response.json({ ok: true });
 }

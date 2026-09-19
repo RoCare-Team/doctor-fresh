@@ -1,19 +1,29 @@
 // Product photos.
 //
-// Files are written to public/uploads/product_image with the naming the whole
-// site already reads — product_<id>_<n> — and `num_of_imgs` is updated so the
-// storefront and the PHP panel both pick them up.
+// Named the way the whole site already reads them — product_<id>_<n> — and
+// `num_of_imgs` is kept in step so the storefront and the PHP panel agree.
+//
+// Where they are stored:
+//   • with BLOB_READ_WRITE_TOKEN (Vercel): in Vercel Blob. The photos that
+//     came with the site stay exactly as they are; the first time a product's
+//     photos are changed, its current set is copied into Blob beside them and
+//     the change is made there, so nothing already showing is lost.
+//   • without it (a normal server / local): in public/uploads/product_image.
 //
 // Every upload is converted to WebP on the way in: a phone photo of several
-// megabytes becomes a few hundred kilobytes, and the storefront's image
-// optimiser has less to do on every visit.
+// megabytes becomes a few hundred kilobytes.
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
+import { revalidatePath } from 'next/cache';
 import { requireAdmin, fail } from '@/lib/admin/guard';
 import { setImageCount } from '@/lib/sql/admin-catalog';
-import { forgetMedia } from '@/lib/sql/media';
+import { forgetMedia, productImages } from '@/lib/sql/media';
+import { clearCache } from '@/lib/sql/cache';
+import {
+  blobEnabled, productBlobs, putPublic, copyPublic, removeBlobs, warmMedia,
+} from '@/lib/blob';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,26 +36,52 @@ const ACCEPTED = new Set([
   'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif', 'image/tiff', 'image/heic', 'image/heif',
 ]);
 
-const numberOf = (file) => Number((file.match(/_(\d+)\.[a-z]+$/i) || [])[1] || 0);
+// product_12_3.jpg and, in Blob, product_12_3-AbC123.webp
+const numberOf = (file) => Number((String(file).match(/_(\d+)(?:-[A-Za-z0-9]+)?\.[a-z0-9]+$/i) || [])[1] || 0);
+const idFrom = (value) => Number(value) || 0;
+const ownName = (id, name) => new RegExp(`^product_${id}_\\d+(?:-[A-Za-z0-9]+)?\\.[a-z0-9]+$`, 'i').test(String(name || ''));
+const blobPath = (id, n) => `uploads/product_image/product_${id}_${n}.webp`;
 
-/** The photos already on disk for this product, in display order. */
-async function existing(id) {
+/* ------------------------------------------------------------ local files */
+
+async function localFiles(id) {
   let files = [];
   try {
     files = await fs.readdir(DIR);
   } catch {
     return [];
   }
-
   const pattern = new RegExp(`^product_${id}_(\\d+)\\.[a-z]+$`, 'i');
   return files
     .filter((f) => pattern.test(f) && !/_thumb\./i.test(f))
     .sort((a, b) => numberOf(a) - numberOf(b));
 }
 
-/** What the admin sees: each photo's address, stamped so a replaced file is not served stale. */
+/**
+ * The photos a product shows today, before anything is in Blob: the files on
+ * disk, or — on Vercel, where public/ cannot be read — the addresses the
+ * storefront already uses for it.
+ */
+async function currentPhotos(id) {
+  const files = await localFiles(id);
+  if (files.length) return files.map((f) => ({ name: f, n: numberOf(f), src: `${PUBLIC}/${f}` }));
+  return productImages(id, 1)
+    .filter((src) => src.startsWith('/'))
+    .map((src) => ({ name: src.split('/').pop(), n: numberOf(src), src }));
+}
+
+/* -------------------------------------------------------------- listings */
+
 async function listing(id) {
-  const files = await existing(id);
+  if (blobEnabled()) {
+    const blobs = await productBlobs(id);
+    if (blobs.length) {
+      return blobs.map((b) => ({ name: b.name, src: b.url, preview: b.url, size: b.size }));
+    }
+    return (await currentPhotos(id)).map((p) => ({ name: p.name, src: p.src, preview: p.src, size: 0 }));
+  }
+
+  const files = await localFiles(id);
   const out = [];
   for (const f of files) {
     // eslint-disable-next-line no-await-in-loop
@@ -53,6 +89,7 @@ async function listing(id) {
     out.push({
       name: f,
       src: `${PUBLIC}/${f}`,
+      // Stamped so a replaced file is not shown stale from the browser cache.
       preview: `${PUBLIC}/${f}?v=${stat ? Math.round(stat.mtimeMs) : Date.now()}`,
       size: stat?.size || 0,
     });
@@ -60,13 +97,43 @@ async function listing(id) {
   return out;
 }
 
+/**
+ * Before the first change in Blob: copy the product's existing photos there
+ * (the originals are left untouched), so the set being edited is complete.
+ */
+async function blobSet(id, origin) {
+  const already = await productBlobs(id);
+  if (already.length) return already;
+
+  for (const photo of await currentPhotos(id)) {
+    // eslint-disable-next-line no-await-in-loop
+    const res = await fetch(new URL(photo.src, origin)).catch(() => null);
+    if (!res?.ok) continue; // a photo that never existed is simply not carried over
+    const ext = (photo.name.split('.').pop() || 'jpg').toLowerCase();
+    // eslint-disable-next-line no-await-in-loop
+    await putPublic(
+      `uploads/product_image/product_${id}_${photo.n || 1}.${ext}`,
+      Buffer.from(await res.arrayBuffer()),
+      res.headers.get('content-type') || 'image/jpeg',
+    );
+  }
+  return productBlobs(id);
+}
+
 async function afterChange(id, count) {
   forgetMedia();
+  await warmMedia({ force: true }).catch(() => {});
   try {
     await setImageCount(id, count);
   } catch (err) {
     console.error('[admin] could not update the image count:', err.message);
   }
+  // The storefront keeps the catalogue in memory and caches product pages,
+  // listings and the home page; without this the old photo stays for minutes.
+  clearCache();
+  try {
+    revalidatePath('/', 'layout');
+  } catch { /* best-effort */ }
 }
 
 /** Checks one upload and returns it as a WebP buffer, or an error message. */
@@ -89,22 +156,23 @@ async function toWebp(file) {
   }
 }
 
-const idFrom = (value) => Number(value) || 0;
-const ownName = (id, name) => new RegExp(`^product_${id}_\\d+\\.[a-z]+$`, 'i').test(String(name || ''));
+const guard = (request) => requireAdmin('products', request.method === 'GET' ? 'view' : 'edit');
+
+/* ------------------------------------------------------------------ routes */
 
 export async function GET(request) {
-  const { response } = await requireAdmin('products', request.method === 'GET' ? 'view' : 'edit');
+  const { response } = await guard(request);
   if (response) return response;
 
   const id = idFrom(new URL(request.url).searchParams.get('id'));
   if (!id) return fail('Unknown product.');
 
-  return Response.json({ ok: true, images: await listing(id) });
+  return Response.json({ ok: true, images: await listing(id), storage: blobEnabled() ? 'blob' : 'local' });
 }
 
 /** Adds photos after the ones already there. */
 export async function POST(request) {
-  const { response } = await requireAdmin('products', request.method === 'GET' ? 'view' : 'edit');
+  const { response } = await guard(request);
   if (response) return response;
 
   let form;
@@ -130,30 +198,43 @@ export async function POST(request) {
     converted.push(result);
   }
 
-  await fs.mkdir(DIR, { recursive: true });
-
-  // Continue the existing numbering rather than restarting it, so a photo that
-  // is already referenced is never overwritten.
-  const already = await existing(id);
-  let next = already.reduce((max, f) => Math.max(max, numberOf(f)), 0);
-
   let before = 0;
   let after = 0;
-  for (const item of converted) {
-    next += 1;
-    // eslint-disable-next-line no-await-in-loop
-    await fs.writeFile(path.join(DIR, `product_${id}_${next}.webp`), item.buffer);
-    before += item.original;
-    after += item.buffer.length;
+  let count;
+
+  if (blobEnabled()) {
+    const set = await blobSet(id, request.url);
+    let next = set.reduce((max, b) => Math.max(max, b.n), 0);
+    for (const item of converted) {
+      next += 1;
+      // eslint-disable-next-line no-await-in-loop
+      await putPublic(blobPath(id, next), item.buffer, 'image/webp');
+      before += item.original;
+      after += item.buffer.length;
+    }
+    count = set.length + converted.length;
+  } else {
+    await fs.mkdir(DIR, { recursive: true });
+    // Continue the existing numbering, so a photo already referenced is never overwritten.
+    const already = await localFiles(id);
+    let next = already.reduce((max, f) => Math.max(max, numberOf(f)), 0);
+    for (const item of converted) {
+      next += 1;
+      // eslint-disable-next-line no-await-in-loop
+      await fs.writeFile(path.join(DIR, `product_${id}_${next}.webp`), item.buffer);
+      before += item.original;
+      after += item.buffer.length;
+    }
+    count = already.length + converted.length;
   }
 
-  await afterChange(id, already.length + converted.length);
+  await afterChange(id, count);
   return Response.json({ ok: true, images: await listing(id), saved: { before, after } });
 }
 
 /** Replaces one photo in place: same position, new picture. */
 export async function PUT(request) {
-  const { response } = await requireAdmin('products', request.method === 'GET' ? 'view' : 'edit');
+  const { response } = await guard(request);
   if (response) return response;
 
   let form;
@@ -167,17 +248,29 @@ export async function PUT(request) {
   const name = String(form.get('name') || '');
   if (!id || !ownName(id, name)) return fail('Unknown image.');
 
-  const current = await existing(id);
-  if (!current.includes(name)) return fail('That photo no longer exists.');
-
   const result = await toWebp(form.get('file'));
   if (result.error) return fail(result.error);
+  const n = numberOf(name);
 
-  const target = `product_${id}_${numberOf(name)}.webp`;
-  await fs.writeFile(path.join(DIR, target), result.buffer);
-  if (target !== name) await fs.unlink(path.join(DIR, name)).catch(() => {});
+  let count;
+  if (blobEnabled()) {
+    const set = await blobSet(id, request.url);
+    const old = set.find((b) => b.n === n);
+    if (!old) return fail('That photo no longer exists.');
+    // The new one first, then the old one removed — a failure never leaves a gap.
+    await putPublic(blobPath(id, n), result.buffer, 'image/webp');
+    await removeBlobs(set.filter((b) => b.n === n).map((b) => b.url));
+    count = set.length;
+  } else {
+    const current = await localFiles(id);
+    if (!current.includes(name)) return fail('That photo no longer exists.');
+    const target = `product_${id}_${n}.webp`;
+    await fs.writeFile(path.join(DIR, target), result.buffer);
+    if (target !== name) await fs.unlink(path.join(DIR, name)).catch(() => {});
+    count = current.length;
+  }
 
-  await afterChange(id, current.length);
+  await afterChange(id, count);
   return Response.json({
     ok: true,
     images: await listing(id),
@@ -187,7 +280,7 @@ export async function PUT(request) {
 
 /** Makes one photo the main one by swapping its place with the first. */
 export async function PATCH(request) {
-  const { response } = await requireAdmin('products', request.method === 'GET' ? 'view' : 'edit');
+  const { response } = await guard(request);
   if (response) return response;
 
   let body;
@@ -200,8 +293,25 @@ export async function PATCH(request) {
   const id = idFrom(body.id);
   const name = String(body.name || '');
   if (!id || !ownName(id, name)) return fail('Unknown image.');
+  const n = numberOf(name);
 
-  const files = await existing(id);
+  if (blobEnabled()) {
+    const set = await blobSet(id, request.url);
+    const chosen = set.find((b) => b.n === n);
+    const first = set[0];
+    if (!chosen) return fail('That photo no longer exists.');
+    if (chosen.n !== first.n) {
+      // Copies under the swapped numbers, then the originals removed.
+      const ext = (b) => b.name.split('.').pop();
+      await copyPublic(chosen.url, `uploads/product_image/product_${id}_${first.n}.${ext(chosen)}`);
+      await copyPublic(first.url, `uploads/product_image/product_${id}_${chosen.n}.${ext(first)}`);
+      await removeBlobs([chosen.url, first.url]);
+    }
+    await afterChange(id, set.length);
+    return Response.json({ ok: true, images: await listing(id) });
+  }
+
+  const files = await localFiles(id);
   const first = files[0];
   if (!files.includes(name)) return fail('That photo no longer exists.');
   if (name === first) return Response.json({ ok: true, images: await listing(id) });
@@ -218,7 +328,7 @@ export async function PATCH(request) {
 }
 
 export async function DELETE(request) {
-  const { response } = await requireAdmin('products', request.method === 'GET' ? 'view' : 'edit');
+  const { response } = await guard(request);
   if (response) return response;
 
   const url = new URL(request.url);
@@ -228,11 +338,17 @@ export async function DELETE(request) {
   // Only a file that belongs to this product, and no path of the caller's own.
   if (!id || !ownName(id, name)) return fail('Unknown image.');
 
-  await fs.unlink(path.join(DIR, name)).catch(() => {
-    // Already gone — the count below still gets it right.
-  });
+  let left;
+  if (blobEnabled()) {
+    const set = await blobSet(id, request.url);
+    const n = numberOf(name);
+    await removeBlobs(set.filter((b) => b.n === n).map((b) => b.url));
+    left = set.filter((b) => b.n !== n).length;
+  } else {
+    await fs.unlink(path.join(DIR, name)).catch(() => { /* already gone */ });
+    left = (await localFiles(id)).length;
+  }
 
-  const left = await existing(id);
-  await afterChange(id, left.length);
+  await afterChange(id, left);
   return Response.json({ ok: true, images: await listing(id) });
 }

@@ -5,6 +5,7 @@ import { getBlog, listBlogCategories } from '@/lib/sql/admin-catalog';
 import BlogForm from '@/components/admin/BlogForm';
 import BlogCover from '@/components/admin/BlogCover';
 import { blogImage } from '@/lib/sql/media';
+import { warmMedia } from '@/lib/blob';
 import { requirePage } from '@/lib/admin/guard';
 
 export const dynamic = 'force-dynamic';
@@ -12,6 +13,7 @@ export const metadata = { title: 'Edit post' };
 
 export default async function AdminBlogPage({ params }) {
   await requirePage('blogs');
+  await warmMedia(); // covers uploaded to Vercel Blob
   const { id } = await params;
   const [post, categories] = await Promise.all([getBlog(Number(id)), listBlogCategories()]);
   if (!post) notFound();

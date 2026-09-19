@@ -12,6 +12,8 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'www.doctorfresh.in' },
       { protocol: 'https', hostname: 'doctorfresh.in' },
+      // Photos uploaded from the admin, stored in Vercel Blob.
+      { protocol: 'https', hostname: '*.public.blob.vercel-storage.com' },
     ],
   },
 

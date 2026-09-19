@@ -3,6 +3,7 @@ import Pagination, { paginate } from '@/components/admin/Pagination';
 import { ImageOff } from 'lucide-react';
 import { listBlogs, listBlogCategories } from '@/lib/sql/admin-catalog';
 import { blogImage } from '@/lib/sql/media';
+import { warmMedia } from '@/lib/blob';
 import NewBlogButton from '@/components/admin/NewBlogButton';
 import SafeImage from '@/components/common/SafeImage';
 import AdminTable from '@/components/admin/AdminTable';
@@ -14,6 +15,7 @@ export const metadata = { title: 'Blogs' };
 
 export default async function AdminBlogsPage({ searchParams }) {
   await requirePage('blogs');
+  await warmMedia(); // covers uploaded to Vercel Blob
   const params = await searchParams;
   const page = Number(params?.page) || 1;
 

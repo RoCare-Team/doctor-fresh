@@ -4,6 +4,7 @@ import {
   getLandingPage, getLandingRoutes, getNearbyPages, getProductsByIds, getBrand, cardProduct,
 } from '@/lib/catalog';
 import { getFormOptions } from '@/lib/sql/forms';
+import { locationsForPlace } from '@/lib/sql/locations';
 import ServiceBooking from '@/components/services/ServiceBooking';
 import {
   getServices, getStates, SERVICE_GROUPS, PREMISES,
@@ -55,11 +56,13 @@ export default async function FlatSlugPage({ params }) {
   const page = await getLandingPage(slug);
   if (!page) notFound();
 
-  const [productRows, nearby, brand, formOptions] = await Promise.all([
+  const [productRows, nearby, brand, formOptions, stores] = await Promise.all([
     getProductsByIds(page.productIds),
     getNearbyPages(page, 24),
     getBrand(),
     getFormOptions(),
+    // Branches from the admin's GMB Locations, matched to this page's place.
+    locationsForPlace(page).catch(() => ({ list: [], scope: 'none' })),
   ]);
 
   const products = productRows.map(cardProduct);
@@ -118,6 +121,7 @@ export default async function FlatSlugPage({ params }) {
         breadcrumb={breadcrumb}
         brand={brand}
         formOptions={formOptions}
+        stores={stores}
       />
     </>
   );

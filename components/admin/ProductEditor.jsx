@@ -62,14 +62,12 @@ export default function ProductEditor({ product, categories }) {
 
       {tab === 'basics' ? <ProductForm product={product} categories={categories} /> : null}
       {tab === 'details' ? (
-        <>
-          <ProductDetails product={product} />
-          {/* Outside the details form on purpose: an upload is saved the moment
-              it lands and must not submit that form. */}
+        // Photos sit above the save button but outside the details form (see ProductDetails).
+        <ProductDetails product={product}>
           <div className="mt-6">
             <ProductImages productId={product.id} />
           </div>
-        </>
+        </ProductDetails>
       ) : null}
     </>
   );

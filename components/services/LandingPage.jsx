@@ -6,6 +6,7 @@ import FaqSection from '@/components/common/FaqSection';
 import ProductRail from '@/components/products/ProductRail';
 import ServiceBookingForm from './ServiceBookingForm';
 import Reveal from '@/components/common/Reveal';
+import NearbyStores from './NearbyStores';
 
 /**
  * Renders one row of `landing_pages` — a national service page or one of the
@@ -15,7 +16,9 @@ import Reveal from '@/components/common/Reveal';
  * the FAQs, the products to feature and the internal links. Nothing is filled
  * in from a template.
  */
-export default function LandingPage({ page, products = [], nearby = [], breadcrumb = [], brand, formOptions }) {
+export default function LandingPage({
+  page, products = [], nearby = [], breadcrumb = [], brand, formOptions, stores = { list: [] },
+}) {
   const place = page.locality || page.city;
   const showPlace = place && place.toLowerCase() !== 'india';
 
@@ -138,6 +141,8 @@ export default function LandingPage({ page, products = [], nearby = [], breadcru
           </div>
         </aside>
       </div>
+
+      <NearbyStores stores={stores.list} scope={stores.scope} place={showPlace ? place : ''} />
 
       {products.length ? (
         <div className="mt-4">

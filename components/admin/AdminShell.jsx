@@ -7,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard, Package, ShoppingBag, Layers, Users, Inbox,
   Newspaper, Ticket, Settings, ExternalLink, LogOut, Menu, X, FileText, Shuffle, Loader2,
-  Wrench, Mail, Handshake, UserCog,
+  Wrench, Mail, Handshake, UserCog, MapPin, Link2,
 } from 'lucide-react';
 import { cx, imageUrl } from '@/lib/utils';
 import { can, roleInfo } from '@/lib/admin/access';
@@ -24,8 +24,10 @@ const NAV = [
   { href: '/admin/products', label: 'Products', icon: Package, section: 'products' },
   { href: '/admin/categories', label: 'Categories', icon: Layers, section: 'categories' },
   { href: '/admin/service-pages', label: 'Service pages', icon: Wrench, section: 'service_pages' },
+  { href: '/admin/quick-links', label: 'Quick links', icon: Link2, section: 'quick_links' },
   { href: '/admin/uniredirect', label: 'uniredirected urls redirecting', icon: Shuffle, section: 'redirects' },
   { href: '/admin/brochures', label: 'Brochures', icon: FileText, section: 'brochures' },
+  { href: '/admin/locations', label: 'GMB Locations', icon: MapPin, section: 'locations' },
   { href: '/admin/customers', label: 'Customers', icon: Users, section: 'customers' },
   { href: '/admin/enquiries', label: 'Enquiries', icon: Inbox, section: 'enquiries' },
   { href: '/admin/messages', label: 'Contact messages', icon: Mail, section: 'messages' },
