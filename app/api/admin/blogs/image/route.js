@@ -13,7 +13,7 @@ import { requireAdmin, fail } from '@/lib/admin/guard';
 import { forgetMedia } from '@/lib/sql/media';
 import { UPLOAD_DIRS } from '@/lib/sql/schema';
 import {
-  blobEnabled, listAll, putPublic, removeBlobs, warmMedia, BLOG_FILE,
+  blobEnabled, listAll, putPublic, removeBlobs, warmMedia, BLOG_FILE, withUploadErrors,
 } from '@/lib/blob';
 
 export const dynamic = 'force-dynamic';
@@ -48,7 +48,7 @@ async function refresh() {
   } catch { /* best-effort */ }
 }
 
-export async function POST(request) {
+async function handlePOST(request) {
   const { response } = await requireAdmin('blogs', 'edit');
   if (response) return response;
 
@@ -94,7 +94,7 @@ export async function POST(request) {
   return Response.json({ ok: true, src, size: buffer.length });
 }
 
-export async function DELETE(request) {
+async function handleDELETE(request) {
   const { response } = await requireAdmin('blogs', 'edit');
   if (response) return response;
 
@@ -107,3 +107,7 @@ export async function DELETE(request) {
   await refresh();
   return Response.json({ ok: true });
 }
+
+// Every handler answers with a readable error rather than a bare 500.
+export const POST = withUploadErrors(handlePOST);
+export const DELETE = withUploadErrors(handleDELETE);

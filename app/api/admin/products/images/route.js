@@ -22,7 +22,7 @@ import { setImageCount } from '@/lib/sql/admin-catalog';
 import { forgetMedia, productImages } from '@/lib/sql/media';
 import { clearCache } from '@/lib/sql/cache';
 import {
-  blobEnabled, productBlobs, putPublic, copyPublic, removeBlobs, warmMedia,
+  blobEnabled, productBlobs, putPublic, copyPublic, removeBlobs, warmMedia, withUploadErrors,
 } from '@/lib/blob';
 
 export const dynamic = 'force-dynamic';
@@ -160,7 +160,7 @@ const guard = (request) => requireAdmin('products', request.method === 'GET' ? '
 
 /* ------------------------------------------------------------------ routes */
 
-export async function GET(request) {
+async function handleGET(request) {
   const { response } = await guard(request);
   if (response) return response;
 
@@ -171,7 +171,7 @@ export async function GET(request) {
 }
 
 /** Adds photos after the ones already there. */
-export async function POST(request) {
+async function handlePOST(request) {
   const { response } = await guard(request);
   if (response) return response;
 
@@ -233,7 +233,7 @@ export async function POST(request) {
 }
 
 /** Replaces one photo in place: same position, new picture. */
-export async function PUT(request) {
+async function handlePUT(request) {
   const { response } = await guard(request);
   if (response) return response;
 
@@ -279,7 +279,7 @@ export async function PUT(request) {
 }
 
 /** Makes one photo the main one by swapping its place with the first. */
-export async function PATCH(request) {
+async function handlePATCH(request) {
   const { response } = await guard(request);
   if (response) return response;
 
@@ -327,7 +327,7 @@ export async function PATCH(request) {
   return Response.json({ ok: true, images: await listing(id) });
 }
 
-export async function DELETE(request) {
+async function handleDELETE(request) {
   const { response } = await guard(request);
   if (response) return response;
 
@@ -352,3 +352,10 @@ export async function DELETE(request) {
   await afterChange(id, left);
   return Response.json({ ok: true, images: await listing(id) });
 }
+
+// Every handler answers with a readable error rather than a bare 500.
+export const GET = withUploadErrors(handleGET);
+export const POST = withUploadErrors(handlePOST);
+export const PUT = withUploadErrors(handlePUT);
+export const PATCH = withUploadErrors(handlePATCH);
+export const DELETE = withUploadErrors(handleDELETE);

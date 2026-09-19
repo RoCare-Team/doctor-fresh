@@ -10,7 +10,9 @@ import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { requireAdmin, fail } from '@/lib/admin/guard';
-import { blobEnabled, putPublic } from '@/lib/blob';
+import {
+  blobEnabled, putPublic, withUploadErrors,
+} from '@/lib/blob';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,7 +25,7 @@ const EXTENSIONS = {
   'image/gif': 'gif',
 };
 
-export async function POST(request) {
+async function handlePOST(request) {
   const { response } = await requireAdmin(['products', 'categories', 'blogs', 'service_pages'], 'edit');
   if (response) return response;
 
@@ -55,3 +57,6 @@ export async function POST(request) {
   await fs.writeFile(path.join(DIR, name), body);
   return Response.json({ ok: true, url: `/uploads/editor/${name}` });
 }
+
+// Every handler answers with a readable error rather than a bare 500.
+export const POST = withUploadErrors(handlePOST);
