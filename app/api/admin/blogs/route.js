@@ -2,6 +2,7 @@ import { revalidatePath } from 'next/cache';
 import { requireAdmin, readJson, fail } from '@/lib/admin/guard';
 import { updateBlog, createBlog } from '@/lib/sql/admin-catalog';
 import { clearCache } from '@/lib/sql/cache';
+import { setBlogVideo } from '@/lib/sql/blog-video';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,6 +28,11 @@ export async function PATCH(request) {
 
   let saved;
   try {
+    // The video is kept in its own table (see lib/sql/blog-video).
+    if (body.videoUrl !== undefined) {
+      const video = await setBlogVideo(id, body.videoUrl);
+      if (video.error) return fail(video.error);
+    }
     saved = await updateBlog(id, body);
   } catch (err) {
     console.error('[admin] could not save the post:', err.message);

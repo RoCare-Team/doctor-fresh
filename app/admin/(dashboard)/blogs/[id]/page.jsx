@@ -7,6 +7,7 @@ import BlogCover from '@/components/admin/BlogCover';
 import { blogImage } from '@/lib/sql/media';
 import { warmMedia } from '@/lib/blob';
 import { requirePage } from '@/lib/admin/guard';
+import { getBlogVideo } from '@/lib/sql/blog-video';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Edit post' };
@@ -15,7 +16,9 @@ export default async function AdminBlogPage({ params }) {
   await requirePage('blogs');
   await warmMedia(); // covers uploaded to Vercel Blob
   const { id } = await params;
-  const [post, categories] = await Promise.all([getBlog(Number(id)), listBlogCategories()]);
+  const [post, categories, videoUrl] = await Promise.all([
+    getBlog(Number(id)), listBlogCategories(), getBlogVideo(Number(id)),
+  ]);
   if (!post) notFound();
 
   return (
@@ -45,7 +48,7 @@ export default async function AdminBlogPage({ params }) {
 
       <div className="mt-6 max-w-3xl space-y-4">
         <BlogCover id={post.id} initialSrc={blogImage(post.id) || ''} />
-        <BlogForm post={post} categories={categories || []} />
+        <BlogForm post={post} categories={categories || []} videoUrl={videoUrl} />
       </div>
     </>
   );

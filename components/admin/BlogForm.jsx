@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input, Select, Textarea, FormNote } from '@/components/forms/Field';
 import RichTextEditor from '@/components/admin/RichTextEditor';
+import VideoField from '@/components/admin/VideoField';
 import Button from '@/components/common/Button';
 import { Can, ViewOnlyNote } from '@/components/admin/AdminAccess';
 
@@ -14,7 +15,7 @@ import { Can, ViewOnlyNote } from '@/components/admin/AdminAccess';
  * pasting from a rich editor keeps working, and existing markup is not mangled
  * by a converter.
  */
-export default function BlogForm({ post, categories }) {
+export default function BlogForm({ post, categories, videoUrl = '' }) {
   const router = useRouter();
   const [status, setStatus] = useState('idle'); // idle | saving | done | error
   const [error, setError] = useState('');
@@ -77,6 +78,14 @@ export default function BlogForm({ post, categories }) {
             minHeight="min-h-96"
           />
         </div>
+      </section>
+
+      <section className="rounded-xl border border-line bg-white p-5">
+        <VideoField
+          name="videoUrl"
+          defaultValue={videoUrl}
+          hint="Shown under the cover picture on the post. Paste a YouTube / Vimeo link or upload a video."
+        />
       </section>
 
       <section className="rounded-xl border border-line bg-white p-5">

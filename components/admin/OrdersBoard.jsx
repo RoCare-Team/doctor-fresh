@@ -5,8 +5,8 @@ import {
 } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  RefreshCw, Search, Eye, EyeOff, CheckCircle2, Ban, Copy, Trash2, RotateCcw, FileDown, Phone, Mail, MapPin,
-  Package, ChevronLeft, ChevronRight, Plus, Pencil, FileSpreadsheet, Loader2, FlaskConical, X,
+  RefreshCw, Search, Eye, CheckCircle2, Ban, Copy, Trash2, RotateCcw, FileDown, Phone, Mail, MapPin,
+  Package, ChevronLeft, ChevronRight, Plus, Pencil, FileSpreadsheet, Loader2, FlaskConical, X, Settings2,
 } from 'lucide-react';
 import RangeSelect from '@/components/admin/RangeSelect';
 import StatusPill from '@/components/admin/StatusPill';
@@ -14,6 +14,14 @@ import { useCan } from '@/components/admin/AdminAccess';
 import { cx, formatPrice } from '@/lib/utils';
 
 const PER_PAGE = 25;
+
+/** An email in lower case or a phone's last 10 digits — as the server stores test contacts. */
+const contactKey = (value) => {
+  const v = String(value ?? '').trim();
+  if (v.includes('@')) return v.toLowerCase();
+  const digits = v.replace(/\D/g, '');
+  return digits.length >= 10 ? digits.slice(-10) : '';
+};
 
 const PAYMENT_TABS = [
   { id: '', label: 'All Orders' },
@@ -61,7 +69,7 @@ function exportCsv(list) {
 }
 
 export default function OrdersBoard({
-  rows: initialRows, stages, couriers, deliveryStatuses, ranges, rangeId,
+  rows: initialRows, stages, couriers, deliveryStatuses, ranges, rangeId, testContacts: initialContacts = [],
 }) {
   const router = useRouter();
   const allow = useCan();
@@ -76,12 +84,21 @@ export default function OrdersBoard({
   const [busy, setBusy] = useState('');
   const [notice, setNotice] = useState(null);
   const scroller = useRef(null);
+  const [testContacts, setTestContacts] = useState(initialContacts);
+  const [contactsOpen, setContactsOpen] = useState(false);
+
+  // A test order: marked "Test", or placed from a test phone / email and not
+  // marked "Not test".
+  const testKeys = useMemo(() => new Set(testContacts), [testContacts]);
+  const isTest = (r) => r.meta.isTest || (!r.meta.notTest && [r.customer?.mobile, r.customer?.email]
+    .some((c) => testKeys.has(contactKey(c))));
 
   // A fresh server list (after Refresh) replaces the local copy.
   const [seen, setSeen] = useState(initialRows);
   if (seen !== initialRows) { setSeen(initialRows); setRows(initialRows); }
 
-  const visible = useMemo(() => rows.filter((r) => showTest || !r.meta.isTest), [rows, showTest]);
+  const testCount = useMemo(() => rows.filter(isTest).length, [rows, testKeys]); // eslint-disable-line react-hooks/exhaustive-deps
+  const visible = useMemo(() => rows.filter((r) => showTest || !isTest(r)), [rows, showTest, testKeys]); // eslint-disable-line react-hooks/exhaustive-deps
   const stageCount = (id) => (id === 'all' ? visible.length : visible.filter((r) => r.meta.stage === id).length);
   const inStage = useMemo(() => (stage === 'all' ? visible : visible.filter((r) => r.meta.stage === stage)), [visible, stage]);
   const payCount = (id) => (id ? inStage.filter((r) => r.payment === id).length : inStage.length);
@@ -158,130 +175,171 @@ export default function OrdersBoard({
 
   const tab = (active) => cx(
     'inline-flex h-8 items-center gap-1.5 rounded-lg px-3 text-[13px] font-medium transition-colors',
-    active ? 'bg-ink-900 text-white' : 'text-ink-500 hover:bg-surface-muted hover:text-ink-900',
+    active ? 'bg-white text-ink-900 shadow-sm ring-1 ring-line' : 'text-ink-500 hover:text-ink-900',
   );
-  const count = (active, n) => <span className={cx('text-[11.5px] tabular-nums', active ? 'text-white/70' : 'text-ink-300')}>{n}</span>;
+  const count = (active, n) => <span className={cx('text-[11.5px] tabular-nums', active ? 'text-primary-700' : 'text-ink-300')}>{n}</span>;
 
   return (
     <div className="space-y-4">
-      {/* ---------------------------------------------------------- header */}
-      <div className="flex flex-wrap items-start justify-between gap-3 rounded-2xl border border-line bg-white p-4 md:p-5">
-        <div className="min-w-0">
-          <h1 className="text-[22px] font-bold text-ink-900">Orders Dashboard</h1>
-          <p className="text-[13.5px] text-ink-400">Order management with delivery tracking, courier selection, payment tracking and call remarks.</p>
-
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={() => { setShowTest((v) => !v); setPage(1); }}
-              className={cx('inline-flex h-8 items-center gap-1.5 rounded-lg border px-3 text-[13px] font-medium', showTest ? 'border-primary-500 bg-primary-50 text-primary-800' : 'border-line-strong text-ink-700 hover:border-primary-300')}
-            >
-              {showTest ? <EyeOff size={14} aria-hidden="true" /> : <Eye size={14} aria-hidden="true" />}
-              {showTest ? 'Hide test orders' : 'Show test orders'}
-            </button>
-            <nav className="flex flex-wrap gap-0.5 rounded-xl border border-line p-0.5" aria-label="Order stage">
-              {[...stages, { id: 'all', label: 'All' }].map((s) => (
-                <button key={s.id} type="button" onClick={() => { setStage(s.id); setPage(1); setSelected(new Set()); }} className={tab(stage === s.id)}>
-                  {s.label}
-                  {count(stage === s.id, stageCount(s.id))}
-                </button>
-              ))}
-            </nav>
+      {/* ------------------------------------------- header, tabs, search */}
+      <div className="rounded-2xl border border-line bg-white">
+        {/* title + tools */}
+        <div className="flex flex-wrap items-center justify-between gap-2 px-4 pb-2.5 pt-3.5 md:px-5">
+          <div className="min-w-0">
+            <h1 className="text-[19px] font-bold leading-tight text-ink-900">Orders Dashboard</h1>
+            <p className="text-[12.5px] text-ink-400">Delivery, courier, payment tracking and call remarks.</p>
           </div>
 
-          <nav className="mt-2 flex flex-wrap gap-1.5" aria-label="Payment">
+          <div className="flex flex-wrap items-center gap-1.5">
+            {/* A switch, so it reads as what is happening now: off = test orders hidden. */}
+            <button
+              type="button"
+              role="switch"
+              aria-checked={showTest}
+              onClick={() => { setShowTest((v) => !v); setPage(1); }}
+              title={showTest ? 'Test orders are shown — click to hide them' : 'Test orders are hidden — click to show them'}
+              className={cx('inline-flex h-8 items-center gap-2 rounded-lg border px-2.5 text-[12.5px] font-medium transition-colors', showTest ? 'border-warning/50 bg-warning/10 text-ink-900' : 'border-line-strong text-ink-700 hover:border-primary-300')}
+            >
+              <span className={cx('relative h-4 w-7 shrink-0 rounded-full transition-colors', showTest ? 'bg-warning' : 'bg-ink-300')}>
+                <span className={cx('absolute top-0.5 h-3 w-3 rounded-full bg-white shadow transition-all', showTest ? 'left-3.5' : 'left-0.5')} />
+              </span>
+              {showTest ? 'Test orders shown' : 'Test orders hidden'}
+              <span className="rounded-full bg-surface-muted px-1.5 text-[11px] tabular-nums text-ink-500">{testCount}</span>
+            </button>
+
+            <span className="relative">
+              <button
+                type="button"
+                onClick={() => setContactsOpen((v) => !v)}
+                aria-expanded={contactsOpen}
+                title="Phone numbers / emails you place test orders from"
+                className={cx('inline-flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-[12.5px] font-medium transition-colors', contactsOpen ? 'border-primary-500 bg-primary-50 text-primary-800' : 'border-line-strong text-ink-700 hover:border-primary-300')}
+              >
+                <Settings2 size={14} aria-hidden="true" />
+                Test numbers
+                <span className="rounded-full bg-surface-muted px-1.5 text-[11px] tabular-nums text-ink-500">{testContacts.length}</span>
+              </button>
+              {contactsOpen ? (
+                <TestContacts
+                  contacts={testContacts}
+                  canEdit={allow('orders', 'edit')}
+                  onClose={() => setContactsOpen(false)}
+                  onSaved={(list) => { setTestContacts(list); say(true, 'Test numbers saved.'); }}
+                  onError={(text) => say(false, text)}
+                />
+              ) : null}
+            </span>
+
+            <button
+              type="button"
+              onClick={() => startRefresh(() => router.refresh())}
+              className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-ink-900 px-3 text-[12.5px] font-semibold text-white hover:bg-primary-700"
+            >
+              <RefreshCw size={13} className={refreshing ? 'animate-spin' : ''} aria-hidden="true" />
+              Refresh
+            </button>
+          </div>
+        </div>
+
+        {/* stage + payment tabs */}
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line px-4 py-2.5 md:px-5">
+          <nav className="flex flex-wrap gap-0.5 rounded-lg bg-surface-muted p-0.5" aria-label="Order stage">
+            {[...stages, { id: 'all', label: 'All' }].map((s) => (
+              <button key={s.id} type="button" onClick={() => { setStage(s.id); setPage(1); setSelected(new Set()); }} className={tab(stage === s.id)}>
+                {s.label}
+                {count(stage === s.id, stageCount(s.id))}
+              </button>
+            ))}
+          </nav>
+
+          <nav className="flex flex-wrap gap-1" aria-label="Payment">
             {PAYMENT_TABS.map((p) => (
               <button
                 key={p.id || 'all'}
                 type="button"
                 onClick={() => { setPayment(p.id); setPage(1); }}
                 className={cx(
-                  'inline-flex h-9 items-center gap-2 rounded-xl border px-3.5 text-[13.5px] font-medium transition-colors',
-                  payment === p.id ? 'border-ink-900 bg-ink-900 text-white' : 'border-line-strong bg-white text-ink-700 hover:border-primary-300',
+                  'inline-flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-[12.5px] font-medium transition-colors',
+                  payment === p.id ? 'border-primary-600 bg-primary-600 text-white' : 'border-line-strong bg-white text-ink-700 hover:border-primary-300',
                 )}
               >
                 {p.label}
-                <span className={cx('rounded-full px-1.5 text-[11.5px] tabular-nums', payment === p.id ? 'bg-white/20' : 'bg-surface-muted text-ink-400')}>{payCount(p.id)}</span>
+                <span className={cx('rounded-full px-1.5 text-[11px] tabular-nums', payment === p.id ? 'bg-white/25' : 'bg-surface-muted text-ink-400')}>{payCount(p.id)}</span>
               </button>
             ))}
           </nav>
         </div>
-        <button
-          type="button"
-          onClick={() => startRefresh(() => router.refresh())}
-          className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-ink-900 px-3.5 text-[13.5px] font-semibold text-white hover:bg-primary-700"
-        >
-          <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} aria-hidden="true" />
-          Refresh
-        </button>
-      </div>
 
-      {/* ------------------------------------------------ search + bulk bar */}
-      <div className="rounded-2xl border border-line bg-white p-3 md:p-4">
-        <div className="flex flex-wrap gap-2">
-          <span className="relative min-w-0 flex-1 basis-72">
-            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-300" aria-hidden="true" />
-            <input
-              value={q}
-              onChange={(e) => { setQ(e.target.value); setPage(1); }}
-              placeholder="Search by customer, amount, phone number, order ID, product or tracking number…"
-              aria-label="Search orders"
-              className="h-10 w-full rounded-lg border border-line-strong pl-9 pr-8 text-[14px] outline-none focus:border-primary-500"
-            />
-            {q ? <button type="button" onClick={() => setQ('')} aria-label="Clear search" className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-ink-300 hover:text-ink-700"><X size={14} aria-hidden="true" /></button> : null}
-          </span>
-          <RangeSelect ranges={ranges} value={rangeId} basePath="/admin/orders" />
-        </div>
-
-        <div className="mt-3 flex flex-wrap items-center gap-2 text-[13px] text-ink-500">
-          <span>{`Showing ${shown.length} of ${filtered.length} orders`}</span>
-          <span className="text-ink-300">|</span>
-          <span>{`${selected.size} selected`}</span>
-          {filtered.length ? (
+        {/* search + range + export */}
+        <div className="border-t border-line px-4 py-2.5 md:px-5">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="relative min-w-0 flex-1 basis-72">
+              <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-300" aria-hidden="true" />
+              <input
+                value={q}
+                onChange={(e) => { setQ(e.target.value); setPage(1); }}
+                placeholder="Search customer, phone, order ID, amount, product or tracking…"
+                aria-label="Search orders"
+                className="h-9 w-full rounded-lg border border-line-strong pl-9 pr-8 text-[13.5px] outline-none focus:border-primary-500"
+              />
+              {q ? <button type="button" onClick={() => setQ('')} aria-label="Clear search" className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-ink-300 hover:text-ink-700"><X size={14} aria-hidden="true" /></button> : null}
+            </span>
+            <RangeSelect ranges={ranges} value={rangeId} basePath="/admin/orders" />
             <button
               type="button"
-              onClick={() => setSelected(allFilteredSelected ? new Set() : new Set(filtered.map((r) => r.id)))}
-              className="font-medium text-primary-700 hover:underline"
+              onClick={() => exportCsv(selected.size ? filtered.filter((r) => selected.has(r.id)) : filtered)}
+              disabled={!filtered.length}
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-success px-3 text-[13px] font-semibold text-white hover:opacity-90 disabled:opacity-40"
             >
-              {allFilteredSelected ? 'Clear selection' : `Select all ${filtered.length}`}
+              <FileSpreadsheet size={15} aria-hidden="true" />
+              {selected.size ? `Export ${selected.size}` : 'Export Excel'}
             </button>
-          ) : null}
+          </div>
 
-          {selected.size && allow('orders', 'edit') ? (
-            <span className="ml-1 flex flex-wrap gap-1.5">
-              {stage !== 'completed' ? <Action tone="success" icon={CheckCircle2} label="Done" onClick={() => moveTo([...selected], 'completed')} /> : null}
-              {stage !== 'not_interested' ? <Action tone="warning" icon={Ban} label="Not Interested" onClick={() => moveTo([...selected], 'not_interested')} /> : null}
-              {stage !== 'duplicate' ? <Action tone="violet" icon={Copy} label="Duplicate" onClick={() => moveTo([...selected], 'duplicate')} /> : null}
-              {stage !== 'active' && stage !== 'all' ? <Action tone="dark" icon={RotateCcw} label="Back to Active" onClick={() => moveTo([...selected], 'active')} /> : null}
-              {stage !== 'deleted' && allow('orders', 'delete') ? <Action tone="danger" icon={Trash2} label="Delete" onClick={() => moveTo([...selected], 'deleted')} /> : null}
+          <div className="mt-2 flex min-h-7 flex-wrap items-center gap-2 text-[12.5px] text-ink-500">
+            <span>
+              Showing <b className="font-semibold text-ink-900">{shown.length}</b> of <b className="font-semibold text-ink-900">{filtered.length}</b> orders
             </span>
+            <span className="text-ink-300">·</span>
+            <span>{`${selected.size} selected`}</span>
+            {filtered.length ? (
+              <button
+                type="button"
+                onClick={() => setSelected(allFilteredSelected ? new Set() : new Set(filtered.map((r) => r.id)))}
+                className="font-medium text-primary-700 hover:underline"
+              >
+                {allFilteredSelected ? 'Clear selection' : `Select all ${filtered.length}`}
+              </button>
+            ) : null}
+
+            {selected.size && allow('orders', 'edit') ? (
+              <span className="ml-1 flex flex-wrap gap-1.5">
+                {stage !== 'completed' ? <Action tone="success" icon={CheckCircle2} label="Done" onClick={() => moveTo([...selected], 'completed')} /> : null}
+                {stage !== 'not_interested' ? <Action tone="warning" icon={Ban} label="Not Interested" onClick={() => moveTo([...selected], 'not_interested')} /> : null}
+                {stage !== 'duplicate' ? <Action tone="violet" icon={Copy} label="Duplicate" onClick={() => moveTo([...selected], 'duplicate')} /> : null}
+                {stage !== 'active' && stage !== 'all' ? <Action tone="dark" icon={RotateCcw} label="Back to Active" onClick={() => moveTo([...selected], 'active')} /> : null}
+                {stage !== 'deleted' && allow('orders', 'delete') ? <Action tone="danger" icon={Trash2} label="Delete" onClick={() => moveTo([...selected], 'deleted')} /> : null}
+              </span>
+            ) : null}
+
+            {/* the table is wide: scroll it sideways */}
+            <span className="ml-auto flex gap-1">
+              <button type="button" onClick={() => scroller.current?.scrollBy({ left: -500, behavior: 'smooth' })} aria-label="Scroll left" className="flex h-7 w-7 items-center justify-center rounded-lg border border-line-strong text-ink-500 hover:border-primary-400"><ChevronLeft size={16} aria-hidden="true" /></button>
+              <button type="button" onClick={() => scroller.current?.scrollBy({ left: 500, behavior: 'smooth' })} aria-label="Scroll right" className="flex h-7 w-7 items-center justify-center rounded-lg border border-line-strong text-ink-500 hover:border-primary-400"><ChevronRight size={16} aria-hidden="true" /></button>
+            </span>
+          </div>
+
+          {notice ? (
+            <p role="status" className={cx('mt-2 flex items-center gap-2 rounded-lg px-3 py-1.5 text-[13px]', notice.ok ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger')}>
+              {notice.text}
+              <button type="button" onClick={() => setNotice(null)} aria-label="Dismiss" className="ml-auto"><X size={14} aria-hidden="true" /></button>
+            </p>
           ) : null}
-
-          <button
-            type="button"
-            onClick={() => exportCsv(selected.size ? filtered.filter((r) => selected.has(r.id)) : filtered)}
-            disabled={!filtered.length}
-            className="ml-auto inline-flex h-9 items-center gap-1.5 rounded-lg bg-success px-3.5 text-[13.5px] font-semibold text-white hover:opacity-90 disabled:opacity-40"
-          >
-            <FileSpreadsheet size={15} aria-hidden="true" />
-            {selected.size ? `Export ${selected.size} to Excel` : 'Export Excel'}
-          </button>
         </div>
-
-        {notice ? (
-          <p role="status" className={cx('mt-3 flex items-center gap-2 rounded-lg px-3 py-2 text-[13.5px]', notice.ok ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger')}>
-            {notice.text}
-            <button type="button" onClick={() => setNotice(null)} aria-label="Dismiss" className="ml-auto"><X size={14} aria-hidden="true" /></button>
-          </p>
-        ) : null}
       </div>
 
       {/* ------------------------------------------------------------ table */}
       <div className="rounded-2xl border border-line bg-white">
-        <div className="flex justify-end gap-1.5 border-b border-line px-3 py-2">
-          <button type="button" onClick={() => scroller.current?.scrollBy({ left: -500, behavior: 'smooth' })} aria-label="Scroll left" className="flex h-8 w-8 items-center justify-center rounded-lg border border-line-strong text-ink-500 hover:border-primary-400"><ChevronLeft size={16} aria-hidden="true" /></button>
-          <button type="button" onClick={() => scroller.current?.scrollBy({ left: 500, behavior: 'smooth' })} aria-label="Scroll right" className="flex h-8 w-8 items-center justify-center rounded-lg border border-line-strong text-ink-500 hover:border-primary-400"><ChevronRight size={16} aria-hidden="true" /></button>
-        </div>
         <div ref={scroller} className="max-h-[70vh] overflow-auto">
           <table className="w-full min-w-[1850px] text-left text-[13.5px]">
             <thead className="sticky top-0 z-10 bg-surface-muted text-[12px] font-semibold uppercase tracking-wide text-ink-500">
@@ -318,6 +376,7 @@ export default function OrdersBoard({
                 <OrderRow
                   key={r.id}
                   row={r}
+                  test={isTest(r)}
                   selected={selected.has(r.id)}
                   onSelect={(on) => setSelected((s) => { const n = new Set(s); if (on) n.add(r.id); else n.delete(r.id); return n; })}
                   stage={stage}
@@ -378,7 +437,7 @@ function Action({
 }
 
 function OrderRow({
-  row: r, selected, onSelect, stage, couriers, deliveryStatuses, busy, allow, moveTo, meta, order, toggleCod,
+  row: r, test, selected, onSelect, stage, couriers, deliveryStatuses, busy, allow, moveTo, meta, order, toggleCod,
 }) {
   const [remark, setRemark] = useState('');
   const [tracking, setTracking] = useState(r.meta.tracking);
@@ -401,7 +460,7 @@ function OrderRow({
   }
 
   return (
-    <tr className={cx('transition-colors', selected ? 'bg-primary-50/60' : 'hover:bg-surface-muted/60', r.meta.isTest && 'opacity-70')}>
+    <tr className={cx('transition-colors', selected ? 'bg-primary-50/60' : 'hover:bg-surface-muted/60', test && 'opacity-70')}>
       <td className="px-3 py-3">
         <input type="checkbox" checked={selected} onChange={(e) => onSelect(e.target.checked)} aria-label={`Select order ${r.code}`} className="h-4 w-4 accent-primary-500" />
       </td>
@@ -410,7 +469,7 @@ function OrderRow({
       <td className="px-3 py-3">
         <p className="font-semibold capitalize text-ink-900">
           {r.customer.name || '—'}
-          {r.meta.isTest ? <span className="ml-1.5 rounded bg-warning/15 px-1.5 text-[10.5px] font-bold uppercase text-warning">Test</span> : null}
+          {test ? <span className="ml-1.5 rounded bg-warning/15 px-1.5 text-[10.5px] font-bold uppercase text-warning">Test</span> : null}
         </p>
         <p className="text-[12px] text-ink-400">{`Order: ${r.code || r.id}${r.guest ? ' · guest' : ''}`}</p>
         {r.customer.mobile ? (
@@ -427,7 +486,7 @@ function OrderRow({
           <Action tone="dark" icon={Eye} label="View" href={`/admin/orders/${r.id}`} />
           <Action tone="blue" icon={FileDown} label="PDF" href={`/api/admin/orders/invoice/${r.id}`} download />
           {canEdit ? (
-            <Action tone="plain" icon={FlaskConical} label={r.meta.isTest ? 'Not test' : 'Test'} onClick={() => meta([r.id], { isTest: !r.meta.isTest })} disabled={Boolean(busy)} />
+            <Action tone="plain" icon={FlaskConical} label={test ? 'Not test' : 'Test'} onClick={() => meta([r.id], { isTest: !test })} disabled={Boolean(busy)} />
           ) : null}
         </div>
       </td>
@@ -548,5 +607,82 @@ function OrderRow({
         </span>
       </td>
     </tr>
+  );
+}
+
+/**
+ * The phones / emails the team places test orders from. Orders from them are
+ * treated as tests: hidden until "Show test orders", tagged Test when shown.
+ */
+function TestContacts({
+  contacts, canEdit, onSaved, onError, onClose,
+}) {
+  const [list, setList] = useState(contacts);
+  const [draft, setDraft] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  // Adding or removing saves straight away — no separate Save step.
+  async function add() {
+    const key = contactKey(draft);
+    if (!key) { onError('Enter a 10 digit phone number or an email address.'); return; }
+    setDraft('');
+    if (!list.includes(key)) await save([...list, key]);
+  }
+
+  async function save(next) {
+    setSaving(true);
+    const res = await fetch('/api/admin/orders/meta', {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ testContacts: next }),
+    }).catch(() => null);
+    const data = await res?.json().catch(() => ({}));
+    setSaving(false);
+    if (!res?.ok || !data?.ok) { onError(data?.error || 'Could not save the test numbers.'); return; }
+    setList(data.testContacts);
+    onSaved(data.testContacts);
+  }
+
+  return (
+    <div className="absolute right-0 top-full z-30 mt-1.5 w-[min(92vw,380px)] rounded-xl border border-line bg-white p-3 text-left shadow-xl">
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <p className="text-[13px] font-semibold text-ink-900">Test phone numbers &amp; emails</p>
+          <p className="text-[12px] leading-snug text-ink-400">Orders from these stay hidden while test orders are off.</p>
+        </div>
+        <button type="button" onClick={onClose} aria-label="Close" className="rounded p-1 text-ink-300 hover:bg-surface-muted hover:text-ink-700">
+          <X size={14} aria-hidden="true" />
+        </button>
+      </div>
+
+      <div className="mt-2 flex flex-wrap gap-1.5">
+        {list.map((c) => (
+          <span key={c} className="inline-flex h-6 items-center gap-0.5 rounded-full border border-line-strong bg-surface-muted/60 pl-2 pr-0.5 text-[12px] text-ink-700">
+            {c}
+            {canEdit ? (
+              <button type="button" onClick={() => save(list.filter((x) => x !== c))} disabled={saving} className="rounded-full p-0.5 text-ink-300 hover:bg-danger/10 hover:text-danger" aria-label={`Remove ${c}`}>
+                <X size={11} aria-hidden="true" />
+              </button>
+            ) : null}
+          </span>
+        ))}
+        {!list.length ? <span className="text-[12px] text-ink-300">None added yet.</span> : null}
+      </div>
+
+      {canEdit ? (
+        <div className="mt-2.5 flex gap-1.5">
+          <input
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); add(); } if (e.key === 'Escape') onClose(); }}
+            placeholder="Phone number or email"
+            aria-label="Test phone number or email"
+            className="h-8 min-w-0 flex-1 rounded-lg border border-line-strong px-2.5 text-[13px] outline-none focus:border-primary-500"
+          />
+          <button type="button" onClick={add} disabled={saving} className="inline-flex h-8 items-center gap-1 rounded-lg bg-ink-900 px-3 text-[12.5px] font-semibold text-white hover:bg-primary-700 disabled:opacity-50">
+            {saving ? <Loader2 size={12} className="animate-spin" aria-hidden="true" /> : <Plus size={12} aria-hidden="true" />}
+            Add
+          </button>
+        </div>
+      ) : null}
+    </div>
   );
 }

@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import {
   LayoutDashboard, Package, ShoppingBag, Layers, Users, Inbox,
   Newspaper, Ticket, Settings, ExternalLink, LogOut, Menu, X, FileText, Shuffle, Loader2,
@@ -53,17 +53,54 @@ export default function AdminShell({ admin, brand, children }) {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  // The section being opened, from the click until its page has arrived.
+  const search = useSearchParams()?.toString() || '';
+  // The page being opened, from the click (or Back) until it has arrived.
   const [pendingHref, setPendingHref] = useState(null);
+  const shown = useRef('');
 
-  // The new page is on screen once the path changes; the timer is only a
+  // The new page is on screen once the address changes; the timer is only a
   // safety net so a failed load never leaves the loader spinning for good.
-  useEffect(() => { setPendingHref(null); }, [pathname]);
+  useEffect(() => {
+    shown.current = search ? `${pathname}?${search}` : pathname;
+    setPendingHref(null);
+  }, [pathname, search]);
   useEffect(() => {
     if (!pendingHref) return undefined;
     const t = setTimeout(() => setPendingHref(null), 20000);
     return () => clearTimeout(t);
   }, [pendingHref]);
+
+  // Every admin link on any page — "All posts", Edit, View… — and the
+  // browser's Back / Forward show the loader too, not only the sidebar.
+  useEffect(() => {
+    const here = () => `${window.location.pathname}${window.location.search}`;
+
+    function onClick(event) {
+      if (event.defaultPrevented || event.button !== 0) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const a = event.target instanceof Element ? event.target.closest('a[href]') : null;
+      if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+      let url;
+      try { url = new URL(a.href, window.location.href); } catch { return; }
+      if (url.origin !== window.location.origin || !url.pathname.startsWith('/admin')) return;
+      const next = `${url.pathname}${url.search}`;
+      if (next === here()) return; // same page, or only a #section of it
+      setPendingHref(next);
+    }
+
+    function onPopState() {
+      // The address has already changed; the page for it has not arrived yet.
+      const next = here();
+      if (next.startsWith('/admin') && next !== shown.current) setPendingHref(next);
+    }
+
+    document.addEventListener('click', onClick, true);
+    window.addEventListener('popstate', onPopState);
+    return () => {
+      document.removeEventListener('click', onClick, true);
+      window.removeEventListener('popstate', onPopState);
+    };
+  }, []);
 
   function startNavigation(event, href) {
     setOpen(false);
@@ -265,11 +302,19 @@ export default function AdminShell({ admin, brand, children }) {
           {/* The old page stays underneath, faded, with the loader over it —
               the click is answered at once even while the next page is still
               being read from the database. */}
-          {pendingHref ? <PageLoader item={NAV.find((n) => n.href === pendingHref)} /> : null}
+          {pendingHref ? <PageLoader item={sectionOf(pendingHref)} /> : null}
         </main>
       </div>
     </div>
   );
+}
+
+/** The sidebar section a page belongs to: /admin/blogs/34 → Blogs. */
+function sectionOf(href) {
+  const path = String(href || '').split('?')[0];
+  return NAV
+    .filter((n) => (n.href === '/admin' ? path === '/admin' : path === n.href || path.startsWith(`${n.href}/`)))
+    .sort((a, b) => b.href.length - a.href.length)[0] || null;
 }
 
 /**

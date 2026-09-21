@@ -19,7 +19,9 @@ const EDITORS = ['products', 'categories', 'blogs', 'service_pages', 'settings',
 
 const LIMITS = {
   video: { types: ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'], max: 200 * 1024 * 1024 },
-  image: { types: ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'], max: 20 * 1024 * 1024 },
+  // Pictures arrive already converted to WebP by the admin (uploadMedia);
+  // the others are only a fallback for a browser that cannot convert.
+  image: { types: ['image/webp', 'image/jpeg', 'image/png', 'image/gif', 'image/avif', 'image/svg+xml'], max: 20 * 1024 * 1024 },
 };
 
 export async function GET() {

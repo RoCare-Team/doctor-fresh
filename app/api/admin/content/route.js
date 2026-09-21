@@ -20,7 +20,8 @@ export async function PATCH(request) {
       try { revalidatePath(`/legal/${body.legal}`); } catch { /* best-effort */ }
       return Response.json({ ok: true });
     }
-    if (!CONTENT_DEFAULTS[body.key]) return fail('Unknown section.');
+    // The test contacts belong to the Orders page and its permission.
+    if (!CONTENT_DEFAULTS[body.key] || body.key === 'order_settings') return fail('Unknown section.');
     const saved = await saveContent(body.key, body.value || {});
     if (saved.error) return fail(saved.error);
     // The menu and footer are on every page; the rest on a few.

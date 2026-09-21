@@ -7,6 +7,8 @@ import BlogImage from '@/components/blogs/BlogImage';
 import BlogComments from '@/components/blogs/BlogComments';
 import Button from '@/components/common/Button';
 import { getBlogPost, getRelatedBlogPosts, getBlogCategory, getBrand } from '@/lib/catalog';
+import { getBlogVideo } from '@/lib/sql/blog-video';
+import VideoEmbed from '@/components/common/VideoEmbed';
 
 import { absoluteUrl, formatDate, imageUrl, metaFor, SITE_URL } from '@/lib/utils';
 
@@ -40,6 +42,7 @@ export default async function BlogPostPage({ params }) {
 
   const related = await getRelatedBlogPosts(post, 3);
   const brand = await getBrand();
+  const videoUrl = await getBlogVideo(id); // added in the admin (Blogs → Video)
 
   // category labels come from the catalog layer, so they are resolved up front
   const categoryLabels = Object.fromEntries(
@@ -122,6 +125,8 @@ export default async function BlogPostPage({ params }) {
                 className="object-cover"
               />
             </div>
+
+            {videoUrl ? <VideoEmbed url={videoUrl} title={post.title} className="mt-6" /> : null}
 
             <div
               className="df-prose mt-8 max-w-none"

@@ -6,6 +6,7 @@ import {
 } from '@/lib/sql/order-meta';
 import OrdersBoard from '@/components/admin/OrdersBoard';
 import { requirePage } from '@/lib/admin/guard';
+import { getContent } from '@/lib/sql/site-content';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Orders' };
@@ -22,10 +23,11 @@ export default async function AdminOrdersPage({ searchParams }) {
   const rangeId = params?.range || 'all';
   const range = rangeFor(rangeId);
 
-  const [orders, meta, failed] = await Promise.all([
+  const [orders, meta, failed, orderSettings] = await Promise.all([
     listOrders({ from: rangeStart(rangeId), limit: 2000 }),
     orderMetaMap().catch(() => new Map()),
     failedPaymentOrders().catch(() => new Set()),
+    getContent('order_settings').catch(() => ({ testContacts: [] })),
   ]);
 
   const rows = (orders || []).map((o) => {
@@ -60,6 +62,7 @@ export default async function AdminOrdersPage({ searchParams }) {
       deliveryStatuses={DELIVERY_STATUSES}
       ranges={RANGES}
       rangeId={range.id}
+      testContacts={orderSettings.testContacts || []}
     />
   );
 }
