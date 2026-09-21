@@ -70,7 +70,7 @@ export default async function SubcategoryPage({ params }) {
         />
 
         <div className="mt-14 space-y-12">
-          <SeoContent sections={subcategory.seoSections} />
+          <SeoContent sections={subcategory.seoSections} html={subcategory.richHtml} />
           <FaqSection faqs={subcategory.faqs} />
         </div>
       </div>

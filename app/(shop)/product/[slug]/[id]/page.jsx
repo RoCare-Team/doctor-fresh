@@ -1,3 +1,4 @@
+import VideoEmbed from '@/components/common/VideoEmbed';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Truck, ShieldCheck, Wrench, Phone, PackageCheck } from 'lucide-react';
@@ -258,6 +259,12 @@ export default async function ProductPage({ params }) {
                   <div className="df-prose max-w-3xl" dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
                 ) : null,
               },
+              // The product video, when the admin added one.
+              ...(product.videoUrl ? [{
+                id: 'video',
+                label: 'Video',
+                content: <VideoEmbed url={product.videoUrl} title={`${product.name} video`} className="max-w-3xl" />,
+              }] : []),
               {
                 id: 'specifications',
                 label: 'Specifications',

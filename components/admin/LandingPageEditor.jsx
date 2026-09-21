@@ -7,6 +7,7 @@ import {
   Eye, EyeOff,
 } from 'lucide-react';
 import RichTextEditor from '@/components/admin/RichTextEditor';
+import VideoField from '@/components/admin/VideoField';
 import SafeImage from '@/components/common/SafeImage';
 import { cx } from '@/lib/utils';
 import { Can, ViewOnlyNote } from '@/components/admin/AdminAccess';
@@ -65,6 +66,7 @@ export default function LandingPageEditor({ page, families = [], products = [] }
           ...f,
           slug: slugify(f.slug),
           productIds,
+          videoUrl: form.get('videoUrl') ?? '',
           redirectOld: slugChanged && redirectOld,
           ...(form.get('pageContentHtmlChanged') ? { pageContentHtml: form.get('pageContentHtml') } : {}),
           ...(faqsTouched ? { faqs: faqs.filter((q) => q.question.trim() && q.answer.trim()) } : {}),
@@ -236,6 +238,16 @@ export default function LandingPageEditor({ page, families = [], products = [] }
           ))}
         </select>
       </Card>
+
+      {/* ------------------------------------------------------------- video */}
+      <section className="rounded-2xl border border-line bg-white p-5">
+        <VideoField
+          name="videoUrl"
+          label="Page video"
+          hint="Shown near the top of the page, under the introduction."
+          defaultValue={page.videoUrl}
+        />
+      </section>
 
       {/* ------------------------------------------------------ page content */}
       <section className="rounded-2xl border border-line bg-white p-5">

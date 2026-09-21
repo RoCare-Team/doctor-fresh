@@ -15,6 +15,7 @@ import DealSlider from '@/components/home/DealSlider';
 import Reveal from '@/components/common/Reveal';
 import QuickLinks from '@/components/home/QuickLinks';
 import { quickLinksForHome } from '@/lib/sql/quick-links';
+import { getHomeContent, getContent } from '@/lib/sql/site-content';
 import {
   getProductsByIds, getAllBlogPosts, getCategoryImage, getHomeSections, getBrand,
   cardProduct,
@@ -32,9 +33,13 @@ import { metaFor } from '@/lib/utils';
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
+  // Edited in the admin (Home page); the built-in copy until then.
+  const home = await getHomeContent().catch(() => null);
   return metaFor({
-    title: homeMeta.title,
-    description: homeMeta.description,
+    title: home?.metaTitle || homeMeta.title,
+    description: home?.metaDescription || homeMeta.description,
+    keywords: home?.keywords,
+    image: home?.ogImage,
     path: '/',
   });
 }
@@ -51,7 +56,12 @@ const cardFields = (p) => ({
 });
 
 export default async function HomePage() {
-  const brand = await getBrand();
+  const [brand, homeContent, sections] = await Promise.all([
+    getBrand(),
+    getHomeContent().catch(() => ({})),
+    // Trust badges, the water test band and the phone highlights (Site content).
+    getContent('home_sections').catch(() => null),
+  ]);
   const { rails, todaysDeal, categoryTiles, latest, mostViewed } = await getHomeSections();
   const deals = (await getProductsByIds(todaysDeal)).slice(0, 4).map(cardProduct);
   const posts = (await getAllBlogPosts()).slice(0, 3);
@@ -85,9 +95,9 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero />
+      <Hero content={{ ...homeContent, highlights: sections?.highlights }} />
 
-      <TrustBadges badges={trustBadges} />
+      <TrustBadges badges={sections?.trustBadges?.length ? sections.trustBadges : trustBadges} />
 
       {/* ---------------------------------------------------- today's deal */}
       {deals.length ? (
@@ -158,7 +168,14 @@ export default async function HomePage() {
 
       <CategoryTiles tiles={tiles} />
 
-      <WaterTestSection waterTest={waterTest} />
+      <WaterTestSection
+        waterTest={sections ? {
+          ...waterTest,
+          title: sections.waterTitle || waterTest.title,
+          formTitle: sections.waterFormTitle || waterTest.formTitle,
+          parameters: sections.waterParameters?.length ? sections.waterParameters : waterTest.parameters,
+        } : waterTest}
+      />
 
       {/* --------------------------------------------------- product rails */}
       {rails.map((rail, i) => (

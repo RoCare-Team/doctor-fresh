@@ -18,7 +18,11 @@ const QUICK_LINKS = [
   { label: 'Contact', href: '/contact' },
 ];
 
-export default function MobileMenu({ open, onClose, categories, blogCategories, brand }) {
+export default function MobileMenu({
+  open, onClose, categories, blogCategories, brand, links,
+}) {
+  // The extra links come from the admin (Site content); built-in until saved.
+  const quickLinks = links?.length ? links : QUICK_LINKS;
   const [expanded, setExpanded] = useState(null);
 
   useEffect(() => {
@@ -126,7 +130,7 @@ export default function MobileMenu({ open, onClose, categories, blogCategories, 
           Quick links
         </p>
         <ul className="pb-4">
-          {QUICK_LINKS.map((l) => (
+          {quickLinks.map((l) => (
             <li key={l.href}>
               <Link href={l.href} onClick={onClose} className="block px-3 py-2 text-[15px] text-ink-700">
                 {l.label}

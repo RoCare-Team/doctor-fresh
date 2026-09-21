@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getAllCategories, getBlogCategories, getBrand } from '@/lib/catalog';
+import { getContent } from '@/lib/sql/site-content';
 
 import HeaderClient from './HeaderClient';
 
@@ -15,10 +16,12 @@ export default async function Header() {
 
   const blogCategories = await getBlogCategories();
   const brand = await getBrand();
+  // Menu links and the partner button, edited in the admin (Site content).
+  const nav = await getContent('nav').catch(() => null);
 
   return (
     <header className="sticky top-0 z-50 bg-white">
-      <HeaderClient categories={categories} blogCategories={blogCategories} brand={brand} />
+      <HeaderClient categories={categories} blogCategories={blogCategories} brand={brand} nav={nav} />
 
       <noscript>
         <div className="border-b border-line bg-surface-muted">

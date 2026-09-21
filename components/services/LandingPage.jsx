@@ -7,6 +7,7 @@ import ProductRail from '@/components/products/ProductRail';
 import ServiceBookingForm from './ServiceBookingForm';
 import Reveal from '@/components/common/Reveal';
 import NearbyStores from './NearbyStores';
+import VideoEmbed from '@/components/common/VideoEmbed';
 
 /**
  * Renders one row of `landing_pages` — a national service page or one of the
@@ -54,9 +55,13 @@ export default function LandingPage({
             ) : null}
           </Reveal>
 
+          {page.videoUrl ? (
+            <VideoEmbed url={page.videoUrl} title={page.heading} className="mt-6" />
+          ) : null}
+
           {page.contentSections.length ? (
             <div className="mt-10">
-              <SeoContent sections={page.contentSections} />
+              <SeoContent sections={page.contentSections} html={page.richHtml} />
             </div>
           ) : (
             /* A few rows have copy that is not split into headings; it is still

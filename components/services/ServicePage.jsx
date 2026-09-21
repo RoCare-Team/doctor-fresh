@@ -99,7 +99,7 @@ export default function ServicePage({ template, location, breadcrumb = [], nearb
           ) : null}
 
           <div className="mt-12 space-y-10">
-            <SeoContent sections={page.contentSections} />
+            <SeoContent sections={page.contentSections} html={page.richHtml} />
             <FaqSection faqs={page.faqs} />
           </div>
 

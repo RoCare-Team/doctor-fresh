@@ -60,7 +60,7 @@ export default async function CategoryPage({ params }) {
         <CategoryProducts products={products} subcategories={category.subcategories} />
 
         <div className="mt-14 space-y-12">
-          <SeoContent sections={category.seoSections} />
+          <SeoContent sections={category.seoSections} html={category.richHtml} />
           <FaqSection faqs={category.faqs} />
         </div>
       </div>

@@ -5,6 +5,7 @@ import { Plus, Trash2, GripVertical } from 'lucide-react';
 import { FormNote } from '@/components/forms/Field';
 import Button from '@/components/common/Button';
 import RichTextEditor from '@/components/admin/RichTextEditor';
+import VideoField from '@/components/admin/VideoField';
 import { Can, ViewOnlyNote } from '@/components/admin/AdminAccess';
 
 /**
@@ -45,6 +46,7 @@ export default function ProductDetails({ product, children = null }) {
         body: JSON.stringify({
           id: product.id,
           descriptionHtml: values.descriptionHtml,
+          videoUrl: values.videoUrl ?? '',
           installationHtml: values.installationHtml,
           shippingHtml: values.shippingHtml,
           specs: specs.filter((s) => s.label.trim() || s.value.trim()),
@@ -70,6 +72,15 @@ export default function ProductDetails({ product, children = null }) {
   return (
     <>
     <form id={formId} onSubmit={save} className="space-y-4">
+      <section className="rounded-xl border border-line bg-white p-5">
+        <VideoField
+          name="videoUrl"
+          label="Product video"
+          hint="Shown in a Video tab on the product page. A YouTube link loads fastest."
+          defaultValue={product.videoUrl}
+        />
+      </section>
+
       <section className="rounded-xl border border-line bg-white p-5">
         <RichTextEditor
           name="descriptionHtml"

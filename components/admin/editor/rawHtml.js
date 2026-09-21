@@ -49,8 +49,18 @@ export const RawHtml = Node.create({
 
       const label = document.createElement('span');
       label.className = 'df-raw-html__label';
-      label.textContent = 'Raw HTML — select and press the HTML button to edit';
 
+      // A video block shows the video itself, so the writer sees what readers will.
+      if (/^\s*(<div class="df-embed">\s*<iframe\b[^>]*><\/iframe>\s*<\/div>|<video\b[^>]*>(<\/video>)?)\s*$/i.test(node.attrs.html)) {
+        label.textContent = 'Video — click it and press Delete to remove';
+        const preview = document.createElement('div');
+        preview.className = 'df-raw-html__video';
+        preview.innerHTML = node.attrs.html;
+        dom.append(label, preview);
+        return { dom };
+      }
+
+      label.textContent = 'Raw HTML — select and press the HTML button to edit';
       const code = document.createElement('pre');
       code.textContent = node.attrs.html;
 

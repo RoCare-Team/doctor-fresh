@@ -36,3 +36,4 @@ public/uploads/installation/
 public/uploads/file_products/
 public/uploads/**/.htaccess
 **/.DS_Store
+/.next-claude/

@@ -23,10 +23,14 @@ const EXTENSIONS = {
   'image/png': 'png',
   'image/webp': 'webp',
   'image/gif': 'gif',
+  // Videos, for servers without Vercel Blob; on Vercel they upload straight to Blob.
+  'video/mp4': 'mp4',
+  'video/webm': 'webm',
 };
+const VIDEO_MAX_BYTES = 100 * 1024 * 1024;
 
 async function handlePOST(request) {
-  const { response } = await requireAdmin(['products', 'categories', 'blogs', 'service_pages'], 'edit');
+  const { response } = await requireAdmin(['products', 'categories', 'blogs', 'service_pages', 'home'], 'edit');
   if (response) return response;
 
   let form;
@@ -40,8 +44,11 @@ async function handlePOST(request) {
   if (!file || typeof file !== 'object' || !file.size) return fail('Choose an image.');
 
   const extension = EXTENSIONS[file.type];
-  if (!extension) return fail('Only JPG, PNG, WebP or GIF images are accepted.');
-  if (file.size > MAX_BYTES) return fail('Images must be 5 MB or smaller.');
+  if (!extension) return fail('Only JPG, PNG, WebP or GIF images, or MP4 / WebM videos, are accepted.');
+  const isVideo = file.type.startsWith('video/');
+  if (file.size > (isVideo ? VIDEO_MAX_BYTES : MAX_BYTES)) {
+    return fail(isVideo ? 'Videos must be 100 MB or smaller.' : 'Images must be 5 MB or smaller.');
+  }
 
   // A random name, never the one the browser sent: nothing the caller types
   // decides where on disk the file lands.

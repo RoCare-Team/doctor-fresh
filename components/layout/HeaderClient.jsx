@@ -24,7 +24,10 @@ const NAV = [
   { label: 'Contact Us', href: '/contact' },
 ];
 
-export default function HeaderClient({ categories, blogCategories, brand }) {
+export default function HeaderClient({
+  categories, blogCategories, brand, nav,
+}) {
+  const navItems = nav?.items?.length ? nav.items : NAV;
   const [openMenu, setOpenMenu] = useState(null); // 'products' | 'blogs' | null
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState(categories[0]?.slug || null);
@@ -279,7 +282,7 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
           </button>
 
           <ul className="df-no-scrollbar flex flex-1 items-center gap-1 overflow-x-auto xl:gap-2">
-            {NAV.map((item) => {
+            {navItems.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <li key={item.href}>
@@ -321,12 +324,14 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
             </li>
           </ul>
 
-          <Link
-            href="/partner"
-            className="ml-4 hidden shrink-0 whitespace-nowrap rounded-lg border border-primary-200 px-4 py-2 text-[14px] font-medium text-primary-800 transition-colors hover:bg-primary-50 xl:inline-block"
-          >
-            Become a Partner
-          </Link>
+          {nav?.ctaLabel !== '' ? (
+            <Link
+              href={nav?.ctaHref || '/partner'}
+              className="ml-4 hidden shrink-0 whitespace-nowrap rounded-lg border border-primary-200 px-4 py-2 text-[14px] font-medium text-primary-800 transition-colors hover:bg-primary-50 xl:inline-block"
+            >
+              {nav?.ctaLabel || 'Become a Partner'}
+            </Link>
+          ) : null}
           </nav>
         </div>
 
@@ -437,6 +442,7 @@ export default function HeaderClient({ categories, blogCategories, brand }) {
         categories={categories}
         blogCategories={blogCategories}
         brand={brand}
+        links={nav?.mobileItems}
       />
 
       {mobileOpen ? (

@@ -3,18 +3,21 @@ import { getBrand } from '@/lib/catalog';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import ContactForm from '@/components/forms/ContactForm';
 import { contactPage } from '@/data/site';
+import { getContent } from '@/lib/sql/site-content';
 import { metaFor } from '@/lib/utils';
 
-export const metadata = metaFor({
-  title: contactPage.metaTitle || 'Contact Doctor Fresh',
-  description:
-    contactPage.metaDescription ||
-    'Contact Doctor Fresh for water purifier sales, RO service, installation and AMC support across India.',
-  path: '/contact',
-});
+// Text and search listing come from the admin (Site content).
+export async function generateMetadata() {
+  const c = await getContent('pages').catch(() => null);
+  return metaFor({
+    title: c?.contactMetaTitle || contactPage.metaTitle || 'Contact Doctor Fresh',
+    description: c?.contactMetaDescription,
+    path: '/contact',
+  });
+}
 
 export default async function ContactPage() {
-  const brand = await getBrand();
+  const [brand, c] = await Promise.all([getBrand(), getContent('pages').catch(() => ({}))]);
   return (
     <>
       <div className="border-b border-line bg-surface-muted">
@@ -25,21 +28,20 @@ export default async function ContactPage() {
 
       <div className="df-container py-8 md:py-10">
       <header className="mb-8">
-        <h1 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">Contact us</h1>
+        <h1 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">{c.contactHeading || 'Contact us'}</h1>
         <p className="mt-2.5 max-w-2xl text-[15.5px] leading-relaxed text-ink-400">
-          Sales, service, spare parts or partnership — reach the Doctor Fresh team directly.
-          We respond to every enquiry within one working day.
+          {c.contactIntro}
         </p>
       </header>
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-12">
         <section>
-          <h2 className="mb-5 text-lg font-semibold text-ink-900">{contactPage.formTitle}</h2>
+          <h2 className="mb-5 text-lg font-semibold text-ink-900">{c.contactFormTitle || contactPage.formTitle}</h2>
           <ContactForm fields={contactPage.fields} />
         </section>
 
         <aside>
-          <h2 className="mb-5 text-lg font-semibold text-ink-900">{contactPage.otherInfoTitle}</h2>
+          <h2 className="mb-5 text-lg font-semibold text-ink-900">{c.contactOtherInfoTitle || contactPage.otherInfoTitle}</h2>
 
           <ul className="space-y-3">
             <li className="df-card p-4">

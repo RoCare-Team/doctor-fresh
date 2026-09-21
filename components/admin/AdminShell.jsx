@@ -7,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard, Package, ShoppingBag, Layers, Users, Inbox,
   Newspaper, Ticket, Settings, ExternalLink, LogOut, Menu, X, FileText, Shuffle, Loader2,
-  Wrench, Mail, Handshake, UserCog, MapPin, Link2,
+  Wrench, Mail, Handshake, UserCog, MapPin, Link2, House, Map as MapIcon, PanelsTopLeft,
 } from 'lucide-react';
 import { cx, imageUrl } from '@/lib/utils';
 import { can, roleInfo } from '@/lib/admin/access';
@@ -20,6 +20,8 @@ const COLLAPSED_KEY = 'df-admin-sidebar-collapsed';
 // cannot open are left out of the menu.
 const NAV = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true, section: 'dashboard' },
+  { href: '/admin/home', label: 'Home page', icon: House, section: 'home' },
+  { href: '/admin/content', label: 'Site content', icon: PanelsTopLeft, section: 'content' },
   { href: '/admin/orders', label: 'Orders', icon: ShoppingBag, section: 'orders' },
   { href: '/admin/products', label: 'Products', icon: Package, section: 'products' },
   { href: '/admin/categories', label: 'Categories', icon: Layers, section: 'categories' },
@@ -28,6 +30,7 @@ const NAV = [
   { href: '/admin/uniredirect', label: 'uniredirected urls redirecting', icon: Shuffle, section: 'redirects' },
   { href: '/admin/brochures', label: 'Brochures', icon: FileText, section: 'brochures' },
   { href: '/admin/locations', label: 'GMB Locations', icon: MapPin, section: 'locations' },
+  { href: '/admin/cities', label: 'States & Cities', icon: MapIcon, section: 'cities' },
   { href: '/admin/customers', label: 'Customers', icon: Users, section: 'customers' },
   { href: '/admin/enquiries', label: 'Enquiries', icon: Inbox, section: 'enquiries' },
   { href: '/admin/messages', label: 'Contact messages', icon: Mail, section: 'messages' },

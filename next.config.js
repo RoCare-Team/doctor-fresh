@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // A second dev server (for testing) can build into its own folder.
+  ...(process.env.NEXT_DIST_DIR ? { distDir: process.env.NEXT_DIST_DIR } : {}),
 
   // The database is on a remote host whose link speed swings widely. On a slow
   // minute a page can take longer than Next's default 60 seconds to render,

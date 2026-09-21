@@ -11,13 +11,15 @@ import {
 import { Placeholder } from '@tiptap/extensions';
 import { RawHtml, expandRawHtml, wrapRawHtml } from '@/components/admin/editor/rawHtml';
 import { LinkDialog, RawHtmlDialog } from '@/components/admin/editor/EditorDialogs';
+import { uploadMedia } from '@/components/admin/editor/uploadMedia';
+import { videoSource } from '@/components/common/VideoEmbed';
 import {
   Bold, Italic, Underline, Strikethrough, Code, Heading2, Heading3, Heading4, Pilcrow,
   List, ListOrdered, Quote, AlignLeft, AlignCenter, AlignRight, AlignJustify,
   Link, Unlink, ImagePlus, Minus, SquareCode, Table as TableIcon, RemoveFormatting,
   Undo2, Redo2, CodeXml, Eye, EyeOff, Upload, Trash2, Merge, Split,
   BetweenHorizontalStart, BetweenHorizontalEnd, BetweenVerticalStart, BetweenVerticalEnd,
-  TableProperties, Loader2, X, FileCode2,
+  TableProperties, Loader2, X, FileCode2, Clapperboard,
 } from 'lucide-react';
 import { cx } from '@/lib/utils';
 
@@ -232,6 +234,7 @@ function Toolbar({
         <Btn label="Add link" icon={Link} active={state.link} disabled={disabled} onClick={onLink} />
         <Btn label="Remove link" icon={Unlink} disabled={disabled || !state.link} onClick={run((c) => c.extendMarkRange('link').unsetLink())} />
         <ImageButton editor={editor} disabled={disabled} />
+        <VideoButton editor={editor} disabled={disabled} />
       </Group>
 
       <Group>
@@ -321,12 +324,8 @@ function ImageButton({ editor, disabled }) {
     setBusy(true);
     setError('');
     try {
-      const body = new FormData();
-      body.append('file', file);
-      const res = await fetch('/api/admin/uploads', { method: 'POST', body });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.ok) throw new Error(data.error || 'Upload failed.');
-      insert(data.url, file.name.replace(/\.[a-z]+$/i, ''));
+      const src = await uploadMedia(file, { folder: 'editor' });
+      insert(src, file.name.replace(/\.[a-z]+$/i, ''));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -381,6 +380,95 @@ function ImageButton({ editor, disabled }) {
               Add
             </button>
           </div>
+          {error ? <p className="mt-2 text-[12.5px] text-danger">{error}</p> : null}
+        </div>
+      ) : null}
+    </span>
+  );
+}
+
+/**
+ * A video in the copy: a YouTube / Vimeo link becomes its player, or a file is
+ * uploaded (straight to Vercel Blob on the live site, so size is no problem)
+ * and played in a <video>. Kept in a raw-HTML block so the editor never
+ * strips it.
+ */
+function VideoButton({ editor, disabled }) {
+  const [open, setOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [error, setError] = useState('');
+  const [url, setUrl] = useState('');
+  const fileRef = useRef(null);
+  const boxRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const close = (e) => { if (boxRef.current && !boxRef.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
+  }, [open]);
+
+  function insertHtml(html) {
+    editor.chain().focus().insertContent({ type: 'rawHtml', attrs: { html } }).run();
+    setOpen(false);
+    setUrl('');
+    setError('');
+  }
+
+  function addLink() {
+    const source = videoSource(url.trim());
+    if (!source) { setError('Paste a YouTube or Vimeo link, or a link to an .mp4 / .webm file.'); return; }
+    insertHtml(source.kind === 'iframe'
+      ? `<div class="df-embed"><iframe src="${source.src}" title="Video" loading="lazy" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>`
+      : `<video src="${source.src}" controls playsinline preload="metadata"></video>`);
+  }
+
+  async function upload(file) {
+    if (!file) return;
+    setBusy(true);
+    setProgress(0);
+    setError('');
+    try {
+      const src = await uploadMedia(file, { folder: 'video', onProgress: setProgress });
+      insertHtml(`<video src="${src}" controls playsinline preload="metadata"></video>`);
+    } catch (err) {
+      setError(err.message || 'Upload failed.');
+    } finally {
+      setBusy(false);
+      if (fileRef.current) fileRef.current.value = '';
+    }
+  }
+
+  return (
+    <span ref={boxRef} className="relative">
+      <Btn label="Video" icon={Clapperboard} active={open} disabled={disabled} onClick={() => setOpen((v) => !v)} />
+      {open ? (
+        <div className="absolute left-0 top-full z-20 mt-1.5 w-80 rounded-xl border border-line bg-white p-3 shadow-[0_16px_40px_-20px_rgb(6_59_76/0.5)]">
+          <p className="mb-1.5 text-[12.5px] font-medium text-ink-700">YouTube / Vimeo link</p>
+          <div className="flex gap-1.5">
+            <input
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              // Inside the product / page form: Enter must not submit it.
+              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addLink(); } }}
+              placeholder="https://youtu.be/…"
+              className="h-9 min-w-0 flex-1 rounded-lg border border-line-strong px-2.5 text-[13px] outline-none focus:border-primary-500"
+            />
+            <button type="button" onClick={addLink} className="h-9 rounded-lg border border-primary-500 px-3 text-[13px] font-semibold text-primary-700 hover:bg-primary-50">Add</button>
+          </div>
+          <p className="my-2 text-center text-[12px] text-ink-300">or upload a video file</p>
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            disabled={busy}
+            className="flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary-500 text-[13.5px] font-semibold text-white transition-colors hover:bg-ink-900 disabled:opacity-70"
+          >
+            {busy ? <Loader2 size={15} className="animate-spin" aria-hidden="true" /> : <Upload size={15} aria-hidden="true" />}
+            {busy ? `Uploading… ${progress}%` : 'Upload MP4 / WebM'}
+          </button>
+          <input ref={fileRef} type="file" accept="video/mp4,video/webm,video/ogg,video/quicktime" className="hidden" onChange={(e) => upload(e.target.files?.[0])} />
+          <p className="mt-1.5 text-[11.5px] text-ink-400">Up to 200 MB. A YouTube link loads faster for visitors.</p>
           {error ? <p className="mt-2 text-[12.5px] text-danger">{error}</p> : null}
         </div>
       ) : null}

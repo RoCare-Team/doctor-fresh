@@ -49,7 +49,7 @@ export default async function SparePartsPage() {
       <CategoryProducts products={products} />
 
       <div className="mt-12 space-y-10">
-        <SeoContent sections={category?.seoSections || []} />
+        <SeoContent sections={category?.seoSections || []} html={category?.richHtml} />
         <FaqSection faqs={category?.faqs || []} />
       </div>
       </div>

@@ -4,6 +4,7 @@ import {
   Phone, Mail, Globe, MapPin, Facebook, Twitter, Linkedin, Instagram, Youtube, Mails,
 } from 'lucide-react';
 import { getBrand, getFooterLinks } from '@/lib/catalog';
+import { getContent } from '@/lib/sql/site-content';
 import { imageUrl } from '@/lib/utils';
 import NewsletterForm from '@/components/forms/NewsletterForm';
 
@@ -37,7 +38,9 @@ function LinkColumn({ title, links }) {
 }
 
 export default async function Footer() {
-  const [brand, footer] = await Promise.all([getBrand(), getFooterLinks()]);
+  const [brand, footer, copy] = await Promise.all([
+    getBrand(), getFooterLinks(), getContent('footer').catch(() => ({})),
+  ]);
   const popularServices = footer.popularServices;
   const popularCities = [...footer.popularRoServiceCities, ...footer.popularWaterPurifierCities].slice(0, 8);
 
@@ -51,9 +54,9 @@ export default async function Footer() {
               <Mails size={22} aria-hidden="true" />
             </span>
             <div>
-              <h2 className="text-[19px] font-semibold text-white md:text-[22px]">Stay Updated</h2>
+              <h2 className="text-[19px] font-semibold text-white md:text-[22px]">{copy.newsletterTitle || 'Stay Updated'}</h2>
               <p className="mt-1.5 max-w-md text-[14.5px] leading-relaxed text-white/60">
-                Offers, new launches and water care tips — straight to your inbox.
+                {copy.newsletterText}
               </p>
             </div>
           </div>

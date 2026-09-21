@@ -3,15 +3,18 @@ import { getBrand } from '@/lib/catalog';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import PartnerForm from '@/components/forms/PartnerForm';
 import { partnerPage } from '@/data/site';
+import { getContent } from '@/lib/sql/site-content';
 import { metaFor } from '@/lib/utils';
 
-export const metadata = metaFor({
-  title: partnerPage.metaTitle || 'Become A Partner - Doctor Fresh',
-  description:
-    partnerPage.metaDescription ||
-    'Become a Doctor Fresh dealer, distributor or C&F / master partner. Apply online for a water purifier business opportunity in India.',
-  path: '/partner',
-});
+// Text and search listing come from the admin (Site content).
+export async function generateMetadata() {
+  const c = await getContent('pages').catch(() => null);
+  return metaFor({
+    title: c?.partnerMetaTitle || partnerPage.metaTitle || 'Become A Partner - Doctor Fresh',
+    description: c?.partnerMetaDescription || partnerPage.metaDescription,
+    path: '/partner',
+  });
+}
 
 const BENEFITS = [
   { icon: TrendingUp, title: 'Growing category', text: 'Water treatment demand across domestic, commercial and industrial segments.' },
@@ -21,7 +24,10 @@ const BENEFITS = [
 ];
 
 export default async function PartnerPage() {
-  const brand = await getBrand();
+  const [brand, c] = await Promise.all([getBrand(), getContent('pages').catch(() => ({}))]);
+  // The built-in icons stay; the words come from the admin.
+  const benefits = (c.partnerBenefits?.length ? c.partnerBenefits : BENEFITS)
+    .map((b, i) => ({ ...b, icon: BENEFITS[i % BENEFITS.length].icon }));
   return (
     <>
       <div className="border-b border-line bg-surface-muted">
@@ -32,15 +38,14 @@ export default async function PartnerPage() {
 
       <div className="df-container py-8 md:py-10">
       <header className="mb-8 max-w-2xl">
-        <h1 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">{partnerPage.heading}</h1>
+        <h1 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[34px]">{c.partnerHeading || partnerPage.heading}</h1>
         <p className="mt-2.5 text-[15.5px] leading-relaxed text-ink-400">
-          Partner with Doctor Fresh as a dealer, distributor or C&amp;F / master franchise and build a
-          water purification business in your territory.
+          {c.partnerIntro}
         </p>
       </header>
 
       <ul className="mb-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {BENEFITS.map((b) => {
+        {benefits.map((b) => {
           const Icon = b.icon;
           return (
             <li key={b.title} className="df-card p-5">
@@ -57,13 +62,13 @@ export default async function PartnerPage() {
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-12">
         <section>
           <h2 className="mb-5 text-lg font-semibold text-ink-900">Partner application</h2>
-          <PartnerForm tabs={partnerPage.tabs} fields={partnerPage.fields} />
+          <PartnerForm tabs={c.partnerTabs?.length ? c.partnerTabs : partnerPage.tabs} fields={partnerPage.fields} />
         </section>
 
         <aside className="rounded-[14px] border border-line bg-surface-muted p-5">
-          <h2 className="text-[15px] font-semibold text-ink-900">Prefer to talk first?</h2>
+          <h2 className="text-[15px] font-semibold text-ink-900">{c.partnerAsideTitle}</h2>
           <p className="mt-1.5 text-[14px] leading-relaxed text-ink-500">
-            Our channel team can walk you through investment, margins and territory availability.
+            {c.partnerAsideText}
           </p>
           <ul className="mt-4 space-y-2 text-[14.5px]">
             <li>

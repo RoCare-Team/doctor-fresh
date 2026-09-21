@@ -280,6 +280,24 @@
     height: auto;
     aspect-ratio: 16 / 9;
   }
+  /* Videos added in the editor: full width, 16:9, rounded like the pictures. */
+  .df-prose .df-embed,
+  .df-prose div[data-youtube-video] {
+    margin-block: 1.25rem;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background: var(--color-ink-900);
+  }
+  .df-prose .df-embed iframe,
+  .df-prose div[data-youtube-video] iframe,
+  .df-prose video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: var(--radius-card);
+  }
+  .df-prose img { max-width: 100%; }
 
   .df-prose pre {
     overflow-x: auto;
@@ -372,6 +390,10 @@
     text-transform: uppercase;
     color: var(--color-primary-700);
   }
+  /* A video block previews the video; clicks select the block instead of playing it. */
+  .df-editor .df-raw-html__video { margin-top: 0.5rem; max-width: 520px; pointer-events: none; }
+  .df-editor .df-raw-html__video iframe,
+  .df-editor .df-raw-html__video video { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 0.5rem; background: #000; }
   .df-editor .df-raw-html pre {
     margin: 0.35rem 0 0;
     max-height: 9rem;

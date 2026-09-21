@@ -1,7 +1,7 @@
 import { revalidatePath } from 'next/cache';
 import { requireAdmin, readJson, fail } from '@/lib/admin/guard';
 import {
-  createQuickLink, updateQuickLink, deleteQuickLink, forgetQuickLinks,
+  createQuickLink, updateQuickLink, deleteQuickLink, forgetQuickLinks, addSuggestedQuickLinks,
 } from '@/lib/sql/quick-links';
 import { listLandingPages } from '@/lib/sql/admin-landing';
 
@@ -39,6 +39,7 @@ export async function POST(request) {
   if (response) return response;
   const body = await readJson(request);
   if (!body) return fail('Invalid request.');
+  if (body.suggested) return run(() => addSuggestedQuickLinks(), 'add the suggested sections');
   return run(() => createQuickLink(body), 'create the section');
 }
 

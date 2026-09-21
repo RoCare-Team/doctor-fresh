@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import {
   Plus, Pencil, Trash2, X, Search, Loader2, Save, GripVertical, AlertTriangle, CheckCircle2, ExternalLink,
-  ArrowUp, ArrowDown, Link2,
+  ArrowUp, ArrowDown, Link2, Sparkles,
 } from 'lucide-react';
 import { useCan } from '@/components/admin/AdminAccess';
 import { cx } from '@/lib/utils';
@@ -16,6 +16,22 @@ export default function QuickLinksManager({ sections, icons }) {
   const allow = useCan();
   const [editing, setEditing] = useState(null); // null | 'new' | section
   const [notice, setNotice] = useState(null);
+  const [suggesting, setSuggesting] = useState(false);
+
+  async function addSuggested() {
+    setSuggesting(true);
+    const res = await fetch('/api/admin/quick-links', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ suggested: true }),
+    }).catch(() => null);
+    const data = await res?.json().catch(() => ({}));
+    setSuggesting(false);
+    if (!res?.ok || !data?.ok) { setNotice({ ok: false, text: data?.error || 'Could not add the sections.' }); return; }
+    setNotice(data.added?.length
+      ? { ok: true, text: `Added ${data.added.join(', ')} — they now show at the bottom of the home page.` }
+      : { ok: true, text: 'Those sections already exist.' });
+    router.refresh();
+  }
+
   const iconLabel = (id) => icons.find((i) => i.id === id)?.label || id;
 
   async function remove(s) {
@@ -35,6 +51,17 @@ export default function QuickLinksManager({ sections, icons }) {
           <p className="mt-0.5 text-[13.5px] text-ink-400">The “Quick Links” sections at the bottom of the home page. Nothing shows there until a section is added.</p>
         </div>
         {allow('quick_links', 'create') ? (
+          <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={addSuggested}
+            disabled={suggesting}
+            title="RO Service, Water Purifier, RO Plant and Water Softener pages for the big cities"
+            className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-primary-500 bg-white px-4 text-[14px] font-semibold text-primary-700 hover:bg-primary-50 disabled:opacity-60"
+          >
+            {suggesting ? <Loader2 size={16} className="animate-spin" aria-hidden="true" /> : <Sparkles size={16} aria-hidden="true" />}
+            Add suggested sections
+          </button>
           <button
             type="button"
             onClick={() => setEditing('new')}
@@ -43,6 +70,7 @@ export default function QuickLinksManager({ sections, icons }) {
             <Plus size={16} aria-hidden="true" />
             Create New Section
           </button>
+          </div>
         ) : null}
       </div>
 
