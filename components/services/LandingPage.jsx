@@ -8,6 +8,7 @@ import ServiceBookingForm from './ServiceBookingForm';
 import Reveal from '@/components/common/Reveal';
 import NearbyStores from './NearbyStores';
 import VideoEmbed from '@/components/common/VideoEmbed';
+import CommunityChat from './CommunityChat';
 
 /**
  * Renders one row of `landing_pages` — a national service page or one of the
@@ -73,6 +74,9 @@ export default function LandingPage({
           )}
 
           {page.faqs.length ? <FaqSection faqs={page.faqs} /> : null}
+
+          {/* visitors' questions and experiences, with replies */}
+          <CommunityChat path={`/${page.slug}`} />
 
           {nearby.length ? (
             <Reveal className="mt-12">
