@@ -22,7 +22,7 @@ export default function ProductGrid({ products = [], columns = 3, compact = fals
       {products.map((p, i) => (
         // cards in a row arrive a beat apart, capped so long grids never lag
         <Reveal key={p.id} delay={(i % 3) * 70} className="h-full">
-          <ProductCard product={p} compact={compact} />
+          <ProductCard product={p} compact={compact} priority={i < 4} />
         </Reveal>
       ))}
     </div>

@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // The stylesheet (about 20 KB compressed) goes into each page's HTML instead
+  // of separate files the browser must fetch before it can paint anything.
+  experimental: {
+    inlineCss: true,
+  },
   // A second dev server (for testing) can build into its own folder.
   ...(process.env.NEXT_DIST_DIR ? { distDir: process.env.NEXT_DIST_DIR } : {}),
 

@@ -161,28 +161,36 @@
   /* ---------------------------------------------------------- motion ----
      Scroll reveal used by <Reveal>. Transform + opacity only, so it runs on
      the compositor and never causes layout work. */
+  /* Visible as the server sent it, so the first paint (and the page's largest
+     picture or heading) never waits for JavaScript. Only content that starts
+     below the fold is put in the waiting state, by Reveal after load, while
+     it is out of sight — then faded in when it is scrolled to. */
   .df-reveal {
-    opacity: 0;
-    transform: translateY(16px);
     transition:
       opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
       transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, transform;
   }
-  .df-reveal.is-visible {
+  .df-reveal.df-reveal-wait {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: none;
+  }
+  .df-reveal.df-reveal-wait.is-visible {
     opacity: 1;
     transform: none;
-    will-change: auto;
+    transition:
+      opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
   }
   /* A phone scrolls fast and in short steps, and a heading that is still
      waiting for its fade reads as a missing heading. Below `sm` everything is
      simply there; the reveal stays a desktop flourish. */
   @media (max-width: 639px) {
-    .df-reveal {
+    .df-reveal,
+    .df-reveal.df-reveal-wait {
       opacity: 1;
       transform: none;
       transition: none;
-      will-change: auto;
     }
   }
 

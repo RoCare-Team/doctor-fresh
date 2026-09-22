@@ -13,7 +13,7 @@ import { formatPrice, imageUrl } from '@/lib/utils';
  * description or an odd image ratio can never make one card taller than its
  * neighbour, and the actions always sit on the bottom edge of the card.
  */
-export default function ProductCard({ product, compact = false }) {
+export default function ProductCard({ product, compact = false, priority = false }) {
   if (!product) return null;
 
   const image = product.images?.[0];
@@ -32,6 +32,9 @@ export default function ProductCard({ product, compact = false }) {
               src={imageUrl(image)}
               alt={product.name}
               fill
+              // The first cards of a grid are often the page's largest picture.
+              priority={priority}
+              fetchPriority={priority ? 'high' : undefined}
               sizes="(max-width: 640px) 46vw, (max-width: 1024px) 46vw, 360px"
               className="object-contain p-2 transition-transform duration-300 ease-out group-hover:scale-[1.07]"
             />

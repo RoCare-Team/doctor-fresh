@@ -37,12 +37,12 @@ export default function Reveal({ as: Tag = 'div', delay = 0, className = '', chi
     const el = ref.current;
     if (!el) return undefined;
 
-    // already on screen at mount (above the fold) — show it without waiting
-    if (el.getBoundingClientRect().top < window.innerHeight * 0.92) {
-      el.classList.add('is-visible');
-      return undefined;
-    }
+    // On screen already (above the fold): it was painted as the server sent
+    // it and simply stays — hiding it now would only delay what people see.
+    if (el.getBoundingClientRect().top < window.innerHeight) return undefined;
 
+    // Below the fold: hidden while out of sight, faded in when scrolled to.
+    el.classList.add('df-reveal-wait');
     const io = getObserver();
     io?.observe(el);
     return () => io?.unobserve(el);
