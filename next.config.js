@@ -6,6 +6,24 @@ const nextConfig = {
   experimental: {
     inlineCss: true,
   },
+
+  /**
+   * Next ships polyfills for Array.at/flat/flatMap, Object.fromEntries/hasOwn
+   * and String.trimStart/trimEnd to every browser. Every browser the site
+   * supports (browserslist in package.json: Chrome/Edge 93+, Safari 15.4+,
+   * Firefox 92+) has them built in, so the ~11 KB is left out of the bundle.
+   */
+  webpack(config, { isServer }) {
+    if (!isServer) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '../build/polyfills/polyfill-module': false,
+        'next/dist/build/polyfills/polyfill-module': false,
+        [require.resolve('next/dist/build/polyfills/polyfill-module')]: false,
+      };
+    }
+    return config;
+  },
   // A second dev server (for testing) can build into its own folder.
   ...(process.env.NEXT_DIST_DIR ? { distDir: process.env.NEXT_DIST_DIR } : {}),
 
@@ -16,6 +34,12 @@ const nextConfig = {
   outputFileTracingRoot: __dirname,
 
   images: {
+    // AVIF where the browser takes it (a third to half smaller than WebP at
+    // the same look), WebP otherwise.
+    formats: ['image/avif', 'image/webp'],
+    // 320 added between 256 and 384: a product card on a phone needs about
+    // 260-300px, and the next size up used to be 384.
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 320, 384],
     remotePatterns: [
       { protocol: 'https', hostname: 'www.doctorfresh.in' },
       { protocol: 'https', hostname: 'doctorfresh.in' },

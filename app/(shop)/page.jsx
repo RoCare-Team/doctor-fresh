@@ -99,6 +99,8 @@ export default async function HomePage() {
               fill
               priority={false}
               sizes="(max-width: 1024px) 100vw, 1250px"
+              // background artwork under a dark gradient: lighter compression is not visible
+              quality={60}
               aria-hidden="true"
               className="pointer-events-none select-none object-cover object-right"
             />

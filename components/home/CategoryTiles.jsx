@@ -78,7 +78,8 @@ export default function CategoryTiles({ tiles = [] }) {
                     src={imageUrl(t.image)}
                     alt=""
                     fill
-                    sizes="(max-width: 640px) 92vw, (max-width: 1024px) 34vw, 280px"
+                    // square product shots in a panel at most 208px tall, so never wider than that
+                    sizes="210px"
                     className="object-contain p-2 transition-transform duration-300 ease-out group-hover:scale-[1.06]"
                   />
                 ) : (

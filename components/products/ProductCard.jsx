@@ -35,7 +35,9 @@ export default function ProductCard({ product, compact = false, priority = false
               // The first cards of a grid are often the page's largest picture.
               priority={priority}
               fetchPriority={priority ? 'high' : undefined}
-              sizes="(max-width: 640px) 46vw, (max-width: 1024px) 46vw, 360px"
+              // Square product shots in a well 150 / 210 / 230px tall (phone / sm / md+),
+              // so the picture is never shown wider than that.
+              sizes="(max-width: 640px) 150px, (max-width: 768px) 210px, 230px"
               className="object-contain p-2 transition-transform duration-300 ease-out group-hover:scale-[1.07]"
             />
           ) : null}

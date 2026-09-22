@@ -52,7 +52,8 @@ export default function DealSlider({ deals = [] }) {
                     src={p.images?.[0]}
                     alt=""
                     fill
-                    sizes="(max-width: 640px) 78vw, 300px"
+                    // two cards per row on a phone, so half the screen
+                    sizes="(max-width: 640px) 46vw, 300px"
                     className="object-contain transition-transform duration-300 group-hover:scale-[1.06]"
                     iconSize={28}
                   />
