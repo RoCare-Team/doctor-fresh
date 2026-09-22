@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import {
   ArrowRight, Droplet, Wrench, Clock, MapPin,
 } from 'lucide-react';

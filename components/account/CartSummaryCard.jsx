@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { ShoppingCart } from 'lucide-react';
 import { useCart } from '@/components/cart/CartProvider';
 import SafeImage from '@/components/common/SafeImage';

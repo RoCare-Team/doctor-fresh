@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { Phone, Mail, Globe, Star, CheckCircle2 } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import ServicePackages from './ServicePackages';

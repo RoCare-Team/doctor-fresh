@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { SlidersHorizontal, X } from 'lucide-react';
 import ProductGrid from '@/components/products/ProductGrid';
 import Button from '@/components/common/Button';

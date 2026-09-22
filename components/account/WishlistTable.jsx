@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import Image from 'next/image';
 import { Heart } from 'lucide-react';
 import WishlistButton from '@/components/products/WishlistButton';

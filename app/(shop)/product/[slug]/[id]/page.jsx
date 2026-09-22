@@ -1,5 +1,5 @@
 import VideoEmbed from '@/components/common/VideoEmbed';
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { notFound } from 'next/navigation';
 import { Truck, ShieldCheck, Wrench, Phone, PackageCheck } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';

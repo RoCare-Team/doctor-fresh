@@ -3,7 +3,7 @@
 import {
   useCallback, useEffect, useRef, useState,
 } from 'react';
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { useRouter } from 'next/navigation';
 import {
   Lock, Check, ShieldCheck, ShoppingBag, MapPin, CreditCard, ArrowLeft, ArrowRight, Pencil,

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import Image from 'next/image';
 import { X, ChevronDown, Phone, Mail, MessageCircle, LogIn, UserPlus } from 'lucide-react';
 import { imageUrl, cx } from '@/lib/utils';

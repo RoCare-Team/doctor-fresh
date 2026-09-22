@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { CircleUser, Heart, Package, Pencil, ChevronRight } from 'lucide-react';
 import SignOutButton from '@/components/account/SignOutButton';
 import { cx } from '@/lib/utils';

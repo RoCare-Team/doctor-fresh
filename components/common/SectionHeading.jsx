@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { ArrowRight } from 'lucide-react';
 
 export default function SectionHeading({ title, subtitle, href, linkLabel = 'View all', as: Tag = 'h2' }) {

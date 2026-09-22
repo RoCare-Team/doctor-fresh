@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { ArrowRight } from 'lucide-react';
 import SafeImage from '@/components/common/SafeImage';
 import { formatPrice, cx } from '@/lib/utils';

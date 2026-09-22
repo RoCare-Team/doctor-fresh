@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import Breadcrumb from '@/components/common/Breadcrumb';
 import { getAllCategories, getProductsByCategory } from '@/lib/catalog';
 import { metaFor } from '@/lib/utils';

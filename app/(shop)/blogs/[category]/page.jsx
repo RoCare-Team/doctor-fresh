@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { notFound } from 'next/navigation';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import BlogCard from '@/components/blogs/BlogCard';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { Input, FormNote } from '@/components/forms/Field';

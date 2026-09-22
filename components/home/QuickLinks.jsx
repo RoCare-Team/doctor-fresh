@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import {
   Link2, MapPin, ShoppingCart, Wrench, Droplets, Factory, Building2, Star, ChevronDown,
 } from 'lucide-react';

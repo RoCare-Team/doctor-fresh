@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { redirect } from 'next/navigation';
 import {
   Wallet, Package, Heart, Mail, Phone, MapPin, Download,

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import Image from 'next/image';
 import { ArrowRight, ArrowUpRight, Droplets } from 'lucide-react';
 import SliderDots, { pageState, goToPage } from '@/components/common/SliderDots';

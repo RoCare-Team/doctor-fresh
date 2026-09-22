@@ -7,7 +7,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import {
   LayoutDashboard, Package, ShoppingBag, Layers, Users, Inbox,
   Newspaper, Ticket, Settings, ExternalLink, LogOut, Menu, X, FileText, Shuffle, Loader2,
-  Wrench, Mail, Handshake, UserCog, MapPin, Link2, House, Map as MapIcon, PanelsTopLeft, MessagesSquare,
+  Wrench, Mail, Handshake, UserCog, MapPin, Link2, House, Map as MapIcon, PanelsTopLeft, MessagesSquare, Briefcase,
 } from 'lucide-react';
 import { cx, imageUrl } from '@/lib/utils';
 import { can, roleInfo } from '@/lib/admin/access';
@@ -36,6 +36,7 @@ const NAV = [
   { href: '/admin/messages', label: 'Contact messages', icon: Mail, section: 'messages' },
   { href: '/admin/partners', label: 'Partner requests', icon: Handshake, section: 'messages' },
   { href: '/admin/comments', label: 'Comments', icon: MessagesSquare, section: 'comments' },
+  { href: '/admin/careers', label: 'Careers', icon: Briefcase, section: 'careers' },
   { href: '/admin/blogs', label: 'Blogs', icon: Newspaper, section: 'blogs' },
   { href: '/admin/coupons', label: 'Coupons', icon: Ticket, section: 'coupons' },
   { href: '/admin/users', label: 'Admin users', icon: UserCog, section: 'users' },
@@ -297,7 +298,7 @@ export default function AdminShell({ admin, brand, children }) {
           </button>
         </header>
 
-        <main className="relative px-4 pb-4 pt-3 md:px-6 md:pb-6 md:pt-3" aria-busy={Boolean(pendingHref)}>
+        <main className="relative min-h-[calc(100vh-4.5rem)] px-4 pb-4 pt-3 md:px-6 md:pb-6 md:pt-3" aria-busy={Boolean(pendingHref)}>
           <AdminAccessProvider access={admin.access}>{children}</AdminAccessProvider>
 
           {/* The old page stays underneath, faded, with the loader over it —
@@ -328,10 +329,12 @@ function PageLoader({ item }) {
   const label = item?.label || 'page';
 
   return (
-    <div className="df-fade-in absolute inset-0 z-20 flex justify-center bg-surface-muted/75 pt-[18vh] backdrop-blur-[2px]">
+    <div className="df-fade-in absolute inset-0 z-20 bg-surface-muted/75 backdrop-blur-[2px]">
+      {/* Sticky, so the card stays in the middle of the screen however far
+          the page underneath has been scrolled. */}
       <div
         role="status"
-        className="h-fit w-[min(17rem,calc(100%-2rem))] overflow-hidden rounded-2xl border border-white bg-white/95 text-center shadow-[0_30px_70px_-30px_rgb(6_59_76/0.55)]"
+        className="sticky top-[calc(50vh-6rem)] mx-auto mt-[12vh] h-fit w-[min(17rem,calc(100%-2rem))] overflow-hidden rounded-2xl border border-white bg-white/95 text-center shadow-[0_30px_70px_-30px_rgb(6_59_76/0.55)]"
       >
         <div className="relative bg-linear-to-b from-primary-50 to-white px-5 pb-4 pt-6">
           <div className="relative mx-auto h-20 w-20">
