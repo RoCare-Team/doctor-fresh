@@ -66,6 +66,10 @@
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
+    /* The scrollbar's space is always kept, so locking the page behind a
+       popup (overflow: hidden) no longer slides everything sideways by the
+       scrollbar's width — which Google counts as a layout shift. */
+    scrollbar-gutter: stable;
   }
 
   body {
