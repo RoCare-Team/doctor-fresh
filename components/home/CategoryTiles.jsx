@@ -94,7 +94,7 @@ export default function CategoryTiles({ tiles = [] }) {
               </div>
 
               <span className="mt-4 flex justify-center">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-500 px-5 py-2 text-[13.5px] font-semibold text-white shadow-sm transition-colors group-hover:bg-primary-900">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-600 px-5 py-2 text-[13.5px] font-semibold text-white shadow-sm transition-colors group-hover:bg-primary-900">
                   Shop now
                   <ArrowUpRight
                     size={14}

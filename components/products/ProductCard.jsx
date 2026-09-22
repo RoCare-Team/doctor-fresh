@@ -101,7 +101,7 @@ export default function ProductCard({ product, compact = false }) {
       <div className="flex flex-1 flex-col px-2.5 pb-2.5 pt-0.5 sm:px-4 sm:pb-4 sm:pt-1">
         {/* two reserved lines so titles of any length align across a row */}
         <h3 className="min-h-[36px] text-[13.5px] font-medium leading-snug text-ink-900 sm:min-h-[44px] sm:text-[16px] sm:font-semibold">
-          <Link href={product.url} className="line-clamp-2 transition-colors hover:text-primary-600">
+          <Link href={product.url} className="line-clamp-2 min-h-6 transition-colors hover:text-primary-600">
             {product.name}
           </Link>
         </h3>
@@ -127,7 +127,7 @@ export default function ProductCard({ product, compact = false }) {
                 </p>
                 {product.mrp > product.price ? (
                   <p className="mt-0.5 flex items-baseline gap-1.5 text-[12px] sm:hidden">
-                    <span className="text-ink-300 line-through">{formatPrice(product.mrp)}</span>
+                    <span className="text-ink-400 line-through">{formatPrice(product.mrp)}</span>
                     {showDiscount ? (
                       <span className="font-semibold text-success">{`${product.discountPercent}% off`}</span>
                     ) : null}

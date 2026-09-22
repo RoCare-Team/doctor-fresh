@@ -70,7 +70,7 @@ export default function CartView() {
               <p className="mt-1 flex flex-wrap items-baseline gap-x-2 text-[14px]">
                 <span className="font-semibold text-ink-900">{formatPrice(item.price)}</span>
                 {item.mrp > item.price ? (
-                  <span className="text-ink-300 line-through">{formatPrice(item.mrp)}</span>
+                  <span className="text-ink-400 line-through">{formatPrice(item.mrp)}</span>
                 ) : null}
                 {item.unit ? <span className="text-ink-400">{item.unit}</span> : null}
               </p>

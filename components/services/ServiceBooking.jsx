@@ -111,7 +111,7 @@ function ServiceItem({
         )}
         <p className="flex items-baseline gap-1.5">
           <span className="text-[17px] font-bold text-primary-700">{formatPrice(s.price)}</span>
-          {off ? <span className="text-[12.5px] text-ink-300 line-through">{formatPrice(s.mrp)}</span> : null}
+          {off ? <span className="text-[12.5px] text-ink-400 line-through">{formatPrice(s.mrp)}</span> : null}
         </p>
       </div>
     </li>

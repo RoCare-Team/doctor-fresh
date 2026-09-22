@@ -1,5 +1,4 @@
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
-import { cookies } from 'next/headers';
 import Image from 'next/image';
 import {
   ArrowRight, Phone, Droplets, Flame,
@@ -25,12 +24,11 @@ import {
 import { trustBadges, waterTest, homeMeta } from '@/data/site';
 import { metaFor } from '@/lib/utils';
 
-// Catalogue pages are rebuilt in the background every 5 minutes so edits made
-// in the existing admin panel appear without a redeploy.
-// Recently Viewed is read from this visitor's cookie, so the page is rendered
-// per request. Everything on it still comes from the cached catalogue, so
-// that costs a render rather than a round of database queries.
-export const dynamic = 'force-dynamic';
+// The same page for everyone, so it is served from the CDN and rebuilt in the
+// background every 5 minutes (and at once when the home page, site content or
+// quick links are saved in the admin). Recently Viewed is the only per-visitor
+// part; the browser fetches it after the page is shown (HomeColumns).
+export const revalidate = 300;
 
 export async function generateMetadata() {
   // Edited in the admin (Home page); the built-in copy until then.
@@ -74,24 +72,13 @@ export default async function HomePage() {
   // rails are resolved up front so the JSX below stays a plain render
   const railProducts = (await Promise.all(rails.map((r) => getProductsByIds(r.productIds))))
     .map((list) => list.map(cardProduct));
-  // What this visitor last looked at, from the cookie the product pages set.
-  const recentIds = String((await cookies()).get('df_recent')?.value || '')
-    .split(',')
-    .map(Number)
-    .filter((id) => Number.isInteger(id) && id > 0)
-    .slice(0, 3);
-
-  const [latestProducts, mostViewedProducts, recentProducts, quickLinks] = await Promise.all([
+  const [latestProducts, mostViewedProducts, quickLinks] = await Promise.all([
     getProductsByIds(latest),
     getProductsByIds(mostViewed),
-    getProductsByIds(recentIds),
     // Sections made in the admin; nothing is shown until one exists.
     quickLinksForHome().catch(() => []),
   ]);
 
-  // getProductsByIds makes no promise about order, and newest-first is the point.
-  const byId = new Map(recentProducts.map((p) => [p.id, p]));
-  const recent = recentIds.map((id) => byId.get(id)).filter(Boolean);
 
   return (
     <>
@@ -191,7 +178,6 @@ export default async function HomePage() {
 
       <HomeColumns
         latest={latestProducts.map(cardFields)}
-        recent={recent.map(cardFields)}
         mostViewed={mostViewedProducts.map(cardFields)}
       />
 
@@ -241,7 +227,7 @@ export default async function HomePage() {
 
           <div className="relative flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-start gap-5">
-              <span className="hidden h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-primary-500 text-white sm:flex">
+              <span className="hidden h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-primary-600 text-white sm:flex">
                 <Droplets size={28} aria-hidden="true" />
               </span>
               <div>
@@ -258,7 +244,7 @@ export default async function HomePage() {
             <div className="flex shrink-0 flex-wrap gap-3">
               <a
                 href={`tel:${brand.phoneRaw}`}
-                className="inline-flex h-12 items-center gap-2 rounded-xl bg-primary-500 px-6 text-[15.5px] font-semibold text-white transition-colors hover:bg-ink-900"
+                className="inline-flex h-12 items-center gap-2 rounded-xl bg-primary-600 px-6 text-[15.5px] font-semibold text-white transition-colors hover:bg-ink-900"
               >
                 <Phone size={17} aria-hidden="true" />
                 Call {brand.phone}

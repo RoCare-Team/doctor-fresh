@@ -24,6 +24,10 @@ export default function MobileMenu({
   // The extra links come from the admin (Site content); built-in until saved.
   const quickLinks = links?.length ? links : QUICK_LINKS;
   const [expanded, setExpanded] = useState(null);
+  // The drawer's contents are built on first open, not with every page: the
+  // full category tree is hundreds of elements nobody on a desktop ever sees.
+  const [used, setUsed] = useState(false);
+  useEffect(() => { if (open) setUsed(true); }, [open]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -39,7 +43,10 @@ export default function MobileMenu({
         open ? 'translate-x-0' : '-translate-x-full',
       )}
       aria-hidden={!open}
+      inert={!open}
     >
+      {used ? (
+      <>
       <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-4">
         <Link
           href="/"
@@ -154,7 +161,7 @@ export default function MobileMenu({
         <Link
           href="/registration"
           onClick={onClose}
-          className="flex items-center justify-center gap-1.5 rounded-md bg-primary-500 px-3 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-primary-900"
+          className="flex items-center justify-center gap-1.5 rounded-md bg-primary-600 px-3 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-primary-900"
         >
           <UserPlus size={15} aria-hidden="true" />
           Register
@@ -175,6 +182,8 @@ export default function MobileMenu({
           WhatsApp us
         </a>
       </div>
+      </>
+      ) : null}
     </div>
   );
 }

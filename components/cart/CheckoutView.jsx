@@ -576,7 +576,7 @@ function Stepper({ step, onBack }) {
               <span
                 className={cx(
                   'flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 transition-colors',
-                  done && 'border-primary-500 bg-primary-500 text-white',
+                  done && 'border-primary-500 bg-primary-600 text-white',
                   current && 'border-primary-500 bg-white text-primary-600 shadow-[0_0_0_3px_var(--color-primary-100)]',
                   !done && !current && 'border-line-strong bg-white text-ink-300',
                 )}

@@ -79,7 +79,7 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
         <button
           type="button"
           onClick={handleBuyNow}
-          className="inline-flex h-9.5 flex-1 items-center justify-center rounded-lg bg-primary-500 px-2 text-[13.5px] font-semibold text-white shadow-[0_6px_14px_-8px_rgb(21_151_197/0.9)] transition-all hover:bg-ink-900 active:scale-[0.97] sm:h-11 sm:rounded-full sm:px-3 sm:text-[14px] sm:shadow-none"
+          className="inline-flex h-9.5 flex-1 items-center justify-center rounded-lg bg-primary-600 px-2 text-[13.5px] font-semibold text-white shadow-[0_6px_14px_-8px_rgb(21_151_197/0.9)] transition-all hover:bg-ink-900 active:scale-[0.97] sm:h-11 sm:rounded-full sm:px-3 sm:text-[14px] sm:shadow-none"
         >
           Buy Now
         </button>

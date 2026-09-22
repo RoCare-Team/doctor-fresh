@@ -36,7 +36,7 @@ export default function ServicePackages({ packages = [] }) {
                   <p className="mt-2 flex items-baseline gap-2">
                     <span className="text-xl font-semibold text-ink-900">{formatPrice(pkg.price)}</span>
                     {pkg.mrp && pkg.mrp > pkg.price ? (
-                      <span className="text-[14px] text-ink-300 line-through">{formatPrice(pkg.mrp)}</span>
+                      <span className="text-[14px] text-ink-400 line-through">{formatPrice(pkg.mrp)}</span>
                     ) : null}
                   </p>
                 ) : null}

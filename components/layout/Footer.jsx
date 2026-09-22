@@ -50,7 +50,7 @@ export default async function Footer() {
       <div className="border-b border-white/10">
         <div className="df-container flex flex-col items-start justify-between gap-6 py-10 lg:flex-row lg:items-center">
           <div className="flex items-start gap-4">
-            <span className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-500 text-white sm:flex">
+            <span className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-600 text-white sm:flex">
               <Mails size={22} aria-hidden="true" />
             </span>
             <div>
@@ -91,7 +91,7 @@ export default async function Footer() {
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                   aria-label={s.key}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 text-white/70 transition-colors hover:border-primary-500 hover:bg-primary-500 hover:text-white"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 text-white/70 transition-colors hover:border-primary-500 hover:bg-primary-600 hover:text-white"
                 >
                   <Icon size={17} aria-hidden="true" />
                 </a>
@@ -151,7 +151,7 @@ export default async function Footer() {
       {/* -------------------------------------------------------- bottom bar */}
       <div className="border-t border-white/10">
         <div className="df-container flex flex-col gap-4 py-6 lg:flex-row lg:items-center lg:justify-between">
-          <p className="text-[13.5px] text-white/45">
+          <p className="text-[13.5px] text-white/70">
             © {new Date().getFullYear()} {footer.copyright}
           </p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">

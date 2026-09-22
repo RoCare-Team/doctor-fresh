@@ -143,6 +143,7 @@ export default function HeaderClient({
               width={878}
               height={188}
               priority
+              sizes="(min-width: 1024px) 243px, 170px"
               className="h-8 w-auto min-[380px]:h-9 lg:h-[52px]"
             />
           </Link>
@@ -177,7 +178,7 @@ export default function HeaderClient({
               />
               <button
                 type="submit"
-                className="absolute right-1.5 top-1/2 h-9 -translate-y-1/2 rounded-lg bg-primary-500 px-5 text-[14.5px] font-semibold text-white transition-colors hover:bg-ink-900"
+                className="absolute right-1.5 top-1/2 h-9 -translate-y-1/2 rounded-lg bg-primary-600 px-5 text-[14.5px] font-semibold text-white transition-colors hover:bg-ink-900"
               >
                 Search
               </button>
@@ -189,6 +190,7 @@ export default function HeaderClient({
 
             <Link
               href="/cart"
+              aria-label={count > 0 ? `Cart, ${count} item${count === 1 ? '' : 's'}` : 'Cart'}
               className="relative flex flex-col items-center rounded-lg px-3 py-1.5 text-ink-700 transition-colors hover:bg-surface-muted"
             >
               <span className="relative">
@@ -270,7 +272,7 @@ export default function HeaderClient({
             className={cx(
               'mr-6 inline-flex h-[38px] shrink-0 items-center gap-2 whitespace-nowrap rounded-lg px-4 text-[14.5px] font-semibold transition-colors',
               openMenu === 'products'
-                ? 'bg-primary-500 text-white'
+                ? 'bg-primary-600 text-white'
                 : 'bg-primary-50 text-primary-800 hover:bg-primary-100',
             )}
           >

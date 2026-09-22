@@ -70,6 +70,7 @@ export default function BlogCard({ post, featured = false }) {
             className="mt-5 inline-flex w-fit items-center gap-1.5 text-[15px] font-medium text-primary-700 transition-colors hover:text-primary-800"
           >
             Read more
+            <span className="sr-only">{` about ${post.title}`}</span>
             <ArrowRight size={15} aria-hidden="true" />
           </Link>
         </div>
@@ -110,6 +111,7 @@ export default function BlogCard({ post, featured = false }) {
           className="mt-4 inline-flex w-fit items-center gap-1.5 text-[14.5px] font-medium text-primary-700 transition-colors hover:text-primary-800"
         >
           Read more
+          <span className="sr-only">{` about ${post.title}`}</span>
           <ArrowRight size={14} aria-hidden="true" />
         </Link>
       </div>

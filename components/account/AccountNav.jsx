@@ -42,7 +42,7 @@ function MobileNav({ active, profile, counts }) {
   return (
     <div className="min-w-0 lg:hidden">
       <div className="df-card flex items-center gap-3 p-3">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-500 text-[14px] font-semibold text-white">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-600 text-[14px] font-semibold text-white">
           {initials(profile?.name, profile?.mobile)}
         </span>
         <span className="min-w-0 flex-1">
@@ -73,7 +73,7 @@ function MobileNav({ active, profile, counts }) {
               className={cx(
                 'flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-3.5 text-[13.5px] font-medium transition-colors',
                 current
-                  ? 'border-primary-500 bg-primary-500 text-white'
+                  ? 'border-primary-500 bg-primary-600 text-white'
                   : 'border-line bg-white text-ink-700',
               )}
             >
@@ -144,7 +144,7 @@ function DesktopNav({ active, profile, counts }) {
                     className={cx(
                       'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors',
                       current
-                        ? 'bg-primary-500 text-white'
+                        ? 'bg-primary-600 text-white'
                         : 'bg-surface-muted text-ink-500 group-hover:bg-white group-hover:text-primary-600',
                     )}
                   >
@@ -167,7 +167,7 @@ function DesktopNav({ active, profile, counts }) {
                     <span
                       className={cx(
                         'min-w-6 rounded-full px-1.5 py-0.5 text-center text-[12px] font-semibold',
-                        current ? 'bg-primary-500 text-white' : 'bg-white text-ink-500 ring-1 ring-line',
+                        current ? 'bg-primary-600 text-white' : 'bg-white text-ink-500 ring-1 ring-line',
                       )}
                     >
                       {count}

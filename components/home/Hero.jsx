@@ -93,6 +93,10 @@ export default function Hero({ content = {} }) {
             alt=""
             fill
             priority={i === 0}
+            // The first banner is what the page is judged on; the rest are
+            // only seen five seconds later, so they do not compete with it.
+            fetchPriority={i === 0 ? 'high' : 'low'}
+            loading={i === 0 ? 'eager' : 'lazy'}
             sizes="100vw"
             aria-hidden="true"
             className={cx(
@@ -142,7 +146,7 @@ export default function Hero({ content = {} }) {
           >
             <Link
               href={c.primaryHref}
-              className="inline-flex h-12 items-center justify-center gap-1.5 rounded-xl bg-primary-500 px-4 text-[14.5px] font-semibold text-white shadow-[0_10px_22px_-12px_rgb(21_151_197_/_0.9)] transition-all hover:bg-ink-900 active:scale-[0.97] sm:px-6 sm:text-[15px]"
+              className="inline-flex h-12 items-center justify-center gap-1.5 rounded-xl bg-primary-600 px-4 text-[14.5px] font-semibold text-white shadow-[0_10px_22px_-12px_rgb(21_151_197_/_0.9)] transition-all hover:bg-ink-900 active:scale-[0.97] sm:px-6 sm:text-[15px]"
             >
               {c.primaryLabel}
               <ArrowRight size={17} aria-hidden="true" />

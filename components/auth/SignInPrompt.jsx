@@ -78,7 +78,7 @@ export default function SignInPrompt({
         <div className="mt-6 space-y-2.5">
           <Link
             href={`/registration${query}`}
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary-500 text-[15px] font-semibold text-white transition-colors hover:bg-ink-900"
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary-600 text-[15px] font-semibold text-white transition-colors hover:bg-ink-900"
           >
             <UserPlus size={17} aria-hidden="true" />
             Create an account

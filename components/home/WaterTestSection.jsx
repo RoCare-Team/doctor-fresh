@@ -95,7 +95,7 @@ export default function WaterTestSection({ waterTest }) {
                 <button
                   type="submit"
                   disabled={sending}
-                  className="h-11 w-full rounded-lg bg-primary-500 px-5 text-[15px] font-semibold text-white transition-colors hover:bg-ink-900 disabled:opacity-60"
+                  className="h-11 w-full rounded-lg bg-primary-600 px-5 text-[15px] font-semibold text-white transition-colors hover:bg-ink-900 disabled:opacity-60"
                 >
                   {sending ? 'Booking…' : 'Book Free Water Test'}
                 </button>

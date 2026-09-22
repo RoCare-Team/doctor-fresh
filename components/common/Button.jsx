@@ -3,7 +3,7 @@ import { cx } from '@/lib/utils';
 
 const VARIANTS = {
   primary:
-    'bg-primary-500 text-white hover:bg-ink-900 border border-transparent',
+    'bg-primary-600 text-white hover:bg-ink-900 border border-transparent',
   accent:
     'bg-accent-600 text-white hover:bg-accent-700 border border-transparent',
   outline:
@@ -13,7 +13,7 @@ const VARIANTS = {
   ghost:
     'bg-transparent text-ink-500 border border-transparent hover:text-primary-600 hover:bg-primary-50',
   dark:
-    'bg-ink-900 text-white hover:bg-primary-500 border border-transparent',
+    'bg-ink-900 text-white hover:bg-primary-600 border border-transparent',
 };
 
 const SIZES = {

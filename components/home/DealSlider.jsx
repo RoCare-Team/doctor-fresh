@@ -76,14 +76,14 @@ export default function DealSlider({ deals = [] }) {
                       {formatPrice(p.price)}
                     </span>
                     {p.mrp > p.price ? (
-                      <span className="text-[12px] text-ink-300 line-through">{formatPrice(p.mrp)}</span>
+                      <span className="text-[12px] text-ink-400 line-through">{formatPrice(p.mrp)}</span>
                     ) : null}
                   </span>
                 ) : (
                   <span className="text-[13px] font-medium text-primary-700">On request</span>
                 )}
 
-                <span className="inline-flex h-8 shrink-0 items-center rounded-lg bg-primary-500 px-3.5 text-[12.5px] font-semibold text-white transition-colors group-hover:bg-ink-900">
+                <span className="inline-flex h-8 shrink-0 items-center rounded-lg bg-primary-600 px-3.5 text-[12.5px] font-semibold text-white transition-colors group-hover:bg-ink-900">
                   View
                 </span>
               </span>

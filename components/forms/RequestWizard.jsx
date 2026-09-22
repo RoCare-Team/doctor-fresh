@@ -156,7 +156,7 @@ export default function RequestWizard({ onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="mt-5 h-10 rounded-lg bg-primary-500 px-8 text-[14px] font-semibold text-white transition-colors hover:bg-primary-700"
+              className="mt-5 h-10 rounded-lg bg-primary-600 px-8 text-[14px] font-semibold text-white transition-colors hover:bg-primary-700"
             >
               Done
             </button>

@@ -21,7 +21,7 @@ export default function NewsletterForm() {
       <button
         type="submit"
         disabled={sending}
-        className="h-12 shrink-0 rounded-xl bg-primary-500 px-4 text-[15px] sm:px-6 font-semibold text-white transition-colors hover:bg-ink-900 disabled:opacity-60"
+        className="h-12 shrink-0 rounded-xl bg-primary-600 px-4 text-[15px] sm:px-6 font-semibold text-white transition-colors hover:bg-ink-900 disabled:opacity-60"
       >
         {status === 'done' ? 'Subscribed' : sending ? 'Sending…' : 'Subscribe'}
       </button>

@@ -48,7 +48,7 @@ export default function OrderTrace({ orders = [] }) {
         <button
           type="submit"
           aria-label="Trace my order"
-          className="flex h-10 shrink-0 items-center gap-1.5 rounded-lg bg-primary-500 px-3.5 text-[14px] font-medium text-white transition-colors hover:bg-ink-900"
+          className="flex h-10 shrink-0 items-center gap-1.5 rounded-lg bg-primary-600 px-3.5 text-[14px] font-medium text-white transition-colors hover:bg-ink-900"
         >
           <Search size={15} aria-hidden="true" />
           Trace

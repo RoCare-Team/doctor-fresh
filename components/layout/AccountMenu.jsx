@@ -43,6 +43,7 @@ export default function AccountMenu() {
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-haspopup="menu"
+          aria-label="Account"
           className="flex flex-col items-center rounded-lg px-3 py-1.5 text-ink-700 transition-colors hover:bg-surface-muted"
         >
           <User size={20} aria-hidden="true" />

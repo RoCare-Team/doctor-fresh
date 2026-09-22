@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { ArrowRight } from 'lucide-react';
 import SafeImage from '@/components/common/SafeImage';
@@ -9,10 +12,21 @@ import { formatPrice, cx } from '@/lib/utils';
  *
  * "Latest" and "Most Viewed" come from the catalogue — `add_timestamp` and
  * `number_of_view`, the columns the PHP site sorts by. "Recently Viewed" is
- * this visitor's own cookie, read on the server, so it is in the page from the
- * first paint and simply absent until they have opened a product.
+ * this visitor's own list (a cookie), fetched by the browser once the page is
+ * up, so the page itself is the same for everyone and can be cached; it is
+ * simply absent until they have opened a product.
  */
-export default function HomeColumns({ latest = [], recent = [], mostViewed = [] }) {
+export default function HomeColumns({ latest = [], mostViewed = [] }) {
+  const [recent, setRecent] = useState([]);
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/recently-viewed')
+      .then((r) => r.json())
+      .then((d) => { if (!cancelled) setRecent((d.products || []).slice(0, 3)); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
+
   const columns = [
     { title: 'Latest Products', eyebrow: 'Just added', href: '/all-category', products: latest },
     { title: 'Recently Viewed', eyebrow: 'Pick up where you left off', products: recent },
@@ -106,7 +120,7 @@ function MiniCard({ product }) {
                 {formatPrice(product.price)}
               </span>
               {product.mrp > product.price ? (
-                <span className="text-[12px] text-ink-300 line-through">
+                <span className="text-[12px] text-ink-400 line-through">
                   {formatPrice(product.mrp)}
                 </span>
               ) : null}

@@ -39,7 +39,7 @@
   --color-ink-800: #0a4a5e;
   --color-ink-700: #18343d;
   --color-ink-500: #4a6470;
-  --color-ink-400: #6b7f86;
+  --color-ink-400: #5d7178; /* 5.1:1 on white, 4.8:1 on surface-muted (AA) */
   --color-ink-300: #9db3bc;
 
   --color-surface: #ffffff;
@@ -48,7 +48,7 @@
   --color-line: #d9eaf0;
   --color-line-strong: #c2dce6;
 
-  --color-success: #0d8f5e;
+  --color-success: #0a7a50; /* 5.4:1 with white text, 4.7:1 as text on its own tint (AA) */
   --color-danger: #d92d20;
   --color-warning: #dc9b06;
 

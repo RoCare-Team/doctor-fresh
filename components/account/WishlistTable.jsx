@@ -24,7 +24,7 @@ export default function WishlistTable({ products = [] }) {
         </p>
         <Link
           href="/all-category"
-          className="mt-5 inline-flex h-10 items-center rounded-lg bg-primary-500 px-4 text-[14.5px] font-medium text-white transition-colors hover:bg-ink-900"
+          className="mt-5 inline-flex h-10 items-center rounded-lg bg-primary-600 px-4 text-[14.5px] font-medium text-white transition-colors hover:bg-ink-900"
         >
           Browse products
         </Link>
