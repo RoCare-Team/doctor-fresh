@@ -58,13 +58,18 @@ export default function Hero({ content = {} }) {
       onClick={() => setIndex(i)}
       aria-label={`Show banner ${i + 1}`}
       aria-current={i === index}
-      className={cx(
-        'h-1.5 rounded-full transition-all duration-300',
-        i === index
-          ? cx('w-8', tone === 'light' ? 'bg-white' : 'bg-primary-500')
-          : cx('w-2.5', tone === 'light' ? 'bg-white/55 hover:bg-white/80' : 'bg-ink-900/25 hover:bg-ink-900/45'),
-      )}
-    />
+      // The dot stays small; the button around it is finger-sized.
+      className="flex h-7 min-w-6 items-center justify-center px-[3px]"
+    >
+      <span
+        className={cx(
+          'block h-1.5 rounded-full transition-all duration-300',
+          i === index
+            ? cx('w-8', tone === 'light' ? 'bg-white' : 'bg-primary-500')
+            : cx('w-2.5', tone === 'light' ? 'bg-white/55 hover:bg-white/80' : 'bg-ink-900/25 hover:bg-ink-900/45'),
+        )}
+      />
+    </button>
   )) : null);
 
   return (
@@ -99,11 +104,11 @@ export default function Hero({ content = {} }) {
 
         {/* Phone only: a fade for the dots to sit on, and the brand line. */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-ink-900/45 to-transparent lg:hidden" />
-        <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-[0.1em] text-primary-700 shadow-sm backdrop-blur lg:hidden">
+        <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-primary-700 shadow-sm backdrop-blur lg:hidden">
           <Droplet size={10} className="fill-primary-500 text-primary-500" aria-hidden="true" />
           {c.eyebrow}
         </span>
-        <div className="absolute inset-x-0 bottom-3 flex justify-center gap-1.5 lg:hidden">{dots('light')}</div>
+        <div className="absolute inset-x-0 bottom-3 flex justify-center gap-0 lg:hidden">{dots('light')}</div>
       </div>
 
       <div className="df-container relative pb-8 pt-6 sm:pb-10 lg:flex lg:min-h-[580px] lg:items-center lg:py-16">
@@ -165,7 +170,7 @@ export default function Hero({ content = {} }) {
             ))}
           </ul>
 
-          <div style={{ '--df-delay': '420ms' }} className="df-rise mt-9 hidden gap-2 lg:flex">
+          <div style={{ '--df-delay': '420ms' }} className="df-rise mt-9 hidden gap-0 lg:flex">
             {dots('dark')}
           </div>
         </div>

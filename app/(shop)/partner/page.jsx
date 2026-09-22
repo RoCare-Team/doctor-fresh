@@ -59,7 +59,7 @@ export default async function PartnerPage() {
         })}
       </ul>
 
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-12">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-12">
         <section>
           <h2 className="mb-5 text-lg font-semibold text-ink-900">Partner application</h2>
           <PartnerForm tabs={c.partnerTabs?.length ? c.partnerTabs : partnerPage.tabs} fields={partnerPage.fields} />

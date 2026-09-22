@@ -45,7 +45,7 @@ export default function ProductCard({ product, compact = false }) {
               <span className="inline-flex items-center gap-1.5 rounded-md bg-white/95 px-1.5 py-1 shadow-[0_2px_8px_-4px_rgb(6_59_76_/_0.4)]">
                 <span className="inline-flex items-center gap-1 rounded bg-success px-1.5 py-0.5 text-[11.5px] font-semibold text-white">
                   {product.rating.toFixed(1)}
-                  <Star size={9} fill="currentColor" strokeWidth={0} aria-hidden="true" />
+                  <Star size={10} fill="currentColor" strokeWidth={0} aria-hidden="true" />
                 </span>
                 {product.reviewCount ? (
                   <span className="hidden whitespace-nowrap pr-0.5 text-[11.5px] text-ink-400 sm:inline">
@@ -72,18 +72,18 @@ export default function ProductCard({ product, compact = false }) {
             discount top left, rating bottom left, the heart top right. */}
         <div className="pointer-events-none absolute inset-2.5 sm:hidden">
           {showDiscount ? (
-            <span className="absolute left-1.5 top-1.5 rounded-md bg-primary-600 px-1.5 py-0.5 text-[10.5px] font-bold uppercase text-white">
+            <span className="absolute left-1.5 top-1.5 rounded-md bg-primary-600 px-1.5 py-0.5 text-[11.5px] font-bold uppercase text-white">
               {`${product.discountPercent}% off`}
             </span>
           ) : null}
           {product.rating ? (
-            <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-0.5 rounded-md bg-success px-1.5 py-0.5 text-[10.5px] font-semibold text-white">
+            <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-0.5 rounded-md bg-success px-1.5 py-0.5 text-[11.5px] font-semibold text-white">
               {product.rating.toFixed(1)}
-              <Star size={9} fill="currentColor" strokeWidth={0} aria-hidden="true" />
+              <Star size={10} fill="currentColor" strokeWidth={0} aria-hidden="true" />
             </span>
           ) : null}
           {!product.inStock ? (
-            <span className="absolute bottom-1.5 right-1.5 rounded-md bg-ink-900/85 px-1.5 py-0.5 text-[10.5px] font-medium text-white">
+            <span className="absolute bottom-1.5 right-1.5 rounded-md bg-ink-900/85 px-1.5 py-0.5 text-[11.5px] font-medium text-white">
               Out of stock
             </span>
           ) : null}

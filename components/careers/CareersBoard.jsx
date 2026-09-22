@@ -49,7 +49,7 @@ function ApplyForm({ job, onClose }) {
   }
 
   return (
-    <form onSubmit={submit} className="grid gap-3 sm:grid-cols-2">
+    <form onSubmit={submit} className="grid grid-cols-[minmax(0,1fr)] gap-3 sm:grid-cols-2">
       {/* not shown to people — catches bots that fill every field */}
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
       <input name="name" required maxLength={100} placeholder="Full name *" aria-label="Full name" autoComplete="name" className={field} />

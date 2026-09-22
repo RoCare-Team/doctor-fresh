@@ -143,7 +143,7 @@ export default function HeaderClient({
               width={878}
               height={188}
               priority
-              className="h-9 w-auto lg:h-[52px]"
+              className="h-8 w-auto min-[380px]:h-9 lg:h-[52px]"
             />
           </Link>
 

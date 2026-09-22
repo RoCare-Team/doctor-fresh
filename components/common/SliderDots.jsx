@@ -33,7 +33,7 @@ export default function SliderDots({
   const { from, to } = windowFor(pages, current);
 
   return (
-    <div className="mt-4 flex items-center justify-center gap-1.5">
+    <div className="mt-2.5 flex items-center justify-center">
       {Array.from({ length: to - from }, (_, n) => {
         const i = from + n;
         // The dots at the ends of a travelling window shrink, so it reads as
@@ -47,13 +47,18 @@ export default function SliderDots({
             onClick={() => onSelect(i)}
             aria-label={`${label} ${i + 1} of ${pages}`}
             aria-current={i === current}
-            className={cx(
-              'h-1.5 rounded-full transition-all duration-300',
-              i === current
-                ? cx('w-8', tone === 'dark' ? 'bg-white' : 'bg-primary-500')
-                : cx(edge ? 'w-1.5' : 'w-2.5', REST[tone] || REST.light),
-            )}
-          />
+            // The dot stays small; the button around it is finger-sized.
+            className="group flex h-7 min-w-6 items-center justify-center px-[3px]"
+          >
+            <span
+              className={cx(
+                'block h-1.5 rounded-full transition-all duration-300',
+                i === current
+                  ? cx('w-8', tone === 'dark' ? 'bg-white' : 'bg-primary-500')
+                  : cx(edge ? 'w-1.5' : 'w-2.5', REST[tone] || REST.light),
+              )}
+            />
+          </button>
         );
       })}
     </div>

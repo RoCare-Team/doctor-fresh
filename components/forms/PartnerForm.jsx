@@ -81,7 +81,7 @@ export default function PartnerForm({ tabs = [], fields = [] }) {
         ))}
       </div>
 
-      <form onSubmit={send} className="grid gap-3.5 sm:grid-cols-2">
+      <form onSubmit={send} className="grid grid-cols-[minmax(0,1fr)] gap-3.5 sm:grid-cols-2">
         <input type="hidden" name="enquiry_type" value={activeTab} />
 
         {renderField('name', { label: 'First name' })}
