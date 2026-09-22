@@ -1,5 +1,7 @@
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
-import { getAllCategories, getBlogCategories, getBrand } from '@/lib/catalog';
+import {
+  getAllCategories, getBlogCategories, getBrand, getFooterLinks,
+} from '@/lib/catalog';
 import { getContent } from '@/lib/sql/site-content';
 
 import HeaderClient from './HeaderClient';
@@ -18,10 +20,12 @@ export default async function Header() {
   const brand = await getBrand();
   // Menu links and the partner button, edited in the admin (Site content).
   const nav = await getContent('nav').catch(() => null);
+  // The service pages under "Service & AMC" — the same list as the footer's Popular Services.
+  const serviceLinks = (await getFooterLinks().catch(() => null))?.popularServices || [];
 
   return (
     <header className="sticky top-0 z-50 bg-white">
-      <HeaderClient categories={categories} blogCategories={blogCategories} brand={brand} nav={nav} />
+      <HeaderClient categories={categories} blogCategories={blogCategories} brand={brand} nav={nav} serviceLinks={serviceLinks} />
 
       <noscript>
         <div className="border-b border-line bg-surface-muted">

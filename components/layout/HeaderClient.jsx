@@ -5,7 +5,7 @@ import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  Search, ShoppingCart, Menu, ChevronDown, LayoutGrid, Lock,
+  Search, ShoppingCart, Menu, ChevronDown, LayoutGrid, Lock, Wrench, Hammer, CalendarCheck, ChevronRight,
 } from 'lucide-react';
 import { useCart } from '@/components/cart/CartProvider';
 import { imageUrl, cx } from '@/lib/utils';
@@ -25,10 +25,12 @@ const NAV = [
 ];
 
 export default function HeaderClient({
-  categories, blogCategories, brand, nav,
+  categories, blogCategories, brand, nav, serviceLinks = [],
 }) {
+  // Where the Service & AMC dropdown opens: under its own menu item.
+  const [servicesLeft, setServicesLeft] = useState(0);
   const navItems = nav?.items?.length ? nav.items : NAV;
-  const [openMenu, setOpenMenu] = useState(null); // 'products' | 'blogs' | null
+  const [openMenu, setOpenMenu] = useState(null); // 'products' | 'services' | 'blogs' | null
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState(categories[0]?.slug || null);
   const [query, setQuery] = useState('');
@@ -284,6 +286,34 @@ export default function HeaderClient({
           <ul className="df-no-scrollbar flex flex-1 items-center gap-1 overflow-x-auto xl:gap-2">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
+              // "Service & AMC" opens the list of service pages on hover.
+              const hasServices = serviceLinks.length > 0 && (item.href === '/water-purifier-service' || /service\s*&\s*amc/i.test(item.label));
+              if (hasServices) {
+                const open = openMenu === 'services';
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onMouseEnter={(e) => {
+                        const box = e.currentTarget.getBoundingClientRect();
+                        const frame = navRef.current?.getBoundingClientRect();
+                        setServicesLeft(frame ? box.left - frame.left : 0);
+                        setOpenMenu('services');
+                      }}
+                      aria-expanded={open}
+                      aria-haspopup="true"
+                      aria-current={isActive ? 'page' : undefined}
+                      className={cx(
+                        'inline-flex h-[52px] shrink-0 items-center gap-1 whitespace-nowrap border-b-2 px-2.5 text-[14.5px] transition-colors xl:px-3',
+                        open || isActive ? 'border-primary-500 font-medium text-ink-900' : 'border-transparent text-ink-500 hover:border-primary-200 hover:text-ink-900',
+                      )}
+                    >
+                      {item.label}
+                      <ChevronDown size={14} className={cx('transition-transform', open && 'rotate-180')} aria-hidden="true" />
+                    </Link>
+                  </li>
+                );
+              }
               return (
                 <li key={item.href}>
                   <Link
@@ -409,6 +439,42 @@ export default function HeaderClient({
                   ))}
                 </div>
               </div>
+            </div>
+          </div>
+        ) : null}
+
+        {openMenu === 'services' ? (
+          <div
+            className="absolute top-full z-50 pt-1"
+            style={{ left: Math.max(8, servicesLeft - 8) }}
+            onMouseLeave={() => setOpenMenu(null)}
+          >
+            <div className="w-[300px] overflow-hidden rounded-2xl border border-line bg-white p-2 shadow-[0_22px_48px_-22px_rgba(6,59,76,0.45)]">
+              <p className="px-3 pb-1.5 pt-2 text-[11.5px] font-semibold uppercase tracking-wider text-ink-400">Our services</p>
+              <ul>
+                {serviceLinks.map((l) => {
+                  const Icon = /amc/i.test(l.label) ? CalendarCheck : /install/i.test(l.label) ? Hammer : Wrench;
+                  const active = pathname === l.href;
+                  return (
+                    <li key={l.href}>
+                      <Link
+                        href={l.href}
+                        onClick={() => setOpenMenu(null)}
+                        className={cx(
+                          'group flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors',
+                          active ? 'bg-primary-50' : 'hover:bg-surface-muted',
+                        )}
+                      >
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-700 transition-colors group-hover:bg-primary-600 group-hover:text-white">
+                          <Icon size={17} aria-hidden="true" />
+                        </span>
+                        <span className="min-w-0 flex-1 text-[14px] font-medium text-ink-900">{l.label}</span>
+                        <ChevronRight size={15} className="shrink-0 text-ink-300 transition-transform group-hover:translate-x-0.5 group-hover:text-primary-700" aria-hidden="true" />
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </div>
         ) : null}

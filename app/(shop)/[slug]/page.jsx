@@ -111,6 +111,10 @@ export default async function FlatSlugPage({ params }) {
           states={states}
           premises={PREMISES}
           path={`/${slug}`}
+          title={page.heading}
+          intro={page.metaDescription}
+          phone={brand.phone}
+          tel={brand.phoneRaw}
         />
       ) : null}
 
