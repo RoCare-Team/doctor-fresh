@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
-import { getProduct, listCategories } from '@/lib/sql/admin-catalog';
+import { getProduct, listCategories, listAttributes } from '@/lib/sql/admin-catalog';
 import ProductEditor from '@/components/admin/ProductEditor';
 import SafeImage from '@/components/common/SafeImage';
 import DeleteCategory from '@/components/admin/DeleteCategory';
@@ -13,7 +13,11 @@ export const metadata = { title: 'Edit product' };
 export default async function AdminProductPage({ params }) {
   await requirePage('products');
   const { id } = await params;
-  const [product, categories] = await Promise.all([getProduct(Number(id)), listCategories()]);
+  const [product, categories, attributes] = await Promise.all([
+    getProduct(Number(id)),
+    listCategories(),
+    listAttributes(),
+  ]);
   if (!product) notFound();
   const category = (categories || []).find((c) => Number(c.id) === Number(product.categoryId));
 
@@ -49,7 +53,7 @@ export default async function AdminProductPage({ params }) {
       </div>
 
       <div className="mt-6 max-w-5xl">
-        <ProductEditor product={product} categories={categories || []} />
+        <ProductEditor product={product} categories={categories || []} attributes={attributes} />
 
         <div className="mt-8">
           <DeleteCategory

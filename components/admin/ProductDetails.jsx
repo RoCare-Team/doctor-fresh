@@ -227,7 +227,7 @@ export default function ProductDetails({ product, children = null }) {
         </Can>
         {status === 'saved' ? (
           <span className="text-[13.5px] text-success">
-            Saved. The product page updates within 5 minutes.
+            Saved. The product page is already updated.
           </span>
         ) : null}
       </div>

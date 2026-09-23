@@ -5,6 +5,7 @@ import { cx } from '@/lib/utils';
 import ProductForm from '@/components/admin/ProductForm';
 import ProductImages from '@/components/admin/ProductImages';
 import ProductDetails from '@/components/admin/ProductDetails';
+import ProductHighlights from '@/components/admin/ProductHighlights';
 
 /**
  * The product editor, split so each screen is short enough to work through.
@@ -18,13 +19,15 @@ import ProductDetails from '@/components/admin/ProductDetails';
 const TABS = [
   { id: 'basics', label: 'Basics' },
   { id: 'details', label: 'Details & Images' },
+  { id: 'highlights', label: 'Highlights' },
 ];
 
-export default function ProductEditor({ product, categories }) {
+export default function ProductEditor({ product, categories, attributes = [] }) {
   const [tab, setTab] = useState('basics');
 
   const missing = {
     details: !product.descriptionHtml && !product.specs?.length && !product.faqs?.length,
+    highlights: !product.attributeValueIds?.length,
   };
 
   return (
@@ -61,6 +64,9 @@ export default function ProductEditor({ product, categories }) {
       </div>
 
       {tab === 'basics' ? <ProductForm product={product} categories={categories} /> : null}
+      {tab === 'highlights' ? (
+        <ProductHighlights product={product} attributes={attributes} />
+      ) : null}
       {tab === 'details' ? (
         // Photos sit above the save button but outside the details form (see ProductDetails).
         <ProductDetails product={product}>
