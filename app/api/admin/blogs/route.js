@@ -14,7 +14,10 @@ function refreshBlog() {
   clearCache();
   try {
     revalidatePath('/blogs', 'layout');
-    revalidatePath('/blog', 'layout');
+    // The post pages are a dynamic route: the route itself has to be named,
+    // or the stored copy of /blog/<id>/<slug> keeps being served for its
+    // full five minutes after an edit.
+    revalidatePath('/blog/[id]/[slug]', 'page');
   } catch { /* best-effort; the pages refresh on their own schedule */ }
 }
 
