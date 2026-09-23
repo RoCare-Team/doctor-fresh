@@ -7,6 +7,7 @@ import { warmMedia } from '@/lib/blob';
 import NewBlogButton from '@/components/admin/NewBlogButton';
 import SafeImage from '@/components/common/SafeImage';
 import AdminTable from '@/components/admin/AdminTable';
+import BlogRowActions from '@/components/admin/BlogRowActions';
 import { formatDate } from '@/lib/utils';
 import { requirePage } from '@/lib/admin/guard';
 
@@ -43,10 +44,10 @@ export default async function AdminBlogsPage({ searchParams }) {
           { label: '', align: 'right' },
         ]}
         empty="No posts yet."
-        minWidth={760}
+        minWidth={880}
       >
         {(posts || []).map((p) => (
-          <tr key={p.id} className="transition-colors hover:bg-surface-muted">
+          <tr key={p.id} className={`transition-colors hover:bg-surface-muted ${p.live ? '' : 'bg-warning/5'}`}>
             <td className="px-4 py-3">
               <div className="flex items-center gap-3">
                 <span className="relative flex h-11 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-line bg-surface-muted text-ink-300">
@@ -58,6 +59,11 @@ export default async function AdminBlogsPage({ searchParams }) {
                   <Link href={`/admin/blogs/${p.id}`} className="line-clamp-1 font-medium text-primary-700 hover:text-primary-800">
                     {p.title}
                   </Link>
+                  {!p.live ? (
+                    <span className="mt-0.5 mr-1.5 inline-block rounded bg-warning/15 px-1.5 text-[10.5px] font-bold uppercase text-warning">
+                      Hidden
+                    </span>
+                  ) : null}
                   <span className="block text-[12px] text-ink-300">/{p.slug}</span>
                 </div>
               </div>
@@ -67,9 +73,7 @@ export default async function AdminBlogsPage({ searchParams }) {
             <td className="px-4 py-3 text-ink-500">{p.date ? formatDate(p.date) : '—'}</td>
             <td className="px-4 py-3 text-ink-500">{p.views}</td>
             <td className="px-4 py-3 text-right">
-              <Link href={`/admin/blogs/${p.id}`} className="text-[13.5px] font-medium text-primary-700 hover:text-primary-800">
-                Edit
-              </Link>
+              <BlogRowActions post={p} />
             </td>
           </tr>
         ))}

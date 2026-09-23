@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useSession } from '@/lib/useSession';
-import RequestWizard from './RequestWizard';
+import dynamic from 'next/dynamic';
+
+// The popup's code is fetched when it is about to be shown, not with the page.
+const RequestWizard = dynamic(() => import('./RequestWizard'));
 
 /**
  * Opens the enquiry popup for signed-out visitors, as the current site does.

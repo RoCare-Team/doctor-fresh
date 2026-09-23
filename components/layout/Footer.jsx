@@ -16,6 +16,15 @@ const SOCIAL_ICON = {
   youtube: Youtube,
 };
 
+// Pages the footer carries itself: they are not categories, services or cities.
+const COMPANY = [
+  { label: 'Blog', href: '/blogs' },
+  { label: 'Contact Us', href: '/contact' },
+  { label: 'Careers', href: '/careers' },
+  { label: 'Store Locator', href: '/store-locator' },
+  { label: 'Become a Partner', href: '/partner' },
+];
+
 function LinkColumn({ title, links }) {
   if (!links?.length) return null;
   return (
@@ -118,6 +127,14 @@ export default async function Footer() {
           <h3 className="mb-4 text-[14px] font-semibold uppercase tracking-[0.1em] text-white">
             Contact Us
           </h3>
+          <p className="mb-4 flex flex-wrap gap-x-4 gap-y-1.5">
+            <Link href="/contact" className="text-[14.5px] font-medium text-primary-300 transition-colors hover:text-white">
+              Contact page
+            </Link>
+            <Link href="/blogs" className="text-[14.5px] font-medium text-primary-300 transition-colors hover:text-white">
+              Read our blog
+            </Link>
+          </p>
           <ul className="space-y-4 text-[14.5px] text-white/60">
             {brand.offices.map((o) => (
               <li key={o.label} className="flex gap-2.5">
@@ -155,6 +172,14 @@ export default async function Footer() {
             © {new Date().getFullYear()} {footer.copyright}
           </p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {COMPANY.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className="text-[13.5px] font-medium text-white/80 transition-colors hover:text-white">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+            <li aria-hidden="true" className="hidden h-4 w-px bg-white/20 sm:block" />
             {footer.legal.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="text-[13.5px] text-white/55 transition-colors hover:text-white">

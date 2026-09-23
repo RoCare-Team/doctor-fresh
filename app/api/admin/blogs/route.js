@@ -1,8 +1,11 @@
 import { revalidatePath } from 'next/cache';
 import { requireAdmin, readJson, fail } from '@/lib/admin/guard';
-import { updateBlog, createBlog } from '@/lib/sql/admin-catalog';
+import {
+  updateBlog, createBlog, setBlogLive, deleteBlog,
+} from '@/lib/sql/admin-catalog';
 import { clearCache } from '@/lib/sql/cache';
-import { setBlogVideo } from '@/lib/sql/blog-video';
+import { setBlogVideo, removeBlogVideo } from '@/lib/sql/blog-video';
+import { blogCoverUrls, removeBlobs, blobEnabled } from '@/lib/blob';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,6 +27,18 @@ export async function PATCH(request) {
 
   const id = Number(body.id);
   if (!id) return fail('Unknown post.');
+
+  // Off the site / back on it — nothing else changes.
+  if (body.live !== undefined && Object.keys(body).length === 2) {
+    try {
+      await setBlogLive(id, Boolean(body.live));
+      refreshBlog();
+      return Response.json({ ok: true });
+    } catch (err) {
+      console.error('[admin] could not change the post visibility:', err.message);
+      return fail('Could not save the change.', 502);
+    }
+  }
   if (body.title !== undefined && !String(body.title).trim()) return fail('Enter a title.');
 
   let saved;
@@ -39,6 +54,32 @@ export async function PATCH(request) {
     return fail('Could not save the post.', 502);
   }
   if (saved?.error) return fail(saved.error);
+
+  refreshBlog();
+  return Response.json({ ok: true });
+}
+
+/** The post, its video and its cover picture, for good. */
+export async function DELETE(request) {
+  const { response } = await requireAdmin('blogs', 'delete');
+  if (response) return response;
+
+  const url = new URL(request.url);
+  const body = await readJson(request).catch(() => null);
+  const id = Number(body?.id || url.searchParams.get('id')) || 0;
+  if (!id) return fail('Unknown post.');
+
+  try {
+    const done = await deleteBlog(id);
+    if (done.error) return fail(done.error);
+  } catch (err) {
+    console.error('[admin] could not delete the post:', err.message);
+    return fail('Could not delete the post.', 502);
+  }
+
+  // Best-effort tidying: the post is already gone either way.
+  await removeBlogVideo(id).catch(() => {});
+  if (blobEnabled()) await removeBlobs(await blogCoverUrls(id)).catch(() => {});
 
   refreshBlog();
   return Response.json({ ok: true });

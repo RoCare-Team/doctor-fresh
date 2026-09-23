@@ -21,7 +21,6 @@ const NAV = [
   { label: 'Water Ionizer', href: '/category/water-ionizer' },
   { label: 'Water ATM', href: '/category/water-atm' },
   { label: 'Service & AMC', href: '/water-purifier-service' },
-  { label: 'Contact Us', href: '/contact' },
 ];
 
 export default function HeaderClient({
