@@ -8,7 +8,8 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
+import { BLOG_TAG } from '@/lib/sql/repository';
 import { requireAdmin, fail } from '@/lib/admin/guard';
 import { forgetMedia } from '@/lib/sql/media';
 import { UPLOAD_DIRS } from '@/lib/sql/schema';
@@ -43,6 +44,7 @@ async function refresh() {
   forgetMedia(UPLOAD_DIRS.blog);
   await warmMedia({ force: true }).catch(() => {});
   try {
+    revalidateTag(BLOG_TAG);
     revalidatePath('/blogs', 'layout');
     // The post pages are a dynamic route: the route itself has to be named,
     // or the stored copy of /blog/<id>/<slug> keeps being served for its

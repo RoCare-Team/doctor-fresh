@@ -1,9 +1,10 @@
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { requireAdmin, readJson, fail } from '@/lib/admin/guard';
 import {
   updateBlog, createBlog, setBlogLive, deleteBlog,
 } from '@/lib/sql/admin-catalog';
 import { clearCache } from '@/lib/sql/cache';
+import { BLOG_TAG } from '@/lib/sql/repository';
 import { setBlogVideo, removeBlogVideo } from '@/lib/sql/blog-video';
 import { blogCoverUrls, removeBlobs, blobEnabled } from '@/lib/blob';
 
@@ -13,6 +14,9 @@ export const dynamic = 'force-dynamic';
 function refreshBlog() {
   clearCache();
   try {
+    // Every server reads the posts from here, so this is what makes a save
+    // show up on the live site rather than only on the one that saved it.
+    revalidateTag(BLOG_TAG);
     revalidatePath('/blogs', 'layout');
     // The post pages are a dynamic route: the route itself has to be named,
     // or the stored copy of /blog/<id>/<slug> keeps being served for its
