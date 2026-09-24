@@ -38,11 +38,10 @@ export default function BlogCard({ post, featured = false }) {
   if (featured) {
     return (
       <article className="df-card df-card-hover group grid overflow-hidden md:grid-cols-2">
-        <Link href={post.url} className="relative aspect-[16/10] overflow-hidden bg-surface-muted md:aspect-auto">
+        <Link href={post.url} className="relative block overflow-hidden bg-white">
           <BlogImage
             post={post}
             sizes="(max-width: 768px) 100vw, 620px"
-            whole
             className="transition-transform duration-300 group-hover:scale-[1.03]"
           />
         </Link>
@@ -81,11 +80,10 @@ export default function BlogCard({ post, featured = false }) {
 
   return (
     <article className="df-card df-card-hover group flex h-full flex-col overflow-hidden">
-      <Link href={post.url} className="relative block aspect-[16/10] overflow-hidden bg-surface-muted">
+      <Link href={post.url} className="relative block overflow-hidden bg-white">
         <BlogImage
           post={post}
           sizes="(max-width: 768px) 100vw, 420px"
-          whole
           className="transition-transform duration-300 group-hover:scale-[1.03]"
         />
         {badge ? (

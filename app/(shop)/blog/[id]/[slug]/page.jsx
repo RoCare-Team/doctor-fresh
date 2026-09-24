@@ -118,12 +118,11 @@ export default async function BlogPostPage({ params }) {
               ) : null}
             </header>
 
-            <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-[14px] border border-line bg-surface-muted">
+            <div className="mt-6 overflow-hidden rounded-[14px] border border-line bg-surface-muted">
               <BlogImage
                 post={post}
                 sizes="(max-width: 1024px) 100vw, 820px"
-                whole
-                className=""
+                fallbackShape="aspect-[16/9]"
               />
             </div>
 
