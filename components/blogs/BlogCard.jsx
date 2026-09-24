@@ -42,7 +42,7 @@ export default function BlogCard({ post, featured = false }) {
           <BlogImage
             post={post}
             sizes="(max-width: 768px) 100vw, 620px"
-            className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+            className="object-contain transition-transform duration-300 group-hover:scale-[1.03]"
           />
         </Link>
 
@@ -84,7 +84,7 @@ export default function BlogCard({ post, featured = false }) {
         <BlogImage
           post={post}
           sizes="(max-width: 768px) 100vw, 420px"
-          className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+          className="object-contain transition-transform duration-300 group-hover:scale-[1.03]"
         />
         {badge ? (
           <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[12px] font-semibold uppercase tracking-wide text-primary-800">
