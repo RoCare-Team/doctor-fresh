@@ -125,7 +125,7 @@ export default async function BlogPostPage({ params }) {
               <BlogImage
                 post={post}
                 sizes="(max-width: 1024px) 100vw, 820px"
-                fallbackShape="aspect-[16/9]"
+                shape="aspect-[16/9]"
               />
             </div>
 

@@ -42,6 +42,8 @@ export default function BlogCard({ post, featured = false }) {
           <BlogImage
             post={post}
             sizes="(max-width: 768px) 100vw, 620px"
+            framed
+            shape="aspect-[16/10] md:h-full md:aspect-auto"
             className="transition-transform duration-300 group-hover:scale-[1.03]"
           />
         </Link>
@@ -84,6 +86,7 @@ export default function BlogCard({ post, featured = false }) {
         <BlogImage
           post={post}
           sizes="(max-width: 768px) 100vw, 420px"
+          framed
           className="transition-transform duration-300 group-hover:scale-[1.03]"
         />
         {badge ? (
