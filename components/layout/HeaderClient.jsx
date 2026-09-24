@@ -23,11 +23,14 @@ const NAV = [
   { label: 'Service & AMC', href: '/water-purifier-service' },
 ];
 
+const BLOG_MENU_WIDTH = 260;
+
 export default function HeaderClient({
   categories, blogCategories, brand, nav, serviceLinks = [],
 }) {
-  // Where the Service & AMC dropdown opens: under its own menu item.
+  // Where a dropdown opens: under its own menu item, not across the page.
   const [servicesLeft, setServicesLeft] = useState(0);
+  const [blogsLeft, setBlogsLeft] = useState(0);
   const navItems = nav?.items?.length ? nav.items : NAV;
   const [openMenu, setOpenMenu] = useState(null); // 'products' | 'services' | 'blogs' | null
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -35,6 +38,15 @@ export default function HeaderClient({
   const [query, setQuery] = useState('');
   const [navHidden, setNavHidden] = useState(false);
   const navRef = useRef(null);
+
+  // Where a dropdown sits: under its own menu item, pulled back when that
+  // would take it past the right edge of the bar.
+  function menuLeft(el, width) {
+    const frame = navRef.current?.getBoundingClientRect();
+    if (!frame) return 0;
+    const left = el.getBoundingClientRect().left - frame.left - 8;
+    return Math.max(8, Math.min(left, frame.width - width - 8));
+  }
   const scroll = useRef({ lastY: 0, acc: 0, ticking: false });
   const router = useRouter();
   const pathname = usePathname();
@@ -335,8 +347,14 @@ export default function HeaderClient({
             <li>
               <button
                 type="button"
-                onMouseEnter={() => setOpenMenu('blogs')}
-                onClick={() => setOpenMenu(openMenu === 'blogs' ? null : 'blogs')}
+                onMouseEnter={(e) => {
+                  setBlogsLeft(menuLeft(e.currentTarget, BLOG_MENU_WIDTH));
+                  setOpenMenu('blogs');
+                }}
+                onClick={(e) => {
+                  setBlogsLeft(menuLeft(e.currentTarget, BLOG_MENU_WIDTH));
+                  setOpenMenu(openMenu === 'blogs' ? null : 'blogs');
+                }}
                 aria-expanded={openMenu === 'blogs'}
                 className={cx(
                   'inline-flex h-[52px] shrink-0 items-center gap-1 whitespace-nowrap border-b-2 px-2.5 text-[14.5px] transition-colors xl:px-3',
@@ -482,22 +500,40 @@ export default function HeaderClient({
 
         {openMenu === 'blogs' ? (
           <div
-            className="absolute inset-x-0 top-full border-y border-line bg-white shadow-[0_18px_40px_-20px_rgba(6,59,76,0.28)]"
+            className="absolute top-full z-50 pt-1"
+            style={{ left: blogsLeft, width: BLOG_MENU_WIDTH }}
             onMouseLeave={() => setOpenMenu(null)}
           >
-            <div className="df-container flex flex-wrap gap-x-10 gap-y-3 py-6">
-              <Link href="/blogs" className="text-[14.5px] font-semibold text-primary-800">
-                All articles
-              </Link>
-              {blogCategories.map((c) => (
-                <Link
-                  key={c.slug}
-                  href={c.href}
-                  className="text-[14.5px] text-ink-500 transition-colors hover:text-primary-800"
-                >
-                  {c.name}
-                </Link>
-              ))}
+            <div className="overflow-hidden rounded-2xl border border-line bg-white p-2 shadow-[0_22px_48px_-22px_rgba(6,59,76,0.45)]">
+              <p className="px-3 pb-1.5 pt-2 text-[11.5px] font-semibold uppercase tracking-wider text-ink-400">Topics</p>
+              <ul>
+                <li>
+                  <Link
+                    href="/blogs"
+                    onClick={() => setOpenMenu(null)}
+                    className={cx(
+                      'block rounded-lg px-3 py-2 text-[14px] font-medium transition-colors',
+                      pathname === '/blogs' ? 'bg-primary-50 text-primary-800' : 'text-ink-900 hover:bg-surface-muted',
+                    )}
+                  >
+                    All articles
+                  </Link>
+                </li>
+                {blogCategories.map((c) => (
+                  <li key={c.slug}>
+                    <Link
+                      href={c.href}
+                      onClick={() => setOpenMenu(null)}
+                      className={cx(
+                        'block rounded-lg px-3 py-2 text-[14px] transition-colors',
+                        pathname === c.href ? 'bg-primary-50 text-primary-800' : 'text-ink-500 hover:bg-surface-muted hover:text-primary-800',
+                      )}
+                    >
+                      {c.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         ) : null}
