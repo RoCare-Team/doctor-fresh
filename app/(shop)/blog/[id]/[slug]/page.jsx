@@ -122,7 +122,8 @@ export default async function BlogPostPage({ params }) {
               <BlogImage
                 post={post}
                 sizes="(max-width: 1024px) 100vw, 820px"
-                className="object-contain"
+                whole
+                className=""
               />
             </div>
 
