@@ -1,37 +1,25 @@
-'use client';
-
-import { useEffect, useRef, useState } from 'react';
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { ArrowRight } from 'lucide-react';
 import ProductCard from './ProductCard';
-import SliderDots, { pageState, goToPage, measureLater } from '@/components/common/SliderDots';
+import RailControls from '@/components/common/RailControls';
 import { cx } from '@/lib/utils';
 import Reveal from '@/components/common/Reveal';
 
 /**
- * Horizontally scrollable product row — CSS scroll-snap only, no carousel library.
+ * Horizontally scrollable product row — CSS scroll-snap only, no carousel
+ * library, and rendered on the server: only the dots below it are client code,
+ * so a row of cards costs the browser nothing to take over.
  *
  * Steered by the dots under the track, the same marker the hero uses. Arrows
  * beside the heading were a second control for the same job.
  */
-export default function ProductRail({ title, href, products = [], tone = 'plain' }) {
-  const trackRef = useRef(null);
-  const [{ pages, current }, setPaging] = useState({ pages: 1, current: 0 });
-
-  function update() {
-    setPaging(pageState(trackRef.current));
-  }
-
-  useEffect(() => {
-    const cancel = measureLater(update);
-    const onResize = () => update();
-    window.addEventListener('resize', onResize);
-    return () => { cancel(); window.removeEventListener('resize', onResize); };
-  }, [products.length]);
-
-  const goTo = (page) => goToPage(trackRef.current, page);
-
+export default function ProductRail({
+  title, href, products = [], tone = 'plain', id,
+}) {
   if (!products.length) return null;
+
+  // The dots find the track by this, so every row on a page needs its own.
+  const trackId = `rail-${id || title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
   return (
     <section className={cx(tone === 'muted' && 'border-y border-line bg-surface-muted')}>
@@ -62,8 +50,7 @@ export default function ProductRail({ title, href, products = [], tone = 'plain'
         </Reveal>
 
         <ul
-          ref={trackRef}
-          onScroll={update}
+          id={trackId}
           className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-2 sm:gap-4 md:mx-0 md:px-0 xl:gap-5"
         >
           {products.map((p) => (
@@ -76,7 +63,7 @@ export default function ProductRail({ title, href, products = [], tone = 'plain'
           ))}
         </ul>
 
-        <SliderDots pages={pages} current={current} onSelect={goTo} label={`${title}, page`} />
+        <RailControls trackId={trackId} label={`${title}, page`} />
       </div>
     </section>
   );

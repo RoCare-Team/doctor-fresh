@@ -98,6 +98,9 @@ export default function Hero({ content = {} }) {
             fetchPriority={i === 0 ? 'high' : 'low'}
             loading={i === 0 ? 'eager' : 'lazy'}
             sizes="100vw"
+            // The banner sits behind the copy and is cropped on every screen, so
+            // it is the one image on the page that does not need full quality.
+            quality={60}
             aria-hidden="true"
             className={cx(
               'pointer-events-none select-none object-cover object-[80%_center] transition-opacity duration-1000 ease-out lg:object-right',

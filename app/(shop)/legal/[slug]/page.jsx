@@ -7,7 +7,7 @@ import { metaFor } from '@/lib/utils';
  * Policy documents. The admin panel stores each one as a `general_settings`
  * row keyed by its slug, which is also the URL it is served at.
  */
-export const revalidate = 300;
+export const revalidate = 900;
 
 export async function generateStaticParams() {
   // Built on first visit and then cached, rather than at deploy — only the

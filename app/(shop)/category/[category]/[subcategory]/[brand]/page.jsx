@@ -9,9 +9,12 @@ import {
 } from '@/lib/catalog';
 import { metaFor } from '@/lib/utils';
 
-// Catalogue pages are rebuilt in the background every 5 minutes so edits made
-// in the existing admin panel appear without a redeploy.
-export const revalidate = 300;
+// A saved edit drops this page at once — the admin purges it by tag — so the
+// timer only covers changes made straight in the PHP panel, which nothing
+// here can know about. Fifteen minutes rather than five: every expiry means a
+// page rebuilt from the database in Singapore, and that wait is what a visitor
+// feels as a slow first byte.
+export const revalidate = 900;
 
 export async function generateStaticParams() {
   // Built on first visit and then cached, rather than at deploy — only the

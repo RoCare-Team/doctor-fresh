@@ -25,10 +25,10 @@ import { trustBadges, waterTest, homeMeta } from '@/data/site';
 import { metaFor } from '@/lib/utils';
 
 // The same page for everyone, so it is served from the CDN and rebuilt in the
-// background every 5 minutes (and at once when the home page, site content or
+// background every 15 minutes (and at once when the home page, site content or
 // quick links are saved in the admin). Recently Viewed is the only per-visitor
 // part; the browser fetches it after the page is shown (HomeColumns).
-export const revalidate = 300;
+export const revalidate = 900;
 
 export async function generateMetadata() {
   // Edited in the admin (Home page); the built-in copy until then.

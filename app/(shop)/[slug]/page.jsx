@@ -31,7 +31,7 @@ import { metaFor, SITE_URL } from '@/lib/utils';
 const BOOKABLE = /RO Service|AMC|Installation|Water Softener Service|RO Plant Service/i;
 
 // Rebuilt in the background so edits in the admin panel appear without a deploy.
-export const revalidate = 300;
+export const revalidate = 900;
 
 export async function generateStaticParams() {
   return (await getLandingRoutes()).map((slug) => ({ slug }));

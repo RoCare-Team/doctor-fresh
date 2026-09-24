@@ -1,33 +1,14 @@
-'use client';
-
-import { useEffect, useRef, useState } from 'react';
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import Image from 'next/image';
 import { ArrowRight, ArrowUpRight, Droplets } from 'lucide-react';
-import SliderDots, { pageState, goToPage, measureLater } from '@/components/common/SliderDots';
+import RailControls from '@/components/common/RailControls';
 import { imageUrl } from '@/lib/utils';
 import Reveal from '@/components/common/Reveal';
 
 export default function CategoryTiles({ tiles = [] }) {
-  const trackRef = useRef(null);
-  const [{ pages, current }, setPaging] = useState({ pages: 1, current: 0 });
-
   // The live site repeats a tile; keep the first occurrence of each destination.
   const seen = new Set();
   const items = tiles.filter((t) => (seen.has(t.href) ? false : seen.add(t.href)));
-
-  function update() {
-    setPaging(pageState(trackRef.current));
-  }
-
-  useEffect(() => {
-    const cancel = measureLater(update);
-    const onResize = () => update();
-    window.addEventListener('resize', onResize);
-    return () => { cancel(); window.removeEventListener('resize', onResize); };
-  }, []);
-
-  const goTo = (page) => goToPage(trackRef.current, page);
 
   if (!items.length) return null;
 
@@ -53,8 +34,7 @@ export default function CategoryTiles({ tiles = [] }) {
       </Reveal>
 
       <ul
-        ref={trackRef}
-        onScroll={update}
+        id="rail-categories"
         className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:px-0"
       >
         {items.map((t) => (
@@ -109,7 +89,7 @@ export default function CategoryTiles({ tiles = [] }) {
         ))}
       </ul>
 
-      <SliderDots pages={pages} current={current} onSelect={goTo} label="Categories, page" />
+      <RailControls trackId="rail-categories" label="Categories, page" />
     </section>
   );
 }

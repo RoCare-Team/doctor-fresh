@@ -1,9 +1,6 @@
-'use client';
-
-import { useEffect, useRef, useState } from 'react';
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import SafeImage from '@/components/common/SafeImage';
-import SliderDots, { pageState, goToPage, measureLater } from '@/components/common/SliderDots';
+import RailControls from '@/components/common/RailControls';
 import { formatPrice } from '@/lib/utils';
 
 /**
@@ -12,29 +9,12 @@ import { formatPrice } from '@/lib/utils';
  * uncovered however many deals are configured.
  */
 export default function DealSlider({ deals = [] }) {
-  const trackRef = useRef(null);
-  const [{ pages, current }, setPaging] = useState({ pages: 1, current: 0 });
-
-  function update() {
-    setPaging(pageState(trackRef.current));
-  }
-
-  useEffect(() => {
-    const cancel = measureLater(update);
-    const onResize = () => update();
-    window.addEventListener('resize', onResize);
-    return () => { cancel(); window.removeEventListener('resize', onResize); };
-  }, [deals.length]);
-
-  const goTo = (page) => goToPage(trackRef.current, page);
-
   if (!deals.length) return null;
 
   return (
     <div className="relative">
       <ul
-        ref={trackRef}
-        onScroll={update}
+        id="rail-deals"
         className="df-no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1"
       >
         {deals.map((p) => (
@@ -93,13 +73,7 @@ export default function DealSlider({ deals = [] }) {
         ))}
       </ul>
 
-      <SliderDots
-        pages={pages}
-        current={current}
-        onSelect={goTo}
-        tone="dark"
-        label="Deals, page"
-      />
+      <RailControls trackId="rail-deals" tone="dark" label="Deals, page" />
     </div>
   );
 }
