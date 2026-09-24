@@ -490,3 +490,21 @@
     font-size: 16px;
   }
 }
+
+/*
+ * The rupee sign is the one character on the site that Inter keeps in its
+ * latin-ext file — and that file is 85 KB, fetched only once a price has been
+ * laid out, so it landed late on nearly every page and held up the largest
+ * paint. Prices are not going anywhere, so this hands that single character to
+ * whatever sans-serif the device already has. It changes nothing else: the
+ * range covers U+20B9 alone, and a device with none of these fonts simply
+ * falls back to Inter's own file as before.
+ */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: local('Segoe UI'), local('Roboto'), local('Noto Sans'), local('Helvetica Neue'), local('Arial');
+  unicode-range: U+20B9;
+}

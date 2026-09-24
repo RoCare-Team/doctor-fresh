@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import Image from 'next/image';
 import { ArrowRight, ArrowUpRight, Droplets } from 'lucide-react';
-import SliderDots, { pageState, goToPage } from '@/components/common/SliderDots';
+import SliderDots, { pageState, goToPage, measureLater } from '@/components/common/SliderDots';
 import { imageUrl } from '@/lib/utils';
 import Reveal from '@/components/common/Reveal';
 
@@ -21,10 +21,10 @@ export default function CategoryTiles({ tiles = [] }) {
   }
 
   useEffect(() => {
-    update();
+    const cancel = measureLater(update);
     const onResize = () => update();
     window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    return () => { cancel(); window.removeEventListener('resize', onResize); };
   }, []);
 
   const goTo = (page) => goToPage(trackRef.current, page);

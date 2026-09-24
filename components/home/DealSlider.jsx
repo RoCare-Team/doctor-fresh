@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import SafeImage from '@/components/common/SafeImage';
-import SliderDots, { pageState, goToPage } from '@/components/common/SliderDots';
+import SliderDots, { pageState, goToPage, measureLater } from '@/components/common/SliderDots';
 import { formatPrice } from '@/lib/utils';
 
 /**
@@ -20,10 +20,10 @@ export default function DealSlider({ deals = [] }) {
   }
 
   useEffect(() => {
-    update();
+    const cancel = measureLater(update);
     const onResize = () => update();
     window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    return () => { cancel(); window.removeEventListener('resize', onResize); };
   }, [deals.length]);
 
   const goTo = (page) => goToPage(trackRef.current, page);

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { ArrowRight } from 'lucide-react';
 import ProductCard from './ProductCard';
-import SliderDots, { pageState, goToPage } from '@/components/common/SliderDots';
+import SliderDots, { pageState, goToPage, measureLater } from '@/components/common/SliderDots';
 import { cx } from '@/lib/utils';
 import Reveal from '@/components/common/Reveal';
 
@@ -23,10 +23,10 @@ export default function ProductRail({ title, href, products = [], tone = 'plain'
   }
 
   useEffect(() => {
-    update();
+    const cancel = measureLater(update);
     const onResize = () => update();
     window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    return () => { cancel(); window.removeEventListener('resize', onResize); };
   }, [products.length]);
 
   const goTo = (page) => goToPage(trackRef.current, page);

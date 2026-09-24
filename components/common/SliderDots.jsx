@@ -89,6 +89,25 @@ export function pageState(el) {
   };
 }
 
+/**
+ * Runs a measurement once the browser has nothing better to do.
+ *
+ * Reading a track's width forces the browser to lay the page out there and
+ * then — harmless on its own, but every rail on the page doing it while React
+ * is still hydrating adds up to a visible stall. Waiting costs nothing: until
+ * it runs, a rail simply shows one dot.
+ */
+export function measureLater(run) {
+  const idle = typeof requestIdleCallback === 'function'
+    ? requestIdleCallback(run, { timeout: 1000 })
+    : requestAnimationFrame(run);
+
+  return () => {
+    if (typeof cancelIdleCallback === 'function' && typeof requestIdleCallback === 'function') cancelIdleCallback(idle);
+    else cancelAnimationFrame(idle);
+  };
+}
+
 /** Scrolls to a page, stopping at the end rather than past it. */
 export function goToPage(el, page) {
   if (!el) return;
