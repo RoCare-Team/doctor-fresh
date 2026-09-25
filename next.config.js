@@ -1,10 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // The stylesheet (about 20 KB compressed) goes into each page's HTML instead
-  // of separate files the browser must fetch before it can paint anything.
+  /**
+   * The stylesheet is a file, not inlined into every page.
+   *
+   * Inlined, it cost 21 KB on the home page twice over — once in the page and
+   * again in the data the page ships with — on every visit to every one of
+   * 22,000 pages. As a file it is fetched once and then cached for the whole
+   * site, and the page itself arrives 40 KB lighter.
+   */
   experimental: {
-    inlineCss: true,
+    inlineCss: false,
   },
 
   /**
@@ -37,9 +43,17 @@ const nextConfig = {
     // AVIF where the browser takes it (a third to half smaller than WebP at
     // the same look), WebP otherwise.
     formats: ['image/avif', 'image/webp'],
-    // 320 added between 256 and 384: a product card on a phone needs about
-    // 260-300px, and the next size up used to be 384.
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 320, 384],
+    /**
+     * Every picture on a page carries the full list of sizes it could be
+     * served at, once in the HTML and again in the data the page ships with.
+     * The home page holds over a thousand of those lines, which cost more to
+     * download than the few kilobytes a perfectly matched width would save —
+     * so the list is short: four widths for full-width pictures, four for
+     * fixed-size ones. A phone may now fetch a picture a little wider than it
+     * strictly needs, and in return the page itself arrives sooner.
+     */
+    deviceSizes: [640, 828, 1080, 1920],
+    imageSizes: [64, 128, 256, 384],
     remotePatterns: [
       { protocol: 'https', hostname: 'www.doctorfresh.in' },
       { protocol: 'https', hostname: 'doctorfresh.in' },
