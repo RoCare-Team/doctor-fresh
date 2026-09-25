@@ -21,7 +21,6 @@ export const metadata = metaFor({
 export default async function BlogsPage() {
   const posts = await getAllBlogPosts();
   const categories = await getBlogCategories();
-  const [featured, ...rest] = posts;
 
   return (
     <>
@@ -60,14 +59,11 @@ export default async function BlogsPage() {
         </ul>
       </nav>
 
-      {featured ? (
-        <div className="mb-8">
-          <BlogCard post={featured} featured />
-        </div>
-      ) : null}
-
+      {/* Every post in the same card: the newest one used to be shown at twice
+          the size, which made the page open on one article rather than on the
+          blog. */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {rest.map((p) => (
+        {posts.map((p) => (
           <BlogCard key={p.id} post={p} />
         ))}
       </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import {
   BadgeCheck, CalendarCheck, Check, ChevronDown, ChevronRight, Clock, Hammer, Loader2, Minus, Plus,
@@ -343,6 +343,32 @@ export default function ServiceBooking({
   const [flash, setFlash] = useState(null);
   const [readMore, setReadMore] = useState(false);
 
+  // Most of these pages have an intro short enough to show whole, and a "Read
+  // more" that opens nothing reads as broken. The button appears only once the
+  // text is actually being cut off.
+  const introRef = useRef(null);
+  const [introClipped, setIntroClipped] = useState(false);
+
+  useEffect(() => {
+    const el = introRef.current;
+    if (!el || readMore) return undefined; // unclamped, there is nothing to measure
+
+    const check = () => {
+      // More than a line and a half has to be hidden for the button to be
+      // worth pressing. On most of these pages exactly one line was cut off,
+      // so pressing it moved a few words into view and looked broken.
+      const line = parseFloat(getComputedStyle(el).lineHeight) || 20;
+      setIntroClipped(el.scrollHeight - el.clientHeight > line * 1.5);
+    };
+    const frame = requestAnimationFrame(check);
+    window.addEventListener('resize', check);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('resize', check);
+    };
+  }, [intro, readMore]);
+
   const lines = useMemo(
     () => Object.entries(picked)
       .map(([id, qty]) => ({ ...services.find((s) => s.id === id), qty }))
@@ -443,13 +469,15 @@ export default function ServiceBooking({
           <aside className="hidden xl:sticky xl:top-34.5 xl:block xl:self-start">
             {intro ? (
               <div className="rounded-2xl border border-line bg-white p-5 text-center shadow-[0_12px_30px_-26px_rgb(6_59_76/0.6)]">
-                <p className={cx('text-[13.5px] leading-relaxed text-ink-500', !readMore && 'line-clamp-6')}>
+                <p ref={introRef} className={cx('text-[13.5px] leading-relaxed text-ink-500', !readMore && 'line-clamp-6')}>
                   <strong className="font-semibold text-ink-900">{`Best ${heading}: `}</strong>
                   {intro}
                 </p>
-                <button type="button" onClick={() => setReadMore((v) => !v)} className="mt-2 text-[13px] font-semibold text-primary-700 hover:text-primary-800">
-                  {readMore ? 'Read less' : 'Read more'}
-                </button>
+                {introClipped ? (
+                  <button type="button" onClick={() => setReadMore((v) => !v)} className="mt-2 text-[13px] font-semibold text-primary-700 hover:text-primary-800">
+                    {readMore ? 'Read less' : 'Read more'}
+                  </button>
+                ) : null}
               </div>
             ) : null}
 
