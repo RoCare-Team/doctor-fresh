@@ -508,3 +508,24 @@
   src: local('Segoe UI'), local('Roboto'), local('Noto Sans'), local('Helvetica Neue'), local('Arial');
   unicode-range: U+20B9;
 }
+
+/*
+ * Tailwind's reset leaves a button with the arrow cursor, which reads as
+ * "not clickable" — especially on the icon-only ones. Everything that acts
+ * like a control gets the hand; a disabled one says so instead.
+ */
+button:not(:disabled),
+[role='button']:not([aria-disabled='true']),
+label[for],
+summary,
+select:not(:disabled),
+input[type='checkbox']:not(:disabled),
+input[type='radio']:not(:disabled) {
+  cursor: pointer;
+}
+
+button:disabled,
+[role='button'][aria-disabled='true'],
+select:disabled {
+  cursor: not-allowed;
+}

@@ -31,7 +31,11 @@ export async function POST(request) {
 
   let user;
   try {
-    if (body.mode === 'register') {
+    if (body.mode === 'book') {
+      // Signed in by number: the row is created on the spot if this is their
+      // first booking, with the name filled in later from the booking form.
+      user = existing || await createOrUpdateUser({ mobile });
+    } else if (body.mode === 'register') {
       const name = normaliseName(body.name);
       const email = normaliseEmail(body.email);
       if (!name) return fail('Enter your full name.');

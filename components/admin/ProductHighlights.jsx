@@ -20,7 +20,7 @@ import { cx } from '@/lib/utils';
  */
 const SHOWN_ON_PAGE = 6;
 
-export default function ProductHighlights({ product, attributes: stored }) {
+export default function ProductHighlights({ product, attributes: stored, bare = false }) {
   // A label or a value added here joins the list straight away, without a
   // reload, so it can be picked in the same breath.
   const [attributes, setAttributes] = useState(stored);
@@ -126,7 +126,8 @@ export default function ProductHighlights({ product, attributes: stored }) {
     };
   }));
 
-  async function save() {
+  async function save(event) {
+    event?.preventDefault?.();
     setStatus('saving');
     setError('');
     // A label with nothing chosen has nothing to store.
@@ -149,7 +150,7 @@ export default function ProductHighlights({ product, attributes: stored }) {
   const filled = rows.filter((r) => r.valueIds.length);
 
   return (
-    <>
+    <form id={`product-highlights-${product.id}`} onSubmit={save}>
       <section className="rounded-xl border border-line bg-white p-5">
         <h2 className="text-[15px] font-semibold text-ink-900">Highlights</h2>
         <p className="mt-1 text-[13px] text-ink-400">
@@ -219,27 +220,42 @@ export default function ProductHighlights({ product, attributes: stored }) {
                     </button>
                   </div>
 
-                  <div className="mt-2 flex flex-wrap gap-1.5 pl-6">
-                    {attribute.values.map((v) => {
-                      const picked = row.valueIds.includes(v.id);
+                  <div className="mt-2 flex flex-wrap items-center gap-1.5 pl-6">
+                    {/* Only what is chosen is shown; the rest of a label's
+                        values — Technology has twenty-six — wait in the list
+                        beside them rather than filling the screen. */}
+                    {row.valueIds.map((id) => {
+                      const value = attribute.values.find((v) => v.id === id);
+                      if (!value) return null;
                       return (
                         <button
-                          key={v.id}
+                          key={id}
                           type="button"
-                          onClick={() => toggleValue(index, v.id)}
-                          aria-pressed={picked}
-                          className={cx(
-                            'inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[12.5px] transition-colors',
-                            picked
-                              ? 'border-primary-500 bg-primary-600 text-white'
-                              : 'border-line-strong bg-white text-ink-700 hover:border-primary-300',
-                          )}
+                          onClick={() => toggleValue(index, id)}
+                          title="Remove"
+                          className="inline-flex items-center gap-1 rounded-full border border-primary-500 bg-primary-600 px-2.5 py-1 text-[12.5px] text-white transition-colors hover:bg-primary-700"
                         >
-                          {v.title}
-                          {picked ? <X size={11} aria-hidden="true" /> : null}
+                          {value.title}
+                          <X size={11} aria-hidden="true" />
                         </button>
                       );
                     })}
+
+                    <select
+                      value=""
+                      onChange={(e) => {
+                        if (e.target.value) toggleValue(index, Number(e.target.value));
+                      }}
+                      aria-label={`Add a value to ${attribute.title}`}
+                      className="h-8 max-w-56 rounded-full border border-line-strong bg-white px-2.5 text-[12.5px] text-ink-700 outline-none focus:border-primary-500"
+                    >
+                      <option value="">
+                        {row.valueIds.length ? 'Add another…' : 'Choose a value…'}
+                      </option>
+                      {attribute.values
+                        .filter((v) => !row.valueIds.includes(v.id))
+                        .map((v) => <option key={v.id} value={v.id}>{v.title}</option>)}
+                    </select>
 
                     <span className="inline-flex items-center gap-1">
                       <input
@@ -250,9 +266,9 @@ export default function ProductHighlights({ product, attributes: stored }) {
                           e.preventDefault();
                           addValue(index, attribute.id);
                         }}
-                        placeholder="Add your own…"
+                        placeholder="Or type a new one…"
                         aria-label={`New value for ${attribute.title}`}
-                        className="h-7 w-32 rounded-full border border-dashed border-line-strong bg-white px-2.5 text-[12.5px] outline-none focus:border-primary-500 focus:w-44"
+                        className="h-8 w-36 rounded-full border border-dashed border-line-strong bg-white px-2.5 text-[12.5px] outline-none focus:w-48 focus:border-primary-500"
                       />
                       {typing(attribute.id).trim() ? (
                         <button
@@ -339,19 +355,21 @@ export default function ProductHighlights({ product, attributes: stored }) {
       </section>
 
       <div className="mt-6 space-y-3">
-        <div className="flex flex-wrap items-center gap-3">
-          <Can section="products" action="edit" fallback={<ViewOnlyNote />}>
-            <Button type="button" onClick={save} disabled={status === 'saving'}>
-              {status === 'saving' ? 'Saving…' : 'Save highlights'}
-            </Button>
-          </Can>
-          {status === 'saved' ? (
-            <span className="text-[13.5px] text-success">Saved. The product page is already updated.</span>
-          ) : null}
-        </div>
+        {bare ? null : (
+          <div className="flex flex-wrap items-center gap-3">
+            <Can section="products" action="edit" fallback={<ViewOnlyNote />}>
+              <Button type="submit" disabled={status === 'saving'}>
+                {status === 'saving' ? 'Saving…' : 'Save highlights'}
+              </Button>
+            </Can>
+            {status === 'saved' ? (
+              <span className="text-[13.5px] text-success">Saved. The product page is already updated.</span>
+            ) : null}
+          </div>
+        )}
 
         {status === 'error' ? <FormNote status="error" error={error} /> : null}
       </div>
-    </>
+    </form>
   );
 }

@@ -6,7 +6,10 @@ import {
   BadgeCheck, CalendarCheck, Check, ChevronDown, ChevronRight, Clock, Hammer, Loader2, Minus, Plus,
   ShieldCheck, ShoppingCart, Star, Trash2, Wrench, X, CheckCircle2, MapPin, Phone, Sparkles, LayoutGrid, Droplets, Cpu,
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { formatPrice, cx } from '@/lib/utils';
+import { useServiceCart } from '@/lib/service-cart';
+import BookingSignIn from '@/components/services/BookingSignIn';
 
 // One visit covers a household or a small office; more units than this is a
 // site survey, which the team quotes on a call rather than books online.
@@ -337,7 +340,9 @@ function Banner({ title, photos, phone, tel }) {
 export default function ServiceBooking({
   services = [], groups = [], states = [], premises = [], path, title, intro, phone, tel,
 }) {
-  const [picked, setPicked] = useState({}); // service id → qty
+  const router = useRouter();
+  const [cartLines, cart] = useServiceCart();
+  const [signIn, setSignIn] = useState(null); // the service waiting on a sign-in
   const [checkout, setCheckout] = useState(false);
   const [booked, setBooked] = useState(false);
   const [flash, setFlash] = useState(null);
@@ -369,23 +374,46 @@ export default function ServiceBooking({
     };
   }, [intro, readMore]);
 
+  // Only the services on this page are shown in its own cart panel; the
+  // basket itself may hold more, from another page.
   const lines = useMemo(
-    () => Object.entries(picked)
-      .map(([id, qty]) => ({ ...services.find((s) => s.id === id), qty }))
-      .filter((l) => l.id),
-    [picked, services],
+    () => cartLines
+      .map((l) => ({ ...services.find((s) => s.id === l.id), ...l }))
+      .filter((l) => services.some((s) => s.id === l.id)),
+    [cartLines, services],
   );
+
+  // How many of each service is in the basket, for the picture grid and the
+  // steppers beside each service.
+  const picked = Object.fromEntries(cartLines.map((l) => [l.id, l.qty]));
 
   const total = lines.reduce((sum, l) => sum + l.price * l.qty, 0);
   const saved = lines.reduce((sum, l) => sum + Math.max(0, l.mrp - l.price) * l.qty, 0);
   const count = lines.reduce((sum, l) => sum + l.qty, 0);
 
-  const setQty = (id, qty) => setPicked((current) => {
-    const next = { ...current };
-    if (qty <= 0) delete next[id];
-    else next[id] = Math.min(qty, MAX_PER_SERVICE);
-    return next;
-  });
+  /**
+   * Adding a service asks for a number first.
+   *
+   * The visit is booked against that number — it is how the technician and the
+   * customer find each other — so it is asked for at the first step rather
+   * than at the end, where people abandon a filled basket.
+   */
+  async function setQty(id, qty) {
+    const service = services.find((x) => x.id === id);
+    if (!service) return;
+
+    if (qty > 0 && !(await signedIn())) {
+      setSignIn(service);
+      return;
+    }
+    cart.setQty(service, Math.min(qty, MAX_PER_SERVICE));
+  }
+
+  async function signedIn() {
+    const res = await fetch('/api/auth/me', { cache: 'no-store' }).catch(() => null);
+    const data = await res?.json().catch(() => ({}));
+    return Boolean(data?.user);
+  }
 
   /** From the picture grid: bring that service into view and mark it for a moment. */
   function show(id) {
@@ -466,22 +494,8 @@ export default function ServiceBooking({
           </div>
 
           {/* ----------------------------------------------- right column */}
-          <aside className="hidden xl:sticky xl:top-34.5 xl:block xl:self-start">
-            {intro ? (
-              <div className="rounded-2xl border border-line bg-white p-5 text-center shadow-[0_12px_30px_-26px_rgb(6_59_76/0.6)]">
-                <p ref={introRef} className={cx('text-[13.5px] leading-relaxed text-ink-500', !readMore && 'line-clamp-6')}>
-                  <strong className="font-semibold text-ink-900">{`Best ${heading}: `}</strong>
-                  {intro}
-                </p>
-                {introClipped ? (
-                  <button type="button" onClick={() => setReadMore((v) => !v)} className="mt-2 text-[13px] font-semibold text-primary-700 hover:text-primary-800">
-                    {readMore ? 'Read less' : 'Read more'}
-                  </button>
-                ) : null}
-              </div>
-            ) : null}
-
-            <div className="mt-4 overflow-hidden rounded-2xl border border-line bg-white shadow-[0_18px_44px_-30px_rgb(6_59_76/0.6)]">
+          <aside className="hidden xl:sticky xl:top-24 xl:block xl:self-start">
+            <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-[0_18px_44px_-30px_rgb(6_59_76/0.6)]">
               <div className="flex items-center gap-2.5 border-b border-line px-5 py-3.5">
                 <ShoppingCart size={17} className="text-primary-700" aria-hidden="true" />
                 <span className="text-[15px] font-semibold text-ink-900">Your cart</span>
@@ -507,8 +521,8 @@ export default function ServiceBooking({
                     {saved > 0 ? <p className="mb-2 flex justify-between text-[13px] font-medium text-success"><span>Discount</span><span>{`− ${formatPrice(saved)}`}</span></p> : null}
                     <p className="flex items-baseline justify-between"><span className="text-[14px] font-semibold text-ink-900">To pay</span><span className="text-[20px] font-bold text-ink-900">{formatPrice(total)}</span></p>
                     <p className="mt-1 text-[11.5px] text-ink-400">Pay after the visit. Spare parts as per rate card.</p>
-                    <button type="button" onClick={() => setCheckout(true)} className="mt-3.5 flex h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-primary-700 text-[14.5px] font-semibold text-white hover:bg-primary-800">
-                      Book now
+                    <button type="button" onClick={() => router.push('/book')} className="mt-3.5 flex h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-primary-700 text-[14.5px] font-semibold text-white hover:bg-primary-800">
+                      Proceed to checkout
                       <ChevronRight size={16} aria-hidden="true" />
                     </button>
                   </div>
@@ -523,6 +537,20 @@ export default function ServiceBooking({
                 </div>
               )}
             </div>
+            {intro ? (
+              <div className="mt-4 rounded-2xl border border-line bg-white p-5 text-center shadow-[0_12px_30px_-26px_rgb(6_59_76/0.6)]">
+                <p ref={introRef} className={cx('text-[13.5px] leading-relaxed text-ink-500', !readMore && 'line-clamp-6')}>
+                  <strong className="font-semibold text-ink-900">{`Best ${heading}: `}</strong>
+                  {intro}
+                </p>
+                {introClipped ? (
+                  <button type="button" onClick={() => setReadMore((v) => !v)} className="mt-2 text-[13px] font-semibold text-primary-700 hover:text-primary-800">
+                    {readMore ? 'Read less' : 'Read more'}
+                  </button>
+                ) : null}
+              </div>
+            ) : null}
+
           </aside>
         </div>
       </div>
@@ -538,13 +566,25 @@ export default function ServiceBooking({
               </span>
               <span className="block text-[18px] font-bold text-ink-900">{formatPrice(total)}</span>
             </span>
-            <button type="button" onClick={() => setCheckout(true)} className="inline-flex h-11 items-center gap-1 rounded-xl bg-primary-700 px-5 text-[14.5px] font-semibold text-white">
-              Book now
+            <button type="button" onClick={() => router.push('/book')} className="inline-flex h-11 items-center gap-1 rounded-xl bg-primary-700 px-5 text-[14.5px] font-semibold text-white">
+              Checkout
               <ChevronRight size={16} aria-hidden="true" />
             </button>
           </div>
         </div>
       ) : null}
+
+      <BookingSignIn
+        open={Boolean(signIn)}
+        onClose={() => setSignIn(null)}
+        onSignedIn={() => {
+          // Straight into the basket: they asked for this service before the
+          // number was wanted, and being sent back to press it again reads as
+          // the sign-in having failed.
+          if (signIn) cart.setQty(signIn, 1);
+          setSignIn(null);
+        }}
+      />
 
       {checkout ? (
         <CheckoutDialog
@@ -559,7 +599,7 @@ export default function ServiceBooking({
           serviceGroup={lines[0]?.group || groups[0]?.id || '2'}
           path={path}
           onClose={() => setCheckout(false)}
-          onBooked={() => { setPicked({}); setBooked(true); }}
+          onBooked={() => { cart.clear(); setBooked(true); }}
         />
       ) : null}
     </section>

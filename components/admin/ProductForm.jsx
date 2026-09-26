@@ -14,7 +14,7 @@ import { Can, ViewOnlyNote } from '@/components/admin/AdminAccess';
  * attributes, specifications, the description tabs — is left exactly as the
  * PHP admin panel set it.
  */
-export default function ProductForm({ product, categories }) {
+export default function ProductForm({ product, categories, formId, bare = false }) {
   const router = useRouter();
   const [status, setStatus] = useState('idle'); // idle | saving | done | error
   const [error, setError] = useState('');
@@ -63,7 +63,7 @@ export default function ProductForm({ product, categories }) {
   }
 
   return (
-    <form onSubmit={save} className="space-y-4">
+    <form id={formId} onSubmit={save} className="space-y-4">
       <section className="rounded-xl border border-line bg-white p-5">
         <h2 className="text-[15px] font-semibold text-ink-900">Details</h2>
         <div className="mt-4 grid gap-3.5 sm:grid-cols-2">
@@ -137,14 +137,16 @@ export default function ProductForm({ product, categories }) {
         </div>
       </section>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <Can section="products" action="edit" fallback={<ViewOnlyNote />}>
-        <Button type="submit" disabled={status === 'saving'}>
-            {status === 'saving' ? 'Saving…' : 'Save product'}
-          </Button>
-        </Can>
-        {status === 'done' ? <span className="text-[14px] text-success">Saved</span> : null}
-      </div>
+      {bare ? null : (
+        <div className="flex flex-wrap items-center gap-3">
+          <Can section="products" action="edit" fallback={<ViewOnlyNote />}>
+            <Button type="submit" disabled={status === 'saving'}>
+              {status === 'saving' ? 'Saving…' : 'Save product'}
+            </Button>
+          </Can>
+          {status === 'done' ? <span className="text-[14px] text-success">Saved</span> : null}
+        </div>
+      )}
 
       {status === 'error' ? <FormNote status="error" error={error} /> : null}
     </form>

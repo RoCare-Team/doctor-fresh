@@ -21,7 +21,7 @@ import { Can, ViewOnlyNote } from '@/components/admin/AdminAccess';
  * outside the form: an upload is saved the moment it lands and must never
  * submit the details. The button reaches the form through its `form` id.
  */
-export default function ProductDetails({ product, children = null }) {
+export default function ProductDetails({ product, children = null, bare = false }) {
   const formId = `product-details-${product.id}`;
   const [specs, setSpecs] = useState(
     product.specs?.length ? product.specs : [{ label: '', value: '' }],
@@ -219,18 +219,20 @@ export default function ProductDetails({ product, children = null }) {
     {children}
 
     <div className="mt-6 space-y-3">
-      <div className="flex flex-wrap items-center gap-3">
-        <Can section="products" action="edit" fallback={<ViewOnlyNote />}>
-        <Button type="submit" form={formId} disabled={status === 'saving'}>
-            {status === 'saving' ? 'Saving…' : 'Save details'}
-          </Button>
-        </Can>
-        {status === 'saved' ? (
-          <span className="text-[13.5px] text-success">
-            Saved. The product page is already updated.
-          </span>
-        ) : null}
-      </div>
+      {bare ? null : (
+        <div className="flex flex-wrap items-center gap-3">
+          <Can section="products" action="edit" fallback={<ViewOnlyNote />}>
+            <Button type="submit" form={formId} disabled={status === 'saving'}>
+              {status === 'saving' ? 'Saving…' : 'Save details'}
+            </Button>
+          </Can>
+          {status === 'saved' ? (
+            <span className="text-[13.5px] text-success">
+              Saved. The product page is already updated.
+            </span>
+          ) : null}
+        </div>
+      )}
 
       {status === 'error' ? <FormNote status="error" error={error} /> : null}
     </div>

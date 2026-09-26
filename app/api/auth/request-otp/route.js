@@ -21,6 +21,10 @@ export async function POST(request) {
   }
 
   const register = body.mode === 'register';
+  // Booking a service signs you in by number alone: someone whose purifier has
+  // stopped will not fill a registration form first, and the name and address
+  // are asked for later in the booking anyway.
+  const booking = body.mode === 'book';
   const mobile = normaliseMobile(body.mobile);
   if (!mobile) return fail('Enter a valid 10-digit Indian mobile number.');
 
@@ -44,7 +48,7 @@ export async function POST(request) {
     if (existing?.name) {
       return fail('This number is already registered. Please sign in instead.');
     }
-  } else if (!existing) {
+  } else if (!existing && !booking) {
     return fail('No account found for this number. Please create an account first.');
   }
 

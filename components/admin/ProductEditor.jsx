@@ -1,80 +1,86 @@
 'use client';
 
 import { useState } from 'react';
-import { cx } from '@/lib/utils';
+import { Loader2, Check } from 'lucide-react';
 import ProductForm from '@/components/admin/ProductForm';
 import ProductImages from '@/components/admin/ProductImages';
 import ProductDetails from '@/components/admin/ProductDetails';
 import ProductHighlights from '@/components/admin/ProductHighlights';
+import ProductSeoWriter from '@/components/admin/ProductSeoWriter';
+import { Can, ViewOnlyNote } from '@/components/admin/AdminAccess';
 
 /**
- * The product editor, split so each screen is short enough to work through.
+ * Editing a product: one page, top to bottom.
  *
- * "Details" is where the page's depth comes from — description, specification
- * table and FAQ — and the count beside each tab says at a glance what a product
- * is still missing.
+ * It was four tabs, which meant three separate save buttons and no way to see
+ * at once what a product was missing. Everything is on one page now, and the
+ * bar at the bottom saves all of it — the basics, the description and spec
+ * table, and the highlights each have their own form, so the button simply
+ * submits all three.
+ *
+ * Photos are the exception: an upload is saved the moment it lands, so they
+ * sit outside the forms and outside the button.
  */
-// Photos close the Details screen rather than taking a tab of their own, so
-// everything below the basics is worked through on one page, top to bottom.
-const TABS = [
-  { id: 'basics', label: 'Basics' },
-  { id: 'details', label: 'Details & Images' },
-  { id: 'highlights', label: 'Highlights' },
-];
-
 export default function ProductEditor({ product, categories, attributes = [] }) {
-  const [tab, setTab] = useState('basics');
+  const [status, setStatus] = useState('idle'); // idle | saving | saved
+  const forms = [
+    `product-basics-${product.id}`,
+    `product-details-${product.id}`,
+    `product-highlights-${product.id}`,
+  ];
 
-  const missing = {
-    details: !product.descriptionHtml && !product.specs?.length && !product.faqs?.length,
-    highlights: !product.attributeValueIds?.length,
-  };
+  function saveAll() {
+    setStatus('saving');
+    for (const id of forms) document.getElementById(id)?.requestSubmit();
+
+    // Each form reports its own error where it happened; this bar only says
+    // the round trip is over, so it waits long enough for them to have run.
+    window.setTimeout(() => setStatus('saved'), 1500);
+  }
 
   return (
     <>
-      <div
-        role="tablist"
-        aria-label="Product editor"
-        className="mb-5 flex gap-1 border-b border-line"
-      >
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            role="tab"
-            aria-selected={tab === t.id}
-            onClick={() => setTab(t.id)}
-            className={cx(
-              'relative px-4 py-2.5 text-[14.5px] font-medium transition-colors',
-              tab === t.id ? 'text-primary-700' : 'text-ink-400 hover:text-ink-700',
-            )}
-          >
-            {t.label}
-            {missing[t.id] ? (
-              <span
-                title="Nothing entered yet"
-                className="ml-1.5 inline-block h-1.5 w-1.5 rounded-full bg-warning align-middle"
-              />
-            ) : null}
-            {tab === t.id ? (
-              <span className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-primary-500" />
-            ) : null}
-          </button>
-        ))}
-      </div>
+      <div className="space-y-5 pb-24">
+        <ProductForm product={product} categories={categories} formId={forms[0]} bare />
 
-      {tab === 'basics' ? <ProductForm product={product} categories={categories} /> : null}
-      {tab === 'highlights' ? (
-        <ProductHighlights product={product} attributes={attributes} />
-      ) : null}
-      {tab === 'details' ? (
-        // Photos sit above the save button but outside the details form (see ProductDetails).
-        <ProductDetails product={product}>
+        <ProductSeoWriter product={product} />
+
+        <ProductDetails product={product} bare>
           <div className="mt-6">
             <ProductImages productId={product.id} />
           </div>
         </ProductDetails>
-      ) : null}
+
+        <ProductHighlights product={product} attributes={attributes} bare />
+      </div>
+
+      {/* Follows the page down, so the button is never a scroll away. */}
+      <div className="sticky bottom-0 -mx-4 border-t border-line bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
+        <div className="flex flex-wrap items-center justify-end gap-3">
+          {status === 'saved' ? (
+            <span className="mr-auto text-[13.5px] text-success">
+              Saved. The product page is already updated.
+            </span>
+          ) : (
+            <span className="mr-auto text-[13px] text-ink-400">
+              Saves the basics, the description, the specifications and the highlights together.
+            </span>
+          )}
+          <Can section="products" action="edit" fallback={<ViewOnlyNote />}>
+            <button
+              type="button"
+              onClick={saveAll}
+              disabled={status === 'saving'}
+              className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary-600 px-5 text-[14.5px] font-medium text-white transition-colors hover:bg-primary-700 disabled:opacity-60"
+            >
+              {status === 'saving'
+                ? <Loader2 size={16} className="animate-spin" aria-hidden="true" />
+                : <Check size={16} aria-hidden="true" />}
+              {status === 'saving' ? 'Saving…' : 'Update product'}
+            </button>
+          </Can>
+        </div>
+      </div>
     </>
   );
 }

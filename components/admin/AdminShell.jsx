@@ -7,7 +7,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import {
   LayoutDashboard, Package, ShoppingBag, Layers, Users, Inbox,
   Newspaper, Ticket, Settings, ExternalLink, LogOut, Menu, X, FileText, Shuffle, Loader2,
-  Wrench, Mail, Handshake, UserCog, MapPin, Link2, House, Map as MapIcon, PanelsTopLeft, MessagesSquare, Briefcase,
+  Wrench, Mail, Handshake, UserCog, MapPin, Link2, House, Map as MapIcon, PanelsTopLeft, MessagesSquare, Briefcase, Star, CalendarCheck,
 } from 'lucide-react';
 import { cx, imageUrl } from '@/lib/utils';
 import { can, roleInfo } from '@/lib/admin/access';
@@ -23,6 +23,7 @@ const NAV = [
   { href: '/admin/home', label: 'Home page', icon: House, section: 'home' },
   { href: '/admin/content', label: 'Site content', icon: PanelsTopLeft, section: 'content' },
   { href: '/admin/orders', label: 'Orders', icon: ShoppingBag, section: 'orders' },
+  { href: '/admin/service-bookings', label: 'Service bookings', icon: CalendarCheck, section: 'service_bookings' },
   { href: '/admin/products', label: 'Products', icon: Package, section: 'products' },
   { href: '/admin/categories', label: 'Categories', icon: Layers, section: 'categories' },
   { href: '/admin/service-pages', label: 'Service pages', icon: Wrench, section: 'service_pages' },
@@ -36,6 +37,7 @@ const NAV = [
   { href: '/admin/messages', label: 'Contact messages', icon: Mail, section: 'messages' },
   { href: '/admin/partners', label: 'Partner requests', icon: Handshake, section: 'messages' },
   { href: '/admin/comments', label: 'Comments', icon: MessagesSquare, section: 'comments' },
+  { href: '/admin/reviews', label: 'Reviews', icon: Star, section: 'reviews' },
   { href: '/admin/careers', label: 'Careers', icon: Briefcase, section: 'careers' },
   { href: '/admin/blogs', label: 'Blogs', icon: Newspaper, section: 'blogs' },
   { href: '/admin/coupons', label: 'Coupons', icon: Ticket, section: 'coupons' },
