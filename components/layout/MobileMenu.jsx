@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import Image from 'next/image';
 import { X, ChevronDown, Phone, Mail, MessageCircle, LogIn, UserPlus } from 'lucide-react';
+import CallbackButton from '@/components/forms/CallbackButton';
 import { imageUrl, cx } from '@/lib/utils';
 
 const QUICK_LINKS = [
@@ -146,6 +147,13 @@ export default function MobileMenu({
           ))}
         </ul>
       </nav>
+
+      {/* The call-back button lives in the header on a laptop, where there is
+          room for it; on a phone the menu is where someone looks for a way to
+          reach us. */}
+      <div className="shrink-0 border-t border-line px-4 py-3">
+        <CallbackButton className="flex w-full items-center justify-center gap-1.5 rounded-md bg-primary-600 px-3 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-primary-700" />
+      </div>
 
       {/* The header's account dropdown is not reachable on a phone, so signing
           in and registering get their own row here. */}

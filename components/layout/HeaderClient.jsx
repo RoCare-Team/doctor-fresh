@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '@/components/cart/CartProvider';
 import { imageUrl, cx } from '@/lib/utils';
+import CallbackButton from '@/components/forms/CallbackButton';
 import MobileMenu from './MobileMenu';
 import AccountMenu from './AccountMenu';
 
@@ -197,6 +198,10 @@ export default function HeaderClient({
           </form>
 
           <div className="ml-auto flex items-center gap-1 lg:gap-1.5">
+            {/* For the visitor who would rather be phoned than fill in the
+                enquiry popup; it lands in the same admin inbox. */}
+            <CallbackButton className="mr-1 hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-primary-200 px-3 py-2 text-[13.5px] font-medium text-primary-800 transition-colors hover:bg-primary-50 lg:inline-flex" />
+
             <AccountMenu />
 
             <Link

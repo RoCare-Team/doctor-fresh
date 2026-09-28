@@ -205,6 +205,9 @@ function HomeFields({ v, set }) {
         <p className="mb-2 mt-1 text-[13.5px] font-medium text-ink-800">What the test checks</p>
         <IconList list={v.waterParameters || []} field="label" onChange={(waterParameters) => set({ waterParameters })} addLabel="Add parameter" />
       </Card>
+      <Card title="Brand logos" hint="The row of brand logos on the home page. Leave it empty and the row is not shown at all.">
+        <IconList list={v.brands || []} field="title" onChange={(brands) => set({ brands })} addLabel="Add brand" />
+      </Card>
       <Card title="Banner highlights (phones)" hint="The three small promises under the banner buttons on a phone.">
         <div className="grid gap-3 md:grid-cols-3">
           {[0, 1, 2].map((i) => (

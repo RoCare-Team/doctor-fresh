@@ -1,186 +1,219 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import {
-  ArrowRight, Droplet, Wrench, Clock, MapPin,
+  ArrowRight, ArrowUpRight, Droplets, Hammer, PackageSearch, Wrench,
 } from 'lucide-react';
-import { cx } from '@/lib/utils';
-
-// Campaign artwork from /public/images. Each banner keeps its left third clear,
-// which is where the copy sits on a wide screen.
-const DEFAULT_BANNERS = [
-  // '/images/banner1.png',
-  '/images/banner5.png',
-  '/images/banner4.png',
-];
-
-// What the copy promises, as quick reads for a phone.
-const HIGHLIGHTS = [
-  { icon: Wrench, label: 'Free installation' },
-  { icon: Clock, label: 'Same-day RO service' },
-  { icon: MapPin, label: 'Service across India' },
-];
-
-const INTERVAL = 5000;
+import { imageUrl } from '@/lib/utils';
 
 /**
- * `content` comes from the admin (Home page); anything missing falls back to
- * the built-in copy and artwork.
+ * The first screen: what we sell on the right, what we do on the left.
+ *
+ * It replaces a rotating banner. A carousel showed one message at a time and
+ * moved it away before it was read; this shows the four things we sell and the
+ * four jobs we are called out for at once, and every one of them is a link.
+ * Nothing here moves, so nothing has to be waited for.
+ *
+ * The copy is still the admin's (Home page content); only the artwork is fixed,
+ * and that comes from the catalogue itself — each card carries a real photo of
+ * a product in that category, so it can never show something we do not sell.
  */
-export default function Hero({ content = {} }) {
-  const BANNERS = content.banners?.length ? content.banners : DEFAULT_BANNERS;
+
+/** The jobs people ring up about, in the order they ring up about them. */
+const SERVICES = [
+  {
+    icon: Wrench, label: 'RO Service\n& Repair', href: '/water-purifier-service', photo: 'water-purifier',
+  },
+  {
+    icon: Hammer, label: 'New RO\nInstallation', href: '/water-purifier-installation', photo: 'ro-plant',
+  },
+  {
+    icon: PackageSearch, label: 'Spare Parts\nReplacement', href: '/spare-parts', photo: 'spare-parts',
+  },
+  {
+    icon: Droplets, label: 'Water Softener\nService', href: '/water-purifier-service', photo: 'water-softener',
+  },
+];
+
+/**
+ * The four cards on the right. Each tint is its own so the grid reads as four
+ * things rather than one block of colour; they are pale enough that the
+ * product photo on them is still the brightest thing in the card.
+ */
+const CARDS = [
+  {
+    key: 'water-purifier',
+    title: 'Water\nPurifiers',
+    note: 'Clean & Healthy\nDrinking Water',
+    href: '/category/water-purifier',
+    tint: 'bg-[#eaf4fd]',
+  },
+  {
+    key: 'ro-plant',
+    title: 'RO Plant\nSolutions',
+    note: 'For Homes,\nOffices & Industry',
+    href: '/category/ro-plant',
+    tint: 'bg-[#e8f6ef]',
+  },
+  {
+    key: 'water-softener',
+    title: 'Water\nSofteners',
+    note: 'Say Goodbye\nto Hard Water',
+    href: '/category/water-softener',
+    tint: 'bg-[#fdf3e6]',
+  },
+  {
+    key: 'spare-parts',
+    title: 'Genuine\nSpare Parts',
+    note: 'Original Parts\nfor Longer Life',
+    href: '/spare-parts',
+    tint: 'bg-[#eeeefc]',
+  },
+];
+
+/** Two lines of copy written as one string, so the shape is part of the copy. */
+const lines = (text) => String(text).split('\n');
+
+export default function Hero({ content = {}, cards = {}, serviceImages = {} }) {
   const c = {
-    eyebrow: 'Purity · Hygiene · Sanitation',
-    headingLine1: 'Pure water for every',
-    headingLine2: 'home, office & industry',
-    intro: 'Water purifiers, RO plants, softeners, ionizers and water ATMs — backed by a nationwide service network, free installation and same-day RO service.',
-    primaryLabel: 'Shop water purifiers',
+    headingLine1: 'Pure Water for',
+    headingLine2: 'Every Home & Office',
+    intro: 'Water purifiers, RO plants, softeners, ionizers and water ATMs — complete sales, installation, service, AMC and genuine spare parts at your doorstep.',
+    primaryLabel: 'Shop Water Purifiers',
     primaryHref: '/category/water-purifier',
-    secondaryLabel: 'Book free water test',
-    secondaryHref: '#water-test',
+    secondaryLabel: 'Explore All Services',
+    secondaryHref: '/water-purifier-service',
     ...Object.fromEntries(Object.entries(content).filter(([, v]) => v)),
   };
-  const [index, setIndex] = useState(0);
-  const count = BANNERS.length;
-
-  useEffect(() => {
-    if (count < 2) return undefined;
-    const id = setInterval(() => setIndex((i) => (i + 1) % count), INTERVAL);
-    return () => clearInterval(id);
-  }, [count]);
-
-  const dots = (tone) => (count > 1 ? BANNERS.map((src, i) => (
-    <button
-      key={`dot-${src}`}
-      type="button"
-      onClick={() => setIndex(i)}
-      aria-label={`Show banner ${i + 1}`}
-      aria-current={i === index}
-      // The dot stays small; the button around it is finger-sized.
-      className="flex h-7 min-w-6 items-center justify-center px-[3px]"
-    >
-      <span
-        className={cx(
-          'block h-1.5 rounded-full transition-all duration-300',
-          i === index
-            ? cx('w-8', tone === 'light' ? 'bg-white' : 'bg-primary-500')
-            : cx('w-2.5', tone === 'light' ? 'bg-white/55 hover:bg-white/80' : 'bg-ink-900/25 hover:bg-ink-900/45'),
-        )}
-      />
-    </button>
-  )) : null);
 
   return (
-    <section className="relative isolate overflow-hidden bg-linear-to-b from-primary-50 to-white lg:bg-surface-muted lg:bg-none">
-      {/* ------------------------------------------------ auto-rotating banners */}
-      {/* One set of images for every screen. On a wide screen they fill the
-          section and the copy sits in their clear left third. On a phone that
-          clear third is cropped away, so there the artwork becomes a rounded
-          card of its own above the copy, framed on the products. */}
-      <div
-        className={cx(
-          'relative mx-4 mt-4 h-52 overflow-hidden rounded-2xl shadow-[0_18px_40px_-22px_rgb(6_59_76_/_0.45)] ring-1 ring-primary-100',
-          'sm:mx-6 sm:h-72 md:h-80',
-          'lg:absolute lg:inset-0 lg:m-0 lg:h-auto lg:rounded-none lg:shadow-none lg:ring-0',
-        )}
-      >
-        {BANNERS.map((src, i) => (
-          <Image
-            key={src}
-            src={src}
-            alt=""
-            fill
-            priority={i === 0}
-            // The first banner is what the page is judged on; the rest are
-            // only seen five seconds later, so they do not compete with it.
-            fetchPriority={i === 0 ? 'high' : 'low'}
-            loading={i === 0 ? 'eager' : 'lazy'}
-            sizes="100vw"
-            // The banner sits behind the copy and is cropped on every screen, so
-            // it is the one image on the page that does not need full quality.
-            quality={60}
-            aria-hidden="true"
-            className={cx(
-              'pointer-events-none select-none object-cover object-[80%_center] transition-opacity duration-1000 ease-out lg:object-right',
-              i === index ? 'opacity-100' : 'opacity-0',
-            )}
-          />
-        ))}
-
-        {/* Phone only: a fade for the dots to sit on, and the brand line. */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-ink-900/45 to-transparent lg:hidden" />
-        <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-primary-700 shadow-sm backdrop-blur lg:hidden">
-          <Droplet size={10} className="fill-primary-500 text-primary-500" aria-hidden="true" />
-          {c.eyebrow}
-        </span>
-        <div className="absolute inset-x-0 bottom-3 flex justify-center gap-0 lg:hidden">{dots('light')}</div>
-      </div>
-
-      <div className="df-container relative pb-8 pt-6 sm:pb-10 lg:flex lg:min-h-[580px] lg:items-center lg:py-16">
-        <div className="max-w-xl lg:max-w-lg">
-          <span
-            style={{ '--df-delay': '60ms' }}
-            className="df-rise hidden items-center gap-2 rounded-full border border-primary-200 bg-white px-3 py-1 text-[12px] font-semibold uppercase tracking-[0.12em] text-primary-700 lg:inline-flex"
-          >
-            <Droplet size={12} className="fill-primary-500 text-primary-500" aria-hidden="true" />
-            {c.eyebrow}
-          </span>
-
+    <section className="relative overflow-hidden bg-primary-600">
+      <div className="df-container grid gap-5 pb-0 pt-5 sm:gap-8 sm:py-8 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-14 lg:py-12">
+        {/* ------------------------------------------------------------- copy */}
+        <div>
           <h1
             style={{ '--df-delay': '150ms' }}
-            className="df-rise text-[27px] font-bold leading-[1.15] tracking-tight text-ink-900 sm:text-[36px] lg:mt-4 lg:text-[48px] lg:font-semibold lg:leading-[1.1]"
+            className="df-rise text-[19px] font-bold leading-[1.2] tracking-tight text-white sm:text-[33px] sm:leading-[1.12] lg:text-[40px]"
           >
             {c.headingLine1}
-            {c.headingLine2 ? <span className="block text-primary-500 lg:inline">{` ${c.headingLine2}`}</span> : null}
+            {c.headingLine2 ? <span className="text-accent-300 sm:block">{` ${c.headingLine2}`}</span> : null}
           </h1>
 
           <p
             style={{ '--df-delay': '240ms' }}
-            className="df-rise mt-3 max-w-lg text-[14.5px] leading-relaxed text-ink-500 sm:mt-4 sm:text-[16px]"
+            // White at full strength, not faded: this blue leaves only 4.8:1
+            // against white, so any transparency drops the paragraph below the
+            // 4.5:1 a body of text has to meet.
+            className="df-rise mt-3.5 hidden max-w-lg text-[14.5px] leading-relaxed text-white sm:block sm:text-[15.5px]"
           >
             {c.intro}
           </p>
 
-          <div
-            style={{ '--df-delay': '330ms' }}
-            className="df-rise mt-5 grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:gap-3 lg:mt-7"
-          >
+          <p className="mt-5 text-[12px] font-semibold uppercase tracking-[0.1em] text-white/70 sm:hidden">
+            Our Services
+          </p>
+
+          {/* The four jobs, as links rather than as a sentence about them. */}
+          <ul style={{ '--df-delay': '320ms' }} className="df-rise mt-3 grid grid-cols-4 gap-2 sm:mt-6 sm:gap-3">
+            {SERVICES.map(({ icon: Icon, label, href, photo }) => (
+              <li key={label}>
+                <Link
+                  href={href}
+                  className="group relative flex h-full flex-col items-center text-center transition-all duration-200 sm:items-stretch sm:rounded-xl sm:bg-white sm:p-3 sm:text-left sm:shadow-[0_6px_18px_-12px_rgb(3_30_40/0.6)] sm:hover:-translate-y-0.5 sm:hover:shadow-[0_14px_28px_-14px_rgb(3_30_40/0.7)]"
+                >
+                  <span className="flex h-[76px] w-full items-center justify-center overflow-hidden rounded-2xl bg-white p-1.5 text-primary-600 shadow-[0_6px_16px_-10px_rgb(3_30_40/0.8)] transition-colors duration-200 sm:h-9 sm:w-9 sm:rounded-lg sm:bg-primary-50 sm:p-0 sm:shadow-none sm:group-hover:bg-primary-600 sm:group-hover:text-white">
+                    {serviceImages[photo] ? (
+                      <Image
+                        src={imageUrl(serviceImages[photo])}
+                        alt=""
+                        width={150}
+                        height={150}
+                        className="h-full w-full object-contain sm:hidden"
+                      />
+                    ) : (
+                      <Icon size={24} aria-hidden="true" className="sm:hidden" />
+                    )}
+                    <Icon size={17} aria-hidden="true" className="hidden sm:block" />
+                  </span>
+
+                  <span className="mt-2 text-[11px] font-medium leading-tight text-white sm:mt-2.5 sm:text-[12.5px] sm:font-semibold sm:text-ink-900">
+                    {lines(label).map((l) => <span key={l} className="block">{l}</span>)}
+                  </span>
+
+                  <ArrowUpRight
+                    size={14}
+                    aria-hidden="true"
+                    className="absolute right-2.5 top-2.5 hidden text-ink-300 transition-colors duration-200 group-hover:text-primary-600 sm:block"
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <div style={{ '--df-delay': '380ms' }} className="df-rise mt-6 hidden flex-col gap-3 sm:flex sm:flex-row">
             <Link
               href={c.primaryHref}
-              className="inline-flex h-12 items-center justify-center gap-1.5 rounded-xl bg-primary-600 px-4 text-[14.5px] font-semibold text-white shadow-[0_10px_22px_-12px_rgb(21_151_197_/_0.9)] transition-all hover:bg-ink-900 active:scale-[0.97] sm:px-6 sm:text-[15px]"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-white px-5 text-[14.5px] font-semibold text-primary-700 shadow-[0_10px_22px_-12px_rgb(3_30_40/0.8)] transition-all hover:bg-ink-900 hover:text-white active:scale-[0.97]"
             >
               {c.primaryLabel}
               <ArrowRight size={17} aria-hidden="true" />
             </Link>
             <Link
               href={c.secondaryHref}
-              className="inline-flex h-12 items-center justify-center rounded-xl border border-ink-900 bg-white px-4 text-[14.5px] font-medium text-ink-900 transition-all hover:bg-white active:scale-[0.97] sm:px-6 sm:text-[15px]"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/45 px-5 text-[14.5px] font-medium text-white transition-all hover:border-white hover:bg-white/10 active:scale-[0.97]"
             >
               {c.secondaryLabel}
+              <ArrowRight size={17} aria-hidden="true" />
             </Link>
           </div>
-
-          {/* Phone and tablet: the promises from the copy, at a glance. */}
-          <ul style={{ '--df-delay': '400ms' }} className="df-rise mt-5 grid grid-cols-3 gap-2 lg:hidden">
-            {HIGHLIGHTS.map(({ icon: Icon, label: builtIn }, i) => ({ Icon, label: content.highlights?.[i] || builtIn })).map(({ Icon, label }) => (
-              <li
-                key={label}
-                className="flex flex-col items-center gap-1.5 rounded-xl border border-primary-100 bg-white px-1.5 py-2.5 text-center"
-              >
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-50 text-primary-600">
-                  <Icon size={15} aria-hidden="true" />
-                </span>
-                <span className="text-[11.5px] font-medium leading-tight text-ink-700">{label}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div style={{ '--df-delay': '420ms' }} className="df-rise mt-9 hidden gap-0 lg:flex">
-            {dots('dark')}
-          </div>
         </div>
+
+        {/* ------------------------------------------------------- what we sell */}
+        <ul className="-mx-4 grid grid-cols-2 gap-3 rounded-t-3xl bg-white px-4 pb-6 pt-5 sm:mx-0 sm:rounded-none sm:bg-transparent sm:p-0 sm:gap-4">
+          {CARDS.map((card, i) => {
+            const image = cards[card.key];
+            return (
+              <li key={card.key} style={{ '--df-delay': `${200 + i * 90}ms` }} className="df-rise">
+                <Link
+                  href={card.href}
+                  className={`group relative flex h-full min-h-[168px] flex-col justify-between overflow-hidden rounded-2xl p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_-24px_rgb(6_59_76/0.55)] sm:min-h-[214px] sm:p-5 lg:min-h-[236px] ${card.tint}`}
+                >
+                  {image ? (
+                    <Image
+                      src={imageUrl(image)}
+                      alt=""
+                      width={260}
+                      height={260}
+                      priority={i < 2}
+                      // Catalogue photos are shot on a light backdrop, not on
+                      // nothing: multiply sinks that backdrop into the card's
+                      // tint, and the soft mask hides the edge of it where a
+                      // photo's grey is a shade off the card's own colour.
+                      className="pointer-events-none absolute right-0 top-1 h-[52%] w-[46%] select-none object-contain object-right-top mix-blend-multiply transition-transform duration-300 [mask-image:radial-gradient(75%_75%_at_58%_55%,#000_62%,transparent_100%)] group-hover:scale-105 sm:bottom-0 sm:top-auto sm:h-[86%] sm:w-[56%] sm:object-right-bottom"
+                      aria-hidden="true"
+                    />
+                  ) : null}
+
+                  <span className="relative">
+                    {/* Only the title has to keep clear of the photo in the
+                        corner; the line under it runs the full width, or it
+                        would break into four words on a phone. */}
+                    <span className="block max-w-[54%] text-[17px] font-bold leading-tight tracking-tight text-ink-900 sm:max-w-[62%] sm:text-[20px]">
+                      {lines(card.title).map((l) => <span key={l} className="block">{l}</span>)}
+                    </span>
+                    <span className="mt-1.5 block max-w-[86%] text-[11.5px] leading-snug text-ink-500 sm:max-w-[62%] sm:text-[12.5px]">
+                      {lines(card.note).map((l) => <span key={l} className="inline sm:block">{`${l} `}</span>)}
+                    </span>
+                  </span>
+
+                  <span className="relative mt-3 inline-flex h-9 w-fit items-center gap-1.5 rounded-full bg-primary-600 px-3.5 text-[12.5px] font-semibold text-white shadow-[0_4px_12px_-6px_rgb(6_59_76/0.6)] transition-colors duration-200 group-hover:bg-ink-900 sm:text-[13px]">
+                    Explore Now
+                    <ArrowRight size={15} aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

@@ -21,9 +21,9 @@ export default function TrustBadges({ badges = [] }) {
         {/* the strip sits on its own rounded panel, so the white cards read as
             a set rather than floating on the page */}
         <div className="rounded-3xl bg-primary-100 p-4 md:p-6">
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-4">
+          <ul className="df-no-scrollbar -mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-1 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-6 lg:gap-4">
             {badges.map((b, i) => (
-              <Reveal as="li" key={b.title} delay={(i % 6) * 60} className="h-full">
+              <Reveal as="li" key={b.title} delay={(i % 6) * 60} className="h-full w-[44%] shrink-0 snap-start sm:w-auto">
                 <div className="group flex h-full flex-col items-center gap-3 rounded-2xl bg-white px-3 py-5 text-center shadow-[0_1px_3px_rgb(6_59_76_/_0.06)] transition-shadow duration-200 hover:shadow-[0_8px_20px_-10px_rgb(6_59_76_/_0.25)]">
                   <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary-50 transition-transform duration-200 group-hover:scale-105">
                     <Image

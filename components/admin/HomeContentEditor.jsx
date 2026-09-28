@@ -145,7 +145,7 @@ export default function HomeContentEditor({ content, defaults, quickLinkCount = 
       </Card>
 
       {/* ---------------------------------------------------------- banners */}
-      <Card icon={Images} title="Banner pictures" hint="They change every 5 seconds. Keep the left third plain — the text sits there on a computer screen. About 1920×700.">
+      <Card icon={Images} title="Banner pictures" hint="Not shown on the home page at the moment: the top of the page now uses the category cards, each with a photo from the catalogue. Pictures kept here are not lost — they are simply not on display.">
         <ul className="grid gap-3 sm:grid-cols-2">
           {(f.banners || []).map((src, i) => (
             <li key={`${src}-${i}`} className="overflow-hidden rounded-xl border border-line bg-white">
