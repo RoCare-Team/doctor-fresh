@@ -1,6 +1,7 @@
 import Breadcrumb from '@/components/common/Breadcrumb';
 import ServiceCheckout from '@/components/services/ServiceCheckout';
 import { getStates, PREMISES } from '@/lib/services/wizard';
+import { onlinePaymentReady } from '@/lib/sql/easebuzz';
 import { metaFor } from '@/lib/utils';
 
 // A booking in progress belongs to one visitor, and there is nothing here for
@@ -16,15 +17,15 @@ export default async function ServiceCheckoutPage() {
   return (
     <>
       <div className="border-b border-line bg-surface-muted">
-        <div className="df-container py-4">
+        <div className="df-container py-2.5">
           <Breadcrumb items={[{ name: 'Service cart', href: '/book' }, { name: 'Booking', href: '/book/checkout' }]} />
         </div>
       </div>
 
-      <div className="df-container df-section max-w-3xl">
-        <h1 className="text-[24px] font-semibold text-ink-900">Service booking</h1>
-        <p className="mb-6 mt-1 text-[14.5px] text-ink-400">Schedule your service appointment</p>
-        <ServiceCheckout states={states} premises={PREMISES} />
+      <div className="df-container max-w-5xl py-5 md:py-7">
+        <h1 className="text-[22px] font-semibold text-ink-900 md:text-[26px]">Service booking</h1>
+        <p className="mb-5 mt-1 text-[14px] text-ink-400">Four short steps — nothing is charged to book.</p>
+        <ServiceCheckout states={states} premises={PREMISES} canPayOnline={onlinePaymentReady()} />
       </div>
     </>
   );

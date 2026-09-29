@@ -6,7 +6,8 @@
 
 import { after } from 'next/server';
 import { markPaymentSuccess, parseTxnId } from '@/lib/sql/easebuzz';
-import { sendOrderPlacedWhatsApp } from '@/lib/whatsapp';
+import { sendOrderPlacedWhatsApp, notifyTeam } from '@/lib/whatsapp';
+import { getOrder } from '@/lib/sql/orders';
 import { reserveStockForOrder } from '@/lib/sql/orders';
 
 export const dynamic = 'force-dynamic';
@@ -33,6 +34,25 @@ async function handle(request, payload) {
     // customer hears about it — and only the first time, not on a refresh.
     if (result && !result.wasPaid) {
       after(() => sendOrderPlacedWhatsApp({ name: result.name, mobile: result.mobile }));
+
+      // The office too, with the whole order — this is the moment an online
+      // order becomes real, so it is the moment worth telling them about.
+      after(async () => {
+        const order = saleId ? await getOrder({ saleId, asAdmin: true }).catch(() => null) : null;
+        const items = order?.items || [];
+        const count = items.reduce((n, i) => n + (Number(i.qty) || 1), 0);
+        const rest = items.length > 1 ? ` +${items.length - 1} more` : '';
+        const where = [order?.address?.city, order?.address?.c_pincode || order?.address?.zip]
+          .filter(Boolean).join(' ');
+
+        await notifyTeam({
+          what: `Paid order #${order?.code || saleId || ''}`,
+          name: result.name,
+          mobile: result.mobile,
+          email: order?.address?.email || '',
+          detail: `Paid online, Rs ${order?.totals?.grandTotal ?? 0} — ${count} item(s): ${items[0]?.name || 'order'}${rest}${where ? ` — ${where}` : ''}`,
+        });
+      });
     }
   } catch (err) {
     // The customer has paid; never show them an error over our bookkeeping.

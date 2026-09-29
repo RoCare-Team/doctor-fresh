@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, ShieldCheck } from 'lucide-react';
+import ResumeBooking from '@/components/services/ResumeBooking';
 import { getBrand } from '@/lib/catalog';
 import { imageUrl } from '@/lib/utils';
 
@@ -45,6 +46,7 @@ export default async function BookingLayout({ children }) {
         </div>
       </header>
 
+      <ResumeBooking />
       <main id="main">{children}</main>
 
       <footer className="border-t border-line bg-surface-muted">

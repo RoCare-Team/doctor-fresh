@@ -1,7 +1,9 @@
 // "Get a quotation" on a product page → the `quotation` table.
 
 import { isDbEnabled } from '@/lib/db';
+import { after } from 'next/server';
 import { createQuotation } from '@/lib/sql/engagement';
+import { notifyTeam } from '@/lib/whatsapp';
 import { normaliseMobile, normaliseEmail, normaliseName } from '@/lib/auth/users';
 
 export const dynamic = 'force-dynamic';
@@ -35,6 +37,14 @@ export async function POST(request) {
     console.error('[quotation] could not save:', err.message);
     return fail('Could not send your request. Please call +91-9311587716.', 502);
   }
+
+  after(() => notifyTeam({
+    what: 'Quotation request',
+    name,
+    mobile: phone,
+    email: email || '',
+    detail: `Product #${Number(body.productId)}`,
+  }));
 
   return Response.json({ ok: true });
 }

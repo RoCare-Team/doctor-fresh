@@ -3,11 +3,12 @@ import {
   Check, Phone, CalendarClock, MapPin, Wallet, PhoneCall, Wrench, ShieldCheck,
 } from 'lucide-react';
 import { getBookingByRef } from '@/lib/sql/service-bookings';
+import PayLater from '@/components/services/PayLater';
 import { formatPrice, metaFor } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
 export const metadata = {
-  ...metaFor({ title: 'Booking confirmed', description: 'Your service visit is booked.', path: '/book/done' }),
+  ...metaFor({ title: 'Your booking', description: 'Your service visit.', path: '/book/done' }),
   robots: { index: false, follow: false },
 };
 
@@ -43,25 +44,35 @@ export default async function BookingDonePage({ searchParams }) {
   const { ref } = await searchParams;
   const booking = ref ? await getBookingByRef(ref).catch(() => null) : null;
   const paid = booking?.paymentStatus === 'paid';
+  // Chose to pay online and the money has not arrived. The visit is held —
+  // the service team has it — but calling that "confirmed" would be a lie,
+  // and a customer who cancelled at the gateway would be told they had paid.
+  const awaitingPayment = Boolean(booking) && booking.payment === 'online' && !paid;
 
   // The address is stored as its parts; shown as an address, not one long line.
   const street = [booking?.houseNo, booking?.area].filter(Boolean).join(', ');
   const town = [booking?.city, booking?.state].filter(Boolean).join(', ');
 
   return (
-    <div className="df-container df-section max-w-xl">
+    <div className="df-container max-w-xl py-6 md:py-10">
       <div className="text-center">
-        <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-success/10">
-          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-success text-white">
-            <Check size={28} strokeWidth={3} aria-hidden="true" />
+        <span className={`mx-auto flex h-20 w-20 items-center justify-center rounded-full ${awaitingPayment ? 'bg-warning/10' : 'bg-success/10'}`}>
+          <span className={`flex h-14 w-14 items-center justify-center rounded-full text-white ${awaitingPayment ? 'bg-warning' : 'bg-success'}`}>
+            {awaitingPayment
+              ? <Wallet size={26} aria-hidden="true" />
+              : <Check size={28} strokeWidth={3} aria-hidden="true" />}
           </span>
         </span>
 
-        <h1 className="mt-5 text-[26px] font-semibold text-ink-900">Booking confirmed</h1>
+        <h1 className="mt-5 text-[26px] font-semibold text-ink-900">
+          {awaitingPayment ? 'Payment not completed' : 'Booking confirmed'}
+        </h1>
         <p className="mt-1.5 text-[15px] text-ink-500">
-          {booking?.mobile
-            ? `Our team will call you on +91 ${booking.mobile} to confirm the time.`
-            : 'Our team will call you to confirm the time.'}
+          {awaitingPayment
+            ? 'Your visit is held with our service team — only the online payment did not go through.'
+            : booking?.mobile
+              ? `Our team will call you on +91 ${booking.mobile} to confirm the time.`
+              : 'Our team will call you to confirm the time.'}
         </p>
 
         {booking ? (
@@ -74,9 +85,19 @@ export default async function BookingDonePage({ searchParams }) {
                 paid ? 'bg-success/10 text-success' : 'bg-primary-50 text-primary-800'
               }`}
             >
-              {paid ? 'Paid online' : 'Pay after the visit'}
+              {paid ? 'Paid online' : awaitingPayment ? 'Payment pending' : 'Pay after the visit'}
             </span>
           </p>
+        ) : null}
+
+        {awaitingPayment ? (
+          <div className="mx-auto mt-5 max-w-md text-left">
+            <p className="mb-3 rounded-xl border border-warning/30 bg-warning/5 px-4 py-3 text-[13.5px] leading-relaxed text-ink-600">
+              Nothing has been charged. You can pay for the visit now, or let the
+              technician take cash, UPI or card after the work is done.
+            </p>
+            <PayLater refCode={booking.ref} paymentUrl={booking.paymentUrl} />
+          </div>
         ) : null}
       </div>
 
@@ -119,7 +140,7 @@ export default async function BookingDonePage({ searchParams }) {
             </Line>
 
             <Line icon={Wallet} label="Payment">
-              {paid ? 'Paid online' : 'Pay the technician after the visit — cash, UPI or card'}
+              {paid ? 'Paid online' : awaitingPayment ? 'Not paid yet — pay now, or the technician takes it after the visit' : 'Pay the technician after the visit — cash, UPI or card'}
             </Line>
           </section>
 

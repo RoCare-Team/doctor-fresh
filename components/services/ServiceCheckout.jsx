@@ -3,53 +3,59 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import {
-  Check, User, MapPin, CalendarClock, Wallet, Minus, Plus, Trash2, Loader2, ArrowRight, ArrowLeft, ShieldCheck,
-} from 'lucide-react';
 import Image from 'next/image';
-import { Wrench } from 'lucide-react';
+import {
+  BadgeCheck, CalendarClock, Check, ChevronRight, Clock, Loader2, MapPin, Minus, Plus, ShieldCheck,
+  Trash2, User, Wallet, Wrench,
+} from 'lucide-react';
 import { useServiceCart } from '@/lib/service-cart';
+import { readAddresses, writeAddresses } from '@/lib/service-addresses';
+import { markPendingBooking } from '@/lib/pending-booking';
+import { AddressForm, AddressPicker, SchedulePicker } from './BookingModals';
 import { formatPrice, cx } from '@/lib/utils';
 
 /**
- * Booking the visit: the basket, who you are, where to come and when.
+ * Booking the visit — one page, four things to settle.
  *
- * Four steps, because that is what the booking needs and what it says on the
- * bar at the top. Nothing is charged here — the technician is paid after the
- * visit — so the last step confirms rather than collects a card.
+ * It was four screens; it is one now. Someone who has booked before has an
+ * address and a number on file, so the whole booking is two taps and the only
+ * real question is when. The bar at the top ticks off what is settled, and the
+ * two questions that need room — which address, and what time — open in a
+ * panel instead of pushing everything else off the screen.
  */
-const STEPS = [
-  { id: 'details', label: 'Details', icon: User },
-  { id: 'address', label: 'Address', icon: MapPin },
-  { id: 'schedule', label: 'Schedule', icon: CalendarClock },
-  { id: 'payment', label: 'Payment', icon: Wallet },
+const STEPS = ['Details', 'Address', 'Schedule', 'Payment'];
+
+const ASSURANCES = [
+  { icon: ShieldCheck, label: 'Secure' },
+  { icon: CalendarClock, label: 'Flexible timing' },
+  { icon: BadgeCheck, label: 'Verified pros' },
 ];
 
-const SLOTS = ['9 am – 12 pm', '12 pm – 3 pm', '3 pm – 6 pm', '6 pm – 8 pm'];
-
 function Bar({ at }) {
-  const index = STEPS.findIndex((s) => s.id === at);
-
   return (
-    <ol className="mb-6 flex items-center gap-2">
-      {STEPS.map((step, i) => {
-        const done = i < index;
-        const now = i === index;
+    <ol className="mb-5 flex items-start">
+      {STEPS.map((label, i) => {
+        const done = i < at;
+        const now = i === at;
         return (
-          <li key={step.id} className="flex flex-1 items-center gap-2 last:flex-none">
-            <span className="flex flex-col items-center gap-1">
+          <li key={label} className={cx('flex items-center', i < STEPS.length - 1 && 'flex-1')}>
+            <span className="flex w-16 shrink-0 flex-col items-center gap-1.5">
               <span
                 className={cx(
-                  'flex h-8 w-8 items-center justify-center rounded-full text-[13px] font-semibold',
-                  done ? 'bg-success text-white' : now ? 'bg-primary-600 text-white' : 'bg-surface-muted text-ink-400',
+                  'flex h-9 w-9 items-center justify-center rounded-full border-2 text-[13px] font-semibold transition-colors',
+                  done && 'border-success bg-success text-white',
+                  now && 'border-primary-600 bg-white text-primary-700 ring-4 ring-primary-100',
+                  !done && !now && 'border-line bg-white text-ink-300',
                 )}
               >
-                {done ? <Check size={15} aria-hidden="true" /> : i + 1}
+                {done ? <Check size={16} aria-hidden="true" /> : i + 1}
               </span>
-              <span className={cx('text-[12px]', now ? 'font-medium text-ink-900' : 'text-ink-400')}>{step.label}</span>
+              <span className={cx('text-[12px] leading-none', now ? 'font-semibold text-ink-900' : 'text-ink-400')}>
+                {label}
+              </span>
             </span>
             {i < STEPS.length - 1 ? (
-              <span className={cx('h-px flex-1', done ? 'bg-success' : 'bg-line')} aria-hidden="true" />
+              <span className={cx('mt-[18px] h-0.5 flex-1 rounded-full', done ? 'bg-success' : 'bg-line')} aria-hidden="true" />
             ) : null}
           </li>
         );
@@ -58,18 +64,20 @@ function Bar({ at }) {
   );
 }
 
-function Card({ title, icon: Icon, done, children, action }) {
+function Card({
+  title, icon: Icon, done, action, children, muted = false,
+}) {
   return (
-    <section className="overflow-hidden rounded-xl border border-line bg-white">
-      <header className="flex items-center justify-between gap-3 border-b border-line px-5 py-3">
-        <h2 className="flex items-center gap-2 text-[14.5px] font-semibold text-ink-900">
-          {Icon ? <Icon size={16} className="text-primary-700" aria-hidden="true" /> : null}
+    <section className={cx('overflow-hidden rounded-2xl border border-line', muted ? 'bg-surface-muted' : 'bg-white')}>
+      <header className="flex items-center justify-between gap-3 border-b border-line px-5 py-3.5">
+        <h2 className={cx('flex items-center gap-2 text-[14.5px] font-semibold', muted ? 'text-ink-400' : 'text-ink-900')}>
+          {Icon ? <Icon size={16} className={muted ? 'text-ink-300' : 'text-primary-700'} aria-hidden="true" /> : null}
           {title}
           {done ? <Check size={15} className="text-success" aria-hidden="true" /> : null}
         </h2>
         {action}
       </header>
-      <div className="p-5">{children}</div>
+      {children}
     </section>
   );
 }
@@ -82,63 +90,54 @@ function Change({ onClick }) {
   );
 }
 
-function Row({ label, value }) {
-  return (
-    <div className="flex justify-between gap-4">
-      <dt className="text-ink-400">{label}</dt>
-      <dd className="text-right text-ink-900">{value}</dd>
-    </div>
-  );
-}
-
-function Field({ label, name, value, onChange, ...rest }) {
-  return (
-    <label className="block">
-      <span className="mb-1 block text-[13px] font-medium text-ink-700">{label}</span>
-      <input
-        name={name}
-        value={value}
-        onChange={(e) => onChange(name, e.target.value)}
-        className="h-11 w-full rounded-lg border border-line-strong px-3 text-[14.5px] outline-none focus:border-primary-500"
-        {...rest}
-      />
-    </label>
-  );
-}
-
-export default function ServiceCheckout({ states = [], premises = [] }) {
+export default function ServiceCheckout({ states = [], premises = [], canPayOnline = false }) {
+  // Whether a payment can be taken for this particular customer: the gateway
+  // settings say one thing, the service system's own payment page another.
+  const [payOnline, setPayOnline] = useState({ online: canPayOnline, reason: '' });
   const router = useRouter();
   const [lines, cart] = useServiceCart();
-  const [step, setStep] = useState('details');
-  const [form, setForm] = useState({
-    name: '', mobile: '', email: '', pincode: '', houseNo: '', area: '', nearBy: '', state: '', city: '', premises: premises[0]?.id || '', date: '', slot: SLOTS[0],
-  });
-  const [cities, setCities] = useState([]);
-  const [status, setStatus] = useState('idle'); // idle | sending | done | error
+
+  const [user, setUser] = useState(null);
+  const [addresses, setAddresses] = useState([]);
+  const [address, setAddress] = useState(null);
+  const [when, setWhen] = useState(null); // { date, slot, label }
+
+  const [picking, setPicking] = useState(false);
+  const [adding, setAdding] = useState(false);
+  const [scheduling, setScheduling] = useState(false);
+
+  const [status, setStatus] = useState('idle'); // idle | sending | error
   const [error, setError] = useState('');
 
-  const set = (name, value) => setForm((f) => ({ ...f, [name]: value }));
-
-  // The number is already known — it is how they signed in.
+  // Who is booking, and every address we already know for their number —
+  // from the sign-in, from visits they have booked, from orders we delivered.
   useEffect(() => {
+    setAddresses(readAddresses());
+
     fetch('/api/auth/me', { cache: 'no-store' })
       .then((r) => r.json())
       .then((d) => {
         if (!d.user) { router.replace('/book'); return; }
-        setForm((f) => ({ ...f, mobile: d.user.mobile || '', name: f.name || d.user.name || '' }));
+        setUser(d.user);
       })
       .catch(() => {});
+
+    fetch('/api/services/payment-options', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((d) => { if (d?.ok) setPayOnline({ online: Boolean(d.online), reason: d.reason || '' }); })
+      .catch(() => { /* whatever the page was built with stands */ });
+
+    fetch('/api/services/address', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((d) => {
+        if (!d?.addresses?.length) return;
+        setAddresses(d.addresses);
+        writeAddresses(d.addresses);
+      })
+      .catch(() => { /* the browser's own copy stands */ });
   }, [router]);
 
-  useEffect(() => {
-    if (!form.state) { setCities([]); return; }
-    fetch(`/api/services/cities?state=${encodeURIComponent(form.state)}`)
-      .then((r) => r.json())
-      .then((d) => setCities(d.cities || []))
-      .catch(() => setCities([]));
-  }, [form.state]);
-
-  if (cart.ready && !lines.length && status !== 'done') {
+  if (cart.ready && !lines.length && status !== 'sending') {
     return (
       <div className="rounded-2xl border border-line bg-white px-6 py-14 text-center">
         <p className="text-[16px] font-semibold text-ink-900">Your cart is empty</p>
@@ -149,19 +148,39 @@ export default function ServiceCheckout({ states = [], premises = [] }) {
     );
   }
 
-  const detailsDone = Boolean(form.name.trim() && form.mobile.trim());
-  const addressDone = Boolean(form.pincode.trim() && form.houseNo.trim() && form.area.trim() && form.state && form.city);
-  const scheduleDone = Boolean(form.date && form.slot);
+  const step = !address ? 1 : !when ? 2 : 3;
+
+  function keepAddresses(list, chosen) {
+    setAddresses(list);
+    writeAddresses(list);
+    if (chosen) setAddress(chosen);
+  }
 
   async function book(payment) {
+    if (!address || !when) return;
     setStatus('sending');
     setError('');
+
 
     const res = await fetch('/api/services/book', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        ...form,
+        name: address.label && address.label !== 'Saved address' ? address.label : (user?.name || ''),
+        mobile: user?.mobile || '',
+        email: user?.email || '',
+        houseNo: address.houseNo || address.line,
+        area: address.street || '',
+        nearBy: address.landmark || '',
+        city: address.city || '',
+        state: address.state || '',
+        pincode: address.pincode || '',
+        // The service's own id for this address, when it has one: a booking
+        // filed there is filed against the address, not against its words.
+        addressId: address.remoteId || '',
+        premises: premises[0]?.id || '',
+        date: when.date,
+        slot: when.slot,
         payment,
         serviceGroup: lines[0]?.group || '',
         path: '/book',
@@ -176,41 +195,53 @@ export default function ServiceCheckout({ states = [], premises = [] }) {
       return;
     }
 
-    // Paying now: the basket is cleared as the browser leaves for the gateway,
-    // which comes back to /book/done whichever way the payment goes.
     cart.clear();
-    if (data.redirect) { window.location.href = data.redirect; return; }
+
+    // Straight to the payment page. The booking is written here first and
+    // sits as unpaid until the money arrives, so leaving the payment page
+    // loses nothing but does not pretend to be a confirmed booking either.
+    if (data.redirect) {
+      // Where to come back to: the gateway's own "cancelled" page has no way
+      // back to here, so this site brings them back itself.
+      markPendingBooking(data.ref);
+      window.location.href = data.redirect;
+      return;
+    }
+
     window.location.href = `/book/done?ref=${encodeURIComponent(data.ref || '')}`;
   }
 
+  const sending = status === 'sending';
 
   return (
     <>
       <Bar at={step} />
 
       <div className="space-y-4">
-        {/* One step at a time: the whole booking on one screen reads as a form
-            to fill top to bottom, and people skip half of it. */}
-        {step === 'details' ? (
-          <>
-        <Card title={`Services (${lines.length})`}>
+        {/* ------------------------------------------------------- the basket */}
+        <Card title={`Services (${lines.length})`} icon={Wrench} done>
           <ul className="divide-y divide-line">
             {lines.map((l) => (
-              <li key={l.id} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
-                <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-line bg-surface-muted">
+              <li key={l.id} className="flex items-center gap-3 px-5 py-3.5">
+                <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-line bg-surface-muted">
                   {l.image
                     ? <Image src={l.image} alt="" fill sizes="56px" className="object-cover" unoptimized />
-                    : <span className="flex h-full w-full items-center justify-center"><Wrench size={16} className="text-ink-300" aria-hidden="true" /></span>}
+                    : (
+                      <span className="flex h-full w-full items-center justify-center">
+                        <Wrench size={16} className="text-ink-300" aria-hidden="true" />
+                      </span>
+                    )}
                 </span>
+
                 <span className="min-w-0 flex-1">
-                  <span className="block text-[14.5px] font-medium text-ink-900">{l.name}</span>
-                  <span className="mt-1 inline-flex items-center gap-2">
+                  <span className="block text-[14.5px] font-medium leading-snug text-ink-900">{l.name}</span>
+                  <span className="mt-1.5 inline-flex items-center gap-2">
                     <span className="inline-flex items-center rounded-lg border border-line-strong">
-                      <button type="button" onClick={() => cart.setQty(l, l.qty - 1)} aria-label="One fewer" className="px-2 py-1 text-ink-500">
+                      <button type="button" onClick={() => cart.setQty(l, l.qty - 1)} aria-label="One fewer" className="px-2 py-1 text-ink-500 hover:text-primary-700">
                         <Minus size={13} aria-hidden="true" />
                       </button>
                       <span className="min-w-7 text-center text-[13.5px]">{l.qty}</span>
-                      <button type="button" onClick={() => cart.setQty(l, l.qty + 1)} aria-label="One more" className="px-2 py-1 text-ink-500">
+                      <button type="button" onClick={() => cart.setQty(l, l.qty + 1)} aria-label="One more" className="px-2 py-1 text-ink-500 hover:text-primary-700">
                         <Plus size={13} aria-hidden="true" />
                       </button>
                     </span>
@@ -219,212 +250,170 @@ export default function ServiceCheckout({ states = [], premises = [] }) {
                     </button>
                   </span>
                 </span>
-                <span className="text-[14.5px] font-semibold text-ink-900">{formatPrice(l.price * l.qty)}</span>
+
+                <span className="shrink-0 text-[14.5px] font-semibold text-ink-900">{formatPrice(l.price * l.qty)}</span>
               </li>
             ))}
           </ul>
-          <p className="mt-3 flex items-center justify-between border-t border-line pt-3 text-[15px]">
-            <span className="text-ink-700">Total</span>
-            <span className="font-semibold text-primary-800">{formatPrice(cart.total)}</span>
+
+          <p className="flex items-center justify-between border-t border-line px-5 py-3.5">
+            <span className="text-[15px] font-medium text-ink-900">Total</span>
+            <span className="text-[18px] font-semibold text-primary-800">{formatPrice(cart.total)}</span>
           </p>
         </Card>
 
-        <Card title="Customer details" icon={User} done={detailsDone}>
-          <div className="grid gap-3.5 sm:grid-cols-2">
-            <Field label="Full name" name="name" value={form.name} onChange={set} placeholder="Your name" required />
-            <Field label="Mobile number" name="mobile" value={form.mobile} onChange={set} readOnly />
-            <Field label="Email (optional)" name="email" value={form.email} onChange={set} type="email" placeholder="you@example.com" className="sm:col-span-2" />
-          </div>
-        </Card>
-
-          </>
-        ) : null}
-
-        {step === 'address' ? (
-        <Card title="Service address" icon={MapPin} done={addressDone}>
-          <div className="grid gap-3.5 sm:grid-cols-2">
-            <Field label="House / flat number" name="houseNo" value={form.houseNo} onChange={set} required />
-            <Field label="Area / locality" name="area" value={form.area} onChange={set} required />
-            <Field label="Landmark (optional)" name="nearBy" value={form.nearBy} onChange={set} />
-            <Field label="Pin code" name="pincode" value={form.pincode} onChange={set} inputMode="numeric" maxLength={6} required />
-
-            <label className="block">
-              <span className="mb-1 block text-[13px] font-medium text-ink-700">State</span>
-              <select
-                value={form.state}
-                onChange={(e) => { set('state', e.target.value); set('city', ''); }}
-                className="h-11 w-full rounded-lg border border-line-strong bg-white px-3 text-[14.5px] outline-none focus:border-primary-500"
-              >
-                <option value="">Select state</option>
-                {states.map((x) => <option key={x} value={x}>{x}</option>)}
-              </select>
-            </label>
-
-            <label className="block">
-              <span className="mb-1 block text-[13px] font-medium text-ink-700">City</span>
-              <select
-                value={form.city}
-                onChange={(e) => set('city', e.target.value)}
-                disabled={!form.state}
-                className="h-11 w-full rounded-lg border border-line-strong bg-white px-3 text-[14.5px] outline-none focus:border-primary-500 disabled:bg-surface-muted"
-              >
-                <option value="">{form.state ? 'Select city' : 'Choose a state first'}</option>
-                {cities.map((c) => <option key={c} value={c}>{c}</option>)}
-              </select>
-            </label>
-
-            {premises.length ? (
-              <label className="block sm:col-span-2">
-                <span className="mb-1 block text-[13px] font-medium text-ink-700">Premises</span>
-                <select
-                  value={form.premises}
-                  onChange={(e) => set('premises', e.target.value)}
-                  className="h-11 w-full rounded-lg border border-line-strong bg-white px-3 text-[14.5px] outline-none focus:border-primary-500"
-                >
-                  {premises.map((p) => <option key={p.id} value={p.id}>{p.label || p.name}</option>)}
-                </select>
-              </label>
-            ) : null}
-          </div>
-        </Card>
-        ) : null}
-
-        {step === 'schedule' ? (
-        <Card title="Schedule the visit" icon={CalendarClock} done={scheduleDone}>
-          <div className="grid gap-3.5 sm:grid-cols-2">
-            <Field
-              label="Preferred date"
-              name="date"
-              value={form.date}
-              onChange={set}
-              type="date"
-              min={new Date().toISOString().slice(0, 10)}
-            />
-            <label className="block">
-              <span className="mb-1 block text-[13px] font-medium text-ink-700">Preferred time</span>
-              <select
-                value={form.slot}
-                onChange={(e) => set('slot', e.target.value)}
-                className="h-11 w-full rounded-lg border border-line-strong bg-white px-3 text-[14.5px] outline-none focus:border-primary-500"
-              >
-                {SLOTS.map((s) => <option key={s} value={s}>{s}</option>)}
-              </select>
-            </label>
-          </div>
-          <p className="mt-3 text-[13px] text-ink-400">
-            The team calls to confirm before the technician leaves, so a slot is a preference rather than a promise.
-          </p>
-        </Card>
-        ) : null}
-
-        {step === 'payment' ? (
-          <>
-            <Card title="Customer details" icon={User} done action={<Change onClick={() => setStep('details')} />}>
-              <dl className="space-y-1 text-[14px]">
-                <Row label="Name" value={form.name} />
-                <Row label="Phone" value={`+91 ${form.mobile}`} />
-                {form.email ? <Row label="Email" value={form.email} /> : null}
-              </dl>
-            </Card>
-
-            <Card title="Service address" icon={MapPin} done action={<Change onClick={() => setStep('address')} />}>
-              <p className="text-[14px] text-ink-600">
-                {[form.houseNo, form.area, form.nearBy, form.city, form.state, form.pincode].filter(Boolean).join(', ')}
-              </p>
-            </Card>
-
-            <Card title="Appointment time" icon={CalendarClock} done action={<Change onClick={() => setStep('schedule')} />}>
-              <p className="text-[14px] text-ink-600">{[form.date, form.slot].filter(Boolean).join('  ·  ')}</p>
-            </Card>
-
-            <Card title="Payment options" icon={Wallet}>
-              <p className="mb-3 flex items-center justify-between text-[15px]">
-                <span className="text-ink-700">Amount</span>
-                <span className="font-semibold text-primary-800">{formatPrice(cart.total)}</span>
-              </p>
-
-              <button
-                type="button"
-                onClick={() => book('online')}
-                disabled={status === 'sending'}
-                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-success px-5 text-[15px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
-              >
-                {status === 'sending' ? <Loader2 size={17} className="animate-spin" aria-hidden="true" /> : <ShieldCheck size={17} aria-hidden="true" />}
-                Proceed to payment
-                <ArrowRight size={16} aria-hidden="true" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => book('after')}
-                disabled={status === 'sending'}
-                className="mt-2.5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-surface-muted px-5 text-[15px] font-medium text-ink-700 transition-colors hover:bg-line disabled:opacity-60"
-              >
-                <Wallet size={16} aria-hidden="true" />
-                Pay after service
-              </button>
-
-              <p className="mt-3 text-center text-[12.5px] text-ink-400">
-                Paying now is optional — the technician takes cash, UPI or card after the visit either way.
-              </p>
-            </Card>
-
-            <div className="grid grid-cols-3 gap-3">
-              {[
-                { icon: ShieldCheck, label: 'Secure payment' },
-                { icon: CalendarClock, label: 'Flexible timing' },
-                { icon: Check, label: 'Verified technicians' },
-              ].map((x) => (
-                <span key={x.label} className="rounded-xl border border-line bg-white px-3 py-3 text-center">
-                  <x.icon size={17} className="mx-auto text-success" aria-hidden="true" />
-                  <span className="mt-1 block text-[12.5px] text-ink-500">{x.label}</span>
-                </span>
-              ))}
+        {/* ------------------------------------------------------- who books */}
+        <Card title="Customer details" icon={User} done={Boolean(user)}>
+          <dl className="space-y-1.5 px-5 py-4 text-[14px]">
+            <div className="flex justify-between gap-4">
+              <dt className="text-ink-400">Name</dt>
+              <dd className="text-right text-ink-900">{user?.name || '—'}</dd>
             </div>
-          </>
+            <div className="flex justify-between gap-4">
+              <dt className="text-ink-400">Phone</dt>
+              <dd className="text-right text-ink-900">{user?.mobile ? `+91 ${user.mobile}` : '—'}</dd>
+            </div>
+            {user?.email ? (
+              <div className="flex justify-between gap-4">
+                <dt className="text-ink-400">Email</dt>
+                <dd className="text-right text-ink-900">{user.email}</dd>
+              </div>
+            ) : null}
+          </dl>
+        </Card>
+
+        {/* --------------------------------------------------------- address */}
+        <Card
+          title="Service address"
+          icon={MapPin}
+          done={Boolean(address)}
+          action={address ? <Change onClick={() => setPicking(true)} /> : null}
+        >
+          <div className="p-4">
+            {address ? (
+              <p className="px-1 text-[14px] leading-relaxed text-ink-700">
+                <span className="block font-medium text-ink-900">{address.label}</span>
+                {address.line}
+              </p>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setPicking(true)}
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary-600 text-[15px] font-semibold text-white transition-colors hover:bg-primary-700"
+              >
+                <MapPin size={16} aria-hidden="true" />
+                Select address
+                <ChevronRight size={16} aria-hidden="true" />
+              </button>
+            )}
+          </div>
+        </Card>
+
+        {/* -------------------------------------------------------- the time */}
+        <Card
+          title="Appointment time"
+          icon={CalendarClock}
+          done={Boolean(when)}
+          muted={!address}
+          action={when ? <Change onClick={() => setScheduling(true)} /> : null}
+        >
+          <div className="p-4">
+            {when ? (
+              <p className="px-1 text-[14px] text-ink-700">{when.label}</p>
+            ) : (
+              <button
+                type="button"
+                disabled={!address}
+                onClick={() => setScheduling(true)}
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary-600 text-[15px] font-semibold text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed disabled:bg-line disabled:text-ink-400"
+              >
+                <Clock size={16} aria-hidden="true" />
+                Select date &amp; time
+                <ChevronRight size={16} aria-hidden="true" />
+              </button>
+            )}
+          </div>
+        </Card>
+
+        {/* ------------------------------------------------------- the money */}
+        <Card title="Payment options" icon={Wallet} muted={!when}>
+          <div className="space-y-2.5 p-4">
+            <button
+              type="button"
+              disabled={!when || sending || !payOnline.online}
+              onClick={() => book('online')}
+              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary-600 text-[15px] font-semibold text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed disabled:bg-line disabled:text-ink-400"
+            >
+              <ShieldCheck size={16} aria-hidden="true" />
+              {payOnline.online ? `Pay ${formatPrice(cart.total)} now` : 'Pay online (unavailable)'}
+              {payOnline.online ? <ChevronRight size={16} aria-hidden="true" /> : null}
+            </button>
+
+            <button
+              type="button"
+              disabled={!when || sending}
+              onClick={() => book('after')}
+              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-line-strong bg-white text-[15px] font-medium text-ink-800 transition-colors hover:border-primary-400 hover:text-primary-800 disabled:cursor-not-allowed disabled:border-line disabled:text-ink-300"
+            >
+              {sending ? <Loader2 size={16} className="animate-spin" aria-hidden="true" /> : <Wallet size={16} aria-hidden="true" />}
+              Pay after service
+            </button>
+
+            <p className="pt-1 text-center text-[12.5px] text-ink-400">
+              {payOnline.online
+                ? 'Paying now is optional — the technician takes cash, UPI or card after the visit either way.'
+                : payOnline.reason === 'not-signed-in-with-otp'
+                  ? 'Paying online needs a fresh sign-in with an OTP — or pay the technician after the visit.'
+                  : 'Online payment is not available for this booking; the technician takes cash, UPI or card after the visit.'}
+            </p>
+          </div>
+        </Card>
+
+        {error ? (
+          <p className="rounded-xl border border-danger/30 bg-danger/5 px-4 py-3 text-[13.5px] text-danger">{error}</p>
         ) : null}
 
-        {error ? <p className="text-[13.5px] text-danger">{error}</p> : null}
+        {/* ---------------------------------------------------- reassurances */}
+        <ul className="grid grid-cols-3 gap-3">
+          {ASSURANCES.map(({ icon: Icon, label }) => (
+            <li key={label} className="rounded-xl border border-line bg-white px-2 py-3 text-center">
+              <span className="mx-auto flex h-8 w-8 items-center justify-center rounded-full bg-success/10 text-success">
+                <Icon size={16} aria-hidden="true" />
+              </span>
+              <span className="mt-1.5 block text-[12px] text-ink-500">{label}</span>
+            </li>
+          ))}
+        </ul>
 
-        <div className="flex flex-wrap items-center gap-3 pb-2">
-          {step === 'details' ? (
-            <Link
-              href="/book"
-              className="inline-flex h-11 items-center gap-1.5 rounded-xl border border-line-strong px-4 text-[14.5px] text-ink-700 transition-colors hover:border-primary-300"
-            >
-              <ArrowLeft size={16} aria-hidden="true" />
-              Back to cart
-            </Link>
-          ) : (
-            <button
-              type="button"
-              onClick={() => { setError(''); setStep(STEPS[STEPS.findIndex((x) => x.id === step) - 1].id); }}
-              className="inline-flex h-11 items-center gap-1.5 rounded-xl border border-line-strong px-4 text-[14.5px] text-ink-700 transition-colors hover:border-primary-300"
-            >
-              <ArrowLeft size={16} aria-hidden="true" />
-              Back
-            </button>
-          )}
-
-          {step === 'payment' ? null : (
-            <button
-              type="button"
-              onClick={() => {
-                if (step === 'details' && !detailsDone) { setError('Enter your name.'); return; }
-                if (step === 'address' && !addressDone) { setError('Fill in the address.'); return; }
-                if (step === 'schedule' && !scheduleDone) { setError('Pick a date and a time.'); return; }
-                setError('');
-                setStep(STEPS[STEPS.findIndex((x) => x.id === step) + 1].id);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-primary-600 px-5 text-[15px] font-semibold text-white transition-colors hover:bg-primary-700 sm:flex-none"
-            >
-              Continue
-              <ArrowRight size={16} aria-hidden="true" />
-            </button>
-          )}
-        </div>
+        <p className="rounded-xl border border-warning/30 bg-warning/5 px-4 py-3 text-[12.5px] leading-relaxed text-ink-600">
+          <span className="font-semibold text-ink-900">Cancellation policy — </span>
+          free if you cancel more than 12 hours before the visit, or if no technician has been assigned yet.
+          A fee applies otherwise.
+        </p>
       </div>
+
+      <AddressPicker
+        open={picking}
+        onClose={() => setPicking(false)}
+        addresses={addresses}
+        onPick={(a) => { setAddress(a); setPicking(false); }}
+        onAddNew={() => { setPicking(false); setAdding(true); }}
+      />
+
+      <AddressForm
+        open={adding}
+        onClose={() => setAdding(false)}
+        states={states}
+        mobile={user?.mobile || ''}
+        name={user?.name || ''}
+        onSaved={(list, chosen) => { keepAddresses(list, chosen); setAdding(false); }}
+      />
+
+      <SchedulePicker
+        open={scheduling}
+        onClose={() => setScheduling(false)}
+        onPick={(picked) => { setWhen(picked); setScheduling(false); }}
+      />
     </>
   );
 }

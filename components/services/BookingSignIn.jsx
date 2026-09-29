@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Phone, ShieldCheck, RotateCw, X, Loader2 } from 'lucide-react';
 import { cx } from '@/lib/utils';
+import { writeAddresses } from '@/lib/service-addresses';
 
 /**
  * Signing in to book a service: a number, a sum to prove there is a person
@@ -98,6 +99,12 @@ export default function BookingSignIn({ open, onClose, onSignedIn }) {
     setBusy(false);
 
     if (!res?.ok || !data?.ok) { setError(data?.error || 'That code did not work.'); return; }
+
+    // The service answers a verified code with the addresses this customer has
+    // had a technician to before. Kept now, so the booking page can offer them
+    // instead of asking for an address they have already given us.
+    writeAddresses(data.addresses || []);
+
     onSignedIn({ mobile: digits, name: data.user?.name || '', email: data.user?.email || '' });
   }
 

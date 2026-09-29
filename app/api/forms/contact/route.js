@@ -1,7 +1,10 @@
 // The contact form → `contact_message`, plus the site's existing mailer.
 
 import { isDbEnabled } from '@/lib/db';
+import { after } from 'next/server';
 import { createContactMessage, notifyByEmail } from '@/lib/sql/forms';
+import { notifyTeam } from '@/lib/whatsapp';
+import { forwardContactMessage } from '@/lib/services/contact-form';
 import { normaliseMobile, normaliseEmail, normaliseName } from '@/lib/auth/users';
 
 export const dynamic = 'force-dynamic';
@@ -50,6 +53,19 @@ export async function POST(request) {
   await notifyByEmail('contact', {
     enquiry_type: subject, name, email, mobile, message, go_back: '',
   });
+
+  // The same message, in the service system's own panel.
+  after(() => forwardContactMessage({
+    name, mobile, email, subject, message,
+  }));
+
+  after(() => notifyTeam({
+    what: 'Contact form',
+    name,
+    mobile,
+    email,
+    detail: String(subject || message || '').slice(0, 60),
+  }));
 
   return Response.json({ ok: true });
 }

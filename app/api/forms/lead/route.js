@@ -1,7 +1,9 @@
 // A service booking / enquiry from a landing page → the `leads` table.
 
 import { isDbEnabled } from '@/lib/db';
+import { after } from 'next/server';
 import { createLead } from '@/lib/sql/forms';
+import { notifyTeam } from '@/lib/whatsapp';
 import { normaliseMobile, normaliseEmail, normaliseName } from '@/lib/auth/users';
 
 export const dynamic = 'force-dynamic';
@@ -47,6 +49,15 @@ export async function POST(request) {
     console.error('[lead] could not save the enquiry:', err.message);
     return fail('Could not send your request. Please call +91-9311587716.', 502);
   }
+
+  after(() => notifyTeam({
+    what: 'Website enquiry',
+    name,
+    mobile,
+    email: email || '',
+    detail: [body.queryFor || body.enquiry_type, body.city, body.state]
+      .filter(Boolean).join(' · ').slice(0, 60),
+  }));
 
   return Response.json({ ok: true });
 }

@@ -2,7 +2,9 @@
 
 import { isDbEnabled } from '@/lib/db';
 import { createCallbackRequest } from '@/lib/sql/forms';
+import { after } from 'next/server';
 import { normaliseMobile, normaliseName } from '@/lib/auth/users';
+import { notifyTeam } from '@/lib/whatsapp';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,6 +32,14 @@ export async function POST(request) {
     console.error('[callback] could not save the request:', err.message);
     return fail('Could not send your request. Please call +91-9311587716.', 502);
   }
+
+  // Sent after the reply is on its way: the visitor waits on nothing.
+  after(() => notifyTeam({
+    what: 'Call back request',
+    name,
+    mobile,
+    detail: `Wants a call back${body.timing ? ` — prefers ${String(body.timing).slice(0, 30)}` : ''}`,
+  }));
 
   return Response.json({ ok: true });
 }

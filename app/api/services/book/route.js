@@ -6,10 +6,19 @@
 // payment that failed.
 
 import { createBooking } from '@/lib/services/wizard';
+import { createFullLead, fullLeadReady } from '@/lib/services/leads';
+import { serviceIdsFor, rememberServiceIds } from '@/lib/sql/service-customers';
+import { syncCart } from '@/lib/services/cart';
+import { saveAddress } from '@/lib/services/addresses';
+import { rememberAddresses } from '@/lib/sql/customer-addresses';
 import { normaliseMobile, normaliseEmail, normaliseName } from '@/lib/auth/users';
 import { getSession } from '@/lib/auth/session';
-import { saveBooking, markSentToService, setBookingStatus } from '@/lib/sql/service-bookings';
+import {
+  saveBooking, markSentToService, setBookingStatus, markPaymentUrl,
+} from '@/lib/sql/service-bookings';
 import { createPaymentTransaction, initiateEasebuzz } from '@/lib/sql/easebuzz';
+import { after } from 'next/server';
+import { notifyTeam } from '@/lib/whatsapp';
 import { SITE_URL } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
@@ -65,6 +74,59 @@ export async function POST(request) {
   });
   if (saved.error) return fail(saved.error, 502);
 
+  // The office hears about every visit as it is booked, paid or not.
+  after(() => notifyTeam({
+    what: `Service booking ${saved.ref}`,
+    name,
+    mobile,
+    email: email || '',
+    detail: `${online ? 'Paying online' : 'Pay after visit'}, Rs ${amount} — ${services.map((x) => x.name).join(', ') || 'service'} — ${[body.city, pincode].filter(Boolean).join(' ')} — ${[body.date, body.slot].filter(Boolean).join(' ') || 'slot to confirm'}`,
+  }));
+
+  // The ids the service's own booking call needs. The cart id is the one the
+  // service had for this customer at sign-in; the address id is the one the
+  // chosen address carries there.
+  const { custId, cartId } = await serviceIdsFor(mobile);
+
+  // Their cart is built from this basket now rather than trusted from
+  // sign-in: what someone had in it a week ago is not what they are booking.
+  const freshCartId = custId ? await syncCart(custId, services).catch(() => '') : '';
+  if (freshCartId && freshCartId !== cartId) {
+    await rememberServiceIds(mobile, { custId, cartId: freshCartId }).catch(() => {});
+  }
+
+  const lead = {
+    custId,
+    cartId: freshCartId || String(body.cartId || '').trim() || cartId,
+    addressId: String(body.addressId || '').trim(),
+    mobile,
+    email: email || '',
+    date: body.date,
+    slot: body.slot,
+    // Where the customer should land afterwards, if their gateway will take it.
+    returnUrl: `${SITE_URL}/book/done?ref=${encodeURIComponent(saved.ref)}&pay=done`,
+  };
+
+  if (custId && lead.cartId && !lead.addressId) {
+    const created = await saveAddress({
+      mobile,
+      name,
+      phone: mobile,
+      email: email || '',
+      houseNo: body.houseNo,
+      street: body.area,
+      landmark: body.nearBy || '',
+      city: body.city,
+      state: body.state,
+      pincode,
+    }).catch(() => ({ ok: false }));
+
+    if (created.ok) {
+      lead.addressId = created.newId || created.addresses?.[0]?.remoteId || '';
+      await rememberAddresses(mobile, created.addresses || []).catch(() => {});
+    }
+  }
+
   const visit = {
     name,
     mobile,
@@ -79,6 +141,26 @@ export async function POST(request) {
     premises: body.premises,
     siteUrl: `${SITE_URL}${body.path || '/water-purifier-service'}`,
   };
+
+  /* ---------------------------------- the service's own booking, when it can */
+  if (fullLeadReady(lead)) {
+    const filed = await createFullLead(lead);
+
+    if (filed.ok) {
+      await markSentToService(saved.id, filed.leadId || 'lead').catch(() => {});
+
+      // Paying now: the service answers with its own payment page, so no
+      // gateway credentials are needed on this site at all.
+      if (online && filed.paymentUrl) {
+        await markPaymentUrl(saved.id, filed.paymentUrl).catch(() => {});
+        return Response.json({ ok: true, ref: saved.ref, redirect: filed.paymentUrl });
+      }
+      if (!online) return Response.json({ ok: true, ref: saved.ref, reference: filed.leadId });
+    } else {
+      // Nothing is lost: the older booking below still files the visit.
+      console.warn('[booking] full-details lead refused:', filed.reason);
+    }
+  }
 
   /* ------------------------------------------------- pay after the visit */
   if (!online) {

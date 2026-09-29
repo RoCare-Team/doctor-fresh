@@ -6,11 +6,17 @@ import {
   findUserByMobile, createOrUpdateUser, markSignedIn,
 } from '@/lib/auth/users';
 import { verifyOtp } from '@/lib/auth/otp';
+import { normaliseAddresses } from '@/lib/services/addresses';
+import { rememberAddresses } from '@/lib/sql/customer-addresses';
+import { rememberServiceIds } from '@/lib/sql/service-customers';
 import { sessionCookie } from '@/lib/auth/session';
 
 export const dynamic = 'force-dynamic';
 
 const fail = (message, status = 400) => Response.json({ ok: false, error: message }, { status });
+
+// What the browser sent, printed beside what the OTP service is then asked.
+const DEBUG = process.env.OTP_DEBUG === '1' || process.env.NODE_ENV !== 'production';
 
 export async function POST(request) {
   if (!isDbEnabled()) return fail('Accounts are unavailable right now.', 503);
@@ -21,6 +27,8 @@ export async function POST(request) {
   } catch {
     return fail('Invalid request.');
   }
+
+  if (DEBUG) console.info('[verify-otp] payload from the browser', JSON.stringify(body));
 
   const mobile = normaliseMobile(body.mobile);
   if (!mobile) return fail('Enter a valid 10-digit mobile number.');
@@ -50,14 +58,34 @@ export async function POST(request) {
     return fail('Could not complete sign-in. Please try again.', 502);
   }
 
+  // What the OTP service knows about this customer: the addresses they have
+  // had a technician to before, so a booking does not ask for one they have
+  // already given us. Held by the browser, never written to our own tables.
+  const addresses = normaliseAddresses(result.data?.address);
+  if (DEBUG) console.info(`[verify-otp] ${addresses.length} saved address(es) from the service`);
+  if (addresses.length) await rememberAddresses(mobile, addresses).catch(() => {});
+
+  // The service's own ids for this customer: a booking is filed against them,
+  // and this answer is the only place they are ever handed over.
+  const cart = (Array.isArray(result.data?.AllCartDetails) ? result.data.AllCartDetails : [])
+    .find((c) => c?.category_cart_id);
+  if (result.data?.c_id || cart) {
+    if (DEBUG) console.info(`[verify-otp] service ids — customer ${result.data?.c_id || '—'}, cart ${cart?.category_cart_id || '—'}`);
+    await rememberServiceIds(mobile, {
+      custId: result.data?.c_id,
+      cartId: cart?.category_cart_id,
+    }).catch(() => {});
+  }
+
   const response = Response.json({
     ok: true,
     user: {
       id: user.id,
-      name: user.name || '',
+      name: user.name || result.data?.name || '',
       mobile: user.phone || mobile,
-      email: user.email || '',
+      email: user.email || result.data?.email || '',
     },
+    addresses,
   });
   response.headers.append('Set-Cookie', serialiseCookie(sessionCookie({
     id: user.id, name: user.name, mobile: user.phone || mobile,

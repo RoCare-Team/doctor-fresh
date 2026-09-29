@@ -13,14 +13,14 @@ export default function ServiceCartPage() {
   return (
     <>
       <div className="border-b border-line bg-surface-muted">
-        <div className="df-container py-4">
+        <div className="df-container py-2.5">
           <Breadcrumb items={[{ name: 'Service cart', href: '/book' }]} />
         </div>
       </div>
 
-      <div className="df-container df-section max-w-3xl">
-        <h1 className="text-[24px] font-semibold text-ink-900">Your cart</h1>
-        <p className="mb-5 mt-1 text-[14.5px] text-ink-400">Ready to checkout</p>
+      <div className="df-container max-w-5xl py-5 md:py-7">
+        <h1 className="text-[22px] font-semibold text-ink-900 md:text-[26px]">Your cart</h1>
+        <p className="mb-5 mt-1 text-[14px] text-ink-400">Review the services, then book the visit.</p>
         <ServiceCart />
       </div>
     </>
