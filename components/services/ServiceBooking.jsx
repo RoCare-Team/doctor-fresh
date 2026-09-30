@@ -96,7 +96,7 @@ function ServiceItem({
       <div className="flex w-[118px] shrink-0 flex-col items-center gap-2.5 sm:w-[132px]">
         <div className="relative h-[72px] w-[72px] overflow-hidden rounded-xl border border-line bg-surface-muted">
           {s.image ? (
-            <Image src={s.image} alt="" fill sizes="72px" className="object-cover" unoptimized />
+            <Image src={s.image} alt="" fill sizes="72px" className="object-cover" />
           ) : (
             <span className="flex h-full w-full items-center justify-center"><Wrench size={22} className="text-ink-300" aria-hidden="true" /></span>
           )}
@@ -319,7 +319,7 @@ function Banner({ title, photos, phone, tel }) {
                 i === 2 && 'bottom-1 right-6 h-16 w-16 rotate-6',
               )}
             >
-              <Image src={src} alt="" fill sizes="112px" className="object-cover" unoptimized />
+              <Image src={src} alt="" fill sizes="112px" className="object-cover" />
             </span>
           ))}
         </div>
@@ -454,7 +454,7 @@ export default function ServiceBooking({
                   <li key={x.id} className="w-[76px] shrink-0 lg:w-auto">
                     <button type="button" onClick={() => show(x.id)} className="group flex w-full flex-col items-center gap-1.5 text-center">
                       <span className={cx('relative h-14 w-14 overflow-hidden rounded-xl border-2 bg-surface-muted transition-colors', picked[x.id] ? 'border-primary-500' : 'border-transparent group-hover:border-primary-200')}>
-                        {x.image ? <Image src={x.image} alt="" fill sizes="56px" className="object-cover" unoptimized /> : <span className="flex h-full w-full items-center justify-center"><Wrench size={18} className="text-ink-300" aria-hidden="true" /></span>}
+                        {x.image ? <Image src={x.image} alt="" fill sizes="56px" className="object-cover" /> : <span className="flex h-full w-full items-center justify-center"><Wrench size={18} className="text-ink-300" aria-hidden="true" /></span>}
                         {picked[x.id] ? <span className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary-600 text-white"><Check size={10} strokeWidth={3} aria-hidden="true" /></span> : null}
                       </span>
                       <span className="line-clamp-2 text-[11.5px] leading-tight text-ink-700 group-hover:text-primary-800">{x.name}</span>

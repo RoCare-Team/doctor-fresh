@@ -84,7 +84,7 @@ export default function ServiceCart() {
             <li key={l.id} className="flex gap-4 p-4 sm:p-5">
               <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-line bg-surface-muted sm:h-20 sm:w-20">
                 {l.image
-                  ? <Image src={l.image} alt="" fill sizes="80px" className="object-cover" unoptimized />
+                  ? <Image src={l.image} alt="" fill sizes="80px" className="object-cover" />
                   : (
                     <span className="flex h-full w-full items-center justify-center">
                       <Wrench size={18} className="text-ink-300" aria-hidden="true" />

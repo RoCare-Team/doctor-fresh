@@ -152,10 +152,10 @@ export default function HeaderClient({
             <Image
               src={imageUrl(brand.logo)}
               alt="Doctor Fresh"
-              width={878}
-              height={188}
+              width={243}
+              height={52}
               priority
-              sizes="(min-width: 1024px) 243px, 170px"
+              fetchPriority="high"
               className="h-8 w-auto min-[380px]:h-9 lg:h-[52px]"
             />
           </Link>

@@ -2,15 +2,17 @@
 const nextConfig = {
   reactStrictMode: true,
   /**
-   * The stylesheet is a file, not inlined into every page.
+   * The stylesheet travels inside the page rather than as a file of its own.
    *
-   * Inlined, it cost 21 KB on the home page twice over — once in the page and
-   * again in the data the page ships with — on every visit to every one of
-   * 22,000 pages. As a file it is fetched once and then cached for the whole
-   * site, and the page itself arrives 40 KB lighter.
+   * As a file it was two render-blocking requests before anything could paint.
+   * Measured on the home page (Lighthouse, mobile, simulated 4G): first paint
+   * 2.2s → 1.5s, largest paint 5.1s → 4.0s, speed index 5.2s → 3.7s. The cost
+   * is that the stylesheet is carried by every page instead of being cached
+   * once for the site — worth it here, where most visits are a single landing
+   * from a search result rather than a walk through several pages.
    */
   experimental: {
-    inlineCss: false,
+    inlineCss: true,
   },
 
   /**
@@ -44,6 +46,16 @@ const nextConfig = {
     // the same look), WebP otherwise.
     formats: ['image/avif', 'image/webp'],
     /**
+     * How long an optimised picture may be reused.
+     *
+     * Next keeps one for as long as the site it came from asks, and the
+     * service system asks for nothing at all — so every thumbnail on the
+     * service pages was fetched again after a minute. A month is right for
+     * pictures of services: they are replaced rarely, and a replacement is
+     * a new file name anyway.
+     */
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+    /**
      * Every picture on a page carries the full list of sizes it could be
      * served at, once in the HTML and again in the data the page ships with.
      * The home page holds over a thousand of those lines, which cost more to
@@ -59,6 +71,9 @@ const nextConfig = {
       { protocol: 'https', hostname: 'doctorfresh.in' },
       // Photos uploaded from the admin, stored in Vercel Blob.
       { protocol: 'https', hostname: '*.public.blob.vercel-storage.com' },
+      // The service catalogue's own pictures.
+      { protocol: 'https', hostname: 'www.waterpurifierservicecenter.in' },
+      { protocol: 'https', hostname: 'waterpurifierservicecenter.in' },
     ],
   },
 

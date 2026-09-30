@@ -225,7 +225,7 @@ export default function ServiceCheckout({ states = [], premises = [], canPayOnli
               <li key={l.id} className="flex items-center gap-3 px-5 py-3.5">
                 <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-line bg-surface-muted">
                   {l.image
-                    ? <Image src={l.image} alt="" fill sizes="56px" className="object-cover" unoptimized />
+                    ? <Image src={l.image} alt="" fill sizes="56px" className="object-cover" />
                     : (
                       <span className="flex h-full w-full items-center justify-center">
                         <Wrench size={16} className="text-ink-300" aria-hidden="true" />

@@ -18,7 +18,7 @@ import QuickLinks from '@/components/home/QuickLinks';
 import { quickLinksForHome } from '@/lib/sql/quick-links';
 import { getHomeContent, getContent } from '@/lib/sql/site-content';
 import {
-  getProductsByIds, getAllBlogPosts, getCategoryImage, getCategoryImages, getHomeSections, getBrand,
+  getProductsByIds, getAllBlogPosts, getCategoryImage, getHomeSections, getBrand,
   cardProduct,
 } from '@/lib/catalog';
 // Layout copy the database does not hold: which badges the theme shows and
@@ -56,9 +56,8 @@ const cardFields = (p) => ({
 });
 
 export default async function HomePage() {
-  const [brand, homeContent, sections] = await Promise.all([
+  const [brand, sections] = await Promise.all([
     getBrand(),
-    getHomeContent().catch(() => ({})),
     // Trust badges, the water test band and the phone highlights (Site content).
     getContent('home_sections').catch(() => null),
   ]);
@@ -66,29 +65,29 @@ export default async function HomePage() {
   const deals = (await getProductsByIds(todaysDeal)).slice(0, 4).map(cardProduct);
   const posts = (await getAllBlogPosts()).slice(0, 3);
 
+  const heroTiles = [
+    { label: 'Water Purifier', href: '/category/water-purifier' },
+    { label: 'RO Plant', href: '/category/ro-plant' },
+    { label: 'Water Softener', href: '/category/water-softener' },
+    { label: 'Water Ionizer', href: '/category/water-ionizer' },
+    { label: 'Water Cooler', href: '/category/water-cooler' },
+    { label: 'Water Dispenser', href: '/category/water-dispenser' },
+    { label: 'Water Tank', href: '/category/water-tank' },
+    { label: 'Water Heater', href: '/category/water-heater' },
+    { label: 'Spare Parts', href: '/spare-parts' },
+  ];
+
+  // Each tile takes the first product photo of the category it opens.
+  const heroTilesWithPhotos = await Promise.all(
+    heroTiles.map(async (t) => ({ ...t, image: await getCategoryImage(t.href) })),
+  );
+
   // give every category tile a real product photo (the stored icons are 62px)
   const tiles = await Promise.all(
     categoryTiles.map(async (t) => ({ ...t, image: await getCategoryImage(t.href) })),
   );
 
-  // The hero's four cards carry a real photo from the category each one opens.
-  const heroHrefs = {
-    'water-purifier': '/category/water-purifier',
-    'ro-plant': '/category/ro-plant',
-    'water-softener': '/category/water-softener',
-    'spare-parts': '/spare-parts',
-  };
-  // Two photos per category: the first for the card, the second for the
-  // service shortcut above it, so one screen never shows the same photo twice.
-  const heroPhotos = Object.fromEntries(await Promise.all(
-    Object.entries(heroHrefs).map(async ([key, href]) => [key, await getCategoryImages(href, 2)]),
-  ));
-  const heroCards = Object.fromEntries(
-    Object.entries(heroPhotos).map(([key, list]) => [key, list[0] || null]),
-  );
-  const heroServiceImages = Object.fromEntries(
-    Object.entries(heroPhotos).map(([key, list]) => [key, list[1] || list[0] || null]),
-  );
+
 
   // rails are resolved up front so the JSX below stays a plain render
   const railProducts = (await Promise.all(rails.map((r) => getProductsByIds(r.productIds))))
@@ -103,11 +102,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero
-        content={{ ...homeContent, highlights: sections?.highlights }}
-        cards={heroCards}
-        serviceImages={heroServiceImages}
-      />
+      <Hero tiles={heroTilesWithPhotos} />
 
       <TrustBadges badges={sections?.trustBadges?.length ? sections.trustBadges : trustBadges} />
 
