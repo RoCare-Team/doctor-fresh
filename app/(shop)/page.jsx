@@ -208,7 +208,7 @@ export default async function HomePage() {
       />
 
       {/* ------------------------------------------------------------ blogs */}
-      <section className="border-y border-line bg-surface-muted">
+      <section className="border-y border-line">
         <div className="df-container df-section">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <Reveal className="max-w-2xl">

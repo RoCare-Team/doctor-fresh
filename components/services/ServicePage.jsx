@@ -20,7 +20,7 @@ export default function ServicePage({ template, location, breadcrumb = [], nearb
 
   return (
     <>
-      <div className="border-b border-line bg-surface-muted">
+      <div className="border-b border-line bg-white">
         <div className="df-container py-6 md:py-8">
           <Breadcrumb items={breadcrumb} className="mb-5" />
 
@@ -80,7 +80,7 @@ export default function ServicePage({ template, location, breadcrumb = [], nearb
           ) : null}
 
           {page.cta?.title ? (
-            <section className="mt-10 rounded-[14px] border border-line bg-surface-muted px-6 py-7">
+            <section className="mt-10 rounded-[14px] border border-line bg-white shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)] px-6 py-7">
               <h2 className="text-lg font-semibold text-ink-900 md:text-xl">{page.cta.title}</h2>
               {page.cta.text ? <p className="mt-2 text-[14.5px] text-ink-500">{page.cta.text}</p> : null}
               <div className="mt-4 flex flex-wrap gap-3">
@@ -124,7 +124,7 @@ export default function ServicePage({ template, location, breadcrumb = [], nearb
         <aside className="lg:sticky lg:top-[138px] lg:self-start">
           <ServiceBookingForm location={location} serviceLabel={page.packages?.[0]?.groupTitle || 'Service'} />
 
-          <div className="mt-4 rounded-[14px] border border-line bg-surface-muted p-5">
+          <div className="mt-4 rounded-[14px] border border-line bg-white shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)] p-5">
             <h2 className="text-[15px] font-semibold text-ink-900">Talk to us directly</h2>
             <ul className="mt-3 space-y-2.5 text-[14.5px]">
               <li>

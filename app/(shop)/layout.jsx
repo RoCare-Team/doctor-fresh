@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { CartProvider } from '@/components/cart/CartProvider';
@@ -5,6 +6,7 @@ import RequestWizardTrigger from '@/components/forms/RequestWizardTrigger';
 import ClientEffects from '@/components/common/ClientEffects';
 import ContactDock from '@/components/common/ContactDock';
 import ResumeBooking from '@/components/services/ResumeBooking';
+import RouteProgress from '@/components/common/RouteProgress';
 import { getBrand } from '@/lib/catalog';
 import { homeMeta } from '@/data/site';
 import { SITE_URL, imageUrl } from '@/lib/utils';
@@ -73,6 +75,7 @@ export default async function ShopLayout({ children }) {
       </a>
       <CartProvider>
         <Header />
+        <Suspense fallback={null}><RouteProgress /></Suspense>
         <ResumeBooking />
         <main id="main">{children}</main>
         <Footer />

@@ -24,16 +24,13 @@ const NAV = [
   { label: 'Service & AMC', href: '/water-purifier-service' },
 ];
 
-const BLOG_MENU_WIDTH = 260;
-
 export default function HeaderClient({
   categories, blogCategories, brand, nav, serviceLinks = [],
 }) {
   // Where a dropdown opens: under its own menu item, not across the page.
   const [servicesLeft, setServicesLeft] = useState(0);
-  const [blogsLeft, setBlogsLeft] = useState(0);
   const navItems = nav?.items?.length ? nav.items : NAV;
-  const [openMenu, setOpenMenu] = useState(null); // 'products' | 'services' | 'blogs' | null
+  const [openMenu, setOpenMenu] = useState(null); // 'products' | 'services' | null
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState(categories[0]?.slug || null);
   const [query, setQuery] = useState('');
@@ -301,7 +298,7 @@ export default function HeaderClient({
             />
           </button>
 
-          <ul className="df-no-scrollbar flex flex-1 items-center gap-1 overflow-x-auto xl:gap-2">
+          <ul className="df-no-scrollbar flex min-w-0 items-center gap-1 overflow-x-auto xl:gap-2">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               // "Service & AMC" opens the list of service pages on hover.
@@ -348,40 +345,12 @@ export default function HeaderClient({
                 </li>
               );
             })}
-
-            <li>
-              <button
-                type="button"
-                onMouseEnter={(e) => {
-                  setBlogsLeft(menuLeft(e.currentTarget, BLOG_MENU_WIDTH));
-                  setOpenMenu('blogs');
-                }}
-                onClick={(e) => {
-                  setBlogsLeft(menuLeft(e.currentTarget, BLOG_MENU_WIDTH));
-                  setOpenMenu(openMenu === 'blogs' ? null : 'blogs');
-                }}
-                aria-expanded={openMenu === 'blogs'}
-                className={cx(
-                  'inline-flex h-[52px] shrink-0 items-center gap-1 whitespace-nowrap border-b-2 px-2.5 text-[14.5px] transition-colors xl:px-3',
-                  openMenu === 'blogs'
-                    ? 'border-primary-500 font-medium text-ink-900'
-                    : 'border-transparent text-ink-500 hover:border-primary-200 hover:text-ink-900',
-                )}
-              >
-                Blog
-                <ChevronDown
-                  size={14}
-                  className={cx('transition-transform', openMenu === 'blogs' && 'rotate-180')}
-                  aria-hidden="true"
-                />
-              </button>
-            </li>
           </ul>
 
           {nav?.ctaLabel !== '' ? (
             <Link
               href={nav?.ctaHref || '/partner'}
-              className="ml-4 hidden shrink-0 whitespace-nowrap rounded-lg border border-primary-200 px-4 py-2 text-[14px] font-medium text-primary-800 transition-colors hover:bg-primary-50 xl:inline-block"
+              className="ml-3 hidden shrink-0 whitespace-nowrap rounded-lg border border-primary-200 px-4 py-2 text-[14px] font-medium text-primary-800 transition-colors hover:bg-primary-50 xl:inline-block"
             >
               {nav?.ctaLabel || 'Become a Partner'}
             </Link>
@@ -498,46 +467,6 @@ export default function HeaderClient({
                     </li>
                   );
                 })}
-              </ul>
-            </div>
-          </div>
-        ) : null}
-
-        {openMenu === 'blogs' ? (
-          <div
-            className="absolute top-full z-50 pt-1"
-            style={{ left: blogsLeft, width: BLOG_MENU_WIDTH }}
-            onMouseLeave={() => setOpenMenu(null)}
-          >
-            <div className="overflow-hidden rounded-2xl border border-line bg-white p-2 shadow-[0_22px_48px_-22px_rgba(6,59,76,0.45)]">
-              <p className="px-3 pb-1.5 pt-2 text-[11.5px] font-semibold uppercase tracking-wider text-ink-400">Topics</p>
-              <ul>
-                <li>
-                  <Link
-                    href="/blogs"
-                    onClick={() => setOpenMenu(null)}
-                    className={cx(
-                      'block rounded-lg px-3 py-2 text-[14px] font-medium transition-colors',
-                      pathname === '/blogs' ? 'bg-primary-50 text-primary-800' : 'text-ink-900 hover:bg-surface-muted',
-                    )}
-                  >
-                    All articles
-                  </Link>
-                </li>
-                {blogCategories.map((c) => (
-                  <li key={c.slug}>
-                    <Link
-                      href={c.href}
-                      onClick={() => setOpenMenu(null)}
-                      className={cx(
-                        'block rounded-lg px-3 py-2 text-[14px] transition-colors',
-                        pathname === c.href ? 'bg-primary-50 text-primary-800' : 'text-ink-500 hover:bg-surface-muted hover:text-primary-800',
-                      )}
-                    >
-                      {c.name}
-                    </Link>
-                  </li>
-                ))}
               </ul>
             </div>
           </div>

@@ -31,7 +31,10 @@ export async function POST(request) {
   if (!mobile) return fail('Enter a valid 10-digit mobile number.');
 
   const message = String(body.message ?? '').trim();
-  if (message.length < 5) return fail('Please tell us how we can help.');
+  // Only an empty message is refused. The old five-character minimum turned
+  // short, real messages ("test", "need AMC") into an error that read as if
+  // nothing had been written at all.
+  if (!message) return fail('Please tell us how we can help.');
 
   const subject = String(body.enquiry_type ?? '').trim() || 'Website enquiry';
 

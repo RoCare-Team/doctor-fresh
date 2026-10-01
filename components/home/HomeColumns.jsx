@@ -58,7 +58,7 @@ function Column({ title, eyebrow, href, products }) {
     // The column is a panel of its own so it is obvious which rows belong to
     // "Latest" and which to "Most Viewed". It is tinted rather than white:
     // against a white panel the white rows inside would lose their edges.
-    <div className="flex flex-col rounded-2xl border border-line bg-surface-muted p-4">
+    <div className="flex flex-col rounded-2xl border border-line bg-white p-4">
       <div className="mb-1 flex items-start justify-between gap-3">
         <div>
           <p className="text-[12px] font-semibold uppercase tracking-wide text-primary-600">{eyebrow}</p>

@@ -23,7 +23,7 @@ export default function QuickLinks({ sections = [] }) {
   if (!sections.length) return null;
 
   return (
-    <section className="border-t border-line bg-surface-muted" aria-labelledby="quick-links">
+    <section className="border-t border-line" aria-labelledby="quick-links">
       <div className="df-container py-10 md:py-12">
         <h2 id="quick-links" className="text-[24px] font-bold tracking-tight text-primary-800 md:text-[28px]">Quick Links</h2>
 
@@ -31,7 +31,7 @@ export default function QuickLinks({ sections = [] }) {
           {sections.map((s) => {
             const Icon = ICONS[s.icon] || Link2;
             return (
-              <details key={s.id} className="group rounded-xl border border-primary-100 bg-primary-50/50 transition-colors open:bg-white">
+              <details key={s.id} className="group rounded-xl border border-line bg-white transition-colors">
                 <summary className="flex cursor-pointer list-none items-center gap-3 px-5 py-4 [&::-webkit-details-marker]:hidden">
                   <Icon size={18} className="shrink-0 text-ink-700" aria-hidden="true" />
                   <span className="flex-1 text-[16px] font-semibold text-ink-900">{s.title}</span>

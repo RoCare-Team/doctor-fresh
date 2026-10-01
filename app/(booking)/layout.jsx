@@ -1,7 +1,9 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, ShieldCheck } from 'lucide-react';
 import ResumeBooking from '@/components/services/ResumeBooking';
+import RouteProgress from '@/components/common/RouteProgress';
 import { getBrand } from '@/lib/catalog';
 import { imageUrl } from '@/lib/utils';
 
@@ -46,6 +48,7 @@ export default async function BookingLayout({ children }) {
         </div>
       </header>
 
+      <Suspense fallback={null}><RouteProgress /></Suspense>
       <ResumeBooking />
       <main id="main">{children}</main>
 

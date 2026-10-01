@@ -30,7 +30,7 @@ export default function Hero({ tiles = [] }) {
       <Link
         href="/category/water-purifier"
         aria-label="Water purifiers"
-        className="relative block aspect-[16/9] w-full overflow-hidden bg-surface-tint sm:aspect-[5/2] lg:hidden"
+        className="relative block aspect-[16/9] w-full overflow-hidden bg-white sm:aspect-[5/2] lg:hidden"
       >
         <Image
           src="/images/banner12.png"
@@ -45,12 +45,7 @@ export default function Hero({ tiles = [] }) {
       <div className="df-container grid gap-6 py-6 lg:grid-cols-[minmax(0,46%)_1fr] lg:items-stretch lg:gap-10 lg:py-8">
         {/* ------------------------------------------------------ what we do */}
         <div>
-          <p className="hidden items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.18em] text-primary-600 lg:flex">
-            Our Services
-            <span aria-hidden="true" className="h-px w-10 bg-primary-300" />
-          </p>
-
-          <h1 className="sr-only lg:not-sr-only lg:mt-2.5 lg:text-[36px] lg:font-bold lg:leading-[1.12] lg:tracking-tight lg:text-ink-900">
+          <h1 className="sr-only lg:not-sr-only lg:text-[36px] lg:font-bold lg:leading-[1.12] lg:tracking-tight lg:text-ink-900">
             Complete RO &amp; Water Solutions
           </h1>
 
@@ -63,7 +58,7 @@ export default function Hero({ tiles = [] }) {
               {tiles.map((tile) => (
                 <li key={tile.label}>
                   <Link href={tile.href} className="group block text-center">
-                    <span className="relative block aspect-[4/3] overflow-hidden rounded-xl bg-[#f5f8fb] transition-colors duration-200 group-hover:bg-primary-50">
+                    <span className="relative block aspect-[4/3] overflow-hidden rounded-xl bg-white shadow-[0_1px_3px_rgb(16_24_40/0.08)] transition-all duration-200 group-hover:shadow-[0_2px_6px_-1px_rgb(16_24_40/0.12)]">
                       {tile.image ? (
                         <Image
                           src={imageUrl(tile.image)}
@@ -92,7 +87,7 @@ export default function Hero({ tiles = [] }) {
               key={src}
               href={href}
               aria-label={label}
-              className="group relative block h-full min-h-[128px] overflow-hidden rounded-2xl bg-surface-tint sm:min-h-[170px]"
+              className="group relative block h-full min-h-[128px] overflow-hidden rounded-2xl bg-white sm:min-h-[170px]"
             >
               <Image
                 src={src}

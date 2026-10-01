@@ -60,9 +60,9 @@ export default function ServiceCards() {
           <Reveal as="li" key={s.title} delay={i * 70} className="h-full">
             <Link
               href={s.href}
-              className="group flex h-full flex-col rounded-2xl border border-line bg-white p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-[0_12px_28px_-16px_rgb(6_59_76/0.35)]"
+              className="group flex h-full flex-col rounded-2xl bg-white p-5 shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_2px_5px_rgb(16_24_40/0.10),0_18px_36px_-10px_rgb(16_24_40/0.28)]"
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-50 text-primary-700 transition-transform duration-200 group-hover:scale-105">
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-primary-700 shadow-[0_1px_4px_rgb(16_24_40/0.10)] transition-all duration-200 group-hover:scale-105 group-hover:shadow-[0_4px_10px_-2px_rgb(16_24_40/0.16)]">
                 <s.icon size={22} aria-hidden="true" />
               </span>
 

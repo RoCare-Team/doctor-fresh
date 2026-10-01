@@ -44,7 +44,7 @@ export default function CategoryTiles({ tiles = [] }) {
           >
             <Link
               href={t.href}
-              className="group flex h-full flex-col overflow-hidden rounded-2xl bg-primary-100 p-4 transition-colors hover:bg-primary-200"
+              className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white p-4 shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_2px_5px_rgb(16_24_40/0.10),0_18px_36px_-10px_rgb(16_24_40/0.28)]"
             >
               <h3 className="px-1 text-[16px] font-semibold leading-snug text-ink-900 md:text-[17px]">
                 {t.label}
@@ -52,7 +52,7 @@ export default function CategoryTiles({ tiles = [] }) {
 
               {/* product shots are shot on white, so they sit on a white panel
                   — the background then reads as part of the card, not a patch */}
-              <div className="relative mt-3 flex h-52 w-full items-center justify-center overflow-hidden rounded-xl bg-white sm:h-44 md:h-52">
+              <div className="relative mt-3 flex h-52 w-full items-center justify-center overflow-hidden rounded-xl bg-white shadow-[0_1px_4px_rgb(16_24_40/0.10)] transition-shadow duration-200 group-hover:shadow-[0_4px_10px_-2px_rgb(16_24_40/0.16)] sm:h-44 md:h-52">
                 {t.image ? (
                   <Image
                     src={imageUrl(t.image)}

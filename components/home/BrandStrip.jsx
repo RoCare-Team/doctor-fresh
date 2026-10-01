@@ -15,7 +15,7 @@ export default function BrandStrip({ brands = [], title = 'Brands we sell & serv
   if (!items.length) return null;
 
   return (
-    <section className="border-y border-line bg-surface-muted">
+    <section className="border-y border-line">
       <div className="df-container py-9 md:py-11">
         <Reveal>
           <h2 className="text-center text-[13px] font-semibold uppercase tracking-[0.14em] text-ink-400">

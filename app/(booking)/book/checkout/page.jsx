@@ -16,7 +16,7 @@ export default async function ServiceCheckoutPage() {
 
   return (
     <>
-      <div className="border-b border-line bg-surface-muted">
+      <div className="border-b border-line bg-white">
         <div className="df-container py-2.5">
           <Breadcrumb items={[{ name: 'Service cart', href: '/book' }, { name: 'Booking', href: '/book/checkout' }]} />
         </div>

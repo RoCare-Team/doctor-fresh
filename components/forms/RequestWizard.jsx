@@ -37,7 +37,7 @@ const USE_TYPES = [
   { value: '2', label: 'Commercial', icon: Building2 },
 ];
 
-const input = 'h-10 w-full rounded-lg border border-white/80 bg-white/80 px-3 text-[14px] text-ink-900 outline-none transition-colors placeholder:text-ink-300 focus:border-primary-500 focus:ring-3 focus:ring-primary-500/10 disabled:cursor-not-allowed disabled:bg-surface-muted';
+const input = 'h-10 w-full rounded-lg border border-line bg-white shadow-[0_1px_2px_rgb(16_24_40/0.06)] px-3 text-[14px] text-ink-900 outline-none transition-colors placeholder:text-ink-300 focus:border-primary-500 focus:ring-3 focus:ring-primary-500/10 disabled:cursor-not-allowed disabled:bg-surface-muted';
 
 export default function RequestWizard({ onClose }) {
   const [options, setOptions] = useState({ leadTypes: [], states: [] });
@@ -128,10 +128,10 @@ export default function RequestWizard({ onClose }) {
         aria-modal="true"
         aria-labelledby="wizard-title"
         // A small frosted-glass card: the page shows softly through it.
-        className="df-modal-in relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-t-3xl border border-white/70 bg-white/70 shadow-[0_30px_80px_-20px_rgb(6_59_76/0.45),inset_0_1px_0_rgb(255_255_255/0.8)] backdrop-blur-2xl backdrop-saturate-150 sm:max-h-[min(34rem,90vh)] sm:max-w-[430px] sm:rounded-3xl"
+        className="df-modal-in relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-t-3xl border border-line bg-white shadow-[0_24px_70px_-20px_rgb(16_24_40/0.35)] sm:max-h-[min(34rem,90vh)] sm:max-w-[430px] sm:rounded-3xl"
       >
-        <header className="flex shrink-0 items-center gap-3 border-b border-white/60 px-4 py-3">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/80 text-primary-700 shadow-sm">
+        <header className="flex shrink-0 items-center gap-3 border-b border-line px-4 py-3">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-700">
             <Headset size={17} aria-hidden="true" />
           </span>
           <div className="min-w-0 flex-1">
@@ -146,7 +146,7 @@ export default function RequestWizard({ onClose }) {
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-ink-500 transition-colors hover:bg-white/80 hover:text-ink-900"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-ink-500 transition-colors hover:bg-surface-muted hover:text-ink-900"
           >
             <X size={18} aria-hidden="true" />
           </button>
@@ -181,8 +181,10 @@ export default function RequestWizard({ onClose }) {
                       <label
                         key={value}
                         className={cx(
-                          'flex h-11 cursor-pointer items-center justify-center gap-2 rounded-lg border text-[14px] font-medium transition-colors has-focus-visible:ring-3 has-focus-visible:ring-primary-500/25',
-                          active ? 'border-primary-500 bg-primary-50/90 text-primary-800 shadow-sm' : 'border-white/80 bg-white/70 text-ink-700 hover:border-primary-300',
+                          'flex h-11 cursor-pointer items-center justify-center gap-2 rounded-lg border text-[14px] font-medium transition-all has-focus-visible:ring-3 has-focus-visible:ring-primary-500/25',
+                          active
+                            ? 'border-primary-600 bg-primary-600 font-semibold text-white shadow-[0_6px_16px_-8px_rgb(21_151_197/0.75)]'
+                            : 'border-line bg-white text-ink-700 shadow-[0_1px_2px_rgb(16_24_40/0.06)] hover:border-primary-300 hover:shadow-[0_4px_12px_-6px_rgb(16_24_40/0.25)]',
                         )}
                       >
                         <input type="radio" name="complainType" value={value} checked={active} onChange={() => set({ complainType: value })} className="sr-only" />
@@ -218,7 +220,7 @@ export default function RequestWizard({ onClose }) {
               {error ? <p role="alert" className="rounded-lg bg-danger/5 px-3 py-2 text-[13px] text-danger">{error}</p> : null}
             </div>
 
-            <footer className="shrink-0 border-t border-white/60 px-4 py-3">
+            <footer className="shrink-0 border-t border-line px-4 py-3">
               <button type="submit" className="flex h-11 w-full items-center justify-center gap-1.5 rounded-lg bg-primary-600 text-[14.5px] font-semibold text-white transition-colors hover:bg-primary-700">
                 Continue
                 <ArrowRight size={17} aria-hidden="true" />
@@ -270,12 +272,12 @@ export default function RequestWizard({ onClose }) {
               ) : null}
             </div>
 
-            <footer className="flex shrink-0 gap-2 border-t border-white/60 px-4 py-3">
+            <footer className="flex shrink-0 gap-2 border-t border-line px-4 py-3">
               <button
                 type="button"
                 onClick={() => { setStep(1); setError(''); setStatus('idle'); }}
                 aria-label="Back"
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/80 bg-white/70 text-ink-700 transition-colors hover:border-primary-300"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-line-strong bg-white text-ink-700 transition-colors hover:border-primary-300"
               >
                 <ArrowLeft size={17} aria-hidden="true" />
               </button>
@@ -317,7 +319,7 @@ const STEPS = ['Your need', 'Your details'];
 /** Numbered circles joined by a line: done ✓, current filled, next outlined. */
 function Stepper({ step }) {
   return (
-    <ol className="flex shrink-0 items-center gap-2 border-b border-white/60 px-5 py-3" aria-label={`Step ${step} of ${STEPS.length}`}>
+    <ol className="flex shrink-0 items-center gap-2 border-b border-line px-5 py-3" aria-label={`Step ${step} of ${STEPS.length}`}>
       {STEPS.map((label, i) => {
         const n = i + 1;
         const done = n < step;
@@ -329,7 +331,7 @@ function Stepper({ step }) {
                 'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[12.5px] font-bold transition-all duration-300',
                 done && 'bg-primary-600 text-white',
                 current && 'bg-primary-600 text-white ring-4 ring-primary-500/20',
-                !done && !current && 'border-2 border-ink-300/60 bg-white/70 text-ink-400',
+                !done && !current && 'border-2 border-line-strong bg-white text-ink-400',
               )}
             >
               {done ? <Check size={14} strokeWidth={3} aria-hidden="true" /> : n}
@@ -386,8 +388,10 @@ function Pills({
           <label
             key={v}
             className={cx(
-              'inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-lg border px-3 text-[13px] font-medium transition-colors has-focus-visible:ring-3 has-focus-visible:ring-primary-500/25',
-              active ? 'border-primary-500 bg-primary-50/90 text-primary-800 shadow-sm' : 'border-white/80 bg-white/70 text-ink-700 hover:border-primary-300',
+              'inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-lg border px-3 text-[13px] font-medium transition-all has-focus-visible:ring-3 has-focus-visible:ring-primary-500/25',
+              active
+                            ? 'border-primary-600 bg-primary-600 font-semibold text-white shadow-[0_6px_16px_-8px_rgb(21_151_197/0.75)]'
+                            : 'border-line bg-white text-ink-700 shadow-[0_1px_2px_rgb(16_24_40/0.06)] hover:border-primary-300 hover:shadow-[0_4px_12px_-6px_rgb(16_24_40/0.25)]',
             )}
           >
             <input type="radio" name={name} value={v} checked={active} onChange={() => onChange(v)} className="sr-only" />

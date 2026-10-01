@@ -36,7 +36,12 @@ export async function PATCH(request) {
   const saved = await getCategory(id).catch(() => null);
   try {
     revalidatePath('/all-category');
-    if (saved?.slug) revalidatePath(`/category/${saved.slug}`, 'layout');
+    // The page itself, and the route it is rendered by: with a dynamic segment
+    // a resolved path and a type together match nothing, which is why an edited
+    // meta title kept showing the old one until the page's own 15 minutes ran
+    // out. The pattern form is what clears it.
+    if (saved?.slug) revalidatePath(`/category/${saved.slug}`);
+    revalidatePath('/category/[category]', 'page');
   } catch { /* revalidation is best-effort; the page refreshes on its own schedule */ }
 
   return Response.json({ ok: true, category: saved });

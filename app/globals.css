@@ -145,17 +145,17 @@
      Written here rather than as a long arbitrary Tailwind value so the
      two-layer shadow compiles reliably. */
   .df-product-card {
-    background: var(--color-surface-tint);
+    background: #fff;
     border-radius: 16px;
     box-shadow:
-      0 2px 6px -2px rgb(6 59 76 / 0.10),
-      0 8px 20px -8px rgb(6 59 76 / 0.14);
+      0 1px 3px rgb(16 24 40 / 0.08),
+      0 10px 24px -6px rgb(16 24 40 / 0.18);
     transition: box-shadow 0.2s ease, transform 0.2s ease;
   }
   .df-product-card:hover {
     box-shadow:
-      0 4px 10px -2px rgb(6 59 76 / 0.14),
-      0 18px 36px -14px rgb(6 59 76 / 0.28);
+      0 2px 5px rgb(16 24 40 / 0.10),
+      0 18px 36px -10px rgb(16 24 40 / 0.28);
   }
 
   /* ---------------------------------------------------------- motion ----

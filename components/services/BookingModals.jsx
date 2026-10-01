@@ -102,7 +102,7 @@ export function AddressPicker({
             ))}
           </ul>
         ) : (
-          <p className="rounded-xl border border-line bg-surface-muted px-4 py-6 text-center text-[13.5px] text-ink-400">
+          <p className="rounded-xl border border-line bg-white px-4 py-6 text-center text-[13.5px] text-ink-400">
             No saved addresses on this number yet — add one above.
           </p>
         )}
@@ -203,7 +203,7 @@ export function AddressForm({
                 onClick={() => set('type', t.id)}
                 className={cx(
                   'inline-flex h-10 items-center gap-1.5 rounded-lg border px-4 text-[13.5px] font-medium transition-colors',
-                  form.type === t.id ? 'border-primary-600 bg-primary-50 text-primary-800' : 'border-line text-ink-700 hover:border-primary-300',
+                  form.type === t.id ? 'border-primary-600 bg-primary-600 font-semibold text-white' : 'border-line bg-white text-ink-700 hover:border-primary-300',
                 )}
               >
                 <t.icon size={15} aria-hidden="true" />
@@ -398,7 +398,7 @@ export function SchedulePicker({ open, onClose, onPick }) {
 
             {loading ? (
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                {[0, 1, 2, 3].map((i) => <span key={i} className="h-11 animate-pulse rounded-xl bg-surface-muted" />)}
+                {[0, 1, 2, 3].map((i) => <span key={i} className="h-11 animate-pulse rounded-xl bg-line/40" />)}
               </div>
             ) : slots.length ? (
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -409,7 +409,7 @@ export function SchedulePicker({ open, onClose, onPick }) {
                     onClick={() => setSlot(s)}
                     className={cx(
                       'h-11 rounded-xl border px-2 text-[12.5px] font-medium transition-colors',
-                      slot === s ? 'border-primary-600 bg-primary-50 text-primary-800' : 'border-line text-ink-700 hover:border-primary-300',
+                      slot === s ? 'border-primary-600 bg-primary-600 font-semibold text-white' : 'border-line bg-white text-ink-700 hover:border-primary-300',
                     )}
                   >
                     {s}
@@ -417,7 +417,7 @@ export function SchedulePicker({ open, onClose, onPick }) {
                 ))}
               </div>
             ) : (
-              <p className="rounded-xl border border-line bg-surface-muted px-4 py-6 text-center text-[13.5px] text-ink-400">
+              <p className="rounded-xl border border-line bg-white px-4 py-6 text-center text-[13.5px] text-ink-400">
                 That day is fully booked — please try another.
               </p>
             )}
