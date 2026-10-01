@@ -24,13 +24,7 @@ export default function ContactForm({ fields = [] }) {
         name="mobile"
         type="tel"
         required
-        inputMode="numeric"
-        maxLength={10}
         pattern="[0-9]{10}"
-        // Letters and symbols are dropped as they are typed or pasted, and the
-        // field stops at ten digits: a phone number is the only thing it can
-        // hold, so a wrong one cannot be sent in the first place.
-        onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '').slice(0, 10); }}
         placeholder={byName.mobile?.placeholder || 'Mobile'}
       />
       <Input

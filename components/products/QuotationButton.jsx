@@ -131,7 +131,7 @@ export default function QuotationButton({ productId, productName }) {
                   type="tel"
                   required
                   inputMode="numeric"
-                  maxLength={15}
+                  pattern="[0-9]{10}"
                   autoComplete="tel"
                 />
 

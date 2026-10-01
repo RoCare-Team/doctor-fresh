@@ -219,7 +219,7 @@ function CheckoutDialog({
               <p className="mb-3 mt-5 flex items-center gap-2 text-[13px] font-semibold uppercase tracking-wide text-ink-400"><Phone size={14} aria-hidden="true" />Contact</p>
               <div className="grid gap-3.5 sm:grid-cols-3">
                 <div><label className={label} htmlFor="bk-name">Full name *</label><input id="bk-name" name="name" required autoComplete="name" placeholder="Your name" className={field} /></div>
-                <div><label className={label} htmlFor="bk-mobile">Mobile number *</label><input id="bk-mobile" name="mobile" type="tel" required pattern="[0-9]{10}" maxLength={10} inputMode="numeric" autoComplete="tel" placeholder="10 digit number" className={field} /></div>
+                <div><label className={label} htmlFor="bk-mobile">Mobile number *</label><input id="bk-mobile" name="mobile" type="tel" required pattern="[0-9]{10}" maxLength={10} inputMode="numeric" onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '').slice(0, 10); }} autoComplete="tel" placeholder="10 digit number" className={field} /></div>
                 <div><label className={label} htmlFor="bk-email">Email</label><input id="bk-email" name="email" type="email" autoComplete="email" placeholder="you@example.com" className={field} /></div>
               </div>
 
@@ -241,7 +241,7 @@ function CheckoutDialog({
                     {cities.map((c) => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
-                <div><label className={label} htmlFor="bk-pin">Pin code *</label><input id="bk-pin" name="pincode" required pattern="[0-9]{6}" maxLength={6} inputMode="numeric" autoComplete="postal-code" placeholder="6 digit pin code" className={field} /></div>
+                <div><label className={label} htmlFor="bk-pin">Pin code *</label><input id="bk-pin" name="pincode" required pattern="[0-9]{6}" maxLength={6} inputMode="numeric" onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '').slice(0, 6); }} autoComplete="postal-code" placeholder="6 digit pin code" className={field} /></div>
                 <div className="sm:col-span-2"><label className={label} htmlFor="bk-near">Nearby landmark</label><input id="bk-near" name="nearBy" placeholder="School, shop or place nearby" className={field} /></div>
                 <div>
                   <label className={label} htmlFor="bk-prem">Premises</label>

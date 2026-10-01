@@ -147,7 +147,7 @@ export default function BookingSignIn({ open, onClose, onSignedIn }) {
               <input
                 ref={firstField}
                 value={digits}
-                onChange={(e) => setMobile(e.target.value)}
+                onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
                 inputMode="numeric"
                 autoComplete="tel"
                 placeholder="10-digit mobile number"
@@ -166,7 +166,7 @@ export default function BookingSignIn({ open, onClose, onSignedIn }) {
                 </span>
                 <input
                   value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
+                  onChange={(e) => setAnswer(e.target.value.replace(/\D/g, '').slice(0, 3))}
                   onKeyDown={(e) => { if (e.key === 'Enter') sendCode(); }}
                   inputMode="numeric"
                   placeholder="Answer"
@@ -188,7 +188,7 @@ export default function BookingSignIn({ open, onClose, onSignedIn }) {
             <input
               ref={firstField}
               value={code}
-              onChange={(e) => setCode(e.target.value)}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 4))}
               onKeyDown={(e) => { if (e.key === 'Enter') verify(); }}
               inputMode="numeric"
               autoComplete="one-time-code"

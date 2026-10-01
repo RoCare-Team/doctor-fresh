@@ -14,10 +14,22 @@ export function Label({ htmlFor, children, required }) {
 }
 
 export function Input({ label, name, className, ...rest }) {
+  const phone = rest.type === 'tel';
+  const limit = phone ? (rest.maxLength ?? 10) : rest.maxLength;
+  const tel = phone
+    ? {
+      inputMode: rest.inputMode ?? 'numeric',
+      maxLength: limit,
+      onInput: rest.onInput ?? ((e) => {
+        e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '').slice(0, limit);
+      }),
+    }
+    : null;
+
   return (
     <div className={className}>
       {label ? <Label htmlFor={name} required={rest.required}>{label}</Label> : null}
-      <input id={name} name={name} className={cx(BASE, 'h-11')} {...rest} />
+      <input id={name} name={name} className={cx(BASE, 'h-11')} {...rest} {...tel} />
     </div>
   );
 }

@@ -134,6 +134,14 @@ export default async function Footer() {
             <Link href="/blogs" className="text-[14.5px] font-medium text-primary-300 transition-colors hover:text-white">
               Read our blog
             </Link>
+            {/* Dealer and distributor applications: a column of its own would
+                not fit, but buried in the bottom bar nobody finds it. */}
+            <Link href="/partner" className="text-[14.5px] font-medium text-primary-300 transition-colors hover:text-white">
+              Become a Partner
+            </Link>
+            <Link href="/careers" className="text-[14.5px] font-medium text-primary-300 transition-colors hover:text-white">
+              Careers
+            </Link>
           </p>
           <ul className="space-y-4 text-[14.5px] text-white/60">
             {brand.offices.map((o) => (
