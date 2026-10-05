@@ -277,7 +277,7 @@ function Field({
         )}
       >
         {prefix ? (
-          <span className="pointer-events-none absolute bottom-2.5 left-3.5 text-[15px] text-ink-500">{prefix}</span>
+          <span className="pointer-events-none absolute left-3.5 top-4 flex h-8 items-center text-[15px] leading-none text-ink-500">{prefix}</span>
         ) : null}
 
         {children}

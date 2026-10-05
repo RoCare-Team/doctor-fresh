@@ -201,11 +201,11 @@ export default function CheckoutView() {
     }
   }
 
-  if (!ready) return <div className="h-64 animate-pulse rounded-[14px] bg-surface-muted" />;
+  if (!ready) return <div className="h-64 animate-pulse rounded-[14px] bg-line/50" />;
 
   if (!items.length) {
     return (
-      <div className="rounded-[14px] border border-dashed border-line-strong bg-surface-muted px-6 py-14 text-center">
+      <div className="rounded-[14px] border border-line bg-white shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)] px-6 py-14 text-center">
         <h2 className="text-lg font-semibold text-ink-900">Nothing to check out</h2>
         <p className="mt-1.5 text-[14.5px] text-ink-400">Add a product to your cart first.</p>
         <Button href="/all-category" className="mt-5">Browse products</Button>
@@ -215,7 +215,7 @@ export default function CheckoutView() {
 
   // Reached directly rather than through the Buy Now prompt. The basket is
   // untouched — the visitor only has to sign in to carry on.
-  if (sessionLoading) return <div className="h-64 animate-pulse rounded-[14px] bg-surface-muted" />;
+  if (sessionLoading) return <div className="h-64 animate-pulse rounded-[14px] bg-line/50" />;
 
   if (!user) {
     return (
@@ -249,14 +249,14 @@ export default function CheckoutView() {
           screen they share one row. */}
       <div
         ref={topRef}
-        className="df-card flex scroll-mt-44 flex-col gap-1.5 p-2 sm:flex-row sm:items-center sm:gap-3 sm:px-3"
+        className="df-card shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)] flex scroll-mt-44 flex-col gap-1.5 p-2 sm:flex-row sm:items-center sm:gap-3 sm:px-3"
       >
         <div className="flex min-w-0 items-center gap-1.5">
           <button
             type="button"
             onClick={() => (step > 1 ? goTo(step - 1) : router.push('/cart'))}
             aria-label={step > 1 ? 'Back to the previous step' : 'Back to cart'}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink-700 transition-colors hover:bg-surface-muted"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink-700 transition-colors hover:bg-line/50"
           >
             <ArrowLeft size={18} aria-hidden="true" />
           </button>
@@ -295,7 +295,7 @@ export default function CheckoutView() {
           {/* ---------------------------------------------- 2. order summary */}
           <Panel active={step === 2} title="Order summary">
             {address ? (
-              <div className="mb-4 flex items-start justify-between gap-4 rounded-lg border border-line bg-surface-muted p-3">
+              <div className="mb-4 flex items-start justify-between gap-4 rounded-lg border border-line bg-white p-3">
                 <div className="min-w-0 text-[14px] leading-relaxed text-ink-700">
                   <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-400">Delivering to</p>
                   <p className="mt-1 font-semibold text-ink-900">{address.name}</p>
@@ -336,7 +336,7 @@ export default function CheckoutView() {
               ))}
             </ul>
 
-            <div className="mt-3 rounded-lg border border-dashed border-line-strong bg-surface-muted p-3">
+            <div className="mt-3 rounded-lg border border-line bg-white p-3">
               <p className="mb-2 text-[13px] font-medium text-ink-700">Have a coupon?</p>
               <div className="flex flex-wrap items-center gap-2">
                 <input
@@ -378,7 +378,7 @@ export default function CheckoutView() {
           {/* ------------------------------------------------------ 3. payment */}
           <Panel active={step === 3} title="Payment">
             {address ? (
-              <div className="mb-4 flex items-start justify-between gap-4 rounded-lg border border-line bg-surface-muted p-3">
+              <div className="mb-4 flex items-start justify-between gap-4 rounded-lg border border-line bg-white p-3">
                 <div className="min-w-0 text-[14px] leading-relaxed text-ink-700">
                   <p className="text-[12px] font-semibold uppercase tracking-wide text-ink-400">Delivering to</p>
                   <p className="mt-1 font-semibold text-ink-900">{address.name}</p>
@@ -409,7 +409,7 @@ export default function CheckoutView() {
                         'flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3.5 text-[15px] transition-colors',
                         option.ready
                           ? 'border-line-strong text-ink-800 hover:border-primary-300 has-checked:border-primary-500 has-checked:bg-primary-50 has-checked:shadow-[0_0_0_3px_var(--color-primary-100)]'
-                          : 'cursor-not-allowed border-line bg-surface-muted text-ink-300',
+                          : 'cursor-not-allowed border-line bg-white text-ink-300',
                       )}
                     >
                       <input
@@ -452,7 +452,7 @@ export default function CheckoutView() {
 
         {/* ------------------------------------------------------- summary */}
         <aside className="lg:sticky lg:top-34.5 lg:self-start">
-          <div className="df-card p-5">
+          <div className="df-card shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)] p-5">
             <h2 className="text-[16px] font-semibold text-ink-900">Order summary</h2>
 
             <dl className="mt-4 space-y-2.5 text-[14.5px]">
@@ -612,7 +612,7 @@ function Stepper({ step, onBack }) {
                 <button
                   type="button"
                   onClick={() => onBack(n)}
-                  className="flex shrink-0 items-center gap-2 rounded-full p-1 transition-colors hover:bg-surface-muted sm:gap-2.5 sm:pr-3"
+                  className="flex shrink-0 items-center gap-2 rounded-full p-1 transition-colors hover:bg-line/50 sm:gap-2.5 sm:pr-3"
                   aria-label={`Back to ${label}`}
                 >
                   {content}
@@ -649,7 +649,7 @@ function Panel({ active, title, children }) {
   // submitted — and only the current one is shown. The bar above the panels
   // names the step, so the panel itself carries no heading of its own.
   return (
-    <section className={cx('df-card p-4 sm:p-5', !active && 'hidden')} aria-label={title}>
+    <section className={cx('df-card shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)] p-4 sm:p-5', !active && 'hidden')} aria-label={title}>
       {children}
     </section>
   );
