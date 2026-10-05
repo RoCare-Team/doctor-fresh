@@ -24,7 +24,7 @@ export default function QuickLinks({ sections = [] }) {
 
   return (
     <section className="border-t border-line bg-surface-muted" aria-labelledby="quick-links">
-      <div className="df-container py-10 md:py-12">
+      <div className="df-container py-4 md:py-5">
         <h2 id="quick-links" className="text-[24px] font-bold tracking-tight text-primary-800 md:text-[28px]">Quick Links</h2>
 
         <div className="mt-4 space-y-3">

@@ -1,109 +1,109 @@
 import Image from 'next/image';
+import { DM_Sans } from 'next/font/google';
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { imageUrl } from '@/lib/utils';
 
+// The hero's own typeface: a geometric sans, closer to the app-like menus
+// visitors know than the body font.
+const dmSans = DM_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700'], display: 'swap' });
+
 /**
- * The first screen: what we do on the left, what that looks like on the right.
+ * The first screen: what we sell on the left, what that looks like on the
+ * right.
  *
- * It replaces a rotating banner. A carousel showed one message at a time and
- * took it away before it was read; this says the whole business in a line and
- * opens eight doors under it, each one a thing someone might have come here
- * about, and each one a link.
+ * The left side is a plain menu of nine product tiles in a bordered card —
+ * only things a household buys — so the range is readable at a glance and
+ * every tile is a link. The right side is three photos and nothing else: the
+ * purifier and the ionizer on a kitchen counter, and the sweeper on its floor.
  */
 
+const PHOTOS = {
+  home: { src: '/images/hero-kitchen-purifier-2.webp', alt: 'Doctor Fresh water purifier on a kitchen counter' },
+  ionizer: { src: '/images/hero-kitchen-ionizer.webp', alt: 'Doctor Fresh water ionizer on a kitchen counter' },
+  sweeper: { src: '/images/hero-floor-sweeper.webp', alt: 'Doctor Fresh floor sweeper on a kitchen floor', position: 'object-[center_75%]' },
+};
 
-/**
- * The four photographs. The wider column carries the two with something
- * happening in them — the purifier on the wall, the technician at work — and
- * the narrower one the two close-ups.
- */
-const SHOTS = [
-  { src: '/images/banner15.png', href: '/category/water-purifier', label: 'Water purifiers' },
-  { src: '/images/banner16.png', href: '/category/water-purifier', label: 'Clean drinking water' },
-  { src: '/images/banner17.png', href: '/water-purifier-service', label: 'RO service and filter change' },
-  { src: '/images/banner18.png', href: '/water-purifier-amc', label: 'Yearly service plans' },
-];
+/** "Geyser for Home" → the name, with "for Home" as a quiet second line. */
+function splitLabel(label) {
+  const m = label.match(/^(.*?)\s+(for Home)$/i);
+  return m ? [m[1], m[2]] : [label, null];
+}
+
+function Tile({ href, label, children }) {
+  const [name, tag] = splitLabel(label);
+  return (
+    <li>
+      <Link href={href} className="group block text-center">
+        <span className="relative mx-auto flex aspect-square w-full max-w-[76px] items-center justify-center overflow-hidden rounded-xl bg-[#f5f5f5] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:bg-[#eef4f7]">
+          {children}
+        </span>
+        <span className="mt-2 block text-[12.5px] font-semibold leading-tight tracking-[-0.01em] text-ink-900 sm:text-[13px]">
+          {name}
+        </span>
+        {tag ? (
+          <span className="mt-0.5 block text-[11px] font-medium text-[#7a8790]">{tag}</span>
+        ) : null}
+      </Link>
+    </li>
+  );
+}
+
+/** One photo of the right-hand grid. Only a picture — not a link. */
+function Photo({ photo, sizes, priority = false }) {
+  return (
+    <div className="relative h-full overflow-hidden rounded-2xl bg-[#eef4f7]">
+      <Image
+        src={photo.src}
+        alt={photo.alt}
+        fill
+        priority={priority}
+        sizes={sizes}
+        className={`object-cover ${photo.position || ''}`}
+      />
+    </div>
+  );
+}
 
 export default function Hero({ tiles = [] }) {
   return (
-    <section className="bg-white">
-      <Link
-        href="/category/water-purifier"
-        aria-label="Water purifiers"
-        className="relative block aspect-[16/9] w-full overflow-hidden bg-surface-tint sm:aspect-[5/2] lg:hidden"
-      >
-        <Image
-          src="/images/banner12.png"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-      </Link>
-
-      <div className="df-container grid gap-6 py-6 lg:grid-cols-[minmax(0,46%)_1fr] lg:items-stretch lg:gap-10 lg:py-8">
-        {/* ------------------------------------------------------ what we do */}
-        <div>
-          <p className="hidden items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.18em] text-primary-600 lg:flex">
-            Our Services
-            <span aria-hidden="true" className="h-px w-10 bg-primary-300" />
-          </p>
-
-          <h1 className="sr-only lg:not-sr-only lg:mt-2.5 lg:text-[36px] lg:font-bold lg:leading-[1.12] lg:tracking-tight lg:text-ink-900">
-            Complete RO &amp; Water Solutions
+    <section className={`bg-white ${dmSans.className}`}>
+      <div className="df-container py-6 lg:px-12 xl:px-16">
+        {/* menu and photos sit side by side, centred as one block */}
+        <div className="xl:mx-auto xl:w-fit">
+          <h1 className="text-[22px] font-bold leading-tight tracking-[-0.02em] text-ink-900 sm:text-[24px] lg:text-[26px]">
+            Pure water solutions at your doorstep
           </h1>
 
-          <p className="hidden text-[15px] text-ink-400 lg:mt-2 lg:block">
-            Installation, Repair, Filter Change, AMC &amp; Genuine Parts
-          </p>
+          <div className="mt-4 grid gap-6 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-stretch lg:gap-8 xl:grid-cols-[auto_596px]">
+            {/* ------------------------------------------------------ what we do */}
+            <div className="w-full rounded-2xl border border-[#e6eaee] bg-white p-4 shadow-[0_12px_32px_-24px_rgb(6_59_76/0.35)] sm:w-fit sm:px-5 sm:py-5 lg:w-full">
+              <ul className="grid h-full grid-cols-3 content-center gap-x-1 gap-y-4 sm:grid-cols-[repeat(3,122px)]">
+                {tiles.map((tile) => (
+                  <Tile key={tile.label} href={tile.href} label={tile.label}>
+                    {tile.image ? (
+                      <Image
+                        src={imageUrl(tile.image)}
+                        alt=""
+                        fill
+                        sizes="76px"
+                        className="object-contain p-1.5 mix-blend-multiply transition-transform duration-200 group-hover:scale-105"
+                      />
+                    ) : null}
+                  </Tile>
+                ))}
+              </ul>
+            </div>
 
-          <div className="rounded-2xl border border-line bg-white p-3.5 sm:p-5 lg:mt-5">
-            <ul className="grid grid-cols-3 gap-3 sm:gap-4">
-              {tiles.map((tile) => (
-                <li key={tile.label}>
-                  <Link href={tile.href} className="group block text-center">
-                    <span className="relative block aspect-[4/3] overflow-hidden rounded-xl bg-[#f5f8fb] transition-colors duration-200 group-hover:bg-primary-50">
-                      {tile.image ? (
-                        <Image
-                          src={imageUrl(tile.image)}
-                          alt=""
-                          fill
-                          sizes="(min-width: 1024px) 140px, 30vw"
-                          className="object-contain p-3 mix-blend-multiply transition-transform duration-200 group-hover:scale-105"
-                        />
-                      ) : null}
-                    </span>
-
-                    <span className="mt-2 block text-[11.5px] font-semibold leading-tight text-ink-900 sm:text-[12.5px]">
-                      {tile.label}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            {/* ---------------------------------------------------------- photos */}
+            {/* two small photos over one large one, never wider than 596px */}
+            <div className="hidden min-h-[400px] grid-rows-[minmax(0,2fr)_minmax(0,3fr)] gap-4 lg:grid">
+              <div className="grid grid-cols-2 gap-4">
+                <Photo photo={PHOTOS.home} sizes="(min-width: 1024px) 290px, 0px" priority />
+                <Photo photo={PHOTOS.ionizer} sizes="(min-width: 1024px) 290px, 0px" priority />
+              </div>
+              <Photo photo={PHOTOS.sweeper} sizes="(min-width: 1024px) 596px, 0px" priority />
+            </div>
           </div>
-        </div>
-
-        {/* ---------------------------------------------- what that looks like */}
-        <div className="hidden grid-cols-[1.45fr_1fr] gap-3 sm:gap-4 lg:grid lg:h-full lg:grid-rows-2">
-          {SHOTS.map(({ src, href, label }, i) => (
-            <Link
-              key={src}
-              href={href}
-              aria-label={label}
-              className="group relative block h-full min-h-[128px] overflow-hidden rounded-2xl bg-surface-tint sm:min-h-[170px]"
-            >
-              <Image
-                src={src}
-                alt=""
-                fill
-                loading="lazy"
-                sizes="(min-width: 1024px) 32vw, 50vw"
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            </Link>
-          ))}
         </div>
       </div>
     </section>

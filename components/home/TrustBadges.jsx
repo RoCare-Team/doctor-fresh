@@ -1,4 +1,7 @@
 import Image from 'next/image';
+import {
+  Truck, RotateCcw, Wrench, CreditCard, Clock, PackageSearch,
+} from 'lucide-react';
 import { imageUrl } from '@/lib/utils';
 import Reveal from '@/components/common/Reveal';
 
@@ -12,34 +15,68 @@ const SUPPORT = {
   'Online Order Tracking': 'Track every order & service',
 };
 
+/**
+ * Each known badge gets a bold icon on a glossy brand-blue tile. The stored
+ * icons are thin 30px line drawings that read as clip-art at this size; a
+ * badge added in the admin that is not listed here still shows its own icon.
+ */
+const LOOK = {
+  'Free Shipping': { Icon: Truck },
+  'Money Back Guarantee': { Icon: RotateCcw },
+  'Free Installation': { Icon: Wrench },
+  'Easy EMI Options': { Icon: CreditCard },
+  'Service Within 24 Hour': { Icon: Clock },
+  'Online Order Tracking': { Icon: PackageSearch },
+};
+
+function BadgeIcon({ badge }) {
+  const look = LOOK[badge.title];
+
+  if (!look) {
+    return (
+      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-50">
+        <Image src={imageUrl(badge.icon)} alt="" width={30} height={30} className="h-7 w-7 object-contain" />
+      </span>
+    );
+  }
+
+  const { Icon } = look;
+  return (
+    <span
+      className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-linear-to-br from-primary-500 to-primary-700 text-white transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:rotate-[-4deg]"
+      style={{ boxShadow: '0 10px 20px -8px rgb(11 97 130 / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.35)' }}
+    >
+      {/* glossy highlight across the top half — what makes the tile read as
+          an object rather than a flat swatch */}
+      <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/35 to-transparent" />
+      <Icon size={22} strokeWidth={2.1} aria-hidden="true" className="relative drop-shadow-[0_1px_1px_rgb(0_0_0/0.25)]" />
+    </span>
+  );
+}
+
 export default function TrustBadges({ badges = [] }) {
   if (!badges.length) return null;
 
   return (
     <section className="bg-white">
-      <div className="df-container py-8 md:py-10">
-        {/* the strip sits on its own rounded panel, so the white cards read as
-            a set rather than floating on the page */}
-        <div className="rounded-3xl bg-primary-100 p-4 md:p-6">
-          <ul className="df-no-scrollbar -mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-1 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-6 lg:gap-4">
+      <div className="df-container py-3 md:py-4">
+        <div className="rounded-3xl border border-[#e6eef2] sm:mx-12 bg-linear-to-br from-[#f6fafc] via-white to-[#f2f8fb] p-2 shadow-[0_20px_50px_-36px_rgb(6_59_76/0.45)] md:p-3">
+          <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6 lg:gap-0">
             {badges.map((b, i) => (
-              <Reveal as="li" key={b.title} delay={(i % 6) * 60} className="h-full w-[44%] shrink-0 snap-start sm:w-auto">
-                <div className="group flex h-full flex-col items-center gap-3 rounded-2xl bg-white px-3 py-5 text-center shadow-[0_1px_3px_rgb(6_59_76_/_0.06)] transition-shadow duration-200 hover:shadow-[0_8px_20px_-10px_rgb(6_59_76_/_0.25)]">
-                  <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary-50 transition-transform duration-200 group-hover:scale-105">
-                    <Image
-                      src={imageUrl(b.icon)}
-                      alt=""
-                      width={30}
-                      height={30}
-                      className="h-7 w-7 object-contain"
-                    />
-                  </span>
-
+              <Reveal
+                as="li"
+                key={b.title}
+                delay={(i % 6) * 60}
+                // thin dividers between items on the single desktop row
+                className="relative lg:[&:not(:first-child)]:before:absolute lg:[&:not(:first-child)]:before:inset-y-5 lg:[&:not(:first-child)]:before:left-0 lg:[&:not(:first-child)]:before:w-px lg:[&:not(:first-child)]:before:bg-[#e3ecf0] lg:[&:not(:first-child)]:before:content-['']"
+              >
+                <div className="group flex h-full flex-col items-center gap-3 rounded-2xl px-3 py-5 text-center transition-colors duration-200 hover:bg-white lg:py-6">
+                  <BadgeIcon badge={b} />
                   <span className="min-w-0">
-                    <span className="block text-[14px] font-semibold leading-tight text-ink-900">
+                    <span className="block text-[14px] font-semibold leading-tight tracking-[-0.01em] text-ink-900">
                       {b.title}
                     </span>
-                    <span className="mt-1.5 block text-[12.5px] leading-snug text-ink-400">
+                    <span className="mt-1 block text-[12.5px] leading-snug text-ink-400">
                       {SUPPORT[b.title] || ''}
                     </span>
                   </span>

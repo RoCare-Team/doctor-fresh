@@ -29,13 +29,13 @@ function LinkColumn({ title, links }) {
   if (!links?.length) return null;
   return (
     <div>
-      <h3 className="mb-4 text-[14px] font-semibold uppercase tracking-[0.1em] text-white">{title}</h3>
-      <ul className="space-y-2.5">
+      <h3 className="mb-3 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-white/90">{title}</h3>
+      <ul className="space-y-1.5">
         {links.map((l) => (
           <li key={`${title}-${l.href}-${l.label}`}>
             <Link
               href={l.href}
-              className="text-[14.5px] leading-relaxed text-white/60 transition-colors hover:text-white"
+              className="text-[13.5px] leading-snug text-white/60 transition-colors hover:text-white"
             >
               {l.label}
             </Link>
@@ -57,14 +57,14 @@ export default async function Footer() {
     <footer className="bg-ink-900 text-white">
       {/* -------------------------------------------------------- newsletter */}
       <div className="border-b border-white/10">
-        <div className="df-container flex flex-col items-start justify-between gap-6 py-10 lg:flex-row lg:items-center">
-          <div className="flex items-start gap-4">
-            <span className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-600 text-white sm:flex">
-              <Mails size={22} aria-hidden="true" />
+        <div className="df-container flex flex-col items-start justify-between gap-4 py-5 lg:flex-row lg:items-center">
+          <div className="flex items-center gap-3.5">
+            <span className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-600 text-white sm:flex">
+              <Mails size={19} aria-hidden="true" />
             </span>
             <div>
-              <h2 className="text-[19px] font-semibold text-white md:text-[22px]">{copy.newsletterTitle || 'Stay Updated'}</h2>
-              <p className="mt-1.5 max-w-md text-[14.5px] leading-relaxed text-white/60">
+              <h2 className="text-[17px] font-semibold text-white md:text-[18px]">{copy.newsletterTitle || 'Stay Updated'}</h2>
+              <p className="mt-0.5 max-w-md text-[13.5px] leading-snug text-white/60">
                 {copy.newsletterText}
               </p>
             </div>
@@ -74,22 +74,22 @@ export default async function Footer() {
       </div>
 
       {/* ------------------------------------------------------ main columns */}
-      <div className="df-container grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
-        <div className="lg:col-span-4 lg:pr-8">
+      <div className="df-container grid gap-8 py-9 sm:grid-cols-2 lg:grid-cols-12 lg:gap-6">
+        <div className="sm:col-span-2 lg:col-span-3 lg:pr-4">
           {/* the logo artwork has a solid white background, so on navy it sits
               on a white plate rather than showing as a hard rectangle */}
-          <span className="inline-flex rounded-xl bg-white px-3.5 py-2.5">
+          <span className="inline-flex rounded-xl bg-white px-3 py-2">
             <Image
               src={imageUrl(brand.logo)}
               alt="Doctor Fresh"
               width={878}
               height={188}
-              className="h-10 w-auto"
+              className="h-8 w-auto"
             />
           </span>
-          <p className="mt-5 max-w-sm text-[14.5px] leading-relaxed text-white/60">{brand.about}</p>
+          <p className="mt-4 line-clamp-3 max-w-sm text-[13.5px] leading-relaxed text-white/60">{brand.about}</p>
 
-          <div className="mt-6 flex gap-2.5">
+          <div className="mt-4 flex gap-2">
             {brand.social.map((s) => {
               const Icon = SOCIAL_ICON[s.key];
               if (!Icon) return null;
@@ -100,9 +100,9 @@ export default async function Footer() {
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                   aria-label={s.key}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 text-white/70 transition-colors hover:border-primary-500 hover:bg-primary-600 hover:text-white"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/15 text-white/70 transition-colors hover:border-primary-500 hover:bg-primary-600 hover:text-white"
                 >
-                  <Icon size={17} aria-hidden="true" />
+                  <Icon size={16} aria-hidden="true" />
                 </a>
               );
             })}
@@ -123,23 +123,15 @@ export default async function Footer() {
           <LinkColumn title="Popular Cities" links={popularCities} />
         </div>
 
-        <div className="lg:col-span-2">
-          <h3 className="mb-4 text-[14px] font-semibold uppercase tracking-[0.1em] text-white">
+        <div className="lg:col-span-3">
+          <h3 className="mb-3 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-white/90">
             Contact Us
           </h3>
-          <p className="mb-4 flex flex-wrap gap-x-4 gap-y-1.5">
-            <Link href="/contact" className="text-[14.5px] font-medium text-primary-300 transition-colors hover:text-white">
-              Contact page
-            </Link>
-            <Link href="/blogs" className="text-[14.5px] font-medium text-primary-300 transition-colors hover:text-white">
-              Read our blog
-            </Link>
-          </p>
-          <ul className="space-y-4 text-[14.5px] text-white/60">
+          <ul className="space-y-2.5 text-[13.5px] text-white/60">
             {brand.offices.map((o) => (
               <li key={o.label} className="flex gap-2.5">
                 <MapPin size={15} className="mt-0.5 shrink-0 text-primary-400" aria-hidden="true" />
-                <span className="leading-relaxed">
+                <span className="leading-snug">
                   <strong className="block font-medium text-white/85">{o.label}</strong>
                   {o.address}
                 </span>
@@ -167,14 +159,14 @@ export default async function Footer() {
 
       {/* -------------------------------------------------------- bottom bar */}
       <div className="border-t border-white/10">
-        <div className="df-container flex flex-col gap-4 py-6 lg:flex-row lg:items-center lg:justify-between">
-          <p className="text-[13.5px] text-white/70">
+        <div className="df-container flex flex-col gap-3 py-4 lg:flex-row lg:items-center lg:justify-between">
+          <p className="shrink-0 whitespace-nowrap text-[13px] text-white/60">
             © {new Date().getFullYear()} {footer.copyright}
           </p>
-          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          <ul className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
             {COMPANY.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="text-[13.5px] font-medium text-white/80 transition-colors hover:text-white">
+                <Link href={l.href} className="text-[13px] font-medium text-white/80 transition-colors hover:text-white">
                   {l.label}
                 </Link>
               </li>
@@ -182,7 +174,7 @@ export default async function Footer() {
             <li aria-hidden="true" className="hidden h-4 w-px bg-white/20 sm:block" />
             {footer.legal.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="text-[13.5px] text-white/55 transition-colors hover:text-white">
+                <Link href={l.href} className="text-[13px] text-white/50 transition-colors hover:text-white">
                   {l.label}
                 </Link>
               </li>

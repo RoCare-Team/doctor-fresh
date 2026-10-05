@@ -1,8 +1,8 @@
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
-import Image from 'next/image';
 import {
-  ArrowRight, Phone, Droplets, Flame,
+  ArrowRight, Flame,
 } from 'lucide-react';
+import ExpertCta from '@/components/home/ExpertCta';
 import Hero from '@/components/home/Hero';
 import TrustBadges from '@/components/home/TrustBadges';
 import CategoryTiles from '@/components/home/CategoryTiles';
@@ -19,7 +19,7 @@ import { quickLinksForHome } from '@/lib/sql/quick-links';
 import { getHomeContent, getContent } from '@/lib/sql/site-content';
 import {
   getProductsByIds, getAllBlogPosts, getCategoryImage, getHomeSections, getBrand,
-  cardProduct,
+  cardProduct, getAllProducts,
 } from '@/lib/catalog';
 // Layout copy the database does not hold: which badges the theme shows and
 // the water-test panel. Everything else on this page comes from the catalogue.
@@ -44,6 +44,27 @@ export async function generateMetadata() {
   });
 }
 
+// What a business buys rather than a household: whole categories of plants
+// and machines, plus the commercial ranges inside home categories.
+const COMMERCIAL_CATEGORIES = new Set([
+  '/category/ro-plant',
+  '/category/dm-plant',
+  '/category/sewage-treatment-plant-stp',
+  '/category/effluent-treatment-plant-etp',
+  '/category/swimming-pool-filtration-plant',
+  '/category/water-atm',
+  '/category/water-chiller',
+  '/category/water-cooler',
+]);
+const COMMERCIAL_SUBCATEGORIES = [
+  '/category/water-softener/commercial-water-softener',
+  '/category/vacuum-cleaner/vacuum-cleaner-for-industrial',
+];
+const DEAL_COUNT = 12;
+
+const isCommercial = (p) => COMMERCIAL_CATEGORIES.has(p.category?.href)
+  || COMMERCIAL_SUBCATEGORIES.some((href) => p.subcategoryHrefs?.includes(href));
+
 /** The handful of fields the small cards need — not the whole product. */
 const cardFields = (p) => ({
   id: p.id,
@@ -62,25 +83,37 @@ export default async function HomePage() {
     getContent('home_sections').catch(() => null),
   ]);
   const { rails, todaysDeal, categoryTiles, latest, mostViewed } = await getHomeSections();
-  const deals = (await getProductsByIds(todaysDeal)).slice(0, 4).map(cardProduct);
+  // Up to twelve deals fill the slider, four on screen at a time — commercial
+  // products only (plants, ATMs, coolers; the home range has the hero and its
+  // own rails). When the admin has marked fewer, the gap is topped up with the
+  // biggest real discounts on in-stock commercial products.
+  const marked = (await getProductsByIds(todaysDeal)).filter(isCommercial);
+  const topUp = marked.length >= DEAL_COUNT ? [] : (await getAllProducts())
+    .filter((p) => isCommercial(p) && p.inStock && p.price && p.discountPercent > 0 && !marked.some((m) => m.id === p.id))
+    .sort((a, b) => b.discountPercent - a.discountPercent);
+  const deals = [...marked, ...topUp].slice(0, DEAL_COUNT).map(cardProduct);
   const posts = (await getAllBlogPosts()).slice(0, 3);
 
   const heroTiles = [
-    { label: 'Water Purifier', href: '/category/water-purifier' },
-    { label: 'RO Plant', href: '/category/ro-plant' },
-    { label: 'Water Softener', href: '/category/water-softener' },
-    { label: 'Water Ionizer', href: '/category/water-ionizer' },
-    { label: 'Water Cooler', href: '/category/water-cooler' },
-    { label: 'Water Dispenser', href: '/category/water-dispenser' },
-    { label: 'Water Tank', href: '/category/water-tank' },
-    { label: 'Water Heater', href: '/category/water-heater' },
-    { label: 'Spare Parts', href: '/spare-parts' },
+    // Our own Doctor Fresh RO, rather than whichever product the category lists first.
+    { label: 'Water Purifier for Home', href: '/category/water-purifier', image: '/images/hero-ro-purifier.png' },
+    // Only things a household buys; each points at its "for home" range so
+    // the photo is a home model, not a commercial one.
+    { label: 'Bathroom Softener for Home', href: '/category/water-softener/water-softener-for-bathroom' },
+    { label: 'Water Ionizer for Home', href: '/category/water-ionizer/water-ionizer-for-home' },
+    { label: 'Water Dispenser for Home', href: '/category/water-dispenser/table-top' },
+    { label: 'Geyser for Home', href: '/category/water-heater/electric-geyser' },
+    { label: 'Air Purifier for Home', href: '/category/air-purifier/air-purifier-for-home' },
+    { label: 'Vegetable Purifier for Home', href: '/category/vegetable-purifier/vegetablefruit-purifier-for-home' },
+    { label: 'Vacuum Cleaner for Home', href: '/category/vacuum-cleaner/vacuum-cleaner-for-home' },
+    { label: 'Tap Water Purifier for Home', href: '/category/water-purifier/tap-water-purifier' },
   ];
 
   // Each tile takes the first product photo of the category it opens.
   const heroTilesWithPhotos = await Promise.all(
-    heroTiles.map(async (t) => ({ ...t, image: await getCategoryImage(t.href) })),
+    heroTiles.map(async (t) => ({ ...t, image: t.image || await getCategoryImage(t.href) })),
   );
+
 
   // give every category tile a real product photo (the stored icons are 62px)
   const tiles = await Promise.all(
@@ -101,7 +134,7 @@ export default async function HomePage() {
 
 
   return (
-    <>
+    <div className="df-home">
       <Hero tiles={heroTilesWithPhotos} />
 
       <TrustBadges badges={sections?.trustBadges?.length ? sections.trustBadges : trustBadges} />
@@ -109,75 +142,37 @@ export default async function HomePage() {
       {/* ---------------------------------------------------- today's deal */}
       {deals.length ? (
         <section className="df-container df-section">
-          {/* the whole block sits inside one promotional banner */}
-          <Reveal className="relative overflow-hidden rounded-2xl bg-ink-900 px-5 py-8 md:px-10 md:py-11">
-            {/* campaign artwork; the product and TODAY'S DEAL tag sit on its
-                right, so the copy keeps to the left half */}
-            <Image
-              src="/images/topdeal.png"
-              alt=""
-              fill
-              priority={false}
-              sizes="(max-width: 1024px) 100vw, 1250px"
-              // background artwork under a dark gradient: lighter compression is not visible
-              quality={60}
-              aria-hidden="true"
-              className="pointer-events-none select-none object-cover object-right"
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 bg-gradient-to-r from-ink-900 via-ink-900/75 to-transparent"
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -left-24 -top-28 h-80 w-80 rounded-full bg-primary-500/20 blur-3xl"
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -bottom-36 right-[-4rem] h-80 w-80 rounded-full bg-primary-400/12 blur-3xl"
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:radial-gradient(var(--color-primary-300)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_top_left,black_0%,transparent_70%)]"
-            />
-
-            <div className="relative">
-              <div className="max-w-full lg:max-w-[620px]">
-                <p className="flex items-center gap-1.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-primary-400">
-                  <Flame size={14} aria-hidden="true" />
+          {/* inset like the cards below, which leave their gutters to the arrows */}
+          <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-4 sm:px-12 md:mb-5">
+            <div className="max-w-2xl">
+              {/* the heading, with how long the offer runs beside it */}
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                <h2 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
+                  Today&rsquo;s Deal
+                </h2>
+                <span className="inline-flex items-center gap-1 rounded-full border border-[#fed7aa] bg-[#fff7ed] px-2.5 py-1 text-[11.5px] font-semibold uppercase tracking-[0.08em] text-[#c2410c]">
+                  <Flame size={13} aria-hidden="true" />
                   Limited period
-                </p>
-
-                {/* heading and the link share one line so the block stays short */}
-                <div className="mt-1.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-                  <h2 className="text-[26px] font-semibold tracking-tight text-white md:text-[32px]">
-                    Today&rsquo;s Deal
-                  </h2>
-                  <Link
-                    href="/all-category"
-                    className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-white/25 px-3.5 text-[13px] font-medium text-white transition-colors hover:border-white/50 hover:bg-white/5"
-                  >
-                    View all
-                    <ArrowRight size={14} aria-hidden="true" />
-                  </Link>
-                </div>
-
-                <p className="mt-2 max-w-md text-[14.5px] leading-relaxed text-white/60">
-                  Best prices of the day on Doctor Fresh bestsellers
-                </p>
-
-                <div className="mt-6">
-                  <DealSlider deals={deals} />
-                </div>
+                </span>
               </div>
+              <p className="mt-1 text-[14.5px] text-ink-400">
+                Best prices on RO plants, water ATMs, coolers and other commercial systems.
+              </p>
             </div>
+            <Link
+              href="/all-category"
+              className="group inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-white px-4 py-2 text-[14px] font-semibold text-ink-900 transition-colors hover:border-primary-300 hover:text-primary-700"
+            >
+              View all deals
+              <ArrowRight size={15} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
+            </Link>
           </Reveal>
+
+          <DealSlider deals={deals} />
         </section>
       ) : null}
 
       <CategoryTiles tiles={tiles} />
-
-      <ServiceCards />
 
       <BrandStrip brands={sections?.brands || []} />
 
@@ -189,6 +184,8 @@ export default async function HomePage() {
           parameters: sections.waterParameters?.length ? sections.waterParameters : waterTest.parameters,
         } : waterTest}
       />
+
+      <ServiceCards />
 
       {/* --------------------------------------------------- product rails */}
       {rails.map((rail, i) => (
@@ -210,7 +207,7 @@ export default async function HomePage() {
       {/* ------------------------------------------------------------ blogs */}
       <section className="border-y border-line bg-surface-muted">
         <div className="df-container df-section">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-4 sm:px-12">
             <Reveal className="max-w-2xl">
               <p className="df-eyebrow">Water knowledge</p>
               <h2 className="mt-2 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
@@ -229,10 +226,10 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-3">
+          <div className="grid gap-5 sm:px-12 md:grid-cols-3">
             {posts.map((p, i) => (
               <Reveal key={p.id} delay={i * 80} className="h-full">
-                <BlogCard post={p} />
+                <BlogCard post={p} compact />
               </Reveal>
             ))}
           </div>
@@ -240,53 +237,9 @@ export default async function HomePage() {
       </section>
 
       {/* -------------------------------------------------------------- CTA */}
-      <section className="df-container df-section">
-        <div className="relative overflow-hidden rounded-2xl bg-ink-900 px-6 py-12 md:px-14 md:py-16">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-primary-500/15 blur-3xl"
-          />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -bottom-32 left-1/3 h-72 w-72 rounded-full bg-primary-400/10 blur-3xl"
-          />
-
-          <div className="relative flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex items-start gap-5">
-              <span className="hidden h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-primary-600 text-white sm:flex">
-                <Droplets size={28} aria-hidden="true" />
-              </span>
-              <div>
-                <h2 className="max-w-xl text-[24px] font-semibold leading-tight tracking-tight text-white md:text-[30px]">
-                  Not sure which purifier suits your water?
-                </h2>
-                <p className="mt-3 max-w-lg text-[15.5px] leading-relaxed text-white/65">
-                  Talk to a Doctor Fresh water expert — free consultation, honest recommendation
-                  based on your actual water quality.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex shrink-0 flex-wrap gap-3">
-              <a
-                href={`tel:${brand.phoneRaw}`}
-                className="inline-flex h-12 items-center gap-2 rounded-xl bg-primary-600 px-6 text-[15.5px] font-semibold text-white transition-colors hover:bg-ink-900"
-              >
-                <Phone size={17} aria-hidden="true" />
-                Call {brand.phone}
-              </a>
-              <Link
-                href="/contact"
-                className="inline-flex h-12 items-center rounded-xl border border-white/25 px-6 text-[15.5px] font-medium text-white transition-colors hover:border-white/50 hover:bg-white/5"
-              >
-                Request a callback
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ExpertCta phone={brand.phone} phoneRaw={brand.phoneRaw} />
 
       <QuickLinks sections={quickLinks} />
-    </>
+    </div>
   );
 }

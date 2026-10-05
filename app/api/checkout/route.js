@@ -11,6 +11,7 @@ import { sendOrderPlacedWhatsApp, notifyTeam } from '@/lib/whatsapp';
 import { priceBasket, createOrder, getPaymentOptions } from '@/lib/sql/orders';
 import { createPaymentTransaction, initiateEasebuzz } from '@/lib/sql/easebuzz';
 import { getSession } from '@/lib/auth/session';
+import { forwardProductLead } from '@/lib/services/product-lead';
 import { normaliseMobile, normaliseEmail, normaliseName } from '@/lib/auth/users';
 import { SITE_URL } from '@/lib/utils';
 
@@ -129,6 +130,15 @@ export async function POST(request) {
   }
 
   const href = order.guestId ? `/order/${order.guestId}` : `/order/${order.saleId}`;
+
+  // A copy for the service system's panel, for cash and online alike — sent
+  // once the response is on its way, so their server never holds up checkout.
+  after(() => forwardProductLead({
+    address,
+    items: priced.items,
+    coupon: priced.coupon?.code || '',
+    payment: chosen.id,
+  }));
 
   if (!online) {
     // A cash order is final the moment it is written, so the customer hears

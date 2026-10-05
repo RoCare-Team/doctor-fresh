@@ -117,7 +117,7 @@ export default async function ProductPage({ params }) {
       <div className="df-container py-4 pb-24 md:py-6 lg:pb-10">
         {/* ------------------------------------------------- gallery + buy box */}
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
-          <div className="lg:sticky lg:top-[138px] lg:self-start">
+          <div className="lg:sticky lg:top-[122px] lg:self-start">
             <ProductGallery
               images={product.images}
               name={product.name}
