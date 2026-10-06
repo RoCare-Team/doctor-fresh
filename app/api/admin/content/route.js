@@ -2,12 +2,13 @@ import { revalidatePath } from 'next/cache';
 import { requireAdmin, readJson, fail } from '@/lib/admin/guard';
 import { saveContent, saveLegalPage, CONTENT_DEFAULTS } from '@/lib/sql/site-content';
 import { clearCache } from '@/lib/sql/cache';
+import { logActivity } from '@/lib/sql/activity';
 
 export const dynamic = 'force-dynamic';
 
 /** { key, value } for a content section, or { legal: slug, html } for a policy page. */
 export async function PATCH(request) {
-  const { response } = await requireAdmin('content', 'edit');
+  const { admin, response } = await requireAdmin('content', 'edit');
   if (response) return response;
   const body = await readJson(request);
   if (!body) return fail('Invalid request.');
@@ -18,6 +19,9 @@ export async function PATCH(request) {
       if (saved.error) return fail(saved.error);
       clearCache(); // the legal pages are read through the shared settings cache
       try { revalidatePath(`/legal/${body.legal}`); } catch { /* best-effort */ }
+      await logActivity({
+        admin, section: 'content', action: 'edited', target: `Legal page: ${body.legal}`,
+      });
       return Response.json({ ok: true });
     }
     // The test contacts belong to the Orders page and its permission.
@@ -26,6 +30,9 @@ export async function PATCH(request) {
     if (saved.error) return fail(saved.error);
     // The menu and footer are on every page; the rest on a few.
     try { revalidatePath('/', 'layout'); } catch { /* best-effort */ }
+    await logActivity({
+      admin, section: 'content', action: 'edited', target: `Site content: ${body.key}`,
+    });
     return Response.json({ ok: true, value: saved.value });
   } catch (err) {
     console.error('[admin] could not save site content:', err.message);

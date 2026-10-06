@@ -1,5 +1,6 @@
 import { revalidatePath } from 'next/cache';
 import { requireAdmin, readJson, fail } from '@/lib/admin/guard';
+import { logActivity } from '@/lib/sql/activity';
 import {
   updateLandingPage, createLandingPage, deleteLandingPage, forgetLandingFamilies,
 } from '@/lib/sql/admin-landing';
@@ -19,7 +20,7 @@ function refresh(...slugs) {
 }
 
 export async function PATCH(request) {
-  const { response } = await requireAdmin('service_pages', request);
+  const { admin, response } = await requireAdmin('service_pages', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -44,11 +45,19 @@ export async function PATCH(request) {
   }
 
   refresh(saved.oldSlug, saved.slug);
+  await logActivity({
+    admin,
+    section: 'service_pages',
+    action: 'edited',
+    targetId: id,
+    target: String(body.name || saved.slug || `Page ${id}`).trim(),
+    detail: saved.oldSlug && saved.oldSlug !== saved.slug ? `address ${saved.oldSlug} → ${saved.slug}` : '',
+  });
   return Response.json({ ok: true, slug: saved.slug, redirect });
 }
 
 export async function POST(request) {
-  const { response } = await requireAdmin('service_pages', request);
+  const { admin, response } = await requireAdmin('service_pages', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -64,11 +73,18 @@ export async function POST(request) {
   if (created.error) return fail(created.error);
 
   refresh(created.slug);
+  await logActivity({
+    admin,
+    section: 'service_pages',
+    action: 'created',
+    targetId: created.id,
+    target: String(body.name || created.slug || '').trim(),
+  });
   return Response.json({ ok: true, ...created });
 }
 
 export async function DELETE(request) {
-  const { response } = await requireAdmin('service_pages', request);
+  const { admin, response } = await requireAdmin('service_pages', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -91,5 +107,8 @@ export async function DELETE(request) {
   }
 
   refresh(done.slug);
+  await logActivity({
+    admin, section: 'service_pages', action: 'deleted', targetId: id, target: done.name || `Page ${id}`,
+  });
   return Response.json({ ok: true, ...done, redirect });
 }

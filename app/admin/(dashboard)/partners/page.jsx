@@ -1,4 +1,5 @@
 import { listMessages } from '@/lib/sql/admin';
+import { messageStatusMap, statusOf } from '@/lib/sql/message-status';
 import MessageInbox from '@/components/admin/MessageInbox';
 import { requirePage } from '@/lib/admin/guard';
 
@@ -9,7 +10,11 @@ export const metadata = { title: 'Partner requests' };
 export default async function AdminPartnersPage({ searchParams }) {
   await requirePage('messages');
   const params = await searchParams;
-  const messages = await listMessages({ kind: 'partner', limit: 1000 });
+  const [rows, statuses] = await Promise.all([
+    listMessages({ kind: 'partner', limit: 1000 }),
+    messageStatusMap().catch(() => new Map()),
+  ]);
+  const messages = rows.map((m) => ({ ...m, status: statusOf(statuses, m.id, m.handled) }));
 
   return (
     <MessageInbox

@@ -7,7 +7,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import {
   LayoutDashboard, Package, ShoppingBag, Layers, Users, Inbox,
   Newspaper, Ticket, Settings, ExternalLink, LogOut, Menu, X, FileText, Shuffle, Loader2,
-  Wrench, Mail, Handshake, UserCog, MapPin, Link2, House, Map as MapIcon, PanelsTopLeft, MessagesSquare, Briefcase, Star, CalendarCheck,
+  Wrench, Mail, Handshake, UserCog, MapPin, Link2, House, Map as MapIcon, PanelsTopLeft, MessagesSquare, Briefcase, Star, CalendarCheck, History,
 } from 'lucide-react';
 import { cx, imageUrl } from '@/lib/utils';
 import { can, roleInfo } from '@/lib/admin/access';
@@ -42,6 +42,7 @@ const NAV = [
   { href: '/admin/blogs', label: 'Blogs', icon: Newspaper, section: 'blogs' },
   { href: '/admin/coupons', label: 'Coupons', icon: Ticket, section: 'coupons' },
   { href: '/admin/users', label: 'Admin users', icon: UserCog, section: 'users' },
+  { href: '/admin/activity', label: 'Activity log', icon: History, section: 'activity' },
   { href: '/admin/settings', label: 'Settings', icon: Settings, section: 'settings' },
 ];
 

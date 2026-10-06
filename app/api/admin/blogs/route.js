@@ -7,6 +7,7 @@ import { clearCache } from '@/lib/sql/cache';
 import { BLOG_TAG } from '@/lib/sql/repository';
 import { setBlogVideo, removeBlogVideo } from '@/lib/sql/blog-video';
 import { blogCoverUrls, removeBlobs, blobEnabled } from '@/lib/blob';
+import { logActivity } from '@/lib/sql/activity';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,7 +27,7 @@ function refreshBlog() {
 }
 
 export async function PATCH(request) {
-  const { response } = await requireAdmin('blogs', request);
+  const { admin, response } = await requireAdmin('blogs', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -40,6 +41,14 @@ export async function PATCH(request) {
     try {
       await setBlogLive(id, Boolean(body.live));
       refreshBlog();
+      await logActivity({
+        admin,
+        section: 'blogs',
+        action: 'edited',
+        targetId: id,
+        target: `Post ${id}`,
+        detail: body.live ? 'put live' : 'taken off the site',
+      });
       return Response.json({ ok: true });
     } catch (err) {
       console.error('[admin] could not change the post visibility:', err.message);
@@ -63,12 +72,19 @@ export async function PATCH(request) {
   if (saved?.error) return fail(saved.error);
 
   refreshBlog();
+  await logActivity({
+    admin,
+    section: 'blogs',
+    action: 'edited',
+    targetId: id,
+    target: String(body.title || `Post ${id}`).trim(),
+  });
   return Response.json({ ok: true });
 }
 
 /** The post, its video and its cover picture, for good. */
 export async function DELETE(request) {
-  const { response } = await requireAdmin('blogs', 'delete');
+  const { admin, response } = await requireAdmin('blogs', 'delete');
   if (response) return response;
 
   const url = new URL(request.url);
@@ -89,12 +105,15 @@ export async function DELETE(request) {
   if (blobEnabled()) await removeBlobs(await blogCoverUrls(id)).catch(() => {});
 
   refreshBlog();
+  await logActivity({
+    admin, section: 'blogs', action: 'deleted', targetId: id, target: `Post ${id}`,
+  });
   return Response.json({ ok: true });
 }
 
 /** A new post; it opens in the editor afterwards for its body and image. */
 export async function POST(request) {
-  const { response } = await requireAdmin('blogs', request);
+  const { admin, response } = await requireAdmin('blogs', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -110,5 +129,12 @@ export async function POST(request) {
   if (created.error) return fail(created.error);
 
   refreshBlog();
+  await logActivity({
+    admin,
+    section: 'blogs',
+    action: 'created',
+    targetId: created.id,
+    target: String(body.title || '').trim(),
+  });
   return Response.json({ ok: true, ...created });
 }

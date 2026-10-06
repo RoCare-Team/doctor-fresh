@@ -1,12 +1,13 @@
 import { revalidatePath } from 'next/cache';
 import { requireAdmin, readJson, fail } from '@/lib/admin/guard';
 import { saveHomeContent } from '@/lib/sql/site-content';
+import { logActivity } from '@/lib/sql/activity';
 
 export const dynamic = 'force-dynamic';
 
 /** Saves the home page's search listing and hero banner. */
 export async function PATCH(request) {
-  const { response } = await requireAdmin('home', 'edit');
+  const { admin, response } = await requireAdmin('home', 'edit');
   if (response) return response;
   const body = await readJson(request);
   if (!body) return fail('Invalid request.');
@@ -21,5 +22,6 @@ export async function PATCH(request) {
   if (saved.error) return fail(saved.error);
 
   try { revalidatePath('/'); } catch { /* best-effort */ }
+  await logActivity({ admin, section: 'home', action: 'edited', target: 'Home page' });
   return Response.json({ ok: true, content: saved.value });
 }
