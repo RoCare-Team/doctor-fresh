@@ -68,7 +68,7 @@ function Card({
   title, icon: Icon, done, action, children, muted = false,
 }) {
   return (
-    <section className={cx('overflow-hidden rounded-2xl border border-line', muted ? 'bg-surface-muted' : 'bg-white')}>
+    <section className={cx('overflow-hidden rounded-2xl border border-line bg-white', muted && 'shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)]')}>
       <header className="flex items-center justify-between gap-3 border-b border-line px-5 py-3.5">
         <h2 className={cx('flex items-center gap-2 text-[14.5px] font-semibold', muted ? 'text-ink-400' : 'text-ink-900')}>
           {Icon ? <Icon size={16} className={muted ? 'text-ink-300' : 'text-primary-700'} aria-hidden="true" /> : null}
@@ -223,7 +223,7 @@ export default function ServiceCheckout({ states = [], premises = [], canPayOnli
           <ul className="divide-y divide-line">
             {lines.map((l) => (
               <li key={l.id} className="flex items-center gap-3 px-5 py-3.5">
-                <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-line bg-surface-muted">
+                <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-line bg-white">
                   {l.image
                     ? <Image src={l.image} alt="" fill sizes="56px" className="object-cover" />
                     : (

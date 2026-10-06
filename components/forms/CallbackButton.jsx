@@ -16,7 +16,7 @@ import { cx } from '@/lib/utils';
  * a second place for leads.
  */
 
-const input = 'h-11 w-full rounded-lg border border-line bg-white px-3 text-[14.5px] text-ink-900 outline-none transition-colors placeholder:text-ink-300 focus:border-primary-500 focus:ring-3 focus:ring-primary-500/10 disabled:cursor-not-allowed disabled:bg-surface-muted';
+const input = 'h-11 w-full rounded-lg border border-line bg-white shadow-[0_1px_2px_rgb(16_24_40/0.06)] px-3 text-[14.5px] text-ink-900 outline-none transition-colors placeholder:text-ink-300 focus:border-primary-500 focus:ring-3 focus:ring-primary-500/10 disabled:cursor-not-allowed disabled:bg-surface-muted';
 
 const TIMINGS = ['Anytime', 'Morning', 'Afternoon', 'Evening'];
 
@@ -100,7 +100,7 @@ export default function CallbackButton({ className = '', label = 'Request Call B
             role="dialog"
             aria-modal="true"
             aria-label="Request a call back"
-            className="df-modal-in relative w-full rounded-t-3xl border border-line bg-white shadow-[0_30px_80px_-20px_rgb(6_59_76/0.45)] sm:max-w-[420px] sm:rounded-3xl"
+            className="df-modal-in relative w-full rounded-t-3xl border border-line bg-white shadow-[0_24px_70px_-20px_rgb(16_24_40/0.35)] sm:max-w-[420px] sm:rounded-3xl"
           >
             <header className="flex items-start gap-3 border-b border-line px-5 py-4">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-700">
@@ -177,10 +177,10 @@ export default function CallbackButton({ className = '', label = 'Request Call B
                       <label
                         key={t}
                         className={cx(
-                          'flex h-9 cursor-pointer items-center justify-center rounded-lg border text-[12.5px] font-medium transition-colors',
+                          'flex h-9 cursor-pointer items-center justify-center rounded-lg border text-[12.5px] font-medium transition-all',
                           form.timing === t
-                            ? 'border-primary-500 bg-primary-50 text-primary-800'
-                            : 'border-line text-ink-500 hover:border-primary-300',
+                            ? 'border-primary-600 bg-primary-600 font-semibold text-white shadow-[0_6px_16px_-8px_rgb(21_151_197/0.75)]'
+                            : 'border-line bg-white text-ink-500 shadow-[0_1px_2px_rgb(16_24_40/0.06)] hover:border-primary-300 hover:shadow-[0_4px_12px_-6px_rgb(16_24_40/0.25)]',
                         )}
                       >
                         <input

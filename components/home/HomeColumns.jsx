@@ -63,21 +63,14 @@ export default function HomeColumns({ latest = [], mostViewed = [] }) {
 
 function Column({ title, eyebrow, Icon, href, products, ranked }) {
   return (
-    <div className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-[#e6eef2] bg-linear-to-b from-[#f6fafc] to-white p-4 shadow-[0_20px_50px_-36px_rgb(6_59_76/0.45)] sm:p-5">
-      {/* thin brand rule along the top edge */}
-      <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-primary-500 via-accent-400 to-primary-700" />
-
-      <div className="flex items-center gap-3">
-        <span
-          className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-linear-to-br from-primary-500 to-primary-700 text-white"
-          style={{ boxShadow: '0 8px 16px -8px rgb(11 97 130 / 0.5), inset 0 1px 0 rgb(255 255 255 / 0.35)' }}
-        >
-          <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/30 to-transparent" />
-          <Icon size={18} strokeWidth={2.1} aria-hidden="true" className="relative" />
-        </span>
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-[11.5px] font-semibold uppercase tracking-[0.12em] text-primary-600">{eyebrow}</p>
-          <h2 className="text-[18px] font-semibold leading-tight tracking-tight text-ink-900">{title}</h2>
+    // The column is a panel of its own so it is obvious which rows belong to
+    // "Latest" and which to "Most Viewed". It is tinted rather than white:
+    // against a white panel the white rows inside would lose their edges.
+    <div className="flex flex-col rounded-2xl border border-line bg-white p-4">
+      <div className="mb-1 flex items-start justify-between gap-3">
+        <div>
+          <p className="text-[12px] font-semibold uppercase tracking-wide text-primary-600">{eyebrow}</p>
+          <h2 className="mt-1 text-[19px] font-semibold tracking-tight text-ink-900">{title}</h2>
         </div>
         {href ? (
           <Link

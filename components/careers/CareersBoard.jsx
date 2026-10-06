@@ -53,7 +53,7 @@ function ApplyForm({ job, onClose }) {
       {/* not shown to people — catches bots that fill every field */}
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
       <input name="name" required maxLength={100} placeholder="Full name *" aria-label="Full name" autoComplete="name" className={field} />
-      <input name="phone" required inputMode="numeric" maxLength={14} placeholder="Mobile number *" aria-label="Mobile number" autoComplete="tel" className={field} />
+      <input name="phone" required inputMode="numeric" maxLength={10} pattern="[0-9]{10}" onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '').slice(0, 10); }} placeholder="Mobile number *" aria-label="Mobile number" autoComplete="tel" className={field} />
       <input name="email" type="email" required maxLength={120} placeholder="Email *" aria-label="Email" autoComplete="email" className={field} />
       <input name="city" required maxLength={50} placeholder="Your city *" aria-label="City" autoComplete="address-level2" className={field} />
       <textarea

@@ -19,8 +19,6 @@ const NAV = [
   { label: 'Water Purifiers', href: '/category/water-purifier' },
   { label: 'RO Plant', href: '/category/ro-plant' },
   { label: 'Water Softener', href: '/category/water-softener' },
-  { label: 'Water Ionizer', href: '/category/water-ionizer' },
-  { label: 'Water ATM', href: '/category/water-atm' },
   { label: 'Service & AMC', href: '/water-purifier-service' },
 ];
 
@@ -276,7 +274,7 @@ export default function HeaderClient({
           )}
           aria-hidden={navHidden}
         >
-          <nav aria-label="Main" className="df-container flex h-[46px] items-center gap-2">
+          <nav aria-label="Main" className="df-container flex h-[46px] items-center gap-2 lg:px-12 xl:px-16">
           <button
             type="button"
             onMouseEnter={() => setOpenMenu('products')}
@@ -298,7 +296,7 @@ export default function HeaderClient({
             />
           </button>
 
-          <ul className="df-no-scrollbar flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto xl:gap-1">
+          <ul className="df-no-scrollbar flex min-w-0 items-center gap-1 overflow-x-auto xl:gap-2">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               // "Service & AMC" opens the list of service pages on hover.
@@ -350,7 +348,7 @@ export default function HeaderClient({
           {nav?.ctaLabel !== '' ? (
             <Link
               href={nav?.ctaHref || '/partner'}
-              className="ml-2 hidden shrink-0 whitespace-nowrap rounded-full bg-primary-600 px-4 py-1.5 text-[13.5px] font-semibold text-white shadow-sm transition-colors hover:bg-primary-700 xl:inline-block"
+              className="ml-auto hidden shrink-0 whitespace-nowrap rounded-lg bg-primary-600 px-4 py-2 text-[14px] font-semibold text-white shadow-sm transition-colors hover:bg-ink-900 lg:inline-block"
             >
               {nav?.ctaLabel || 'Become a Partner'}
             </Link>

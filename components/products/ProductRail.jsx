@@ -23,7 +23,7 @@ export default function ProductRail({
   const trackId = `rail-${id || title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
   return (
-    <section className={cx(tone === 'muted' && 'border-y border-line bg-surface-muted')}>
+    <section className={cx(tone === 'muted' && 'border-y border-line')}>
       <div className="df-container df-section">
         {/* Three tracks so the heading is centred on the section itself, not
             on the space left over beside the link. The empty first track

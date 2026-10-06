@@ -148,7 +148,7 @@ export default async function HomePage() {
               {/* the heading, with how long the offer runs beside it */}
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
                 <h2 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
-                  Today&rsquo;s Deal
+                  Today&rsquo;s <span className="text-primary-600">Commercial</span> Deals
                 </h2>
                 <span className="inline-flex items-center gap-1 rounded-full border border-[#fed7aa] bg-[#fff7ed] px-2.5 py-1 text-[11.5px] font-semibold uppercase tracking-[0.08em] text-[#c2410c]">
                   <Flame size={13} aria-hidden="true" />
@@ -156,7 +156,7 @@ export default async function HomePage() {
                 </span>
               </div>
               <p className="mt-1 text-[14.5px] text-ink-400">
-                Best prices on RO plants, water ATMs, coolers and other commercial systems.
+                Best prices on commercial RO plants, water ATMs, chillers, coolers and industrial systems for your business.
               </p>
             </div>
             <Link
@@ -185,8 +185,6 @@ export default async function HomePage() {
         } : waterTest}
       />
 
-      <ServiceCards />
-
       {/* --------------------------------------------------- product rails */}
       {rails.map((rail, i) => (
         <ProductRail
@@ -205,7 +203,7 @@ export default async function HomePage() {
       />
 
       {/* ------------------------------------------------------------ blogs */}
-      <section className="border-y border-line bg-surface-muted">
+      <section className="border-y border-line">
         <div className="df-container df-section">
           <div className="mb-5 flex flex-wrap items-end justify-between gap-4 sm:px-12">
             <Reveal className="max-w-2xl">
@@ -238,6 +236,8 @@ export default async function HomePage() {
 
       {/* -------------------------------------------------------------- CTA */}
       <ExpertCta phone={brand.phone} phoneRaw={brand.phoneRaw} />
+
+      <ServiceCards />
 
       <QuickLinks sections={quickLinks} />
     </div>

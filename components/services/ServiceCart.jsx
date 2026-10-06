@@ -41,13 +41,13 @@ export default function ServiceCart() {
   if (!cart.ready) {
     // The basket is read in the browser, so the first paint has nothing to
     // show. A box the size of the real one keeps the page from jumping.
-    return <div className="h-64 animate-pulse rounded-2xl bg-surface-muted" />;
+    return <div className="h-64 animate-pulse rounded-2xl bg-line/40" />;
   }
 
   if (!lines.length) {
     return (
       <div className="rounded-2xl border border-line bg-white px-6 py-14 text-center">
-        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-surface-muted text-ink-300">
+        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-line bg-white text-ink-300">
           <ShoppingCart size={24} aria-hidden="true" />
         </span>
         <p className="mt-3 text-[16px] font-semibold text-ink-900">Your cart is empty</p>
@@ -82,7 +82,7 @@ export default function ServiceCart() {
         <ul className="divide-y divide-line">
           {lines.map((l) => (
             <li key={l.id} className="flex gap-4 p-4 sm:p-5">
-              <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-line bg-surface-muted sm:h-20 sm:w-20">
+              <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-line bg-white sm:h-20 sm:w-20">
                 {l.image
                   ? <Image src={l.image} alt="" fill sizes="80px" className="object-cover" />
                   : (

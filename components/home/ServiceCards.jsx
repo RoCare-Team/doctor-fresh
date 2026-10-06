@@ -85,21 +85,9 @@ export default function ServiceCards() {
           <Reveal as="li" key={s.title} delay={i * 70} className="h-full">
             <Link
               href={s.href}
-              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#e6ecf0] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:shadow-[0_22px_40px_-24px_rgb(6_59_76/0.45)]"
+              className="group flex h-full flex-col rounded-2xl bg-white p-5 shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_2px_5px_rgb(16_24_40/0.10),0_18px_36px_-10px_rgb(16_24_40/0.28)]"
             >
-              {s.image ? (
-                <span className="relative m-2 mb-0 block aspect-[16/10] overflow-hidden rounded-xl">
-                  <Image
-                    src={s.image}
-                    alt=""
-                    fill
-                    sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 300px"
-                    className={`object-cover ${s.focus} transition-transform duration-500 ease-out group-hover:scale-[1.06]`}
-                  />
-                </span>
-              ) : null}
-
-              <span className="flex flex-1 flex-col p-5">
+              <span className="flex flex-1 flex-col">
                 <span className="flex items-start justify-between gap-3">
                   <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-50 text-primary-700 ring-1 ring-primary-100 transition-colors duration-300 group-hover:bg-primary-600 group-hover:text-white group-hover:ring-primary-600">
                     <s.icon size={20} aria-hidden="true" />
@@ -110,7 +98,7 @@ export default function ServiceCards() {
                   </span>
                 </span>
 
-                <span className="mt-4 block text-[16.5px] font-semibold leading-tight tracking-[-0.01em] text-ink-900 transition-colors group-hover:text-primary-700">
+                <span className="mt-3 block text-[16.5px] font-semibold leading-tight tracking-[-0.01em] text-ink-900 transition-colors group-hover:text-primary-700">
                   {s.title}
                 </span>
                 {/* three lines held open on a desktop, so the points line up across the row */}
@@ -131,7 +119,7 @@ export default function ServiceCards() {
 
                 {/* Pushed to the bottom so the four cards line up however long
                     their descriptions are. */}
-                <span className="mt-auto pt-5">
+                <span className="mt-auto pt-4">
                   <span className="flex h-9 w-full items-center justify-center gap-1.5 rounded-lg border border-primary-600 text-[13.5px] font-semibold text-primary-700 transition-colors group-hover:bg-primary-600 group-hover:text-white">
                     {s.action}
                     <ArrowRight size={14} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />

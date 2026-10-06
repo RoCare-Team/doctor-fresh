@@ -13,6 +13,7 @@ import BookingSignIn from '@/components/services/BookingSignIn';
 
 // One visit covers a household or a small office; more units than this is a
 // site survey, which the team quotes on a call rather than books online.
+const CARD = 'shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)]';
 const MAX_PER_SERVICE = 5;
 
 const PROMISES = [
@@ -63,7 +64,7 @@ function ServiceItem({
       id={`svc-${s.id}`}
       className={cx(
         'scroll-mt-40 flex gap-4 rounded-2xl border bg-white p-4 transition-all duration-300 sm:p-5',
-        qty ? 'border-primary-400 shadow-[0_0_0_3px_var(--color-primary-100)]' : 'border-line hover:shadow-[0_14px_34px_-26px_rgb(6_59_76/0.6)]',
+        qty ? 'border-primary-500 ' + CARD : 'border-line ' + CARD + ' hover:shadow-[0_2px_5px_rgb(16_24_40/0.10),0_18px_36px_-10px_rgb(16_24_40/0.28)]',
         flash && 'ring-4 ring-warning/40',
       )}
     >
@@ -94,7 +95,7 @@ function ServiceItem({
       </div>
 
       <div className="flex w-[118px] shrink-0 flex-col items-center gap-2.5 sm:w-[132px]">
-        <div className="relative h-[72px] w-[72px] overflow-hidden rounded-xl border border-line bg-surface-muted">
+        <div className="relative h-[72px] w-[72px] overflow-hidden rounded-xl border border-line bg-white">
           {s.image ? (
             <Image src={s.image} alt="" fill sizes="72px" className="object-cover" />
           ) : (
@@ -201,7 +202,7 @@ function CheckoutDialog({
           <form onSubmit={book} className="flex min-h-0 flex-1 flex-col">
             <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 sm:px-6">
               {/* what is being booked */}
-              <div className="rounded-2xl bg-surface-muted p-3.5">
+              <div className="rounded-2xl border border-line bg-white p-3.5">
                 <ul className="space-y-2">
                   {lines.map((l) => (
                     <li key={l.id} className="flex items-center justify-between gap-3 text-[14px]">
@@ -218,7 +219,7 @@ function CheckoutDialog({
               <p className="mb-3 mt-5 flex items-center gap-2 text-[13px] font-semibold uppercase tracking-wide text-ink-400"><Phone size={14} aria-hidden="true" />Contact</p>
               <div className="grid gap-3.5 sm:grid-cols-3">
                 <div><label className={label} htmlFor="bk-name">Full name *</label><input id="bk-name" name="name" required autoComplete="name" placeholder="Your name" className={field} /></div>
-                <div><label className={label} htmlFor="bk-mobile">Mobile number *</label><input id="bk-mobile" name="mobile" type="tel" required pattern="[0-9]{10}" maxLength={10} inputMode="numeric" autoComplete="tel" placeholder="10 digit number" className={field} /></div>
+                <div><label className={label} htmlFor="bk-mobile">Mobile number *</label><input id="bk-mobile" name="mobile" type="tel" required pattern="[0-9]{10}" maxLength={10} inputMode="numeric" onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '').slice(0, 10); }} autoComplete="tel" placeholder="10 digit number" className={field} /></div>
                 <div><label className={label} htmlFor="bk-email">Email</label><input id="bk-email" name="email" type="email" autoComplete="email" placeholder="you@example.com" className={field} /></div>
               </div>
 
@@ -240,7 +241,7 @@ function CheckoutDialog({
                     {cities.map((c) => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
-                <div><label className={label} htmlFor="bk-pin">Pin code *</label><input id="bk-pin" name="pincode" required pattern="[0-9]{6}" maxLength={6} inputMode="numeric" autoComplete="postal-code" placeholder="6 digit pin code" className={field} /></div>
+                <div><label className={label} htmlFor="bk-pin">Pin code *</label><input id="bk-pin" name="pincode" required pattern="[0-9]{6}" maxLength={6} inputMode="numeric" onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '').slice(0, 6); }} autoComplete="postal-code" placeholder="6 digit pin code" className={field} /></div>
                 <div className="sm:col-span-2"><label className={label} htmlFor="bk-near">Nearby landmark</label><input id="bk-near" name="nearBy" placeholder="School, shop or place nearby" className={field} /></div>
                 <div>
                   <label className={label} htmlFor="bk-prem">Premises</label>
@@ -428,12 +429,12 @@ export default function ServiceBooking({
   const grouped = groups.map((g) => ({ ...g, items: services.filter((x) => x.group === g.id) })).filter((g) => g.items.length);
 
   return (
-    <section id="book" className="scroll-mt-39 border-b border-line bg-linear-to-b from-primary-50/70 to-surface-muted/40">
+    <section id="book" className="scroll-mt-39 border-b border-line bg-white">
       <div className="df-container pb-10 pt-5 md:pb-14 md:pt-7">
         <div className="grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[250px_minmax(0,1fr)] xl:grid-cols-[260px_minmax(0,1fr)_290px] xl:gap-6">
           {/* ------------------------------------------------ left column */}
           <div className="min-w-0 space-y-4 lg:sticky lg:top-34.5 lg:self-start">
-            <div className="rounded-2xl border border-line bg-white p-4 shadow-[0_12px_30px_-26px_rgb(6_59_76/0.6)]">
+            <div className="rounded-2xl border border-line bg-white p-4 shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)]">
               <p className="border-l-4 border-primary-600 pl-3 text-[17px] font-bold leading-snug text-ink-900">{heading}</p>
               <p className="mt-2 flex items-center gap-1.5 pl-4 text-[12.5px] text-ink-500">
                 <Sparkles size={13} className="text-warning" aria-hidden="true" />
@@ -441,7 +442,7 @@ export default function ServiceBooking({
               </p>
             </div>
 
-            <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-[0_12px_30px_-26px_rgb(6_59_76/0.6)]">
+            <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)]">
               <div className="flex items-center gap-3 border-b border-line px-4 py-3.5">
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-700 text-white"><LayoutGrid size={18} aria-hidden="true" /></span>
                 <span>
@@ -453,7 +454,7 @@ export default function ServiceBooking({
                 {services.map((x) => (
                   <li key={x.id} className="w-[76px] shrink-0 lg:w-auto">
                     <button type="button" onClick={() => show(x.id)} className="group flex w-full flex-col items-center gap-1.5 text-center">
-                      <span className={cx('relative h-14 w-14 overflow-hidden rounded-xl border-2 bg-surface-muted transition-colors', picked[x.id] ? 'border-primary-500' : 'border-transparent group-hover:border-primary-200')}>
+                      <span className={cx('relative h-14 w-14 overflow-hidden rounded-xl border-2 bg-white transition-colors', picked[x.id] ? 'border-primary-500' : 'border-transparent group-hover:border-primary-200')}>
                         {x.image ? <Image src={x.image} alt="" fill sizes="56px" className="object-cover" /> : <span className="flex h-full w-full items-center justify-center"><Wrench size={18} className="text-ink-300" aria-hidden="true" /></span>}
                         {picked[x.id] ? <span className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary-600 text-white"><Check size={10} strokeWidth={3} aria-hidden="true" /></span> : null}
                       </span>
@@ -464,7 +465,7 @@ export default function ServiceBooking({
               </ul>
             </div>
 
-            <ul className="hidden space-y-2 rounded-2xl border border-line bg-white px-4 py-3.5 text-[12.5px] text-ink-700 lg:block">
+            <ul className="hidden space-y-2 rounded-2xl border border-line bg-white shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)] px-4 py-3.5 text-[12.5px] text-ink-700 lg:block">
               {PROMISES.map(({ icon: Icon, text }) => (
                 <li key={text} className="flex items-center gap-2"><Icon size={14} className="shrink-0 text-success" aria-hidden="true" />{text}</li>
               ))}
@@ -495,7 +496,7 @@ export default function ServiceBooking({
 
           {/* ----------------------------------------------- right column */}
           <aside className="hidden xl:sticky xl:top-24 xl:block xl:self-start">
-            <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-[0_18px_44px_-30px_rgb(6_59_76/0.6)]">
+            <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)]">
               <div className="flex items-center gap-2.5 border-b border-line px-5 py-3.5">
                 <ShoppingCart size={17} className="text-primary-700" aria-hidden="true" />
                 <span className="text-[15px] font-semibold text-ink-900">Your cart</span>
@@ -529,7 +530,7 @@ export default function ServiceBooking({
                 </>
               ) : (
                 <div className="px-5 py-7 text-center">
-                  <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-surface-muted text-ink-300">
+                  <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-line bg-white text-ink-300">
                     {booked ? <CheckCircle2 size={22} className="text-success" aria-hidden="true" /> : <ShoppingCart size={20} aria-hidden="true" />}
                   </span>
                   <p className="mt-2.5 text-[14px] font-semibold text-ink-700">{booked ? 'Booking received' : 'Your cart is empty'}</p>
@@ -538,7 +539,7 @@ export default function ServiceBooking({
               )}
             </div>
             {intro ? (
-              <div className="mt-4 rounded-2xl border border-line bg-white p-5 text-center shadow-[0_12px_30px_-26px_rgb(6_59_76/0.6)]">
+              <div className="mt-4 rounded-2xl border border-line bg-white p-5 text-center shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)]">
                 <p ref={introRef} className={cx('text-[13.5px] leading-relaxed text-ink-500', !readMore && 'line-clamp-6')}>
                   <strong className="font-semibold text-ink-900">{`Best ${heading}: `}</strong>
                   {intro}
@@ -557,7 +558,7 @@ export default function ServiceBooking({
 
       {/* ------------------------------ cart bar (no right column here) */}
       {lines.length ? (
-        <div className="sticky bottom-0 z-30 border-t border-line bg-white/95 px-4 py-3 shadow-[0_-10px_30px_-20px_rgb(6_59_76/0.5)] backdrop-blur xl:hidden">
+        <div className="sticky bottom-0 z-30 border-t border-line bg-white/95 px-4 py-3 shadow-[0_-4px_14px_-6px_rgb(16_24_40/0.16)] backdrop-blur xl:hidden">
           <div className="df-container flex items-center gap-3 !px-0">
             <span className="min-w-0 flex-1">
               <span className="block text-[12.5px] text-ink-400">

@@ -477,7 +477,7 @@ function OrderRow({
         ) : null}
         {r.customer.email ? <p className="flex items-center gap-1 truncate text-[12px] text-ink-400"><Mail size={12} aria-hidden="true" />{r.customer.email}</p> : null}
 
-        <div className="mt-2 flex flex-wrap gap-1">
+        <div className="mt-2 flex flex-nowrap items-center gap-1 whitespace-nowrap">
           {canEdit && r.meta.stage !== 'completed' ? <Action tone="success" icon={CheckCircle2} label="Done" onClick={() => moveTo([r.id], 'completed')} disabled={Boolean(busy)} /> : null}
           {canEdit && r.meta.stage !== 'not_interested' ? <Action tone="warning" icon={Ban} label="Not Interested" onClick={() => moveTo([r.id], 'not_interested')} disabled={Boolean(busy)} /> : null}
           {canEdit && r.meta.stage !== 'duplicate' ? <Action tone="violet" icon={Copy} label="Duplicate" onClick={() => moveTo([r.id], 'duplicate')} disabled={Boolean(busy)} /> : null}

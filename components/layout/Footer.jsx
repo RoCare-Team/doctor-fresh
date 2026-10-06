@@ -1,12 +1,10 @@
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import Image from 'next/image';
 import {
-  Phone, Mail, Globe, MapPin, Facebook, Twitter, Linkedin, Instagram, Youtube, Mails,
+  Phone, Mail, Globe, MapPin, Facebook, Twitter, Linkedin, Instagram, Youtube,
 } from 'lucide-react';
 import { getBrand, getFooterLinks } from '@/lib/catalog';
-import { getContent } from '@/lib/sql/site-content';
 import { imageUrl } from '@/lib/utils';
-import NewsletterForm from '@/components/forms/NewsletterForm';
 
 const SOCIAL_ICON = {
   facebook: Facebook,
@@ -48,38 +46,17 @@ function LinkColumn({ title, links }) {
 }
 
 export default async function Footer() {
-  const [brand, footer, copy] = await Promise.all([
-    getBrand(), getFooterLinks(), getContent('footer').catch(() => ({})),
-  ]);
+  const [brand, footer] = await Promise.all([getBrand(), getFooterLinks()]);
   const popularServices = footer.popularServices;
-  const popularCities = [...footer.popularRoServiceCities, ...footer.popularWaterPurifierCities].slice(0, 8);
 
   return (
     <footer className="relative overflow-hidden bg-ink-900 text-white">
       {/* a faint glow so the dark block does not read as flat */}
       <div aria-hidden="true" className="pointer-events-none absolute -top-40 left-1/4 h-72 w-[40rem] rounded-full bg-primary-500/10 blur-3xl" />
 
-      {/* -------------------------------------------------------- newsletter */}
-      <div className="relative border-b border-white/10">
-        <div className="df-container flex flex-col items-start justify-between gap-3 py-4 lg:flex-row lg:items-center">
-          <div className="flex items-center gap-3">
-            <span className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary-600/90 text-white ring-1 ring-white/10 sm:flex">
-              <Mails size={17} aria-hidden="true" />
-            </span>
-            <div>
-              <h2 className="text-[15px] font-semibold text-white">{copy.newsletterTitle || 'Stay Updated'}</h2>
-              <p className="max-w-md text-[12.5px] leading-snug text-white/55">
-                {copy.newsletterText}
-              </p>
-            </div>
-          </div>
-          <NewsletterForm />
-        </div>
-      </div>
-
       {/* ------------------------------------------------------ main columns */}
       {/* two link columns side by side even on a phone, so the footer is not a long single file */}
-      <div className="df-container relative grid grid-cols-2 gap-x-4 gap-y-6 py-6 lg:grid-cols-12 lg:gap-6">
+      <div className="df-container relative grid grid-cols-2 gap-x-4 gap-y-6 py-6 lg:grid-cols-12 lg:gap-6 lg:px-12 xl:px-16">
         <div className="col-span-2 lg:col-span-3 lg:pr-4">
           {/* the logo artwork has a solid white background, so on navy it sits
               on a white plate rather than showing as a hard rectangle */}
@@ -122,10 +99,8 @@ export default async function Footer() {
           <LinkColumn title="Popular Services" links={popularServices} />
         </div>
 
-        {/* Cities get their own column rather than sitting under the services,
-            so both lists read at the same level. */}
         <div className="lg:col-span-2">
-          <LinkColumn title="Popular Cities" links={popularCities} />
+          <LinkColumn title="Quick Links" links={COMPANY} />
         </div>
 
         <div className="col-span-2 sm:col-span-1 lg:col-span-3">
@@ -136,8 +111,8 @@ export default async function Footer() {
             {brand.offices.map((o) => (
               <li key={o.label} className="flex gap-2">
                 <MapPin size={14} className="mt-0.5 shrink-0 text-primary-400" aria-hidden="true" />
-                <span className="leading-snug">
-                  <strong className="font-medium text-white/85">{o.label}: </strong>
+                <span>
+                  <strong className="font-medium text-white/80">{o.label}: </strong>
                   {o.address}
                 </span>
               </li>
@@ -164,19 +139,11 @@ export default async function Footer() {
 
       {/* -------------------------------------------------------- bottom bar */}
       <div className="relative border-t border-white/10 bg-black/15">
-        <div className="df-container flex flex-col gap-2 py-3 lg:flex-row lg:items-center lg:justify-between">
+        <div className="df-container flex flex-col gap-2 py-3 lg:flex-row lg:items-center lg:justify-between lg:gap-6 lg:px-12 xl:px-16">
           <p className="shrink-0 whitespace-nowrap text-[12px] text-white/50">
-            © {new Date().getFullYear()} {footer.copyright}
+            © {new Date().getFullYear()} {footer.copyright || 'Doctor Fresh. All rights reserved.'}
           </p>
-          <ul className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] leading-5">
-            {COMPANY.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="text-[12px] font-medium text-white/75 transition-colors hover:text-white">
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-            <li aria-hidden="true" className="hidden h-4 w-px bg-white/20 sm:block" />
+          <ul className="flex flex-wrap items-center gap-x-3.5 gap-y-1 text-[12px] leading-5 lg:justify-end">
             {footer.legal.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="text-[12px] text-white/45 transition-colors hover:text-white">
