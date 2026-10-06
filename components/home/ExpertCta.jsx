@@ -6,13 +6,13 @@ import { ArrowRight, Droplets, Phone } from 'lucide-react';
  * the foot of the home page. Kept to one short band: icon, headline and line
  * of copy on the left, the two actions on the right.
  *
- * Inset by the same gutter (sm:px-12) as the rails above it, so its edges
+ * On the same side line as every other section, so its edges
  * line up with theirs.
  */
 export default function ExpertCta({ phone, phoneRaw }) {
   return (
     <section className="df-container df-section">
-      <div className="sm:px-12">
+      <div>
         <div className="relative overflow-hidden rounded-2xl bg-ink-900 px-5 py-6 sm:px-8 md:py-7 lg:px-10">
           <div
             aria-hidden="true"

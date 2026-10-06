@@ -143,7 +143,7 @@ export default async function HomePage() {
       {deals.length ? (
         <section className="df-container df-section">
           {/* inset like the cards below, which leave their gutters to the arrows */}
-          <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-4 sm:px-12 md:mb-5">
+          <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-4 md:mb-5">
             <div className="max-w-2xl">
               {/* the heading, with how long the offer runs beside it */}
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
@@ -205,7 +205,7 @@ export default async function HomePage() {
       {/* ------------------------------------------------------------ blogs */}
       <section className="border-y border-line">
         <div className="df-container df-section">
-          <div className="mb-5 flex flex-wrap items-end justify-between gap-4 sm:px-12">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
             <Reveal className="max-w-2xl">
               <p className="df-eyebrow">Water knowledge</p>
               <h2 className="mt-2 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
@@ -224,7 +224,7 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid gap-5 sm:px-12 md:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-3">
             {posts.map((p, i) => (
               <Reveal key={p.id} delay={i * 80} className="h-full">
                 <BlogCard post={p} compact />

@@ -19,7 +19,7 @@ const ICONS = {
  * section made in the admin. Built on <details>, so it opens without any
  * script and every link is in the page for search engines even when closed.
  *
- * Inset by the same gutter (sm:px-12) as the rails above it. Two columns of
+ * On the same side line as every other section. Two columns of
  * groups from lg up keep the block short.
  */
 export default function QuickLinks({ sections = [] }) {
@@ -27,7 +27,7 @@ export default function QuickLinks({ sections = [] }) {
 
   return (
     <section className="border-t border-line" aria-labelledby="quick-links">
-      <div className="df-container py-10 md:py-12 lg:px-12 xl:px-16">
+      <div className="df-container py-10 md:py-12">
         <h2 id="quick-links" className="text-[24px] font-bold tracking-tight text-primary-800 md:text-[28px]">Quick Links</h2>
 
         <div className="mt-4 space-y-3">

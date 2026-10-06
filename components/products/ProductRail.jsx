@@ -30,7 +30,7 @@ export default function ProductRail({
             mirrors the link in the third. */}
         {/* On a phone the title and the link share one row — stacked and
             centred they cost a third of a screen before the first card. */}
-        <Reveal className="mb-3 flex items-baseline justify-between gap-3 sm:mb-4 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:px-12 sm:text-center">
+        <Reveal className="mb-3 flex items-baseline justify-between gap-3 sm:mb-4 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:text-center">
           <span className="hidden sm:block" aria-hidden="true" />
 
           <h2 className="text-[19px] font-semibold tracking-tight text-ink-900 sm:text-[26px] md:text-[32px]">
@@ -50,7 +50,7 @@ export default function ProductRail({
           </div>
         </Reveal>
 
-        <div className="relative sm:px-12">
+        <div className="relative">
           <ul
             id={trackId}
             className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-2 sm:mx-0 sm:gap-4 sm:px-0 xl:gap-5"

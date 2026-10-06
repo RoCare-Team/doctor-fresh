@@ -401,6 +401,26 @@
   @keyframes df-fade-in { from { opacity: 0; } to { opacity: 1; } }
   .df-fade-in { animation: df-fade-in 0.18s ease-out both; }
 
+  /* The hero headline, on a loop: each word slides up into place after the
+     one before it (delay set inline), holds, then slides away in the same
+     order; the highlight sweeps in under them and out again. */
+  @keyframes df-word-in {
+    0% { opacity: 0; transform: translateY(0.55em); filter: blur(4px); }
+    12%, 78% { opacity: 1; transform: none; filter: none; }
+    90%, 100% { opacity: 0; transform: translateY(-0.45em); filter: blur(4px); }
+  }
+  @keyframes df-stroke-in {
+    0% { transform: scaleX(0); transform-origin: left; }
+    14%, 74% { transform: scaleX(1); transform-origin: left; }
+    75% { transform: scaleX(1); transform-origin: right; }
+    86%, 100% { transform: scaleX(0); transform-origin: right; }
+  }
+  .df-word-in { display: inline-block; animation: df-word-in 4.5s cubic-bezier(0.22, 1, 0.36, 1) infinite both; }
+  .df-stroke-in { animation: df-stroke-in 4.5s cubic-bezier(0.22, 1, 0.36, 1) infinite both; }
+  @media (prefers-reduced-motion: reduce) {
+    .df-word-in, .df-stroke-in { animation: none; }
+  }
+
   /* A popup rising into place: up from below and a touch smaller, settling
      with a soft overshoot. On a phone (a bottom sheet) it slides up. */
   @keyframes df-modal-in {

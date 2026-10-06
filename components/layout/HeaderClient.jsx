@@ -274,7 +274,7 @@ export default function HeaderClient({
           )}
           aria-hidden={navHidden}
         >
-          <nav aria-label="Main" className="df-container flex h-[46px] items-center gap-2 lg:px-12 xl:px-16">
+          <nav aria-label="Main" className="df-container flex h-[46px] items-center gap-2">
           <button
             type="button"
             onMouseEnter={() => setOpenMenu('products')}

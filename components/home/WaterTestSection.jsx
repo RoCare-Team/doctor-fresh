@@ -43,7 +43,7 @@ export default function WaterTestSection({ waterTest }) {
   return (
     <section id="water-test" className="df-container scroll-mt-[156px] py-3 md:py-4">
       {/* inset like the rows above it */}
-      <div className="sm:px-12">
+      <div>
         <div className="grid overflow-hidden rounded-[28px] border border-[#e4eef3] bg-linear-to-br from-[#eef6fa] via-[#f6fafc] to-white lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
           {/* ------------------------------------------------- how it works */}
           <div className="p-6 sm:p-8 lg:p-10">

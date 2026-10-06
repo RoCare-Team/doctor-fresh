@@ -75,7 +75,7 @@ function Arrow({ side, disabled, onClick, label }) {
         'hover:border-primary-300 hover:bg-primary-600 hover:text-white',
         'disabled:pointer-events-none disabled:opacity-0 sm:disabled:opacity-35',
         // a phone has no gutter, so the arrows sit just inside the row's edges
-        side === 'left' ? 'left-1 sm:left-0' : 'right-1 sm:right-0',
+        side === 'left' ? 'left-1 md:left-0 md:-translate-x-1/2' : 'right-1 md:right-0 md:translate-x-1/2',
       )}
     >
       <Icon size={20} aria-hidden="true" />

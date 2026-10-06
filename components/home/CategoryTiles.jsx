@@ -20,7 +20,7 @@ export default function CategoryTiles({ tiles = [] }) {
   return (
     <section className="df-section df-container">
       {/* inset like the cards below, which leave their gutters to the arrows */}
-      <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-4 sm:px-12 md:mb-5">
+      <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-4 md:mb-5">
         <div className="max-w-2xl">
           {/* the heading, with how many ranges there are as a quiet aside */}
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -45,7 +45,7 @@ export default function CategoryTiles({ tiles = [] }) {
         </Link>
       </Reveal>
 
-      <div className="relative sm:px-12">
+      <div className="relative">
         <ul
           id="rail-categories"
           className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-2 sm:mx-0 sm:gap-4 sm:px-0 xl:gap-5"
