@@ -127,7 +127,7 @@ export default function CartView() {
         </div>
       </div>
 
-      <aside className="lg:sticky lg:top-[138px] lg:self-start">
+      <aside className="lg:sticky lg:top-[122px] lg:self-start">
         <div className="df-card p-5">
           <h2 className="text-[16px] font-semibold text-ink-900">Order summary</h2>
 

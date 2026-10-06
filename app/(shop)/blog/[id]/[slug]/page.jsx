@@ -149,7 +149,7 @@ export default async function BlogPostPage({ params }) {
             <BlogComments path={post.url} />
           </article>
 
-          <aside className="lg:sticky lg:top-[138px] lg:self-start">
+          <aside className="lg:sticky lg:top-[122px] lg:self-start">
             <h2 className="mb-4 text-[16px] font-semibold text-ink-900">Related articles</h2>
             <div className="space-y-4">
               {related.map((p) => (

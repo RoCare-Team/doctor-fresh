@@ -19,8 +19,6 @@ const NAV = [
   { label: 'Water Purifiers', href: '/category/water-purifier' },
   { label: 'RO Plant', href: '/category/ro-plant' },
   { label: 'Water Softener', href: '/category/water-softener' },
-  { label: 'Water Ionizer', href: '/category/water-ionizer' },
-  { label: 'Water ATM', href: '/category/water-atm' },
   { label: 'Service & AMC', href: '/water-purifier-service' },
 ];
 
@@ -138,7 +136,7 @@ export default function HeaderClient({
     <>
       {/* ---------------------------------------------------------- main bar */}
       <div className="border-b border-line bg-white">
-        <div className="df-container flex h-[68px] items-center gap-3 lg:h-[86px] lg:gap-8">
+        <div className="df-container flex h-[68px] items-center gap-3 lg:h-[68px] lg:gap-6">
           {/* a hard outline around the wordmark reads as a stray border, so the
               focus cue here is a tint rather than a rectangle */}
           <Link
@@ -153,7 +151,7 @@ export default function HeaderClient({
               height={52}
               priority
               fetchPriority="high"
-              className="h-8 w-auto min-[380px]:h-9 lg:h-[52px]"
+              className="h-8 w-auto min-[380px]:h-9 lg:h-[42px]"
             />
           </Link>
 
@@ -169,11 +167,11 @@ export default function HeaderClient({
           ) : null}
 
           {/* search is the visual anchor of the header */}
-          <form onSubmit={submitSearch} role="search" className={cx('hidden max-w-2xl flex-1 md:block', focused && 'md:hidden')}>
+          <form onSubmit={submitSearch} role="search" className={cx('hidden max-w-lg flex-1 md:block', focused && 'md:hidden')}>
             <div className="group relative">
               <Search
                 size={18}
-                className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-300 transition-colors group-focus-within:text-primary-700"
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-300 transition-colors group-focus-within:text-primary-700"
                 aria-hidden="true"
               />
               <input
@@ -183,11 +181,11 @@ export default function HeaderClient({
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search water purifiers, RO plants, spare parts…"
                 aria-label="Search products"
-                className="h-12 w-full rounded-xl border border-line-strong bg-surface-muted pl-11 pr-[104px] text-[15.5px] text-ink-900 outline-none transition-all placeholder:text-ink-300 focus:border-primary-500 focus:bg-white focus:shadow-[0_0_0_4px_var(--color-primary-100)]"
+                className="h-10 w-full rounded-full border border-line-strong bg-surface-muted pl-10 pr-[92px] text-[14px] text-ink-900 outline-none transition-all placeholder:text-ink-300 focus:border-primary-500 focus:bg-white focus:shadow-[0_0_0_4px_var(--color-primary-100)]"
               />
               <button
                 type="submit"
-                className="absolute right-1.5 top-1/2 h-9 -translate-y-1/2 rounded-lg bg-primary-600 px-5 text-[14.5px] font-semibold text-white transition-colors hover:bg-ink-900"
+                className="absolute right-1 top-1/2 h-8 -translate-y-1/2 rounded-full bg-primary-600 px-4 text-[13.5px] shadow-sm font-semibold text-white transition-colors hover:bg-ink-900"
               >
                 Search
               </button>
@@ -197,9 +195,7 @@ export default function HeaderClient({
           <div className="ml-auto flex items-center gap-1 lg:gap-1.5">
             {/* For the visitor who would rather be phoned than fill in the
                 enquiry popup; it lands in the same admin inbox. */}
-            <CallbackButton className="mr-1 hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-primary-200 px-3 py-2 text-[13.5px] font-medium text-primary-800 transition-colors hover:bg-primary-50 lg:inline-flex" />
-
-            <AccountMenu />
+            <CallbackButton className="mr-1 hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-primary-200 px-3.5 py-1.5 text-[13.5px] font-medium text-primary-800 transition-colors hover:bg-primary-50 lg:inline-flex" />
 
             <Link
               href="/cart"
@@ -219,6 +215,8 @@ export default function HeaderClient({
               </span>
               <span className="mt-0.5 hidden text-[12.5px] text-ink-400 lg:block">Cart</span>
             </Link>
+
+            <AccountMenu />
 
             {/* Last on the row so it sits on the edge of the screen, where a
                 thumb reaches it. On desktop the nav bar below carries these
@@ -272,18 +270,18 @@ export default function HeaderClient({
         <div
           className={cx(
             'overflow-hidden transition-[max-height] duration-300 ease-out',
-            navHidden ? 'max-h-0' : 'max-h-[52px]',
+            navHidden ? 'max-h-0' : 'max-h-[46px]',
           )}
           aria-hidden={navHidden}
         >
-          <nav aria-label="Main" className="df-container flex h-[52px] items-center">
+          <nav aria-label="Main" className="df-container flex h-[46px] items-center gap-2 lg:px-12 xl:px-16">
           <button
             type="button"
             onMouseEnter={() => setOpenMenu('products')}
             onClick={() => setOpenMenu(openMenu === 'products' ? null : 'products')}
             aria-expanded={openMenu === 'products'}
             className={cx(
-              'mr-6 inline-flex h-[38px] shrink-0 items-center gap-2 whitespace-nowrap rounded-lg px-4 text-[14.5px] font-semibold transition-colors',
+              'mr-3 inline-flex h-[34px] shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-4 text-[14px] font-semibold transition-colors',
               openMenu === 'products'
                 ? 'bg-primary-600 text-white'
                 : 'bg-primary-50 text-primary-800 hover:bg-primary-100',
@@ -319,7 +317,7 @@ export default function HeaderClient({
                       aria-haspopup="true"
                       aria-current={isActive ? 'page' : undefined}
                       className={cx(
-                        'inline-flex h-[52px] shrink-0 items-center gap-1 whitespace-nowrap border-b-2 px-2.5 text-[14.5px] transition-colors xl:px-3',
+                        'inline-flex h-[46px] shrink-0 items-center gap-1 whitespace-nowrap border-b-2 px-2 text-[14px] transition-colors xl:px-2.5',
                         open || isActive ? 'border-primary-500 font-medium text-ink-900' : 'border-transparent text-ink-500 hover:border-primary-200 hover:text-ink-900',
                       )}
                     >
@@ -336,7 +334,7 @@ export default function HeaderClient({
                     onMouseEnter={() => setOpenMenu(null)}
                     aria-current={isActive ? 'page' : undefined}
                     className={cx(
-                      'df-underline inline-flex h-[52px] shrink-0 items-center whitespace-nowrap px-2.5 text-[14.5px] transition-colors xl:px-3',
+                      'df-underline inline-flex h-[46px] shrink-0 items-center whitespace-nowrap px-2 text-[14px] transition-colors xl:px-2.5',
                       isActive ? 'font-medium text-ink-900' : 'text-ink-500 hover:text-ink-900',
                     )}
                   >
@@ -350,7 +348,7 @@ export default function HeaderClient({
           {nav?.ctaLabel !== '' ? (
             <Link
               href={nav?.ctaHref || '/partner'}
-              className="ml-3 hidden shrink-0 whitespace-nowrap rounded-lg border border-primary-200 px-4 py-2 text-[14px] font-medium text-primary-800 transition-colors hover:bg-primary-50 xl:inline-block"
+              className="ml-auto hidden shrink-0 whitespace-nowrap rounded-lg bg-primary-600 px-4 py-2 text-[14px] font-semibold text-white shadow-sm transition-colors hover:bg-ink-900 lg:inline-block"
             >
               {nav?.ctaLabel || 'Become a Partner'}
             </Link>

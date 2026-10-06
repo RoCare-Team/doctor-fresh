@@ -236,7 +236,7 @@ export default function CategoryProducts({ products = [], subcategories = [], ac
             they read as a control surface rather than loose links. In the
             mobile sheet they already sit on white, so the card is not repeated. */}
         <aside className="hidden lg:block">
-          <div className="sticky top-[138px] rounded-[14px] border border-line bg-white px-4 shadow-[0_4px_16px_-10px_rgb(6_59_76_/_0.28)]">
+          <div className="sticky top-[122px] rounded-[14px] border border-line bg-white px-4 shadow-[0_4px_16px_-10px_rgb(6_59_76_/_0.28)]">
             {filterControls}
           </div>
         </aside>

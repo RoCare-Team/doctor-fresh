@@ -118,12 +118,16 @@
   /* Consistent vertical rhythm for every homepage section. A phone shows one
      section at a time, so the air between two of them is halved there — at
      3rem each, two neighbours left a 96px band of empty white. */
-  .df-section { padding-block: 1.75rem; }
+  .df-section { padding-block: 1.25rem; }
+  /* The home page stacks many sections; it runs tighter than the rest. */
+  .df-home .df-section { padding-block: 0.875rem; }
   @media (min-width: 640px) {
-    .df-section { padding-block: 2.5rem; }
+    .df-section { padding-block: 1.75rem; }
+    .df-home .df-section { padding-block: 1.125rem; }
   }
   @media (min-width: 768px) {
-    .df-section { padding-block: 4.25rem; }
+    .df-section { padding-block: 2.5rem; }
+    .df-home .df-section { padding-block: 1.5rem; }
   }
 
   /* A field the browser filled in keeps the white of the ones beside it.
@@ -206,6 +210,28 @@
       transition: none;
     }
   }
+
+  /* Water drops behind the water-test band (WaterDrops). A drop falls by
+     --fall and fades as it lands at 60% of the cycle; its ripple, on the same
+     duration and delay, opens from that moment. */
+  @keyframes df-drop-fall {
+    0% { transform: translateY(calc(var(--fall) * -1)); opacity: 0; }
+    12% { opacity: 0.9; }
+    58% { transform: translateY(0); opacity: 0.9; }
+    62%, 100% { transform: translateY(0); opacity: 0; }
+  }
+  @keyframes df-drop-ripple {
+    0%, 59% { transform: scale(0.15); opacity: 0; }
+    62% { transform: scale(0.25); opacity: 0.9; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+  @keyframes df-wave-drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .df-drop-fall { animation: df-drop-fall 6s cubic-bezier(0.55, 0, 0.9, 0.5) infinite both; }
+  .df-drop-ripple { animation: df-drop-ripple 6s ease-out infinite both; }
+  .df-wave-drift { animation: df-wave-drift 18s linear infinite; }
 
   /* Hero copy plays once on load, staggered by --df-delay. */
   @keyframes df-rise {

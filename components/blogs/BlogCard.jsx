@@ -1,7 +1,7 @@
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import Image from 'next/image';
 import { CalendarDays, Clock, ArrowRight } from 'lucide-react';
-import { formatDate } from '@/lib/utils';
+import { formatDate, cx } from '@/lib/utils';
 import BlogImage from './BlogImage';
 
 const CATEGORY_LABEL = {
@@ -29,7 +29,9 @@ function Meta({ post, className = '' }) {
   );
 }
 
-export default function BlogCard({ post, featured = false }) {
+// `compact` is the shorter card the home page uses: a wider, lower cover, a
+// two-line excerpt and tighter padding, so the row does not dominate the page.
+export default function BlogCard({ post, featured = false, compact = false }) {
   if (!post) return null;
 
   const category = post.categories?.[0];
@@ -87,31 +89,42 @@ export default function BlogCard({ post, featured = false }) {
           post={post}
           sizes="(max-width: 768px) 100vw, 420px"
           framed
+          shape={compact ? 'aspect-[2/1]' : undefined}
           className="transition-transform duration-300 group-hover:scale-[1.03]"
         />
         {badge ? (
-          <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[12px] font-semibold uppercase tracking-wide text-primary-800">
+          <span
+            className={cx(
+              'absolute rounded-full bg-white/95 font-semibold uppercase tracking-wide text-primary-800',
+              compact ? 'left-3 top-3 px-2.5 py-0.5 text-[11px]' : 'left-4 top-4 px-3 py-1 text-[12px]',
+            )}
+          >
             {badge}
           </span>
         ) : null}
       </Link>
 
-      <div className="flex flex-1 flex-col p-5">
-        <Meta post={post} className="mb-3" />
+      <div className={cx('flex flex-1 flex-col', compact ? 'p-4' : 'p-5')}>
+        <Meta post={post} className={compact ? 'mb-2' : 'mb-3'} />
 
-        <h3 className="text-[17px] font-semibold leading-snug text-ink-900">
+        <h3 className={cx('font-semibold leading-snug text-ink-900', compact ? 'text-[16px]' : 'text-[17px]')}>
           <Link href={post.url} className="line-clamp-2 transition-colors hover:text-primary-800">
             {post.title}
           </Link>
         </h3>
 
-        <p className="mt-2.5 line-clamp-3 text-[14.5px] leading-relaxed text-ink-400">
+        <p
+          className={cx(
+            'text-ink-400',
+            compact ? 'mt-1.5 line-clamp-2 text-[13.5px] leading-normal' : 'mt-2.5 line-clamp-3 text-[14.5px] leading-relaxed',
+          )}
+        >
           {post.excerpt}
         </p>
 
         <Link
           href={post.url}
-          className="mt-4 inline-flex w-fit items-center gap-1.5 text-[14.5px] font-medium text-primary-700 transition-colors hover:text-primary-800"
+          className={cx(compact ? 'mt-auto pt-3 text-[14px]' : 'mt-4 text-[14.5px]', 'inline-flex w-fit items-center gap-1.5 font-medium text-primary-700 transition-colors hover:text-primary-800')}
         >
           Read more
           <span className="sr-only">{` about ${post.title}`}</span>

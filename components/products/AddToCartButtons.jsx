@@ -79,7 +79,7 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
         <button
           type="button"
           onClick={handleBuyNow}
-          className="inline-flex h-9.5 flex-1 items-center justify-center rounded-lg bg-primary-600 px-2 text-[13.5px] font-semibold text-white shadow-[0_6px_14px_-8px_rgb(21_151_197/0.9)] transition-all hover:bg-ink-900 active:scale-[0.97] sm:h-11 sm:rounded-full sm:px-3 sm:text-[14px] sm:shadow-none"
+          className="inline-flex h-9.5 flex-1 items-center justify-center rounded-lg bg-primary-600 px-2 text-[13.5px] font-semibold text-white shadow-[0_6px_14px_-8px_rgb(21_151_197/0.9)] transition-all hover:bg-ink-900 active:scale-[0.97] sm:h-9.5 sm:rounded-full sm:px-3 sm:text-[13px] sm:shadow-none"
         >
           Buy Now
         </button>
@@ -88,7 +88,7 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
           onClick={handleAdd}
           aria-label={added ? 'Added to cart' : 'Add to cart'}
           title={added ? 'Already in your cart — tap to view it' : undefined}
-          className={`inline-flex h-9.5 w-9.5 shrink-0 items-center justify-center gap-1.5 rounded-lg border transition-all active:scale-[0.97] sm:h-11 sm:w-auto sm:flex-1 sm:rounded-full sm:px-3 sm:text-[14px] sm:font-medium ${
+          className={`inline-flex h-9.5 w-9.5 shrink-0 items-center justify-center gap-1.5 rounded-lg border transition-all active:scale-[0.97] sm:h-9.5 sm:w-auto sm:flex-1 sm:rounded-full sm:px-3 sm:text-[13px] sm:font-medium ${
             added
               ? 'border-success bg-success text-white'
               : 'border-primary-500 bg-white text-primary-600 hover:bg-primary-50'
