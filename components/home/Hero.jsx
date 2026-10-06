@@ -1,11 +1,14 @@
 import Image from 'next/image';
-import { DM_Sans } from 'next/font/google';
+import { DM_Sans, Plus_Jakarta_Sans } from 'next/font/google';
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { imageUrl } from '@/lib/utils';
 
 // The hero's own typeface: a geometric sans, closer to the app-like menus
 // visitors know than the body font.
 const dmSans = DM_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700'], display: 'swap' });
+// The headline alone gets a display face, so it reads as the page's title.
+const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['600', '800'], display: 'swap' });
+const PROMISE = ['right', 'at', 'your', 'doorstep'];
 
 /**
  * The first screen: what we sell on the left, what that looks like on the
@@ -67,14 +70,36 @@ function Photo({ photo, sizes, priority = false }) {
 export default function Hero({ tiles = [] }) {
   return (
     <section className={`bg-white ${dmSans.className}`}>
-      <div className="df-container py-6 lg:px-12 xl:px-16">
-        {/* menu and photos sit side by side, centred as one block */}
-        <div className="xl:mx-auto xl:w-fit">
-          <h1 className="text-[22px] font-bold leading-tight tracking-[-0.02em] text-ink-900 sm:text-[24px] lg:text-[26px]">
-            Pure water solutions at your doorstep
-          </h1>
+      <div className="df-container pb-6 pt-3 md:pt-4">
+        {/* menu and photos side by side, edge to edge on the page line */}
+        <div>
+          <div className={jakarta.className}>
+            <h1 className="text-[24px] font-extrabold leading-[1.15] tracking-[-0.03em] text-ink-900 sm:text-[28px] lg:text-[32px]">
+              Pure water,{' '}
+              <span className="relative isolate inline-block sm:whitespace-nowrap">
+                {/* one word at a time, each sliding up after the last */}
+                {PROMISE.map((word, i) => (
+                  <span key={word}>
+                    <span
+                      className="df-word-in bg-linear-to-r from-primary-500 to-primary-800 bg-clip-text text-transparent"
+                      style={{ animationDelay: `${150 + i * 140}ms` }}
+                    >
+                      {word}
+                    </span>
+                    {i < PROMISE.length - 1 ? ' ' : null}
+                  </span>
+                ))}
+                {/* a soft brush stroke under the promise, drawn once the words are in */}
+                <span
+                  aria-hidden="true"
+                  className="df-stroke-in absolute inset-x-0 -bottom-0.5 -z-10 h-2.5 rounded-full bg-primary-100"
+                  style={{ animationDelay: `${150 + PROMISE.length * 140}ms` }}
+                />
+              </span>
+            </h1>
+          </div>
 
-          <div className="mt-4 grid gap-6 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-stretch lg:gap-8 xl:grid-cols-[auto_596px]">
+          <div className="mt-3 grid gap-6 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-stretch lg:gap-8">
             {/* ------------------------------------------------------ what we do */}
             <div className="w-full rounded-2xl border border-[#e6eaee] bg-white p-4 shadow-[0_12px_32px_-24px_rgb(6_59_76/0.35)] sm:w-fit sm:px-5 sm:py-5 lg:w-full">
               <ul className="grid h-full grid-cols-3 content-center gap-x-1 gap-y-4 sm:grid-cols-[repeat(3,122px)]">
@@ -95,13 +120,13 @@ export default function Hero({ tiles = [] }) {
             </div>
 
             {/* ---------------------------------------------------------- photos */}
-            {/* two small photos over one large one, never wider than 596px */}
+            {/* two small photos over one large one, filling the rest of the row */}
             <div className="hidden min-h-[400px] grid-rows-[minmax(0,2fr)_minmax(0,3fr)] gap-4 lg:grid">
               <div className="grid grid-cols-2 gap-4">
-                <Photo photo={PHOTOS.home} sizes="(min-width: 1024px) 290px, 0px" priority />
-                <Photo photo={PHOTOS.ionizer} sizes="(min-width: 1024px) 290px, 0px" priority />
+                <Photo photo={PHOTOS.home} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
+                <Photo photo={PHOTOS.ionizer} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
               </div>
-              <Photo photo={PHOTOS.sweeper} sizes="(min-width: 1024px) 596px, 0px" priority />
+              <Photo photo={PHOTOS.sweeper} sizes="(min-width: 1300px) 830px, (min-width: 1024px) 60vw, 0px" priority />
             </div>
           </div>
         </div>

@@ -56,7 +56,7 @@ export default async function Footer() {
 
       {/* ------------------------------------------------------ main columns */}
       {/* two link columns side by side even on a phone, so the footer is not a long single file */}
-      <div className="df-container relative grid grid-cols-2 gap-x-4 gap-y-6 py-6 lg:grid-cols-12 lg:gap-6 lg:px-12 xl:px-16">
+      <div className="df-container relative grid grid-cols-2 gap-x-4 gap-y-6 py-6 lg:grid-cols-12 lg:gap-6">
         <div className="col-span-2 lg:col-span-3 lg:pr-4">
           {/* the logo artwork has a solid white background, so on navy it sits
               on a white plate rather than showing as a hard rectangle */}
@@ -139,7 +139,7 @@ export default async function Footer() {
 
       {/* -------------------------------------------------------- bottom bar */}
       <div className="relative border-t border-white/10 bg-black/15">
-        <div className="df-container flex flex-col gap-2 py-3 lg:flex-row lg:items-center lg:justify-between lg:gap-6 lg:px-12 xl:px-16">
+        <div className="df-container flex flex-col gap-2 py-3 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
           <p className="shrink-0 whitespace-nowrap text-[12px] text-white/50">
             © {new Date().getFullYear()} {footer.copyright || 'Doctor Fresh. All rights reserved.'}
           </p>

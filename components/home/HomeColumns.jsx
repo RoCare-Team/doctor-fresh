@@ -40,11 +40,10 @@ export default function HomeColumns({ latest = [], mostViewed = [] }) {
     // White here so the column cards sit on a clean ground. The blog section
     // that follows is tinted, so the page keeps alternating.
     <section className="border-t border-line bg-white">
-      {/* sm:px-12 — the same side inset as the deal, service and trust rows */}
       <div className="df-container df-section">
         <div
           className={cx(
-            'grid gap-5 sm:px-12 md:grid-cols-2',
+            'grid gap-5 md:grid-cols-2',
             // With Recently Viewed absent, two columns should share the width
             // rather than leave a third of the row empty.
             columns.length === 3 && 'lg:grid-cols-3',

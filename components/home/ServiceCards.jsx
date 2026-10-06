@@ -63,7 +63,7 @@ export default function ServiceCards() {
   return (
     <section className="df-section df-container">
       {/* inset like the rows above, so every heading starts on one line */}
-      <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-4 sm:px-12 md:mb-5">
+      <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-4 md:mb-5">
         <div className="max-w-2xl">
           {/* the heading, with the promise as a quiet aside */}
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -80,7 +80,7 @@ export default function ServiceCards() {
         </div>
       </Reveal>
 
-      <ul className="grid gap-4 sm:grid-cols-2 sm:px-12 lg:grid-cols-4 xl:gap-5">
+      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:gap-5">
         {SERVICES.map((s, i) => (
           <Reveal as="li" key={s.title} delay={i * 70} className="h-full">
             <Link

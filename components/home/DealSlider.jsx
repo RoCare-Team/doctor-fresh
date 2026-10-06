@@ -16,7 +16,7 @@ export default function DealSlider({ deals = [] }) {
   if (!deals.length) return null;
 
   return (
-    <div className="relative sm:px-12">
+    <div className="relative">
       <ul
         id="rail-deals"
         className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-2 sm:mx-0 sm:gap-4 sm:px-0 xl:gap-5"

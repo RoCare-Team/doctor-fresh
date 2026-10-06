@@ -58,7 +58,7 @@ export default function TrustBadges({ badges = [] }) {
 
   return (
     <section className="bg-white">
-      <div className="df-container py-4 md:py-6 lg:px-12 xl:px-16">
+      <div className="df-container py-4 md:py-6">
         {/* the strip sits on its own rounded panel, so the white cards read as
             a set rather than floating on the page */}
         <div className="rounded-2xl border border-line p-3 md:px-6 md:py-4">
