@@ -143,25 +143,25 @@ export default async function HomePage() {
       {deals.length ? (
         <section className="df-container df-section">
           {/* inset like the cards below, which leave their gutters to the arrows */}
-          <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-4 md:mb-5">
+          <Reveal className="mb-3 flex flex-wrap sm:mb-4 items-end justify-between gap-4 md:mb-5">
             <div className="max-w-2xl">
               {/* the heading, with how long the offer runs beside it */}
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
                 <h2 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
                   Today&rsquo;s <span className="text-primary-600">Commercial</span> Deals
                 </h2>
-                <span className="inline-flex items-center gap-1 rounded-full border border-[#fed7aa] bg-[#fff7ed] px-2.5 py-1 text-[11.5px] font-semibold uppercase tracking-[0.08em] text-[#c2410c]">
+                <span className="hidden items-center gap-1 rounded-full sm:inline-flex border border-[#fed7aa] bg-[#fff7ed] px-2.5 py-1 text-[11.5px] font-semibold uppercase tracking-[0.08em] text-[#c2410c]">
                   <Flame size={13} aria-hidden="true" />
                   Limited period
                 </span>
               </div>
-              <p className="mt-1 text-[14.5px] text-ink-400">
+              <p className="mt-1 hidden text-[14.5px] text-ink-400 sm:block">
                 Best prices on commercial RO plants, water ATMs, chillers, coolers and industrial systems for your business.
               </p>
             </div>
             <Link
               href="/all-category"
-              className="group inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-white px-4 py-2 text-[14px] font-semibold text-ink-900 transition-colors hover:border-primary-300 hover:text-primary-700"
+              className="group hidden items-center gap-1.5 rounded-full sm:inline-flex border border-line-strong bg-white px-4 py-2 text-[14px] font-semibold text-ink-900 transition-colors hover:border-primary-300 hover:text-primary-700"
             >
               View all deals
               <ArrowRight size={15} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
@@ -203,7 +203,7 @@ export default async function HomePage() {
       />
 
       {/* ------------------------------------------------------------ blogs */}
-      <section className="border-y border-line">
+      <section className="hidden border-y border-line sm:block">
         <div className="df-container df-section">
           <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
             <Reveal className="max-w-2xl">
@@ -224,9 +224,9 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-3">
+          <div className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 max-md:[contain:paint] md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0">
             {posts.map((p, i) => (
-              <Reveal key={p.id} delay={i * 80} className="h-full">
+              <Reveal key={p.id} delay={i * 80} className="h-full w-[82%] shrink-0 snap-start sm:w-[46%] md:w-auto">
                 <BlogCard post={p} compact />
               </Reveal>
             ))}

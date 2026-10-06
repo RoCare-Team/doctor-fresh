@@ -71,7 +71,7 @@ function Arrow({ side, disabled, onClick, label }) {
       aria-label={`${label.replace(/, page$/, '')}: ${side === 'left' ? 'previous' : 'next'}`}
       className={cx(
         // centred on the cards, not on cards + the dots below them
-        'absolute top-[calc(50%-1.1rem)] z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#e6ecf0] bg-white/95 text-ink-900 shadow-[0_8px_20px_-10px_rgb(6_59_76/0.45)] transition-all sm:size-10',
+        'absolute top-[calc(50%-1.1rem)] z-10 hidden size-9 md:flex -translate-y-1/2 items-center justify-center rounded-full border border-[#e6ecf0] bg-white/95 text-ink-900 shadow-[0_8px_20px_-10px_rgb(6_59_76/0.45)] transition-all sm:size-10',
         'hover:border-primary-300 hover:bg-primary-600 hover:text-white',
         'disabled:pointer-events-none disabled:opacity-0 sm:disabled:opacity-35',
         // a phone has no gutter, so the arrows sit just inside the row's edges

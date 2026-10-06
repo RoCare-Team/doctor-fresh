@@ -80,9 +80,9 @@ export default function ServiceCards() {
         </div>
       </Reveal>
 
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:gap-5">
+      <ul className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 py-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:py-0 lg:grid-cols-4 xl:gap-5">
         {SERVICES.map((s, i) => (
-          <Reveal as="li" key={s.title} delay={i * 70} className="h-full">
+          <Reveal as="li" key={s.title} delay={i * 70} className="h-full w-[82%] shrink-0 snap-start sm:w-auto">
             <Link
               href={s.href}
               className="group flex h-full flex-col rounded-2xl bg-white p-5 shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_2px_5px_rgb(16_24_40/0.10),0_18px_36px_-10px_rgb(16_24_40/0.28)]"

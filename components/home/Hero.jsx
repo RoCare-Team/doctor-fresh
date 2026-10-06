@@ -101,8 +101,8 @@ export default function Hero({ tiles = [] }) {
 
           <div className="mt-3 grid gap-6 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-stretch lg:gap-8">
             {/* ------------------------------------------------------ what we do */}
-            <div className="w-full rounded-2xl border border-[#e6eaee] bg-white p-4 shadow-[0_12px_32px_-24px_rgb(6_59_76/0.35)] sm:w-fit sm:px-5 sm:py-5 lg:w-full">
-              <ul className="grid h-full grid-cols-3 content-center gap-x-1 gap-y-4 sm:grid-cols-[repeat(3,122px)]">
+            <div className="w-full rounded-2xl border border-[#e6eaee] bg-white p-4 shadow-[0_12px_32px_-24px_rgb(6_59_76/0.35)] sm:px-5 sm:py-5">
+              <ul className="grid h-full grid-cols-3 content-center gap-x-1 gap-y-4 lg:grid-cols-[repeat(3,122px)]">
                 {tiles.map((tile) => (
                   <Tile key={tile.label} href={tile.href} label={tile.label}>
                     {tile.image ? (
