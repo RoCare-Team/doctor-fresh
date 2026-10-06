@@ -8,7 +8,13 @@ import { imageUrl } from '@/lib/utils';
 const dmSans = DM_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700'], display: 'swap' });
 // The headline alone gets a display face, so it reads as the page's title.
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['600', '800'], display: 'swap' });
-const PROMISE = ['right', 'at', 'your', 'doorstep'];
+// The lines that take turns after "Pure water,"; the first is the one read out.
+const PHRASES = [
+  ['right', 'at', 'your', 'doorstep'],
+  ['for', 'every', 'Indian', 'home'],
+  ['tested', 'by', 'water', 'experts'],
+  ['serviced', 'within', '24', 'hours'],
+];
 
 /**
  * The first screen: what we sell on the left, what that looks like on the
@@ -76,33 +82,38 @@ export default function Hero({ tiles = [] }) {
           <div className={jakarta.className}>
             <h1 className="text-[24px] font-extrabold leading-[1.15] tracking-[-0.03em] text-ink-900 sm:text-[28px] lg:text-[32px]">
               Pure water,{' '}
-              <span className="relative isolate inline-block sm:whitespace-nowrap">
-                {/* one word at a time, each sliding up after the last */}
-                {PROMISE.map((word, i) => (
-                  <span key={word}>
+              {/* read out once, as the first line; the moving lines are decoration */}
+              <span className="sr-only">{PHRASES[0].join(' ')}</span>
+              <span aria-hidden="true" className="df-phrases whitespace-nowrap">
+                {PHRASES.map((words, p) => (
+                  <span key={words.join(' ')} className="df-phrase">
+                    {/* one word at a time, each sliding up after the last */}
+                    {words.map((word, i) => (
+                      <span key={word}>
+                        <span
+                          className="df-word-in bg-linear-to-r from-primary-500 to-primary-800 bg-clip-text text-transparent"
+                          style={{ animationDelay: `${p * 3500 + 150 + i * 140}ms` }}
+                        >
+                          {word}
+                        </span>
+                        {i < words.length - 1 ? ' ' : null}
+                      </span>
+                    ))}
+                    {/* a soft brush stroke under the line, drawn once its words are in */}
                     <span
-                      className="df-word-in bg-linear-to-r from-primary-500 to-primary-800 bg-clip-text text-transparent"
-                      style={{ animationDelay: `${150 + i * 140}ms` }}
-                    >
-                      {word}
-                    </span>
-                    {i < PROMISE.length - 1 ? ' ' : null}
+                      className="df-stroke-in absolute inset-x-0 -bottom-0.5 -z-10 h-2.5 rounded-full bg-primary-100"
+                      style={{ animationDelay: `${p * 3500 + 150 + words.length * 140}ms` }}
+                    />
                   </span>
                 ))}
-                {/* a soft brush stroke under the promise, drawn once the words are in */}
-                <span
-                  aria-hidden="true"
-                  className="df-stroke-in absolute inset-x-0 -bottom-0.5 -z-10 h-2.5 rounded-full bg-primary-100"
-                  style={{ animationDelay: `${150 + PROMISE.length * 140}ms` }}
-                />
               </span>
             </h1>
           </div>
 
           <div className="mt-3 grid gap-6 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-stretch lg:gap-8">
             {/* ------------------------------------------------------ what we do */}
-            <div className="w-full rounded-2xl border border-[#e6eaee] bg-white p-4 shadow-[0_12px_32px_-24px_rgb(6_59_76/0.35)] sm:w-fit sm:px-5 sm:py-5 lg:w-full">
-              <ul className="grid h-full grid-cols-3 content-center gap-x-1 gap-y-4 sm:grid-cols-[repeat(3,122px)]">
+            <div className="w-full rounded-2xl border border-[#e6eaee] bg-white p-4 shadow-[0_12px_32px_-24px_rgb(6_59_76/0.35)] sm:px-5 sm:py-5">
+              <ul className="grid h-full grid-cols-3 content-center gap-x-1 gap-y-4 lg:grid-cols-[repeat(3,122px)]">
                 {tiles.map((tile) => (
                   <Tile key={tile.label} href={tile.href} label={tile.label}>
                     {tile.image ? (

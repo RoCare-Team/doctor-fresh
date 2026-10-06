@@ -91,7 +91,7 @@ export default async function Footer() {
           </div>
         </div>
 
-        <div className="lg:col-span-2">
+        <div className="max-lg:row-span-2 lg:col-span-2">
           <LinkColumn title="Categories" links={footer.categories} />
         </div>
 
