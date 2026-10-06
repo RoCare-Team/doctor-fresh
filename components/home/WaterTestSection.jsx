@@ -82,7 +82,7 @@ export default function WaterTestSection({ waterTest }) {
             </ol>
 
             {/* what the visit costs and who comes */}
-            <ul className="mt-7 flex flex-wrap gap-2.5">
+            <ul className="mt-7 hidden flex-wrap gap-2.5 sm:flex">
               {promises.map((p) => (
                 <li
                   key={p.label}

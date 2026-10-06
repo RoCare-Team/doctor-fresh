@@ -24,7 +24,7 @@ export default function ExpertCta({ phone, phoneRaw }) {
           />
 
           <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center justify-center gap-4 text-center sm:justify-start sm:text-left">
               <span className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-600 text-white shadow-[0_8px_20px_-8px_rgb(21_151_197/0.7)] sm:flex">
                 <Droplets size={22} aria-hidden="true" />
               </span>
@@ -32,14 +32,14 @@ export default function ExpertCta({ phone, phoneRaw }) {
                 <h2 className="text-[20px] font-semibold leading-tight tracking-tight text-white md:text-[24px]">
                   Not sure which purifier suits <span className="text-primary-300">your water?</span>
                 </h2>
-                <p className="mt-1.5 max-w-xl text-[14.5px] leading-relaxed text-white/65">
+                <p className="mx-auto mt-1.5 max-w-xl text-[14.5px] sm:mx-0 leading-relaxed text-white/65">
                   Talk to a Doctor Fresh water expert — free consultation, honest recommendation
                   based on your actual water quality.
                 </p>
               </div>
             </div>
 
-            <div className="flex shrink-0 flex-wrap gap-3">
+            <div className="flex shrink-0 flex-wrap justify-center gap-3 sm:justify-start">
               <a
                 href={`tel:${phoneRaw}`}
                 className="inline-flex h-11 items-center gap-2 rounded-xl bg-primary-600 px-5 text-[15px] font-semibold text-white transition-colors hover:bg-primary-500"

@@ -20,7 +20,7 @@ export default function CategoryTiles({ tiles = [] }) {
   return (
     <section className="df-section df-container">
       {/* inset like the cards below, which leave their gutters to the arrows */}
-      <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-4 md:mb-5">
+      <Reveal className="mb-3 flex flex-wrap items-end justify-between gap-4 sm:mb-4 md:mb-5">
         <div className="max-w-2xl">
           {/* the heading, with how many ranges there are as a quiet aside */}
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -31,14 +31,14 @@ export default function CategoryTiles({ tiles = [] }) {
               {items.length} ranges
             </span>
           </div>
-          <p className="mt-1 text-[14.5px] text-ink-400">
+          <p className="mt-1 hidden text-[14.5px] text-ink-400 sm:block">
             From home purifiers to commercial RO plants — find the right range for your water.
           </p>
         </div>
 
         <Link
           href="/all-category"
-          className="group inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-white px-4 py-2 text-[14px] font-semibold text-ink-900 transition-colors hover:border-primary-300 hover:text-primary-700"
+          className="group hidden items-center sm:inline-flex gap-1.5 rounded-full border border-line-strong bg-white px-4 py-2 text-[14px] font-semibold text-ink-900 transition-colors hover:border-primary-300 hover:text-primary-700"
         >
           View all categories
           <ArrowRight size={15} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
