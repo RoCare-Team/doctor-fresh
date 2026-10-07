@@ -16,9 +16,12 @@ const SUPPORT = {
 };
 
 /**
- * Each known badge gets a bold brand-blue icon on a white tile. The stored
+ * Each known badge gets a brand-blue line icon on a white tile. The stored
  * icons are thin 30px line drawings that read as clip-art at this size; a
  * badge added in the admin that is not listed here still shows its own icon.
+ *
+ * The tiles were solid blue blocks, which on a page of white cards read as six
+ * loud squares rather than as six quiet marks; only the drawing is blue now.
  */
 const LOOK = {
   'Free Shipping': { Icon: Truck },
@@ -34,7 +37,7 @@ function BadgeIcon({ badge }) {
 
   if (!look) {
     return (
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50">
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-line bg-white">
         <Image src={imageUrl(badge.icon)} alt="" width={30} height={30} className="h-6 w-6 object-contain" />
       </span>
     );
@@ -42,13 +45,8 @@ function BadgeIcon({ badge }) {
 
   const { Icon } = look;
   return (
-    <span
-      className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-linear-to-br from-primary-500 to-primary-700 text-white transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:-rotate-6"
-      style={{ boxShadow: '0 8px 18px -8px rgb(11 97 130 / 0.5), inset 0 1px 0 rgb(255 255 255 / 0.35)' }}
-    >
-      {/* glossy highlight across the top half */}
-      <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/30 to-transparent" />
-      <Icon size={20} strokeWidth={2.2} aria-hidden="true" className="relative" />
+    <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-line bg-white text-primary-700 shadow-[0_1px_2px_rgb(16_24_40/0.05)] transition-transform duration-300 group-hover:-translate-y-0.5">
+      <Icon size={20} strokeWidth={2} aria-hidden="true" />
     </span>
   );
 }

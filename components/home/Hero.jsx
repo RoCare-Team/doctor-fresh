@@ -26,10 +26,25 @@ const PHRASES = [
  * purifier and the ionizer on a kitchen counter, and the sweeper on its floor.
  */
 
+/*
+ * The file names carry spaces, so the paths are written encoded — that is the
+ * address the browser actually asks for.
+ */
 const PHOTOS = {
-  home: { src: '/images/hero-kitchen-purifier-2.webp', alt: 'Doctor Fresh water purifier on a kitchen counter' },
-  ionizer: { src: '/images/hero-kitchen-ionizer.webp', alt: 'Doctor Fresh water ionizer on a kitchen counter' },
+  home: {
+    src: '/images/Sleek%20Black%20DF%20Water%20Dispenser.png',
+    alt: 'Doctor Fresh black water purifier on a kitchen counter',
+  },
+  ionizer: {
+    src: '/images/DoctorFresh%20Countertop%20Water%20Purifier.png',
+    alt: 'Doctor Fresh countertop water purifier beside a glass of water',
+  },
   sweeper: { src: '/images/hero-floor-sweeper.webp', alt: 'Doctor Fresh floor sweeper on a kitchen floor', position: 'object-[center_75%]' },
+  technician: { src: '/images/hero-technician.webp', alt: 'A Doctor Fresh technician ready for a service visit', position: 'object-top' },
+  vegetable: {
+    src: '/images/DoctorFresh%20Turquoise%20Water%20Purifier.png',
+    alt: 'Doctor Fresh turquoise water purifier',
+  },
 };
 
 /** "Geyser for Home" → the name, with "for Home" as a quiet second line. */
@@ -57,8 +72,16 @@ function Tile({ href, label, children }) {
   );
 }
 
-/** One photo of the right-hand grid. Only a picture — not a link. */
+/**
+ * One photo of the right-hand grid. Only a picture — not a link.
+ *
+ * A room photograph fills its box; a product shot on a white background is
+ * shown whole instead, with room around it, because cropping into one cuts the
+ * product in half.
+ */
 function Photo({ photo, sizes, priority = false }) {
+  if (!photo?.src) return null;
+
   return (
     <div className="relative h-full overflow-hidden rounded-2xl bg-[#eef4f7]">
       <Image
@@ -67,7 +90,9 @@ function Photo({ photo, sizes, priority = false }) {
         fill
         priority={priority}
         sizes={sizes}
-        className={`object-cover ${photo.position || ''}`}
+        className={photo.contain
+          ? 'object-contain p-3 mix-blend-multiply'
+          : `object-cover ${photo.position || ''}`}
       />
     </div>
   );
@@ -76,11 +101,14 @@ function Photo({ photo, sizes, priority = false }) {
 export default function Hero({ tiles = [] }) {
   return (
     <section className={`bg-white ${dmSans.className}`}>
-      <div className="df-container pb-6 pt-3 md:pt-4">
-        {/* menu and photos side by side, edge to edge on the page line */}
-        <div>
-          <div className={jakarta.className}>
-            <h1 className="text-[24px] font-extrabold leading-[1.15] tracking-[-0.03em] text-ink-900 sm:text-[28px] lg:text-[32px]">
+      <div className="df-container pb-6 pt-6 md:pt-8">
+        {/* Menu and photos side by side. The heading belongs to the left
+            column rather than to the row above it, so the photographs start at
+            the top of the section instead of below an empty strip. */}
+        <div className="grid gap-6 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-start lg:gap-8">
+          <div className="flex min-w-0 flex-col">
+            <div className={jakarta.className}>
+            <h1 className="text-[24px] font-extrabold leading-[1.25] tracking-[-0.03em] text-ink-900 sm:text-[28px] lg:text-[32px]">
               Pure water,{' '}
               {/* read out once, as the first line; the moving lines are decoration */}
               <span className="sr-only">{PHRASES[0].join(' ')}</span>
@@ -110,10 +138,9 @@ export default function Hero({ tiles = [] }) {
             </h1>
           </div>
 
-          <div className="mt-3 grid gap-6 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-stretch lg:gap-8">
             {/* ------------------------------------------------------ what we do */}
-            <div className="w-full rounded-2xl border border-[#e6eaee] bg-white p-4 shadow-[0_12px_32px_-24px_rgb(6_59_76/0.35)] sm:px-5 sm:py-5">
-              <ul className="grid h-full grid-cols-3 content-center gap-x-1 gap-y-4 lg:grid-cols-[repeat(3,122px)]">
+            <div className="mt-5 w-full rounded-2xl border border-[#e6eaee] bg-white p-4 shadow-[0_12px_32px_-24px_rgb(6_59_76/0.35)] md:mt-6 sm:px-5 sm:py-5">
+              <ul className="grid h-full grid-cols-3 content-center gap-x-2 gap-y-4">
                 {tiles.map((tile) => (
                   <Tile key={tile.label} href={tile.href} label={tile.label}>
                     {tile.image ? (
@@ -129,15 +156,20 @@ export default function Hero({ tiles = [] }) {
                 ))}
               </ul>
             </div>
+          </div>
 
-            {/* ---------------------------------------------------------- photos */}
-            {/* two small photos over one large one, filling the rest of the row */}
-            <div className="hidden min-h-[400px] grid-rows-[minmax(0,2fr)_minmax(0,3fr)] gap-4 lg:grid">
-              <div className="grid grid-cols-2 gap-4">
-                <Photo photo={PHOTOS.home} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
-                <Photo photo={PHOTOS.ionizer} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
-              </div>
-              <Photo photo={PHOTOS.sweeper} sizes="(min-width: 1300px) 830px, (min-width: 1024px) 60vw, 0px" priority />
+          {/* ---------------------------------------------------------- photos */}
+          {/* Four upright photos in two columns, each column a tall one and a
+              short one in opposite order — so the pair of seams never line up
+              across the middle and the block reads as one piece. */}
+          <div className="hidden min-h-160 grid-cols-2 gap-4 lg:grid">
+            <div className="grid grid-rows-[1.08fr_1fr] gap-4">
+              <Photo photo={PHOTOS.vegetable} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
+              <Photo photo={PHOTOS.home} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
+            </div>
+            <div className="grid grid-rows-[1fr_1.08fr] gap-4">
+              <Photo photo={PHOTOS.ionizer} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
+              <Photo photo={PHOTOS.technician} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
             </div>
           </div>
         </div>

@@ -99,14 +99,16 @@ export default async function HomePage() {
     { label: 'Water Purifier for Home', href: '/category/water-purifier', image: '/images/hero-ro-purifier.png' },
     // Only things a household buys; each points at its "for home" range so
     // the photo is a home model, not a commercial one.
-    { label: 'Bathroom Softener for Home', href: '/category/water-softener/water-softener-for-bathroom' },
+    // Drinking water across the top row, the everyday appliances next, and
+    // the ones bought least often along the bottom.
     { label: 'Water Ionizer for Home', href: '/category/water-ionizer/water-ionizer-for-home' },
+    { label: 'Tap Water Purifier for Home', href: '/category/water-purifier/tap-water-purifier' },
     { label: 'Water Dispenser for Home', href: '/category/water-dispenser/table-top' },
-    { label: 'Geyser for Home', href: '/category/water-heater/electric-geyser' },
     { label: 'Air Purifier for Home', href: '/category/air-purifier/air-purifier-for-home' },
     { label: 'Vegetable Purifier for Home', href: '/category/vegetable-purifier/vegetablefruit-purifier-for-home' },
+    { label: 'Bathroom Softener for Home', href: '/category/water-softener/water-softener-for-bathroom' },
+    { label: 'Geyser for Home', href: '/category/water-heater/electric-geyser' },
     { label: 'Vacuum Cleaner for Home', href: '/category/vacuum-cleaner/vacuum-cleaner-for-home' },
-    { label: 'Tap Water Purifier for Home', href: '/category/water-purifier/tap-water-purifier' },
   ];
 
   // Each tile takes the first product photo of the category it opens.
@@ -148,7 +150,7 @@ export default async function HomePage() {
               {/* the heading, with how long the offer runs beside it */}
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
                 <h2 className="text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
-                  Today&rsquo;s <span className="text-primary-600">Commercial</span> Deals
+                  Today&rsquo;s Commercial Deals
                 </h2>
                 <span className="hidden items-center gap-1 rounded-full sm:inline-flex border border-[#fed7aa] bg-[#fff7ed] px-2.5 py-1 text-[11.5px] font-semibold uppercase tracking-[0.08em] text-[#c2410c]">
                   <Flame size={13} aria-hidden="true" />
