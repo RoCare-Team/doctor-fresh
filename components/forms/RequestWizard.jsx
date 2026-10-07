@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import {
   X, CheckCircle2, Headset, ArrowRight, ArrowLeft, Loader2, ChevronDown, Wrench, ShoppingBag,
-  Home, Building2, Check,
+  Home, Building2, Check, ShieldCheck,
 } from 'lucide-react';
 import { cx } from '@/lib/utils';
 
@@ -52,6 +52,12 @@ export default function RequestWizard({ onClose }) {
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState('');
 
+  // The code their system texts for a service request. `otp` is what has been
+  // typed; `resendIn` counts down so the resend cannot be hammered.
+  const [otp, setOtp] = useState('');
+  const [otpError, setOtpError] = useState('');
+  const [resendIn, setResendIn] = useState(0);
+
   const set = (patch) => setForm((f) => ({ ...f, ...patch }));
 
   useEffect(() => {
@@ -75,6 +81,12 @@ export default function RequestWizard({ onClose }) {
   }, [form.state]);
 
   useEffect(() => {
+    if (resendIn <= 0) return undefined;
+    const timer = setTimeout(() => setResendIn((s) => s - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [resendIn]);
+
+  useEffect(() => {
     const onKey = (event) => { if (event.key === 'Escape') onClose(); };
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -92,22 +104,77 @@ export default function RequestWizard({ onClose }) {
     setStep(2);
   }
 
+  /** Files the request. A service request then asks for the texted code. */
+  async function send() {
+    const res = await fetch('/api/wizard/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.ok) throw new Error(data.error || 'Could not send your request.');
+    return data;
+  }
+
   async function submit(event) {
     event.preventDefault();
     setStatus('sending');
     setError('');
     try {
-      const res = await fetch('/api/wizard/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.ok) throw new Error(data.error || 'Could not send your request.');
+      const data = await send();
+      if (data.otpRequired) {
+        setOtp('');
+        setOtpError('');
+        setResendIn(30);
+        setStep(3);
+        setStatus('idle');
+        return;
+      }
       setStatus('sent');
     } catch (err) {
       setError(err.message);
       setStatus('error');
+    }
+  }
+
+  /** A second code, once the countdown has run out. */
+  async function resend() {
+    if (resendIn > 0 || status === 'sending') return;
+    setStatus('sending');
+    setOtpError('');
+    try {
+      await send();
+      setResendIn(30);
+    } catch (err) {
+      setOtpError(err.message);
+    } finally {
+      setStatus('idle');
+    }
+  }
+
+  /**
+   * Checks the code. The request is already with them either way — this only
+   * decides whether it counts as a verified number on their side.
+   */
+  async function verify(code = otp) {
+    if (status === 'sending') return;
+    if (code.length < 4) { setOtpError('Enter the code from the message.'); return; }
+
+    setStatus('sending');
+    setOtpError('');
+    try {
+      const res = await fetch('/api/wizard/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile: form.mobile, otp: code }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) throw new Error(data.error || 'That code did not match.');
+      setStatus('sent');
+    } catch (err) {
+      setOtpError(err.message);
+      setOtp('');
+      setStatus('idle');
     }
   }
 
@@ -153,7 +220,7 @@ export default function RequestWizard({ onClose }) {
         </header>
 
         {status !== 'sent' ? (
-          <Stepper step={step} />
+          <Stepper step={step} total={step === 3 ? 3 : 2} />
         ) : null}
 
         {status === 'sent' ? (
@@ -227,7 +294,7 @@ export default function RequestWizard({ onClose }) {
               </button>
             </footer>
           </form>
-        ) : (
+        ) : step === 2 ? (
           /* --------------------------------------- step 2: who and where */
           <form onSubmit={submit} className="flex min-h-0 flex-1 flex-col">
             <div className="df-scrollbar min-h-0 flex-1 overflow-y-auto px-4 py-4">
@@ -291,6 +358,84 @@ export default function RequestWizard({ onClose }) {
               </button>
             </footer>
           </form>
+        ) : (
+          /* -------------------------------------------- step 3: the code */
+          <div className="flex min-h-0 flex-1 flex-col">
+            <div className="df-scrollbar min-h-0 flex-1 overflow-y-auto px-5 py-6 text-center">
+              <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary-50 text-primary-700">
+                <ShieldCheck size={22} aria-hidden="true" />
+              </span>
+              <p className="mt-3 text-[16px] font-semibold text-ink-900">Verify your number</p>
+              <p className="mx-auto mt-1 max-w-[280px] text-[13.5px] leading-relaxed text-ink-500">
+                {'We have sent a code to '}
+                <span className="font-semibold text-ink-900">{`+91 ${form.mobile}`}</span>
+                .
+              </p>
+              <button
+                type="button"
+                onClick={() => { setStep(2); setOtpError(''); }}
+                className="mt-1 text-[13px] font-medium text-primary-700 underline underline-offset-2 hover:text-primary-800"
+              >
+                Change number
+              </button>
+
+              <input
+                value={otp}
+                onChange={(e) => {
+                  const code = e.target.value.replace(/\D/g, '').slice(0, 6);
+                  setOtp(code);
+                  setOtpError('');
+                  // Submits itself the moment the message is auto-filled.
+                  if (code.length === 6) verify(code);
+                }}
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                maxLength={6}
+                aria-label="Verification code"
+                placeholder="······"
+                className="mx-auto mt-5 block h-12 w-48 rounded-xl border border-line-strong bg-white text-center text-[20px] font-semibold tracking-[0.4em] text-ink-900 outline-none focus:border-primary-500 focus:ring-3 focus:ring-primary-500/10"
+              />
+
+              {otpError ? (
+                <p role="alert" className="mx-auto mt-3 max-w-[300px] rounded-lg bg-danger/5 px-3 py-2 text-[13px] text-danger">{otpError}</p>
+              ) : null}
+
+              <p className="mt-4 text-[13px] text-ink-400">
+                {resendIn > 0 ? `Resend the code in ${resendIn}s` : null}
+                {resendIn > 0 ? null : (
+                  <button
+                    type="button"
+                    onClick={resend}
+                    disabled={status === 'sending'}
+                    className="font-medium text-primary-700 hover:text-primary-800 disabled:opacity-50"
+                  >
+                    Didn&rsquo;t get the code? Resend
+                  </button>
+                )}
+              </p>
+            </div>
+
+            <footer className="shrink-0 border-t border-line px-4 py-3">
+              <button
+                type="button"
+                onClick={() => verify()}
+                disabled={status === 'sending' || otp.length < 4}
+                className="flex h-11 w-full items-center justify-center gap-1.5 rounded-lg bg-primary-600 text-[14.5px] font-semibold text-white transition-colors hover:bg-primary-700 disabled:opacity-50"
+              >
+                {status === 'sending' ? <Loader2 size={17} className="animate-spin" aria-hidden="true" /> : null}
+                {status === 'sending' ? 'Checking…' : 'Verify & finish'}
+              </button>
+              {/* The request is already with them; verifying only confirms the
+                  number, so nobody is trapped on this screen. */}
+              <button
+                type="button"
+                onClick={() => setStatus('sent')}
+                className="mt-2 block w-full text-center text-[12.5px] text-ink-400 underline underline-offset-2 hover:text-ink-700"
+              >
+                Skip — our team will call to confirm
+              </button>
+            </footer>
+          </div>
         )}
       </div>
     </div>
@@ -314,18 +459,22 @@ function Labelled({
   );
 }
 
-const STEPS = ['Your need', 'Your details'];
+const STEPS = ['Your need', 'Your details', 'Verify'];
 
 /** Numbered circles joined by a line: done ✓, current filled, next outlined. */
-function Stepper({ step }) {
+function Stepper({ step, total = STEPS.length }) {
+  // A new purchase never reaches the third step, so the rail does not promise
+  // one until the visitor is on it.
+  const shown = STEPS.slice(0, total);
+
   return (
-    <ol className="flex shrink-0 items-center gap-2 border-b border-line px-5 py-3" aria-label={`Step ${step} of ${STEPS.length}`}>
-      {STEPS.map((label, i) => {
+    <ol className="flex shrink-0 items-center gap-2 border-b border-line px-5 py-3" aria-label={`Step ${step} of ${shown.length}`}>
+      {shown.map((label, i) => {
         const n = i + 1;
         const done = n < step;
         const current = n === step;
         return (
-          <li key={label} className={cx('flex items-center gap-2', i < STEPS.length - 1 && 'flex-1')} aria-current={current ? 'step' : undefined}>
+          <li key={label} className={cx('flex items-center gap-2', i < shown.length - 1 && 'flex-1')} aria-current={current ? 'step' : undefined}>
             <span
               className={cx(
                 'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[12.5px] font-bold transition-all duration-300',
@@ -337,7 +486,7 @@ function Stepper({ step }) {
               {done ? <Check size={14} strokeWidth={3} aria-hidden="true" /> : n}
             </span>
             <span className={cx('whitespace-nowrap text-[12.5px] font-semibold', current || done ? 'text-ink-900' : 'text-ink-400')}>{label}</span>
-            {i < STEPS.length - 1 ? (
+            {i < shown.length - 1 ? (
               <span className="relative mx-1 h-0.5 flex-1 overflow-hidden rounded-full bg-ink-300/40" aria-hidden="true">
                 <span className={cx('absolute inset-y-0 left-0 rounded-full bg-primary-600 transition-all duration-500', done ? 'w-full' : 'w-0')} />
               </span>

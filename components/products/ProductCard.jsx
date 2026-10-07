@@ -44,18 +44,14 @@ export default function ProductCard({ product, compact = false, priority = false
         </div>
 
         {/* one row keeps the rating and the discount badge from ever colliding */}
-        <div className="pointer-events-none absolute inset-x-4 top-4 hidden items-start justify-between gap-2 sm:flex">
+        <div className="pointer-events-none absolute inset-x-3 top-3 hidden items-start justify-between gap-2 sm:flex">
           <span className="flex flex-col items-start gap-1.5">
             {product.rating ? (
-              <span className="inline-flex items-center gap-1.5 rounded-md bg-white/95 px-1.5 py-1 shadow-[0_2px_8px_-4px_rgb(6_59_76_/_0.4)]">
-                <span className="inline-flex items-center gap-1 rounded bg-success px-1.5 py-0.5 text-[11.5px] font-semibold text-white">
-                  {product.rating.toFixed(1)}
-                  <Star size={10} fill="currentColor" strokeWidth={0} aria-hidden="true" />
-                </span>
+              <span className="inline-flex items-center gap-1 rounded bg-success px-1.5 py-0.5 text-[10.5px] font-semibold text-white shadow-[0_2px_6px_-3px_rgb(6_59_76_/_0.5)]">
+                {product.rating.toFixed(1)}
+                <Star size={9} fill="currentColor" strokeWidth={0} aria-hidden="true" />
                 {product.reviewCount ? (
-                  <span className="hidden whitespace-nowrap pr-0.5 text-[11.5px] text-ink-400 sm:inline">
-                    {product.reviewCount} reviews
-                  </span>
+                  <span className="font-normal text-white/80">{`(${product.reviewCount})`}</span>
                 ) : null}
               </span>
             ) : null}

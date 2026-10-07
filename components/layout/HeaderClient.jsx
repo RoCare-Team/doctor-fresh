@@ -139,6 +139,7 @@ export default function HeaderClient({
         <div className="df-container flex h-[68px] items-center gap-3 lg:h-[68px] lg:gap-6">
           {/* a hard outline around the wordmark reads as a stray border, so the
               focus cue here is a tint rather than a rectangle */}
+          <div className="flex flex-1 items-center">
           <Link
             href="/"
             aria-label="Doctor Fresh home"
@@ -154,6 +155,7 @@ export default function HeaderClient({
               className="h-8 w-auto min-[380px]:h-9 lg:h-[42px]"
             />
           </Link>
+          </div>
 
           {/* Checkout is a room with one door: search, the category nav and the
               menu would all lead out of a payment the visitor is part way
@@ -167,7 +169,7 @@ export default function HeaderClient({
           ) : null}
 
           {/* search is the visual anchor of the header */}
-          <form onSubmit={submitSearch} role="search" className={cx('hidden max-w-lg flex-1 md:block', focused && 'md:hidden')}>
+          <form onSubmit={submitSearch} role="search" className={cx('hidden w-full max-w-lg shrink md:block', focused && 'md:hidden')}>
             <div className="group relative">
               <Search
                 size={18}
@@ -192,7 +194,7 @@ export default function HeaderClient({
             </div>
           </form>
 
-          <div className="ml-auto flex items-center gap-1 lg:gap-1.5">
+          <div className="flex flex-1 items-center justify-end gap-1 lg:gap-1.5">
             {/* For the visitor who would rather be phoned than fill in the
                 enquiry popup; it lands in the same admin inbox. */}
             <CallbackButton className="mr-1 hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-primary-200 px-3.5 py-1.5 text-[13.5px] font-medium text-primary-800 transition-colors hover:bg-primary-50 lg:inline-flex" />
@@ -270,11 +272,11 @@ export default function HeaderClient({
         <div
           className={cx(
             'overflow-hidden transition-[max-height] duration-300 ease-out',
-            navHidden ? 'max-h-0' : 'max-h-[46px]',
+            navHidden ? 'max-h-0' : 'max-h-[58px]',
           )}
           aria-hidden={navHidden}
         >
-          <nav aria-label="Main" className="df-container flex h-[46px] items-center gap-2">
+          <nav aria-label="Main" className="df-container flex h-[58px] items-center gap-2">
           <button
             type="button"
             onMouseEnter={() => setOpenMenu('products')}

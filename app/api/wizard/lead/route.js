@@ -1,6 +1,6 @@
 // "Submit your Request" → the same lead system the current site posts to.
 
-import { submitLead } from '@/lib/wizard';
+import { submitLead, needsOtp } from '@/lib/wizard';
 import { normaliseMobile, normaliseEmail, normaliseName } from '@/lib/auth/users';
 
 export const dynamic = 'force-dynamic';
@@ -31,12 +31,27 @@ export async function POST(request) {
   const pincode = String(body.pincode || '').trim();
   if (pincode && !/^\d{6}$/.test(pincode)) return fail('Please enter a valid 6-digit pin code.');
 
+  const fields = { ...body, name, mobile, email: email || '', pincode };
+
+  // A service request is verified by a code their system texts, the way their
+  // own form does it; a new purchase is filed straight away.
+  const otp = needsOtp(fields);
+
+  let data;
   try {
-    await submitLead({ ...body, name, mobile, email: email || '', pincode });
+    data = await submitLead(fields, { otp });
   } catch (err) {
     console.error('[wizard] could not send the request:', err.message);
     return fail('Could not send your request. Please call +91-9311587716.', 502);
   }
 
-  return Response.json({ ok: true });
+  // Their "you already have an open request in this category": the enquiry is
+  // with them, so there is nothing to verify and nothing to apologise for.
+  const alreadyOpen = Number(data?.status) === 2;
+
+  return Response.json({
+    ok: true,
+    otpRequired: otp && !alreadyOpen,
+    alreadyOpen,
+  });
 }
