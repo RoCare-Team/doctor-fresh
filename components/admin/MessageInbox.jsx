@@ -1,35 +1,55 @@
 import Link from 'next/link';
 import {
-  Mail, Phone, MessageCircle, Inbox, MailOpen, Search,
+  Mail, Phone, MessageCircle, Inbox, MailOpen, Search, MessageSquare, Clock, CircleCheck,
 } from 'lucide-react';
-import HandledToggle from '@/components/admin/HandledToggle';
 import DeleteMessageButton from '@/components/admin/DeleteMessageButton';
+import MessageTools, { MessageStatus } from '@/components/admin/MessageTools';
 import Pagination, { paginate } from '@/components/admin/Pagination';
+import { MESSAGE_STATUSES } from '@/lib/admin/message-status';
 import { cx, formatDateTime } from '@/lib/utils';
 
 const initials = (name = '') => String(name).trim().split(/\s+/).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '?';
 
+const STAT_LOOK = {
+  total: { icon: MessageSquare, tone: 'bg-primary-50 text-primary-700', value: 'text-ink-900' },
+  new: { icon: Clock, tone: 'bg-primary-50 text-primary-700', value: 'text-primary-700' },
+  in_progress: { icon: Clock, tone: 'bg-warning/10 text-warning', value: 'text-warning' },
+  resolved: { icon: CircleCheck, tone: 'bg-success/10 text-success', value: 'text-success' },
+};
+
 /**
  * A mailbox of `contact_message` rows — the contact form or the partner form.
- * Filtered by read state and a search, both kept in the URL.
+ *
+ * The counts at the top are the whole mailbox; the filter and the search below
+ * them narrow what is listed, and both live in the address so a filtered view
+ * can be sent to somebody.
  */
 export default function MessageInbox({
   basePath, title, intro, messages = [], params = {}, emptyText,
 }) {
-  const show = ['unread', 'read'].includes(params.show) ? params.show : '';
+  const ids = new Set(MESSAGE_STATUSES.map((s) => s.id));
+  const show = ids.has(params.show) ? params.show : '';
   const q = String(params.q || '').trim().toLowerCase();
 
-  const unread = messages.filter((m) => !m.handled).length;
+  const count = (id) => messages.filter((m) => m.status === id).length;
+  const unread = messages.filter((m) => m.status !== 'resolved').length;
+
   const filtered = messages
-    .filter((m) => (show === 'unread' ? !m.handled : show === 'read' ? m.handled : true))
+    .filter((m) => (show ? m.status === show : true))
     .filter((m) => !q || [m.name, m.email, m.mobile, m.subject, m.message, ...m.fields.map((f) => f[1])]
       .join(' ').toLowerCase().includes(q));
   const view = paginate(filtered, Number(params.page) || 1);
 
+  const stats = [
+    { id: 'total', label: 'Total Messages', value: messages.length, href: basePath },
+    ...MESSAGE_STATUSES.map((s) => ({
+      id: s.id, label: s.label, value: count(s.id), href: `${basePath}?show=${s.id}`,
+    })),
+  ];
+
   const tabs = [
     { id: '', label: 'All', count: messages.length },
-    { id: 'unread', label: 'Unread', count: unread },
-    { id: 'read', label: 'Handled', count: messages.length - unread },
+    ...MESSAGE_STATUSES.map((s) => ({ id: s.id, label: s.label, count: count(s.id) })),
   ];
   const link = (patch) => {
     const p = new URLSearchParams();
@@ -50,6 +70,32 @@ export default function MessageInbox({
             {`${unread} unread`}
           </span>
         ) : null}
+      </div>
+
+      {/* The state of the mailbox at a glance; each card opens that filter. */}
+      <div className="mt-4 grid grid-cols-2 gap-3 xl:grid-cols-4">
+        {stats.map((s) => {
+          const look = STAT_LOOK[s.id];
+          const Icon = look.icon;
+          return (
+            <Link
+              key={s.id}
+              href={s.href}
+              className={cx(
+                'flex items-center justify-between gap-3 rounded-2xl border bg-white p-4 transition-colors',
+                (s.id === 'total' ? !show : show === s.id) ? 'border-primary-400' : 'border-line hover:border-primary-200',
+              )}
+            >
+              <span className="min-w-0">
+                <span className="block truncate text-[13px] font-medium text-ink-500">{s.label}</span>
+                <span className={cx('mt-1 block text-[26px] font-bold leading-none tabular-nums', look.value)}>{s.value}</span>
+              </span>
+              <span className={cx('flex h-10 w-10 shrink-0 items-center justify-center rounded-xl', look.tone)}>
+                <Icon size={19} aria-hidden="true" />
+              </span>
+            </Link>
+          );
+        })}
       </div>
 
       <section className="mt-4 overflow-hidden rounded-2xl border border-line bg-white">
@@ -81,6 +127,7 @@ export default function MessageInbox({
               className="h-9 w-full rounded-lg border border-line-strong bg-white pl-9 pr-3 text-[14px] outline-none focus:border-primary-500"
             />
           </form>
+          <MessageTools rows={filtered} filename={basePath.split('/').pop()} />
         </div>
 
         {!view.rows.length ? (
@@ -92,11 +139,11 @@ export default function MessageInbox({
         ) : (
           <ul className="divide-y divide-line">
             {view.rows.map((m) => (
-              <li key={m.id} className={cx('p-4 md:p-5', !m.handled && 'bg-primary-50/30')}>
+              <li key={m.id} className={cx('p-4 md:p-5', m.status === 'new' && 'bg-primary-50/30')}>
                 <div className="flex flex-wrap items-start gap-3">
                   <span className={cx(
                     'flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[13px] font-semibold',
-                    m.handled ? 'bg-surface-muted text-ink-400' : 'bg-primary-500 text-white',
+                    m.status === 'resolved' ? 'bg-surface-muted text-ink-400' : 'bg-primary-500 text-white',
                   )}
                   >
                     {initials(m.name)}
@@ -105,7 +152,7 @@ export default function MessageInbox({
                     <p className="flex flex-wrap items-center gap-2">
                       <span className="text-[15px] font-semibold capitalize text-ink-900">{m.name || '—'}</span>
                       {m.subject ? <span className="rounded-full bg-primary-50 px-2 py-0.5 text-[12px] font-medium text-primary-800">{m.subject}</span> : null}
-                      {!m.handled ? <span className="h-2 w-2 rounded-full bg-primary-500" aria-label="Unread" /> : null}
+                      {m.status === 'new' ? <span className="h-2 w-2 rounded-full bg-primary-500" aria-label="New" /> : null}
                     </p>
                     <p className="mt-0.5 text-[12.5px] text-ink-400">{m.at ? formatDateTime(m.at) : ''}</p>
 
@@ -132,7 +179,7 @@ export default function MessageInbox({
                     </div>
                   </div>
                   <div className="flex items-center gap-1">
-                    <HandledToggle kind="message" id={m.id} handled={m.handled} />
+                    <MessageStatus id={m.id} name={m.name} status={m.status} />
                   </div>
                 </div>
 

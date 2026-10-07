@@ -1,7 +1,10 @@
 import Link from 'next/link';
+import { Inbox, Clock, CircleCheck, CalendarDays } from 'lucide-react';
 import { listLeads, listCallbacks, listMessages } from '@/lib/sql/admin';
 import HandledToggle from '@/components/admin/HandledToggle';
 import Pagination, { paginate } from '@/components/admin/Pagination';
+import StatCards from '@/components/admin/StatCards';
+import ListTools from '@/components/admin/ListTools';
 import { formatDate, cx } from '@/lib/utils';
 import { requirePage } from '@/lib/admin/guard';
 
@@ -25,8 +28,58 @@ export default async function AdminEnquiriesPage({ searchParams }) {
     tab === 'messages' ? listMessages({ limit: 200 }) : [],
   ]);
 
-  const view = paginate({ leads, callbacks, messages }[tab], page);
+  const all = { leads, callbacks, messages }[tab] || [];
+
+  // Open or done, on top of which kind of enquiry is being read.
+  const show = ['open', 'done'].includes(params?.show) ? params.show : '';
+  const filtered = all.filter((r) => (show === 'open' ? !r.handled : show === 'done' ? r.handled : true));
+  const view = paginate(filtered, page);
   const rows = view.rows;
+
+  const weekAgo = Date.now() - 7 * 86400 * 1000;
+  const open = all.filter((r) => !r.handled).length;
+  const fresh = all.filter((r) => Date.parse(r.at || 0) >= weekAgo).length;
+
+  const link = (patch) => {
+    const p = new URLSearchParams();
+    Object.entries({ tab, show, ...patch }).forEach(([k, v]) => { if (v) p.set(k, v); });
+    return p.toString() ? `/admin/enquiries?${p}` : '/admin/enquiries';
+  };
+
+  const noun = tab === 'callbacks' ? 'Callbacks' : 'Enquiries';
+  const cards = [
+    {
+      id: 'total', label: `Total ${noun}`, value: all.length, icon: Inbox, tone: 'primary',
+      href: link({ show: '', page: '' }), active: !show,
+    },
+    {
+      id: 'open', label: 'Open', value: open, note: 'nobody has closed these', icon: Clock, tone: 'amber',
+      href: link({ show: 'open', page: '' }), active: show === 'open',
+    },
+    {
+      id: 'done', label: 'Done', value: all.length - open, icon: CircleCheck, tone: 'green',
+      href: link({ show: 'done', page: '' }), active: show === 'done',
+    },
+    {
+      id: 'fresh', label: 'This week', value: fresh, note: 'came in over 7 days', icon: CalendarDays, tone: 'blue',
+    },
+  ];
+
+  const exportColumns = tab === 'callbacks'
+    ? [
+      { label: 'Name', key: 'name' }, { label: 'Mobile', key: 'mobile' },
+      { label: 'Preferred time', key: 'timing' }, { label: 'Status', key: 'state' },
+      { label: 'Received', key: 'on' },
+    ]
+    : [
+      { label: 'Name', key: 'name' }, { label: 'Mobile', key: 'mobile' }, { label: 'Email', key: 'email' },
+      { label: 'Service', key: 'service' }, { label: 'Location', key: 'place' }, { label: 'Units', key: 'unit' },
+      { label: 'Preferred date', key: 'bookDate' }, { label: 'Address', key: 'address' },
+      { label: 'Status', key: 'state' }, { label: 'Received', key: 'on' },
+    ];
+  const exportRows = filtered.map((r) => ({
+    ...r, state: r.handled ? 'Done' : 'Open', on: r.at ? formatDate(r.at) : '',
+  }));
 
   return (
     <>
@@ -47,6 +100,37 @@ export default async function AdminEnquiriesPage({ searchParams }) {
             {t.label}
           </Link>
         ))}
+      </div>
+
+      <StatCards cards={cards} className="mt-4" />
+
+      {/* Open or done, and the list as a spreadsheet. */}
+      <div className="mt-4 flex flex-wrap items-center gap-2 rounded-2xl border border-line bg-white p-2.5">
+        <nav className="flex flex-wrap gap-1" aria-label="Filter enquiries">
+          {[
+            { id: '', label: 'All', count: all.length },
+            { id: 'open', label: 'Open', count: open },
+            { id: 'done', label: 'Done', count: all.length - open },
+          ].map((t) => (
+            <Link
+              key={t.id || 'all'}
+              href={link({ show: t.id, page: '' })}
+              aria-current={show === t.id ? 'page' : undefined}
+              className={cx(
+                'inline-flex h-9 items-center gap-2 rounded-lg px-3 text-[13.5px] font-medium transition-colors',
+                show === t.id ? 'bg-primary-500 text-white' : 'text-ink-500 hover:bg-surface-muted hover:text-ink-900',
+              )}
+            >
+              {t.label}
+              <span className={cx('rounded-full px-1.5 text-[11.5px] tabular-nums', show === t.id ? 'bg-white/20' : 'bg-surface-muted text-ink-400')}>
+                {t.count}
+              </span>
+            </Link>
+          ))}
+        </nav>
+        <span className="ml-auto">
+          <ListTools rows={exportRows} columns={exportColumns} filename={tab} />
+        </span>
       </div>
 
       {!rows.length ? (
@@ -117,7 +201,7 @@ export default async function AdminEnquiriesPage({ searchParams }) {
         </ul>
       )}
 
-      <Pagination {...view} params={{ tab }} label="enquiries" />
+      <Pagination {...view} params={{ tab, show }} label="enquiries" />
     </>
   );
 }

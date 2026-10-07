@@ -25,9 +25,11 @@ function DeleteMessageButtonInner({ id }) {
       onClick={remove}
       disabled={busy}
       title="Delete message"
+      // Red before it is pressed as well as after: what the button does should
+      // be plain without having to try it. The armed state is the solid one.
       className={armed
         ? 'inline-flex h-8 items-center gap-1.5 rounded-lg bg-danger px-2.5 text-[12.5px] font-semibold text-white'
-        : 'inline-flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-[12.5px] font-medium text-ink-400 transition-colors hover:bg-danger/10 hover:text-danger'}
+        : 'inline-flex h-8 items-center gap-1.5 rounded-lg border border-danger/35 px-2.5 text-[12.5px] font-medium text-danger transition-colors hover:border-danger hover:bg-danger/10'}
     >
       {busy ? <Loader2 size={14} className="animate-spin" aria-hidden="true" /> : <Trash2 size={14} aria-hidden="true" />}
       {armed ? 'Click again to delete' : 'Delete'}

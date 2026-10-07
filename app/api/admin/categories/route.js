@@ -3,13 +3,21 @@ import { requireAdmin, readJson, fail } from '@/lib/admin/guard';
 import {
   updateCategory, getCategory, createCategory, deleteCategory,
 } from '@/lib/sql/admin-catalog';
+import { logActivity, changedFields } from '@/lib/sql/activity';
 import { saveRedirect } from '@/lib/sql/redirects';
 import { clearCache } from '@/lib/sql/cache';
 
 export const dynamic = 'force-dynamic';
 
+const CATEGORY_FIELDS = [
+  { key: 'name', label: 'name' },
+  { key: 'slug', label: 'address' },
+  { key: 'metaTitle', label: 'meta title' },
+  { key: 'metaDescription', label: 'meta description' },
+];
+
 export async function PATCH(request) {
-  const { response } = await requireAdmin('categories', request);
+  const { admin, response } = await requireAdmin('categories', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -22,6 +30,8 @@ export async function PATCH(request) {
   if (body.metaDescription !== undefined && String(body.metaDescription).length > 255) {
     return fail('The meta description is longer than 255 characters.');
   }
+
+  const before = await getCategory(id).catch(() => null);
 
   try {
     await updateCategory(id, body);
@@ -44,12 +54,20 @@ export async function PATCH(request) {
     revalidatePath('/category/[category]', 'page');
   } catch { /* revalidation is best-effort; the page refreshes on its own schedule */ }
 
+  await logActivity({
+    admin,
+    section: 'categories',
+    action: 'edited',
+    targetId: id,
+    target: saved?.name || before?.name || `Category ${id}`,
+    detail: changedFields(before || {}, body, CATEGORY_FIELDS) || 'page content or layout',
+  });
   return Response.json({ ok: true, category: saved });
 }
 
 /** A new category. It opens in the editor afterwards for the rest of its page. */
 export async function POST(request) {
-  const { response } = await requireAdmin('categories', request);
+  const { admin, response } = await requireAdmin('categories', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -70,6 +88,13 @@ export async function POST(request) {
     revalidatePath('/', 'layout');
   } catch { /* best-effort */ }
 
+  await logActivity({
+    admin,
+    section: 'categories',
+    action: 'created',
+    targetId: created.id,
+    target: String(body.name || '').trim(),
+  });
   return Response.json({ ok: true, id: created.id, slug: created.slug });
 }
 
@@ -78,7 +103,7 @@ export async function POST(request) {
  * that page, so links and Google results keep landing somewhere useful.
  */
 export async function DELETE(request) {
-  const { response } = await requireAdmin('categories', request);
+  const { admin, response } = await requireAdmin('categories', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -104,6 +129,15 @@ export async function DELETE(request) {
   try {
     revalidatePath('/', 'layout');
   } catch { /* best-effort */ }
+
+  await logActivity({
+    admin,
+    section: 'categories',
+    action: 'deleted',
+    targetId: id,
+    target: done.name || `Category ${id}`,
+    detail: body.redirectTo ? `redirected to ${body.redirectTo}` : '',
+  });
 
   return Response.json({ ok: true, ...done, redirect });
 }

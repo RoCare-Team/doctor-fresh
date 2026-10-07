@@ -1,10 +1,11 @@
 import { requireAdmin, readJson, fail } from '@/lib/admin/guard';
 import { createCoupon, deleteCoupon } from '@/lib/sql/admin-catalog';
+import { logActivity } from '@/lib/sql/activity';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(request) {
-  const { response } = await requireAdmin('coupons', request);
+  const { admin, response } = await requireAdmin('coupons', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -26,11 +27,19 @@ export async function POST(request) {
     return fail('Could not create the coupon.', 502);
   }
 
+  await logActivity({
+    admin,
+    section: 'coupons',
+    action: 'created',
+    target: code,
+    detail: `${value}${body.type === 'percent' ? '%' : ' off'}, until ${body.till}`,
+  });
+
   return Response.json({ ok: true });
 }
 
 export async function DELETE(request) {
-  const { response } = await requireAdmin('coupons', request);
+  const { admin, response } = await requireAdmin('coupons', request);
   if (response) return response;
 
   const id = Number(new URL(request.url).searchParams.get('id'));
@@ -42,6 +51,10 @@ export async function DELETE(request) {
     console.error('[admin] could not delete the coupon:', err.message);
     return fail('Could not delete the coupon.', 502);
   }
+
+  await logActivity({
+    admin, section: 'coupons', action: 'deleted', targetId: id, target: `Coupon ${id}`,
+  });
 
   return Response.json({ ok: true });
 }

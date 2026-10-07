@@ -3,11 +3,12 @@ import {
   Clock, Inbox, Phone, Mail, ChevronRight, ShoppingBag, Wallet, Users, Plus, Shuffle, ArrowRight, CheckCircle2,
 } from 'lucide-react';
 import {
-  getDashboard, getDailyOrders, listOrders, RANGES, rangeStart, DEFAULT_RANGE,
+  getDashboard, getDailyOrders, getWorkQueue, listOrders, RANGES, rangeStart, DEFAULT_RANGE,
 } from '@/lib/sql/admin';
 import { getAdminSession } from '@/lib/admin/session';
 import RangeSelect from '@/components/admin/RangeSelect';
 import OrdersChart from '@/components/admin/OrdersChart';
+import WorkQueue from '@/components/admin/WorkQueue';
 import { formatPrice, formatDate, cx } from '@/lib/utils';
 import StatusPill from '@/components/admin/StatusPill';
 import { requirePage } from '@/lib/admin/guard';
@@ -19,11 +20,13 @@ export default async function AdminDashboard({ searchParams }) {
   await requirePage('dashboard');
   const params = await searchParams;
   const rangeId = params?.range || DEFAULT_RANGE;
-  const [stats, recent, daily, admin] = await Promise.all([
+  const [stats, recent, daily, admin, queue] = await Promise.all([
     getDashboard(rangeId),
     listOrders({ from: rangeStart(rangeId), limit: 25 }),
     getDailyOrders(14),
     getAdminSession(),
+    // Who is waiting, not just how many — the first thing to see on opening.
+    getWorkQueue().catch(() => ({ groups: [], total: 0 })),
   ]);
   const { range } = stats;
 
@@ -135,11 +138,9 @@ export default async function AdminDashboard({ searchParams }) {
         ))}
       </div>
 
-      {/* ---------------------------------------------- chart + to-do column */}
+      {/* -------------------------------------------- work queue + attention */}
       <div className="mt-5 grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-        <section className="flex flex-col rounded-2xl border border-line bg-white p-5">
-          <OrdersChart days={daily} />
-        </section>
+        <WorkQueue queue={queue} />
 
         <section className="rounded-2xl border border-line bg-white p-5">
           <h2 className="text-[15px] font-semibold text-ink-900">Needs your attention</h2>
@@ -170,6 +171,10 @@ export default async function AdminDashboard({ searchParams }) {
           </ul>
         </section>
       </div>
+
+      <section className="mt-4 flex flex-col rounded-2xl border border-line bg-white p-5">
+        <OrdersChart days={daily} />
+      </section>
 
       {/* The window sits over the table it filters — and the cards above read
           the same window. */}

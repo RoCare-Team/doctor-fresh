@@ -2,13 +2,14 @@
 
 import { requireAdmin, readJson, fail } from '@/lib/admin/guard';
 import { setBookingStatus, deleteBooking } from '@/lib/sql/service-bookings';
+import { logActivity } from '@/lib/sql/activity';
 
 export const dynamic = 'force-dynamic';
 
 const ALLOWED = new Set(['new', 'confirmed', 'done', 'cancelled']);
 
 export async function DELETE(request) {
-  const { response } = await requireAdmin('service_bookings', 'delete');
+  const { admin, response } = await requireAdmin('service_bookings', 'delete');
   if (response) return response;
 
   const body = await readJson(request);
@@ -23,11 +24,15 @@ export async function DELETE(request) {
     return fail('Could not delete the booking.', 502);
   }
 
+  await logActivity({
+    admin, section: 'service_bookings', action: 'deleted', targetId: id, target: `Booking ${id}`,
+  });
+
   return Response.json({ ok: true });
 }
 
 export async function PATCH(request) {
-  const { response } = await requireAdmin('service_bookings', request);
+  const { admin, response } = await requireAdmin('service_bookings', request);
   if (response) return response;
 
   const body = await readJson(request);
@@ -44,6 +49,15 @@ export async function PATCH(request) {
     console.error('[admin] could not update the booking:', err.message);
     return fail('Could not save the change.', 502);
   }
+
+  await logActivity({
+    admin,
+    section: 'service_bookings',
+    action: 'edited',
+    targetId: id,
+    target: `Booking ${id}`,
+    detail: `status → ${status}`,
+  });
 
   return Response.json({ ok: true });
 }
