@@ -118,12 +118,16 @@
   /* Consistent vertical rhythm for every homepage section. A phone shows one
      section at a time, so the air between two of them is halved there — at
      3rem each, two neighbours left a 96px band of empty white. */
-  .df-section { padding-block: 1.75rem; }
+  .df-section { padding-block: 1.25rem; }
+  /* The home page stacks many sections; it runs tighter than the rest. */
+  .df-home .df-section { padding-block: 0.875rem; }
   @media (min-width: 640px) {
-    .df-section { padding-block: 2.5rem; }
+    .df-section { padding-block: 1.75rem; }
+    .df-home .df-section { padding-block: 1.125rem; }
   }
   @media (min-width: 768px) {
-    .df-section { padding-block: 4.25rem; }
+    .df-section { padding-block: 2.5rem; }
+    .df-home .df-section { padding-block: 1.5rem; }
   }
 
   /* A field the browser filled in keeps the white of the ones beside it.
@@ -206,6 +210,28 @@
       transition: none;
     }
   }
+
+  /* Water drops behind the water-test band (WaterDrops). A drop falls by
+     --fall and fades as it lands at 60% of the cycle; its ripple, on the same
+     duration and delay, opens from that moment. */
+  @keyframes df-drop-fall {
+    0% { transform: translateY(calc(var(--fall) * -1)); opacity: 0; }
+    12% { opacity: 0.9; }
+    58% { transform: translateY(0); opacity: 0.9; }
+    62%, 100% { transform: translateY(0); opacity: 0; }
+  }
+  @keyframes df-drop-ripple {
+    0%, 59% { transform: scale(0.15); opacity: 0; }
+    62% { transform: scale(0.25); opacity: 0.9; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+  @keyframes df-wave-drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .df-drop-fall { animation: df-drop-fall 6s cubic-bezier(0.55, 0, 0.9, 0.5) infinite both; }
+  .df-drop-ripple { animation: df-drop-ripple 6s ease-out infinite both; }
+  .df-wave-drift { animation: df-wave-drift 18s linear infinite; }
 
   /* Hero copy plays once on load, staggered by --df-delay. */
   @keyframes df-rise {
@@ -374,6 +400,31 @@
   .df-spin-reverse { animation: df-spin-reverse 1.4s linear infinite; }
   @keyframes df-fade-in { from { opacity: 0; } to { opacity: 1; } }
   .df-fade-in { animation: df-fade-in 0.18s ease-out both; }
+
+  /* The hero headline: four lines take turns in one spot. The cycle is four
+     3.5s slots; each line owns the first quarter of it (its delay, set
+     inline, moves it into its slot). Its words slide up one after another,
+     hold, then slide away in the same order, and the highlight sweeps in
+     under them and out again. */
+  .df-phrases { display: inline-grid; }
+  .df-phrase { grid-area: 1 / 1; justify-self: start; position: relative; isolation: isolate; }
+  @keyframes df-word-in {
+    0% { opacity: 0; transform: translateY(0.55em); filter: blur(4px); }
+    3%, 19% { opacity: 1; transform: none; filter: none; }
+    22%, 100% { opacity: 0; transform: translateY(-0.45em); filter: blur(4px); }
+  }
+  @keyframes df-stroke-in {
+    0% { transform: scaleX(0); transform-origin: left; }
+    4%, 18.5% { transform: scaleX(1); transform-origin: left; }
+    18.6% { transform: scaleX(1); transform-origin: right; }
+    21.5%, 100% { transform: scaleX(0); transform-origin: right; }
+  }
+  .df-word-in { display: inline-block; animation: df-word-in 14s cubic-bezier(0.22, 1, 0.36, 1) infinite both; }
+  .df-stroke-in { animation: df-stroke-in 14s cubic-bezier(0.22, 1, 0.36, 1) infinite both; }
+  @media (prefers-reduced-motion: reduce) {
+    .df-word-in, .df-stroke-in { animation: none; }
+    .df-phrase:not(:first-child) { display: none; }
+  }
 
   /* A popup rising into place: up from below and a touch smaller, settling
      with a soft overshoot. On a phone (a bottom sheet) it slides up. */

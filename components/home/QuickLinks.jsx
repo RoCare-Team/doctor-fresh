@@ -1,6 +1,6 @@
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import {
-  Link2, MapPin, ShoppingCart, Wrench, Droplets, Factory, Building2, Star, ChevronDown,
+  Link2, MapPin, ShoppingCart, Wrench, Droplets, Factory, Building2, Star, ChevronDown, ArrowUpRight,
 } from 'lucide-react';
 
 const ICONS = {
@@ -18,6 +18,9 @@ const ICONS = {
  * "Quick Links" at the foot of the home page: one collapsible group per
  * section made in the admin. Built on <details>, so it opens without any
  * script and every link is in the page for search engines even when closed.
+ *
+ * On the same side line as every other section. Two columns of
+ * groups from lg up keep the block short.
  */
 export default function QuickLinks({ sections = [] }) {
   if (!sections.length) return null;

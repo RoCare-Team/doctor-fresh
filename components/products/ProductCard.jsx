@@ -23,10 +23,10 @@ export default function ProductCard({ product, compact = false, priority = false
   return (
     <article className="df-product-card group relative flex h-full flex-col overflow-hidden">
       {/* ------------------------------------------------- image (fixed well) */}
-      <Link href={product.url} className="relative block p-2.5">
+      <Link href={product.url} className="relative block p-2">
         {/* product shots are photographed on white, so the well is white and the
             tinted card frames it */}
-        <div className="relative h-[150px] w-full overflow-hidden rounded-xl bg-white sm:h-[210px] md:h-[230px]">
+        <div className="relative h-[120px] w-full overflow-hidden rounded-xl bg-white sm:h-[140px] md:h-[150px]">
           {image ? (
             <Image
               src={imageUrl(image)}
@@ -35,10 +35,10 @@ export default function ProductCard({ product, compact = false, priority = false
               // The first cards of a grid are often the page's largest picture.
               priority={priority}
               fetchPriority={priority ? 'high' : undefined}
-              // Square product shots in a well 150 / 210 / 230px tall (phone / sm / md+),
+              // Square product shots in a well 120 / 140 / 150px tall (phone / sm / md+),
               // so the picture is never shown wider than that.
-              sizes="(max-width: 640px) 150px, (max-width: 768px) 210px, 230px"
-              className="object-contain p-2 transition-transform duration-300 ease-out group-hover:scale-[1.07]"
+              sizes="(max-width: 640px) 120px, (max-width: 768px) 140px, 150px"
+              className="object-contain p-2.5 transition-transform duration-300 ease-out group-hover:scale-[1.07]"
             />
           ) : null}
         </div>
@@ -103,31 +103,38 @@ export default function ProductCard({ product, compact = false, priority = false
       />
 
       {/* ------------------------------------------------------------ content */}
-      <div className="flex flex-1 flex-col px-2.5 pb-2.5 pt-0.5 sm:px-4 sm:pb-4 sm:pt-1">
+      <div className="flex flex-1 flex-col px-2.5 pb-2.5 pt-0.5 sm:px-3.5 sm:pb-3 sm:pt-0.5">
         {/* two reserved lines so titles of any length align across a row */}
-        <h3 className="min-h-[36px] text-[13.5px] font-medium leading-snug text-ink-900 sm:min-h-[44px] sm:text-[16px] sm:font-semibold">
+        <h3 className="min-h-[36px] text-[13px] font-medium leading-snug text-ink-900 sm:min-h-[40px] sm:text-[14.5px] sm:font-semibold">
           <Link href={product.url} className="line-clamp-2 min-h-6 transition-colors hover:text-primary-600">
             {product.name}
           </Link>
         </h3>
 
-        <p className="mt-1.5 hidden min-h-10 text-[13px] leading-relaxed text-ink-400 sm:line-clamp-2">
+        {/* two reserved lines of description, so it reads as a sentence */}
+        <p className="mt-1 hidden min-h-[36px] text-[12.5px] leading-[18px] text-ink-400 sm:line-clamp-2">
           {product.metaDescription || ''}
         </p>
 
         {/* price + actions are pinned to the bottom of every card */}
-        <div className="mt-auto pt-2 sm:pt-3">
-          <div className="min-h-[42px] sm:min-h-[62px]">
+        <div className="mt-auto pt-2">
+          <div className="min-h-[42px] sm:min-h-[40px]">
             {hasPrice ? (
               <>
                 {/* On a half-width card the price leads on its own line and the
                     MRP sits beside it. The "Best Price" and tax lines are two
                     more rows of small grey type there, so they wait for room. */}
                 <p className="flex flex-wrap items-baseline gap-x-1.5 font-semibold text-ink-900">
-                  <span className="hidden text-[15px] sm:inline">Best Price:</span>
-                  <span className="text-[16px] font-bold sm:text-[17px] sm:font-semibold">{formatPrice(product.price)}</span>
+                  <span className="hidden text-[13px] font-medium text-ink-500 sm:inline">Best Price:</span>
+                  <span className="text-[15px] font-bold sm:text-[15.5px]">{formatPrice(product.price)}</span>
                   {product.unit ? (
                     <span className="hidden text-[12px] font-normal text-ink-400 sm:inline">{product.unit}</span>
+                  ) : null}
+                  {/* From sm the MRP shares the price row instead of taking its own. */}
+                  {product.mrp > product.price ? (
+                    <span className="hidden text-[12px] font-medium text-ink-400 line-through sm:inline">
+                      {formatPrice(product.mrp)}
+                    </span>
                   ) : null}
                 </p>
                 {product.mrp > product.price ? (
@@ -138,12 +145,7 @@ export default function ProductCard({ product, compact = false, priority = false
                     ) : null}
                   </p>
                 ) : null}
-                {product.mrp > product.price ? (
-                  <p className="mt-0.5 hidden text-[13.5px] font-medium text-ink-400 sm:block">
-                    MRP <span className="line-through">{formatPrice(product.mrp)}</span>
-                  </p>
-                ) : null}
-                <p className="mt-0.5 hidden text-[11.5px] text-ink-400 sm:block">
+                <p className="mt-0.5 hidden text-[11px] text-ink-400 sm:block">
                   (Inclusive of all taxes)
                 </p>
               </>
@@ -156,7 +158,7 @@ export default function ProductCard({ product, compact = false, priority = false
           </div>
 
           {!compact ? (
-            <div className="mt-2.5 sm:mt-3">
+            <div className="mt-2 sm:mt-2.5">
               <AddToCartButtons product={product} layout="card" />
             </div>
           ) : null}

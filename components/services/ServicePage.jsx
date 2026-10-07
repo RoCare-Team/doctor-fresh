@@ -121,7 +121,7 @@ export default function ServicePage({ template, location, breadcrumb = [], nearb
           ) : null}
         </div>
 
-        <aside className="lg:sticky lg:top-[138px] lg:self-start">
+        <aside className="lg:sticky lg:top-[122px] lg:self-start">
           <ServiceBookingForm location={location} serviceLabel={page.packages?.[0]?.groupTitle || 'Service'} />
 
           <div className="mt-4 rounded-[14px] border border-line bg-white shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)] p-5">

@@ -123,7 +123,7 @@ export default function LandingPage({
           ) : null}
         </div>
 
-        <aside className="lg:sticky lg:top-[138px] lg:self-start">
+        <aside className="lg:sticky lg:top-[122px] lg:self-start">
           <ServiceBookingForm
             location={showPlace ? place : 'India'}
             serviceLabel={page.serviceType || 'Service'}

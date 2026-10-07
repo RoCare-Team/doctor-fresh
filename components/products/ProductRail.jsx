@@ -10,8 +10,9 @@ import Reveal from '@/components/common/Reveal';
  * library, and rendered on the server: only the dots below it are client code,
  * so a row of cards costs the browser nothing to take over.
  *
- * Steered by the dots under the track, the same marker the hero uses. Arrows
- * beside the heading were a second control for the same job.
+ * Steered by the dots under the track and by arrows either side of it, which
+ * sit in gutters the row leaves from tablet up — the same inset as the deal
+ * and category rows above, so every heading and card edge lines up.
  */
 export default function ProductRail({
   title, href, products = [], tone = 'plain', id,
@@ -29,7 +30,7 @@ export default function ProductRail({
             mirrors the link in the third. */}
         {/* On a phone the title and the link share one row — stacked and
             centred they cost a third of a screen before the first card. */}
-        <Reveal className="mb-3 flex items-baseline justify-between gap-3 sm:mb-4 sm:grid sm:items-center sm:text-center sm:grid-cols-[1fr_auto_1fr]">
+        <Reveal className="mb-3 flex items-baseline justify-between gap-3 sm:mb-4 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:text-center">
           <span className="hidden sm:block" aria-hidden="true" />
 
           <h2 className="text-[19px] font-semibold tracking-tight text-ink-900 sm:text-[26px] md:text-[32px]">
@@ -49,21 +50,23 @@ export default function ProductRail({
           </div>
         </Reveal>
 
-        <ul
-          id={trackId}
-          className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-2 sm:gap-4 md:mx-0 md:px-0 xl:gap-5"
-        >
-          {products.map((p) => (
-            <li
-              key={p.id}
-              className="w-[calc(50%-0.4375rem)] shrink-0 snap-start sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] xl:w-[calc(25%-0.9375rem)]"
-            >
-              <ProductCard product={p} />
-            </li>
-          ))}
-        </ul>
+        <div className="relative">
+          <ul
+            id={trackId}
+            className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-2 sm:mx-0 sm:gap-4 sm:px-0 xl:gap-5"
+          >
+            {products.map((p) => (
+              <li
+                key={p.id}
+                className="w-[calc(50%-0.4375rem)] shrink-0 snap-start sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] xl:w-[calc(25%-0.9375rem)]"
+              >
+                <ProductCard product={p} />
+              </li>
+            ))}
+          </ul>
 
-        <RailControls trackId={trackId} label={`${title}, page`} />
+          <RailControls trackId={trackId} label={`${title}, page`} arrows />
+        </div>
       </div>
     </section>
   );

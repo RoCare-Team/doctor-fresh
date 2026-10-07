@@ -1,12 +1,10 @@
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import Image from 'next/image';
 import {
-  Phone, Mail, Globe, MapPin, Facebook, Twitter, Linkedin, Instagram, Youtube, Mails,
+  Phone, Mail, Globe, MapPin, Facebook, Twitter, Linkedin, Instagram, Youtube,
 } from 'lucide-react';
 import { getBrand, getFooterLinks } from '@/lib/catalog';
-import { getContent } from '@/lib/sql/site-content';
 import { imageUrl } from '@/lib/utils';
-import NewsletterForm from '@/components/forms/NewsletterForm';
 
 const SOCIAL_ICON = {
   facebook: Facebook,
@@ -29,13 +27,14 @@ function LinkColumn({ title, links }) {
   if (!links?.length) return null;
   return (
     <div>
-      <h3 className="mb-4 text-[14px] font-semibold uppercase tracking-[0.1em] text-white">{title}</h3>
-      <ul className="space-y-2.5">
+      <h3 className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary-300">{title}</h3>
+      {/* size and line height on the list itself, so each row is as short as its text */}
+      <ul className="space-y-1.5 text-[12.5px] leading-5">
         {links.map((l) => (
           <li key={`${title}-${l.href}-${l.label}`}>
             <Link
               href={l.href}
-              className="text-[14.5px] leading-relaxed text-white/60 transition-colors hover:text-white"
+              className="text-[12.5px] leading-snug text-white/60 transition-colors hover:text-white"
             >
               {l.label}
             </Link>
@@ -47,49 +46,32 @@ function LinkColumn({ title, links }) {
 }
 
 export default async function Footer() {
-  const [brand, footer, copy] = await Promise.all([
-    getBrand(), getFooterLinks(), getContent('footer').catch(() => ({})),
-  ]);
+  const [brand, footer] = await Promise.all([getBrand(), getFooterLinks()]);
   const popularServices = footer.popularServices;
-  const popularCities = [...footer.popularRoServiceCities, ...footer.popularWaterPurifierCities].slice(0, 8);
 
   return (
-    <footer className="bg-ink-900 text-white">
-      {/* -------------------------------------------------------- newsletter */}
-      <div className="border-b border-white/10">
-        <div className="df-container flex flex-col items-start justify-between gap-6 py-10 lg:flex-row lg:items-center">
-          <div className="flex items-start gap-4">
-            <span className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-600 text-white sm:flex">
-              <Mails size={22} aria-hidden="true" />
-            </span>
-            <div>
-              <h2 className="text-[19px] font-semibold text-white md:text-[22px]">{copy.newsletterTitle || 'Stay Updated'}</h2>
-              <p className="mt-1.5 max-w-md text-[14.5px] leading-relaxed text-white/60">
-                {copy.newsletterText}
-              </p>
-            </div>
-          </div>
-          <NewsletterForm />
-        </div>
-      </div>
+    <footer className="relative overflow-hidden bg-ink-900 text-white">
+      {/* a faint glow so the dark block does not read as flat */}
+      <div aria-hidden="true" className="pointer-events-none absolute -top-40 left-1/4 h-72 w-[40rem] rounded-full bg-primary-500/10 blur-3xl" />
 
       {/* ------------------------------------------------------ main columns */}
-      <div className="df-container grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
-        <div className="lg:col-span-4 lg:pr-8">
+      {/* two link columns side by side even on a phone, so the footer is not a long single file */}
+      <div className="df-container relative grid grid-cols-2 gap-x-4 gap-y-6 py-6 lg:grid-cols-12 lg:gap-6">
+        <div className="col-span-2 lg:col-span-3 lg:pr-4">
           {/* the logo artwork has a solid white background, so on navy it sits
               on a white plate rather than showing as a hard rectangle */}
-          <span className="inline-flex rounded-xl bg-white px-3.5 py-2.5">
+          <span className="inline-flex rounded-lg bg-white px-2.5 py-1.5">
             <Image
               src={imageUrl(brand.logo)}
               alt="Doctor Fresh"
               width={878}
               height={188}
-              className="h-10 w-auto"
+              className="h-6 w-auto"
             />
           </span>
-          <p className="mt-5 max-w-sm text-[14.5px] leading-relaxed text-white/60">{brand.about}</p>
+          <p className="mt-3 line-clamp-2 max-w-sm text-[12.5px] leading-relaxed text-white/55">{brand.about}</p>
 
-          <div className="mt-6 flex gap-2.5">
+          <div className="mt-3 flex gap-1.5">
             {brand.social.map((s) => {
               const Icon = SOCIAL_ICON[s.key];
               if (!Icon) return null;
@@ -100,16 +82,16 @@ export default async function Footer() {
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                   aria-label={s.key}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 text-white/70 transition-colors hover:border-primary-500 hover:bg-primary-600 hover:text-white"
+                  className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white/70 transition-colors hover:border-primary-500 hover:bg-primary-600 hover:text-white"
                 >
-                  <Icon size={17} aria-hidden="true" />
+                  <Icon size={14} aria-hidden="true" />
                 </a>
               );
             })}
           </div>
         </div>
 
-        <div className="lg:col-span-2">
+        <div className="max-lg:row-span-2 lg:col-span-2">
           <LinkColumn title="Categories" links={footer.categories} />
         </div>
 
@@ -117,56 +99,38 @@ export default async function Footer() {
           <LinkColumn title="Popular Services" links={popularServices} />
         </div>
 
-        {/* Cities get their own column rather than sitting under the services,
-            so both lists read at the same level. */}
         <div className="lg:col-span-2">
-          <LinkColumn title="Popular Cities" links={popularCities} />
+          <LinkColumn title="Quick Links" links={COMPANY} />
         </div>
 
-        <div className="lg:col-span-2">
-          <h3 className="mb-4 text-[14px] font-semibold uppercase tracking-[0.1em] text-white">
+        <div className="col-span-2 sm:col-span-1 lg:col-span-3">
+          <h3 className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary-300">
             Contact Us
           </h3>
-          <p className="mb-4 flex flex-wrap gap-x-4 gap-y-1.5">
-            <Link href="/contact" className="text-[14.5px] font-medium text-primary-300 transition-colors hover:text-white">
-              Contact page
-            </Link>
-            <Link href="/blogs" className="text-[14.5px] font-medium text-primary-300 transition-colors hover:text-white">
-              Read our blog
-            </Link>
-            {/* Dealer and distributor applications: a column of its own would
-                not fit, but buried in the bottom bar nobody finds it. */}
-            <Link href="/partner" className="text-[14.5px] font-medium text-primary-300 transition-colors hover:text-white">
-              Become a Partner
-            </Link>
-            <Link href="/careers" className="text-[14.5px] font-medium text-primary-300 transition-colors hover:text-white">
-              Careers
-            </Link>
-          </p>
-          <ul className="space-y-4 text-[14.5px] text-white/60">
+          <ul className="space-y-2 text-[12.5px] leading-5 text-white/60">
             {brand.offices.map((o) => (
-              <li key={o.label} className="flex gap-2.5">
-                <MapPin size={15} className="mt-0.5 shrink-0 text-primary-400" aria-hidden="true" />
-                <span className="leading-relaxed">
-                  <strong className="block font-medium text-white/85">{o.label}</strong>
+              <li key={o.label} className="flex gap-2">
+                <MapPin size={14} className="mt-0.5 shrink-0 text-primary-400" aria-hidden="true" />
+                <span>
+                  <strong className="font-medium text-white/80">{o.label}: </strong>
                   {o.address}
                 </span>
               </li>
             ))}
-            <li className="flex gap-2.5">
-              <Phone size={15} className="mt-0.5 shrink-0 text-primary-400" aria-hidden="true" />
+            <li className="flex gap-2">
+              <Phone size={14} className="mt-0.5 shrink-0 text-primary-400" aria-hidden="true" />
               <a href={`tel:${brand.phoneRaw}`} className="transition-colors hover:text-white">
                 {brand.phone}
               </a>
             </li>
-            <li className="flex gap-2.5">
-              <Mail size={15} className="mt-0.5 shrink-0 text-primary-400" aria-hidden="true" />
+            <li className="flex gap-2">
+              <Mail size={14} className="mt-0.5 shrink-0 text-primary-400" aria-hidden="true" />
               <a href={`mailto:${brand.email}`} className="transition-colors hover:text-white">
                 {brand.email}
               </a>
             </li>
-            <li className="flex gap-2.5">
-              <Globe size={15} className="mt-0.5 shrink-0 text-primary-400" aria-hidden="true" />
+            <li className="flex gap-2">
+              <Globe size={14} className="mt-0.5 shrink-0 text-primary-400" aria-hidden="true" />
               <span>{brand.website}</span>
             </li>
           </ul>
@@ -174,23 +138,15 @@ export default async function Footer() {
       </div>
 
       {/* -------------------------------------------------------- bottom bar */}
-      <div className="border-t border-white/10">
-        <div className="df-container flex flex-col gap-4 py-6 lg:flex-row lg:items-center lg:justify-between">
-          <p className="text-[13.5px] text-white/70">
-            © {new Date().getFullYear()} {footer.copyright}
+      <div className="relative border-t border-white/10 bg-black/15">
+        <div className="df-container flex flex-col gap-2 py-3 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
+          <p className="shrink-0 whitespace-nowrap text-[12px] text-white/50">
+            © {new Date().getFullYear()} {footer.copyright || 'Doctor Fresh. All rights reserved.'}
           </p>
-          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            {COMPANY.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="text-[13.5px] font-medium text-white/80 transition-colors hover:text-white">
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-            <li aria-hidden="true" className="hidden h-4 w-px bg-white/20 sm:block" />
+          <ul className="flex flex-wrap items-center gap-x-3.5 gap-y-1 text-[12px] leading-5 lg:justify-end">
             {footer.legal.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="text-[13.5px] text-white/55 transition-colors hover:text-white">
+                <Link href={l.href} className="text-[12px] text-white/45 transition-colors hover:text-white">
                   {l.label}
                 </Link>
               </li>
