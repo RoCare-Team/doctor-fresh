@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
-  Search, Type, Images, Save, Loader2, CheckCircle2, AlertTriangle, Upload, Trash2, ArrowUp, ArrowDown,
+  Search, Images, Save, Loader2, CheckCircle2, AlertTriangle, Upload,
   ExternalLink, Link2, RotateCcw,
 } from 'lucide-react';
 import { uploadMedia } from '@/components/admin/editor/uploadMedia';
@@ -21,7 +21,6 @@ export default function HomeContentEditor({ content, defaults, quickLinkCount = 
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState('');
   const [uploading, setUploading] = useState('');
-  const bannerRef = useRef(null);
   const ogRef = useRef(null);
 
   const set = (patch) => { setF((x) => ({ ...x, ...patch })); setStatus('idle'); };
@@ -34,23 +33,13 @@ export default function HomeContentEditor({ content, defaults, quickLinkCount = 
     try {
       const url = await uploadMedia(file, { folder: 'home' });
       if (target === 'og') set({ ogImage: url });
-      else set({ banners: [...(f.banners || []), url] });
     } catch (err) {
       setError(err.message || 'Upload failed.');
     } finally {
       setUploading('');
-      if (bannerRef.current) bannerRef.current.value = '';
       if (ogRef.current) ogRef.current.value = '';
     }
   }
-
-  const moveBanner = (i, to) => {
-    const list = [...(f.banners || [])];
-    if (to < 0 || to >= list.length) return;
-    const [item] = list.splice(i, 1);
-    list.splice(to, 0, item);
-    set({ banners: list });
-  };
 
   async function save() {
     setStatus('saving');
@@ -117,55 +106,18 @@ export default function HomeContentEditor({ content, defaults, quickLinkCount = 
         </div>
       </Card>
 
-      {/* ------------------------------------------------------------- hero */}
-      <Card icon={Type} title="Banner text" hint="The words and buttons over the big banner at the top of the home page.">
-        <Label text="Small line above the heading" />
-        <input {...bind('eyebrow')} maxLength={80} className={input} />
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <label className="block"><Label text="Heading — first part" /><input {...bind('headingLine1')} maxLength={80} className={input} /></label>
-          <label className="block"><Label text="Heading — coloured part" /><input {...bind('headingLine2')} maxLength={80} className={input} /></label>
+      {/* The banner these two cards edited is no longer on the home page; the
+          top of the page is the hero, which has its own editor. */}
+      <section className="flex flex-wrap items-center gap-3 rounded-2xl border border-line bg-white p-5">
+        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-50 text-primary-700"><Images size={17} aria-hidden="true" /></span>
+        <div className="min-w-0 flex-1">
+          <p className="text-[15px] font-semibold text-ink-900">The top of the home page</p>
+          <p className="text-[13px] text-ink-400">Its heading, the lines that take turns, the nine product tiles and the four photographs.</p>
         </div>
-        <div className="mt-4">
-          <Label text="Intro" count={(f.intro || '').length} />
-          <textarea {...bind('intro')} maxLength={400} rows={3} className={cx(input, 'h-auto resize-y py-2.5 leading-relaxed')} />
-        </div>
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <div className="rounded-xl border border-line p-3">
-            <p className="mb-2 text-[13px] font-semibold text-ink-900">Main button</p>
-            <input {...bind('primaryLabel')} maxLength={40} placeholder="Label" className={input} />
-            <input {...bind('primaryHref')} maxLength={300} placeholder="/category/water-purifier" className={cx(input, 'mt-2 font-mono text-[13px]')} />
-          </div>
-          <div className="rounded-xl border border-line p-3">
-            <p className="mb-2 text-[13px] font-semibold text-ink-900">Second button</p>
-            <input {...bind('secondaryLabel')} maxLength={40} placeholder="Label" className={input} />
-            <input {...bind('secondaryHref')} maxLength={300} placeholder="#water-test" className={cx(input, 'mt-2 font-mono text-[13px]')} />
-          </div>
-        </div>
-        <p className="mt-2 text-[12.5px] text-ink-400">Links start with / (a page on this site), # (a part of the home page) or https://.</p>
-      </Card>
-
-      {/* ---------------------------------------------------------- banners */}
-      <Card icon={Images} title="Banner pictures" hint="Not shown on the home page at the moment: the top of the page now uses the category cards, each with a photo from the catalogue. Pictures kept here are not lost — they are simply not on display.">
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {(f.banners || []).map((src, i) => (
-            <li key={`${src}-${i}`} className="overflow-hidden rounded-xl border border-line bg-white">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt="" className="aspect-[16/6] w-full object-cover" />
-              <div className="flex items-center gap-1 px-2 py-1.5">
-                <span className="flex-1 text-[12.5px] text-ink-400">{`Banner ${i + 1}`}</span>
-                <button type="button" onClick={() => moveBanner(i, i - 1)} disabled={!i} aria-label="Move earlier" className="rounded p-1.5 text-ink-400 hover:bg-surface-muted disabled:opacity-30"><ArrowUp size={15} aria-hidden="true" /></button>
-                <button type="button" onClick={() => moveBanner(i, i + 1)} disabled={i === f.banners.length - 1} aria-label="Move later" className="rounded p-1.5 text-ink-400 hover:bg-surface-muted disabled:opacity-30"><ArrowDown size={15} aria-hidden="true" /></button>
-                <button type="button" onClick={() => set({ banners: f.banners.filter((_, k) => k !== i) })} disabled={f.banners.length < 2} aria-label="Remove banner" className="rounded p-1.5 text-danger hover:bg-danger/10 disabled:opacity-30"><Trash2 size={15} aria-hidden="true" /></button>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <button type="button" onClick={() => bannerRef.current?.click()} disabled={Boolean(uploading)} className="mt-3 inline-flex h-10 items-center gap-2 rounded-lg bg-primary-500 px-4 text-[14px] font-semibold text-white hover:bg-primary-700 disabled:opacity-60">
-          {uploading === 'banner' ? <Loader2 size={15} className="animate-spin" aria-hidden="true" /> : <Upload size={15} aria-hidden="true" />}
-          Add banner picture
-        </button>
-        <input ref={bannerRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={(e) => upload(e.target.files?.[0], 'banner')} />
-      </Card>
+        <a href="/admin/content" className="inline-flex h-9 items-center rounded-lg border border-line-strong px-3.5 text-[13.5px] font-medium text-ink-700 hover:border-primary-500 hover:text-primary-700">
+          Edit the hero
+        </a>
+      </section>
 
       {/* ------------------------------------------------------ quick links */}
       <section className="flex flex-wrap items-center gap-3 rounded-2xl border border-line bg-white p-5">

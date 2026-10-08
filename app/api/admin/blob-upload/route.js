@@ -54,7 +54,7 @@ export async function POST(request) {
       token: blobToken(),
       onBeforeGenerateToken: async (pathname, clientPayload) => {
         // Only our own folders, never a path of the caller's choosing elsewhere.
-        if (!/^uploads\/(editor|video|home)\/[\w.-]+$/.test(pathname)) throw new Error('Not an allowed upload path.');
+        if (!/^uploads\/(editor|video|home|hero)\/[\w.-]+$/.test(pathname)) throw new Error('Not an allowed upload path.');
         const kind = clientPayload === 'video' ? 'video' : 'image';
         return {
           allowedContentTypes: LIMITS[kind].types,

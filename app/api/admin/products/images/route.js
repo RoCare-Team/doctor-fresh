@@ -22,7 +22,7 @@ import { setImageCount } from '@/lib/sql/admin-catalog';
 import { forgetMedia, productImages } from '@/lib/sql/media';
 import { clearCache } from '@/lib/sql/cache';
 import {
-  blobEnabled, productBlobs, putPublic, copyPublic, removeBlobs, warmMedia, withUploadErrors,
+  blobEnabled, productBlobs, putPublic, removeBlobs, warmMedia, withUploadErrors,
 } from '@/lib/blob';
 
 export const dynamic = 'force-dynamic';
@@ -301,10 +301,18 @@ async function handlePATCH(request) {
     const first = set[0];
     if (!chosen) return fail('That photo no longer exists.');
     if (chosen.n !== first.n) {
-      // Copies under the swapped numbers, then the originals removed.
+      /*
+       * The two photos are re-uploaded under each other's numbers rather than
+       * copied. A copy in the blob store shares its bytes with the original,
+       * so removing the original took the copy with it — which is how a photo
+       * disappeared from a product after being moved to the front.
+       */
       const ext = (b) => b.name.split('.').pop();
-      await copyPublic(chosen.url, `uploads/product_image/product_${id}_${first.n}.${ext(chosen)}`);
-      await copyPublic(first.url, `uploads/product_image/product_${id}_${chosen.n}.${ext(first)}`);
+      const bytes = async (b) => Buffer.from(await (await fetch(b.url)).arrayBuffer());
+      const [chosenBytes, firstBytes] = await Promise.all([bytes(chosen), bytes(first)]);
+
+      await putPublic(`uploads/product_image/product_${id}_${first.n}.${ext(chosen)}`, chosenBytes, 'image/webp');
+      await putPublic(`uploads/product_image/product_${id}_${chosen.n}.${ext(first)}`, firstBytes, 'image/webp');
       await removeBlobs([chosen.url, first.url]);
     }
     await afterChange(id, set.length);

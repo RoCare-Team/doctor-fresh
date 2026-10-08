@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Menu, LayoutTemplate, FileText, PanelBottom, Scale, Plus, Trash2, ArrowUp, ArrowDown, Save, Loader2,
-  CheckCircle2, AlertTriangle, Upload, ExternalLink,
+  CheckCircle2, AlertTriangle, Upload, ExternalLink, Image,
 } from 'lucide-react';
 import RichTextEditor from '@/components/admin/RichTextEditor';
 import { uploadMedia } from '@/components/admin/editor/uploadMedia';
@@ -12,6 +12,7 @@ import { Can, ViewOnlyNote } from '@/components/admin/AdminAccess';
 import { cx } from '@/lib/utils';
 
 const TABS = [
+  { id: 'hero', label: 'Home hero', icon: Image },
   { id: 'nav', label: 'Header menu', icon: Menu },
   { id: 'home_sections', label: 'Home sections', icon: LayoutTemplate },
   { id: 'pages', label: 'Contact · Partner · Careers', icon: FileText },
@@ -26,7 +27,7 @@ const input = 'h-10 w-full rounded-lg border border-line-strong bg-white px-3 te
  * header menu, home sections, the contact / partner / careers pages, the
  * footer and the policy pages. Each tab saves to the database on its own.
  */
-export default function SiteContentEditor({ initial, legal }) {
+export default function SiteContentEditor({ initial, legal, heroFallbacks = {} }) {
   const [tab, setTab] = useState('nav');
 
   return (
@@ -50,7 +51,9 @@ export default function SiteContentEditor({ initial, legal }) {
       </nav>
 
       <div className="mt-5">
-        {tab === 'legal' ? <LegalEditor pages={legal} /> : <ContentForm key={tab} sectionKey={tab} initial={initial[tab]} />}
+        {tab === 'legal'
+          ? <LegalEditor pages={legal} />
+          : <ContentForm key={tab} sectionKey={tab} initial={initial[tab]} fallbacks={heroFallbacks} />}
       </div>
     </div>
   );
@@ -58,7 +61,7 @@ export default function SiteContentEditor({ initial, legal }) {
 
 /* --------------------------------------------------------------- content */
 
-function ContentForm({ sectionKey, initial }) {
+function ContentForm({ sectionKey, initial, fallbacks = {} }) {
   const router = useRouter();
   const [v, setV] = useState(initial);
   const [status, setStatus] = useState('idle');
@@ -80,6 +83,7 @@ function ContentForm({ sectionKey, initial }) {
 
   return (
     <div className="space-y-5 pb-24">
+      {sectionKey === 'hero' ? <HeroFields v={v} set={set} fallbacks={fallbacks} /> : null}
       {sectionKey === 'nav' ? <NavFields v={v} set={set} /> : null}
       {sectionKey === 'home_sections' ? <HomeFields v={v} set={set} /> : null}
       {sectionKey === 'pages' ? <PageFields v={v} set={set} /> : null}
@@ -93,6 +97,166 @@ function ContentForm({ sectionKey, initial }) {
 
       <SaveBar status={status} error={error} onSave={save} />
     </div>
+  );
+}
+
+/**
+ * The top of the home page: the heading, the lines that take turns after it,
+ * the nine tiles and the four photographs.
+ *
+ * A tile with no picture of its own takes the first product photo of the
+ * category it opens, which is what every tile but the first does today — so
+ * leaving that box empty is a choice, not an omission.
+ */
+function HeroFields({ v, set, fallbacks = {} }) {
+  const tiles = v.tiles || [];
+  const photos = v.photos || [];
+  const phrases = v.phrases || [];
+
+  const setTile = (i, patch) => set({ tiles: tiles.map((t, k) => (k === i ? { ...t, ...patch } : t)) });
+  const setPhoto = (i, patch) => set({ photos: photos.map((p, k) => (k === i ? { ...p, ...patch } : p)) });
+
+  return (
+    <>
+      <Card title="Heading" hint="The first line stays put; the lines below it take turns underneath.">
+        <Field label="Fixed part" value={v.headingLead} onChange={(headingLead) => set({ headingLead })} />
+
+        <p className="mt-3 mb-1.5 text-[13px] font-medium text-ink-700">Lines that take turns</p>
+        <ul className="space-y-2">
+          {phrases.map((p, i) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <li key={i} className="flex items-center gap-2">
+              <input
+                value={p}
+                onChange={(e) => set({ phrases: phrases.map((x, k) => (k === i ? e.target.value : x)) })}
+                aria-label={`Line ${i + 1}`}
+                className={cx(input, 'min-w-0 flex-1')}
+              />
+              <IconBtn label="Remove" icon={Trash2} danger onClick={() => set({ phrases: phrases.filter((_, k) => k !== i) })} />
+            </li>
+          ))}
+        </ul>
+        <AddBtn label="Add a line" onClick={() => set({ phrases: [...phrases, ''] })} disabled={phrases.length >= 6} />
+      </Card>
+
+      <Card title="Product tiles" hint="The grid under the heading. Leave a picture empty and the tile shows the category's own first photo.">
+        <MediaRows
+          list={tiles}
+          onChange={(list) => set({ tiles: list })}
+          imageKey="image"
+          folder="hero"
+          addLabel="Add tile"
+          max={12}
+          blank={{ label: '', href: '', image: '' }}
+          fields={[
+            { key: 'label', label: 'Tile name', placeholder: 'Water Purifier for Home' },
+            { key: 'href', label: 'Opens', placeholder: '/category/water-purifier' },
+          ]}
+          fallbackFor={(row) => fallbacks[row.href] || ''}
+          onFieldChange={setTile}
+        />
+      </Card>
+
+      <Card title="Photographs" hint="Four pictures beside the tiles: first and fourth are the tall ones, second and third the short ones.">
+        <MediaRows
+          list={photos}
+          onChange={(list) => set({ photos: list })}
+          imageKey="src"
+          folder="hero"
+          addLabel="Add photo"
+          max={4}
+          blank={{ src: '', alt: '' }}
+          fields={[{ key: 'alt', label: 'What the picture shows', placeholder: 'Filling a glass from a Doctor Fresh purifier' }]}
+          onFieldChange={setPhoto}
+        />
+      </Card>
+    </>
+  );
+}
+
+/** Rows of "a picture plus a few fields", with the picture uploaded in place. */
+function MediaRows({
+  list, onChange, imageKey, folder, addLabel, max, blank, fields, onFieldChange, fallbackFor,
+}) {
+  const [busy, setBusy] = useState(-1);
+  const fileRef = useRef(null);
+  const target = useRef(-1);
+
+  async function upload(file) {
+    if (!file) return;
+    const i = target.current;
+    setBusy(i);
+    try {
+      const src = await uploadMedia(file, { folder });
+      onFieldChange(i, { [imageKey]: src });
+    } catch {
+      // eslint-disable-next-line no-alert
+      window.alert('The picture could not be uploaded.');
+    } finally {
+      setBusy(-1);
+      if (fileRef.current) fileRef.current.value = '';
+    }
+  }
+
+  const move = (i, by) => {
+    const next = [...list];
+    const to = i + by;
+    if (to < 0 || to >= next.length) return;
+    [next[i], next[to]] = [next[to], next[i]];
+    onChange(next);
+  };
+
+  return (
+    <>
+      <input ref={fileRef} type="file" accept="image/png,image/webp,image/jpeg" className="hidden" onChange={(e) => upload(e.target.files?.[0])} />
+      <ul className="space-y-2">
+        {list.map((row, i) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <li key={i} className="flex items-start gap-2 rounded-xl border border-line bg-white p-2">
+            <button
+              type="button"
+              onClick={() => { target.current = i; fileRef.current?.click(); }}
+              title="Change picture"
+              className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-dashed border-line-strong bg-surface-muted hover:border-primary-400"
+            >
+              {busy === i ? <Loader2 size={16} className="animate-spin text-primary-500" aria-hidden="true" />
+                // eslint-disable-next-line @next/next/no-img-element
+                : row[imageKey] ? <img src={row[imageKey]} alt="" className="h-full w-full object-cover" />
+                  // The category's own photo, shown faintly: it is what the
+                  // tile uses, but it is not stored on the tile.
+                  // eslint-disable-next-line @next/next/no-img-element
+                  : fallbackFor?.(row) ? <img src={fallbackFor(row)} alt="" className="h-full w-full object-contain p-1 opacity-60" />
+                    : <Upload size={16} className="text-ink-300" aria-hidden="true" />}
+            </button>
+
+            <div className="grid min-w-0 flex-1 gap-2 sm:grid-cols-2">
+              {fields.map((f) => (
+                <input
+                  key={f.key}
+                  value={row[f.key] || ''}
+                  onChange={(e) => onFieldChange(i, { [f.key]: e.target.value })}
+                  placeholder={f.placeholder}
+                  aria-label={f.label}
+                  className={cx(input, 'min-w-0')}
+                />
+              ))}
+            </div>
+
+            <span className="flex shrink-0 flex-col gap-1">
+              <IconBtn label="Move up" icon={ArrowUp} onClick={() => move(i, -1)} />
+              <IconBtn label="Move down" icon={ArrowDown} onClick={() => move(i, 1)} />
+            </span>
+            <IconBtn label="Remove" icon={Trash2} danger onClick={() => onChange(list.filter((_, k) => k !== i))} />
+          </li>
+        ))}
+      </ul>
+      <AddBtn label={addLabel} onClick={() => onChange([...list, { ...blank }])} disabled={list.length >= max} />
+      {fallbackFor ? (
+        <p className="mt-1 text-[12px] text-ink-400">
+          A faded picture is the category&rsquo;s own first photo — the tile uses it until you upload one here.
+        </p>
+      ) : null}
+    </>
   );
 }
 

@@ -10,6 +10,8 @@ import AddToCartButtons from '@/components/products/AddToCartButtons';
 import QuotationButton from '@/components/products/QuotationButton';
 import RecentlyViewed from '@/components/products/RecentlyViewed';
 import DeliveryCheck from '@/components/products/DeliveryCheck';
+import ProductFeatures from '@/components/products/ProductFeatures';
+import HowItWorks from '@/components/products/HowItWorks';
 import MobileBuyBar from '@/components/products/MobileBuyBar';
 import Accordion from '@/components/common/Accordion';
 import ProductRail from '@/components/products/ProductRail';
@@ -198,6 +200,10 @@ export default async function ProductPage({ params }) {
               )}
             </div>
 
+            <div className="mt-5">
+              <ProductFeatures name={product.name} />
+            </div>
+
             <div id="buy-actions" className="mt-5">
               <AddToCartButtons product={product} layout="detail" />
             </div>
@@ -249,6 +255,10 @@ export default async function ProductPage({ params }) {
               </div>
             ) : null}
           </div>
+        </div>
+
+        <div className="mt-8">
+          <HowItWorks name={product.name} />
         </div>
 
         {/* --------------------------------------------------------------- tabs */}
