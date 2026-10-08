@@ -8,13 +8,8 @@ import { imageUrl } from '@/lib/utils';
 const dmSans = DM_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700'], display: 'swap' });
 // The headline alone gets a display face, so it reads as the page's title.
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['600', '800'], display: 'swap' });
-// The lines that take turns after "Pure water,"; the first is the one read out.
-const PHRASES = [
-  ['right', 'at', 'your', 'doorstep'],
-  ['for', 'every', 'Indian', 'home'],
-  ['tested', 'by', 'water', 'experts'],
-  ['serviced', 'within', '24', 'hours'],
-];
+// The words animate one at a time, so each line arrives here as words.
+const asWords = (phrase) => String(phrase || '').trim().split(/s+/).filter(Boolean);
 
 /**
  * The first screen: what we sell on the left, what that looks like on the
@@ -27,25 +22,17 @@ const PHRASES = [
  */
 
 /*
- * The file names carry spaces, so the paths are written encoded — that is the
- * address the browser actually asks for.
+ * The pictures came in under their WhatsApp names — spaces, dots and brackets
+ * — so each is kept beside the original under a plain name, which is what the
+ * page asks for.
  */
-const PHOTOS = {
-  home: {
-    src: '/images/Sleek%20Black%20DF%20Water%20Dispenser.png',
-    alt: 'Doctor Fresh black water purifier on a kitchen counter',
-  },
-  ionizer: {
-    src: '/images/DoctorFresh%20Countertop%20Water%20Purifier.png',
-    alt: 'Doctor Fresh countertop water purifier beside a glass of water',
-  },
-  sweeper: { src: '/images/hero-floor-sweeper.webp', alt: 'Doctor Fresh floor sweeper on a kitchen floor', position: 'object-[center_75%]' },
-  technician: { src: '/images/hero-technician.webp', alt: 'A Doctor Fresh technician ready for a service visit', position: 'object-top' },
-  vegetable: {
-    src: '/images/DoctorFresh%20Turquoise%20Water%20Purifier.png',
-    alt: 'Doctor Fresh turquoise water purifier',
-  },
-};
+// Only used until somebody saves their own four in the admin.
+const DEFAULT_PHOTOS = [
+  { src: '/images/hero-kitchen-purifier-woman.jpg', alt: 'Filling a glass from a wall-mounted Doctor Fresh purifier' },
+  { src: '/images/hero-ionizer-woman.jpg', alt: 'Drinking a glass of water beside a Doctor Fresh alkaline ioniser' },
+  { src: '/images/hero-tap-purifier-veggies.jpg', alt: 'Washing vegetables under a Doctor Fresh tap purifier' },
+  { src: '/images/hero-undersink-veggies.jpg', alt: 'Washing vegetables at a sink fed by a Doctor Fresh filter' },
+];
 
 /** "Geyser for Home" → the name, with "for Home" as a quiet second line. */
 function splitLabel(label) {
@@ -90,15 +77,30 @@ function Photo({ photo, sizes, priority = false }) {
         fill
         priority={priority}
         sizes={sizes}
-        className={photo.contain
-          ? 'object-contain p-3 mix-blend-multiply'
-          : `object-cover ${photo.position || ''}`}
+        className={`object-cover ${photo.position || ''}`}
       />
     </div>
   );
 }
 
-export default function Hero({ tiles = [] }) {
+/**
+ * Everything on this screen is editable in the admin (Site content → Hero):
+ * the heading, the lines that take turns after it, the nine tiles and the four
+ * photographs. What is passed in wins; the built-in copy only fills a gap.
+ */
+export default function Hero({ tiles = [], hero = {} }) {
+  const headingLead = hero.headingLead || 'Pure water,';
+  const phrases = (hero.phrases?.length ? hero.phrases : [
+    'right at your doorstep',
+    'for every Indian home',
+    'tested by water experts',
+    'serviced within 24 hours',
+  ]).map(asWords);
+
+  // Four frames: two tall, two short, arranged so the seams do not line up.
+  const photos = (hero.photos?.length ? hero.photos : DEFAULT_PHOTOS).slice(0, 4);
+  const [first, second, third, fourth] = [0, 1, 2, 3].map((i) => photos[i] || photos[photos.length - 1]);
+
   return (
     <section className={`bg-white ${dmSans.className}`}>
       <div className="df-container pb-6 pt-6 md:pt-8">
@@ -109,11 +111,11 @@ export default function Hero({ tiles = [] }) {
           <div className="flex min-w-0 flex-col">
             <div className={jakarta.className}>
             <h1 className="text-[24px] font-extrabold leading-[1.25] tracking-[-0.03em] text-ink-900 sm:text-[28px] lg:text-[32px]">
-              Pure water,{' '}
+              {headingLead}{' '}
               {/* read out once, as the first line; the moving lines are decoration */}
-              <span className="sr-only">{PHRASES[0].join(' ')}</span>
+              <span className="sr-only">{phrases[0].join(' ')}</span>
               <span aria-hidden="true" className="df-phrases whitespace-nowrap">
-                {PHRASES.map((words, p) => (
+                {phrases.map((words, p) => (
                   <span key={words.join(' ')} className="df-phrase">
                     {/* one word at a time, each sliding up after the last */}
                     {words.map((word, i) => (
@@ -159,17 +161,16 @@ export default function Hero({ tiles = [] }) {
           </div>
 
           {/* ---------------------------------------------------------- photos */}
-          {/* Four upright photos in two columns, each column a tall one and a
-              short one in opposite order — so the pair of seams never line up
-              across the middle and the block reads as one piece. */}
-          <div className="hidden min-h-160 grid-cols-2 gap-4 lg:grid">
-            <div className="grid grid-rows-[1.08fr_1fr] gap-4">
-              <Photo photo={PHOTOS.vegetable} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
-              <Photo photo={PHOTOS.home} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
+          {/* Two columns, each a tall frame and a short one in opposite order
+              — one big and one small on both sides, as the reference has it. */}
+          <div className="hidden min-h-150 grid-cols-2 gap-2.5 lg:grid">
+            <div className="grid grid-rows-[1.3fr_1fr] gap-2.5">
+              <Photo photo={first} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
+              <Photo photo={third} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
             </div>
-            <div className="grid grid-rows-[1fr_1.08fr] gap-4">
-              <Photo photo={PHOTOS.ionizer} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
-              <Photo photo={PHOTOS.technician} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
+            <div className="grid grid-rows-[1fr_1.3fr] gap-2.5">
+              <Photo photo={second} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
+              <Photo photo={fourth} sizes="(min-width: 1300px) 410px, (min-width: 1024px) 30vw, 0px" priority />
             </div>
           </div>
         </div>

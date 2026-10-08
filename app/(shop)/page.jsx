@@ -77,10 +77,12 @@ const cardFields = (p) => ({
 });
 
 export default async function HomePage() {
-  const [brand, sections] = await Promise.all([
+  const [brand, sections, hero] = await Promise.all([
     getBrand(),
     // Trust badges, the water test band and the phone highlights (Site content).
     getContent('home_sections').catch(() => null),
+    // The hero: heading, the lines that take turns, the tiles and the photos.
+    getContent('hero').catch(() => null),
   ]);
   const { rails, todaysDeal, categoryTiles, latest, mostViewed } = await getHomeSections();
   // Up to twelve deals fill the slider, four on screen at a time — commercial
@@ -94,7 +96,7 @@ export default async function HomePage() {
   const deals = [...marked, ...topUp].slice(0, DEAL_COUNT).map(cardProduct);
   const posts = (await getAllBlogPosts()).slice(0, 3);
 
-  const heroTiles = [
+  const heroTiles = hero?.tiles?.length ? hero.tiles : [
     // Our own Doctor Fresh RO, rather than whichever product the category lists first.
     { label: 'Water Purifier for Home', href: '/category/water-purifier', image: '/images/hero-ro-purifier.png' },
     // Only things a household buys; each points at its "for home" range so
@@ -102,11 +104,11 @@ export default async function HomePage() {
     // Drinking water across the top row, the everyday appliances next, and
     // the ones bought least often along the bottom.
     { label: 'Water Ionizer for Home', href: '/category/water-ionizer/water-ionizer-for-home' },
-    { label: 'Tap Water Purifier for Home', href: '/category/water-purifier/tap-water-purifier' },
+    { label: 'Bathroom Softener for Home', href: '/category/water-softener/water-softener-for-bathroom' },
     { label: 'Water Dispenser for Home', href: '/category/water-dispenser/table-top' },
     { label: 'Air Purifier for Home', href: '/category/air-purifier/air-purifier-for-home' },
     { label: 'Vegetable Purifier for Home', href: '/category/vegetable-purifier/vegetablefruit-purifier-for-home' },
-    { label: 'Bathroom Softener for Home', href: '/category/water-softener/water-softener-for-bathroom' },
+    { label: 'Tap Water Purifier for Home', href: '/category/water-purifier/tap-water-purifier' },
     { label: 'Geyser for Home', href: '/category/water-heater/electric-geyser' },
     { label: 'Vacuum Cleaner for Home', href: '/category/vacuum-cleaner/vacuum-cleaner-for-home' },
   ];
@@ -137,7 +139,7 @@ export default async function HomePage() {
 
   return (
     <div className="df-home">
-      <Hero tiles={heroTilesWithPhotos} />
+      <Hero tiles={heroTilesWithPhotos} hero={hero || {}} />
 
       <TrustBadges badges={sections?.trustBadges?.length ? sections.trustBadges : trustBadges} />
 
