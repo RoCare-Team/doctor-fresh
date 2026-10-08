@@ -9,7 +9,7 @@ const dmSans = DM_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700'
 // The headline alone gets a display face, so it reads as the page's title.
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['600', '800'], display: 'swap' });
 // The words animate one at a time, so each line arrives here as words.
-const asWords = (phrase) => String(phrase || '').trim().split(/s+/).filter(Boolean);
+const asWords = (phrase) => String(phrase || '').trim().split(/\s+/).filter(Boolean);
 
 /**
  * The first screen: what we sell on the left, what that looks like on the
@@ -29,7 +29,7 @@ const asWords = (phrase) => String(phrase || '').trim().split(/s+/).filter(Boole
 // Only used until somebody saves their own four in the admin.
 const DEFAULT_PHOTOS = [
   { src: '/images/hero-kitchen-purifier-woman.jpg', alt: 'Filling a glass from a wall-mounted Doctor Fresh purifier' },
-  { src: '/images/hero-ionizer-woman.jpg', alt: 'Drinking a glass of water beside a Doctor Fresh alkaline ioniser' },
+  { src: '/images/hero-ionizer-woman.jpg', alt: 'Drinking a glass of water beside a Doctor Fresh alkaline ionizer' },
   { src: '/images/hero-tap-purifier-veggies.jpg', alt: 'Washing vegetables under a Doctor Fresh tap purifier' },
   { src: '/images/hero-undersink-veggies.jpg', alt: 'Washing vegetables at a sink fed by a Doctor Fresh filter' },
 ];
