@@ -57,7 +57,7 @@ export default function MobileBuyBar({ product, watch = 'buy-actions' }) {
     <>
       <SignInPrompt open={askSignIn} onClose={() => setAskSignIn(false)} next="/cart-checkout" />
       <div
-        className={`fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white px-3 py-2.5 shadow-[0_-6px_20px_-12px_rgb(6_59_76/0.5)] transition-transform duration-200 lg:hidden ${
+        className={`fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white px-3 py-2.5 shadow-[0_-6px_20px_-12px_rgb(15_23_42/0.25)] transition-transform duration-200 lg:hidden ${
           show ? 'translate-y-0' : 'translate-y-full'
         }`}
       >

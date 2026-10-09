@@ -44,10 +44,10 @@ export default function AccountMenu() {
           aria-expanded={open}
           aria-haspopup="menu"
           aria-label="Account"
-          className="flex flex-col items-center rounded-lg px-3 py-1.5 text-ink-700 transition-colors hover:bg-surface-muted"
+          className="flex flex-col items-center rounded-lg px-3 py-1.5 text-ink-900 transition-colors hover:text-brand-600 lg:px-4"
         >
-          <User size={20} aria-hidden="true" />
-          <span className="mt-0.5 hidden text-[12.5px] text-ink-400 lg:block">Account</span>
+          <User size={22} strokeWidth={1.8} aria-hidden="true" />
+          <span className="mt-1 hidden text-[13px] font-medium text-ink-700 lg:block">Account</span>
         </button>
 
         {open ? (
@@ -90,10 +90,10 @@ export default function AccountMenu() {
   return (
     <Link
       href="/profile"
-      className="flex flex-col items-center rounded-lg px-3 py-1.5 text-ink-700 transition-colors hover:bg-surface-muted"
+      className="flex flex-col items-center rounded-lg px-3 py-1.5 text-ink-900 transition-colors hover:text-brand-600 lg:px-4"
     >
-      <User size={20} aria-hidden="true" />
-      <span className="mt-0.5 hidden max-w-22.5 truncate text-[12.5px] text-ink-400 lg:block">
+      <User size={22} strokeWidth={1.8} aria-hidden="true" />
+      <span className="mt-1 hidden max-w-22.5 truncate text-[13px] font-medium text-ink-700 lg:block">
         {firstName}
       </span>
     </Link>

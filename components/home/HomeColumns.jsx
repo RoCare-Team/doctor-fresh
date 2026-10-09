@@ -102,7 +102,7 @@ function MiniCard({ product, rank }) {
   return (
     <Link
       href={product.url}
-      className="group flex items-center gap-3.5 rounded-2xl border border-[#e6ecf0] bg-white p-2.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-[0_16px_32px_-22px_rgb(6_59_76/0.5)]"
+      className="group flex items-center gap-3.5 rounded-2xl border border-[#e6ecf0] bg-white p-2.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[0_12px_26px_-18px_rgb(15_23_42/0.22)]"
     >
       <span className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-xl bg-[#f4f7f9]">
         <SafeImage

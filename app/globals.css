@@ -2,29 +2,36 @@
 
 /* ------------------------------------------------------------------
    DoctorFresh design system — Sky Blue + Navy
-   primary  #1597c5  (brand blue)
+   primary  #0095dc  (brand blue)
    navy     #063b4c  (headings, footer, strong UI)
    light    #f3fafd  (soft section backgrounds)
    accent   #5bc0eb  (hover, icons, decorative)
    text     #18343d
    border   #d9eaf0
 
-   The brand blue is used for fills, icons and accents. Text links use
-   primary-600, the same hue two steps darker, which clears AA on white
-   (4.8:1) where #1597c5 alone would only reach 3.4:1.
+   The brand blue (#0095dc, primary-500/600 and brand-600) fills buttons,
+   icons and accents. Text links should use primary-700 or darker, which
+   clears AA on white; #0095dc as small text only reaches about 3.3:1.
    ------------------------------------------------------------------ */
 
 @theme {
-  --color-primary-50: #f3fafd;
-  --color-primary-100: #e3f3fa;
-  --color-primary-200: #c2e5f3;
-  --color-primary-300: #5bc0eb;
-  --color-primary-400: #2fa8da;
-  --color-primary-500: #1597c5;
-  --color-primary-600: #0f7ba3;
-  --color-primary-700: #0b6182;
-  --color-primary-800: #084e68;
+  --color-primary-50: #f0f8fd;
+  --color-primary-100: #dff0fb;
+  --color-primary-200: #bfe3f6;
+  --color-primary-300: #66c1ec;
+  --color-primary-400: #26a6e3;
+  --color-primary-500: #0095dc;
+  --color-primary-600: #0095dc;
+  --color-primary-700: #0078b4;
+  --color-primary-800: #00608f;
   --color-primary-900: #063b4c;
+
+  /* Brand blue #0095dc (buttons, header, accents) */
+  --color-brand-50: #f0f8fd;
+  --color-brand-100: #dff0fb;
+  --color-brand-200: #bfe3f6;
+  --color-brand-600: #0095dc;
+  --color-brand-700: #0080bf;
 
   --color-accent-50: #f2fbfe;
   --color-accent-100: #e0f5fd;
@@ -155,7 +162,7 @@
   }
   .df-card-hover:hover {
     border-color: var(--color-line-strong);
-    box-shadow: 0 10px 24px -14px rgb(6 59 76 / 0.28);
+    box-shadow: 0 10px 24px -16px rgb(15 23 42 / 0.2);
   }
 
   /* Product card surface: borderless, softly lifted off the page.
@@ -165,14 +172,14 @@
     background: #fff;
     border-radius: 16px;
     box-shadow:
-      0 1px 3px rgb(16 24 40 / 0.08),
-      0 10px 24px -6px rgb(16 24 40 / 0.18);
+      0 0 0 1px rgb(15 23 42 / 0.05),
+      0 6px 18px -10px rgb(15 23 42 / 0.14);
     transition: box-shadow 0.2s ease, transform 0.2s ease;
   }
   .df-product-card:hover {
     box-shadow:
-      0 2px 5px rgb(16 24 40 / 0.10),
-      0 18px 36px -10px rgb(16 24 40 / 0.28);
+      0 0 0 1px rgb(15 23 42 / 0.07),
+      0 14px 30px -14px rgb(15 23 42 / 0.22);
   }
 
   /* ---------------------------------------------------------- motion ----
@@ -262,8 +269,9 @@
     left: 50%;
     right: 50%;
     bottom: 0;
-    height: 2px;
-    background: var(--color-primary-500);
+    height: 3px;
+    border-radius: 3px 3px 0 0;
+    background: var(--color-brand-600);
     transition: left 0.22s ease, right 0.22s ease;
   }
   .df-underline:hover::after,
@@ -451,7 +459,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: rgb(21 151 197 / 0.12);
+    background: rgb(0 149 220 / 0.12);
     pointer-events: none;
   }
   .df-editor .ProseMirror .column-resize-handle {

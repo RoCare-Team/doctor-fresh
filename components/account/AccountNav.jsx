@@ -136,7 +136,7 @@ function DesktopNav({ active, profile, counts }) {
                   className={cx(
                     'group flex items-center gap-3 rounded-xl border px-2.5 py-2.5 transition-all',
                     current
-                      ? 'border-primary-200 bg-primary-50 shadow-[0_4px_14px_-10px_rgb(21_151_197/0.8)]'
+                      ? 'border-primary-200 bg-primary-50'
                       : 'border-transparent hover:border-line hover:bg-surface-muted',
                   )}
                 >

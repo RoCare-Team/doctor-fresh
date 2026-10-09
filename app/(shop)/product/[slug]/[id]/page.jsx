@@ -1,7 +1,7 @@
 import VideoEmbed from '@/components/common/VideoEmbed';
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { notFound } from 'next/navigation';
-import { Truck, ShieldCheck, Wrench, Phone, PackageCheck } from 'lucide-react';
+import { ShieldCheck, Wrench, Phone } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import ProductGallery from '@/components/products/ProductGallery';
 import ProductTabs from '@/components/products/ProductTabs';
@@ -10,13 +10,15 @@ import AddToCartButtons from '@/components/products/AddToCartButtons';
 import QuotationButton from '@/components/products/QuotationButton';
 import RecentlyViewed from '@/components/products/RecentlyViewed';
 import DeliveryCheck from '@/components/products/DeliveryCheck';
-import ProductFeatures from '@/components/products/ProductFeatures';
 import HowItWorks from '@/components/products/HowItWorks';
 import MobileBuyBar from '@/components/products/MobileBuyBar';
+import ShareButton from '@/components/products/ShareButton';
+import WishlistButton from '@/components/products/WishlistButton';
 import Accordion from '@/components/common/Accordion';
 import ProductRail from '@/components/products/ProductRail';
 import Rating from '@/components/common/Rating';
 import { getProductById, getRelatedProducts, cardProduct } from '@/lib/catalog';
+import { technologies } from '@/lib/product-tech';
 import ReviewForm from '@/components/products/ReviewForm';
 import { absoluteUrl, formatPrice, imageUrl, metaFor, SITE_URL } from '@/lib/utils';
 
@@ -48,12 +50,12 @@ export async function generateMetadata({ params }) {
   });
 }
 
-const TRUST = [
-  { icon: Truck, label: 'Free shipping across India' },
-  { icon: Wrench, label: 'Free installation by certified technician' },
-  { icon: ShieldCheck, label: 'Manufacturer warranty + service support' },
-  { icon: PackageCheck, label: 'Genuine Doctor Fresh spare parts' },
-];
+// The first sentence of a description, for the one-line summary under the name.
+function firstSentence(text = '') {
+  const plain = String(text).replace(/\s+/g, ' ').trim();
+  const end = plain.search(/[.!?](\s|$)/);
+  return end > 0 ? plain.slice(0, end + 1) : plain;
+}
 
 export default async function ProductPage({ params }) {
   const { id } = await params;
@@ -62,7 +64,19 @@ export default async function ProductPage({ params }) {
 
   const related = (await getRelatedProducts(product, 10)).map(cardProduct);
   const specs = product.specifications.filter((s) => s.value && s.value !== '-');
-  const highlights = product.attributes.slice(0, 6);
+  // Purifiers and ionizers get the home cards under the buy box.
+  const household = /water-purifier|water-ionizer/.test(product.category?.href || '');
+  // One line under the name. A purifier says what its name says it does; the
+  // description's first sentence usually just repeats the name, so it is only
+  // the fallback.
+  const tech = technologies(product.name).map((t) => t.id.toUpperCase()).filter((t) => t.length <= 3);
+  const summary = household && tech.length
+    ? `Advanced ${tech.join(' + ')} purification for safe, healthy and great tasting water.`
+    : firstSentence(product.metaDescription);
+  // The warranty the catalogue records, first clause only ("1 Year Onsite
+  // Warranty, 4 Year Service…" → "1 Year Onsite").
+  const warranty = (specs.find((s) => /warranty/i.test(s.label))?.value || '')
+    .split(/[,;]/)[0].replace(/warranty/i, '').trim();
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -97,10 +111,8 @@ export default async function ProductPage({ params }) {
   };
 
   const breadcrumbItems = [
-    { name: 'Products', href: '/all-category' },
     ...(product.category ? [{ name: product.category.name, href: product.category.href }] : []),
-    ...(product.subcategory ? [{ name: product.subcategory.name, href: product.subcategory.href }] : []),
-    { name: product.name, href: product.url },
+    { name: 'Doctor Fresh', href: product.url },
   ];
 
   return (
@@ -110,83 +122,81 @@ export default async function ProductPage({ params }) {
       {/* Records the view against this visitor’s cookie, for the home page. */}
       <RecentlyViewed productId={product.id} />
 
-      <div className="border-b border-line bg-surface-muted">
-        <div className="df-container py-2.5">
-          <Breadcrumb items={breadcrumbItems} />
-        </div>
-      </div>
-
       <div className="df-container py-4 pb-24 md:py-6 lg:pb-10">
         {/* ------------------------------------------------- gallery + buy box */}
-        <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-10">
           <div className="lg:sticky lg:top-[122px] lg:self-start">
             <ProductGallery
               images={product.images}
               name={product.name}
               badges={product.badges}
               discountPercent={product.discountPercent}
+              videoUrl={product.videoUrl}
             />
           </div>
 
-          <div>
-            {product.subcategory ? (
-              <Link
-                href={product.subcategory.href}
-                className="text-[12px] font-semibold uppercase tracking-wide text-primary-700 hover:text-primary-800"
-              >
-                {product.subcategory.name}
-              </Link>
-            ) : null}
+          <div className="min-w-0">
+            <div className="flex items-center justify-between gap-3">
+              <Breadcrumb items={breadcrumbItems} pill className="min-w-0" />
+              <div className="flex shrink-0 items-center divide-x divide-line text-[14px] text-ink-700">
+                <ShareButton title={product.name} className="inline-flex items-center gap-1.5 pr-3 transition-colors hover:text-primary-700" />
+                <WishlistButton productId={product.id} size={17} label="Save" className="gap-1.5 pl-3 !text-ink-700 hover:!text-danger aria-pressed:!text-danger" />
+              </div>
+            </div>
 
-            <h1 className="mt-1.5 text-[19px] font-semibold leading-snug tracking-tight text-ink-900 sm:text-[24px] md:text-[28px]">
+            <h1 className="mt-3 text-[22px] font-bold leading-tight tracking-tight text-ink-900 sm:text-[28px] md:text-[32px]">
               {product.name}
             </h1>
+            {summary ? (
+              <p className="mt-1.5 line-clamp-2 text-[15.5px] text-ink-500">{summary}</p>
+            ) : null}
 
             {/* Rating and availability read as one line of proof under the name. */}
-            <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-2">
+            <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
               {product.rating ? (
                 <>
                   <Rating value={product.rating} />
                   {product.reviewCount ? (
-                    <a href="#reviews" className="text-[13.5px] text-ink-400 underline-offset-2 hover:text-primary-800 hover:underline">
-                      {product.reviewCount} ratings
+                    <a href="#reviews" className="text-[14px] text-ink-400 underline-offset-2 hover:text-primary-800 hover:underline">
+                      {product.reviewCount} Ratings
                     </a>
                   ) : null}
-                  <span className="hidden h-3 w-px bg-line-strong sm:block" />
+                  <span className="hidden h-4 w-px bg-line-strong sm:block" />
                 </>
               ) : null}
-              <span className={`text-[13.5px] font-semibold ${product.inStock ? 'text-success' : 'text-danger'}`}>
-                {product.inStock ? 'In stock' : 'Currently out of stock'}
+              <span className={`inline-flex items-center gap-1.5 text-[14px] font-semibold ${product.inStock ? 'text-success' : 'text-danger'}`}>
+                <span className={`h-2 w-2 rounded-full ${product.inStock ? 'bg-success' : 'bg-danger'}`} aria-hidden="true" />
+                {product.inStock ? 'In Stock' : 'Currently out of stock'}
               </span>
             </div>
 
             {/* ------------------------------------------------------ price */}
-            <div className="mt-4 border-y border-line py-4">
+            <div className="mt-4 border-t border-line pt-4">
               {product.price ? (
                 <>
-                  <div className="flex flex-wrap items-end gap-x-2.5 gap-y-1">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                     {product.discountPercent > 0 ? (
-                      <span className="text-[17px] font-semibold text-success sm:text-[19px]">
+                      <span className="rounded-lg bg-[#e3f5ea] px-2.5 py-1 text-[17px] font-semibold text-success sm:text-[19px]">
                         {`-${product.discountPercent}%`}
                       </span>
                     ) : null}
-                    <span className="text-[28px] font-bold leading-none tracking-tight text-ink-900 sm:text-[34px]">
+                    <span className="text-[30px] font-bold leading-none tracking-tight text-ink-900 sm:text-[38px]">
                       {formatPrice(product.price)}
                     </span>
                     {product.unit ? <span className="text-[13px] text-ink-400">{product.unit}</span> : null}
                   </div>
 
                   {product.mrp > product.price ? (
-                    <p className="mt-2 text-[13.5px] text-ink-400">
+                    <p className="mt-2 text-[15px] text-ink-400">
                       {'M.R.P. '}
                       <span className="line-through">{formatPrice(product.mrp)}</span>
-                      <span className="ml-2 font-semibold text-success">
-                        {`You save ${formatPrice(product.mrp - product.price)}`}
+                      <span className="ml-1.5 font-medium text-success">
+                        {`(Save ${formatPrice(product.mrp - product.price)})`}
                       </span>
                     </p>
                   ) : null}
 
-                  <p className="mt-1 text-[12.5px] text-ink-400">
+                  <p className="mt-1 text-[13.5px] text-ink-400">
                     Inclusive of all taxes · Free shipping across India
                   </p>
                 </>
@@ -200,60 +210,40 @@ export default async function ProductPage({ params }) {
               )}
             </div>
 
-            <div className="mt-5">
-              <ProductFeatures name={product.name} />
-            </div>
-
-            <div id="buy-actions" className="mt-5">
+            <div id="buy-actions" className="mt-4">
               <AddToCartButtons product={product} layout="detail" />
             </div>
 
-            <div className="mt-4 space-y-3">
+            {/* delivery check, with what comes with every order beside it */}
+            <div className="mt-4 grid items-center gap-4 sm:grid-cols-[minmax(0,1fr)_140px]">
               <DeliveryCheck />
-
-              <a
-                href="tel:9311587716"
-                className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-primary-300 bg-primary-50/60 px-4 py-3 text-[14px] font-medium text-primary-800 transition-colors hover:border-primary-500 hover:bg-primary-50"
-              >
-                <Phone size={16} aria-hidden="true" />
-                Call a water expert — +91-9311587716
-              </a>
-
-              <QuotationButton productId={product.id} productName={product.name} />
+              <ul className="flex gap-5 px-1 sm:flex-col sm:gap-4">
+                <li className="flex items-center gap-2.5 text-[13px] leading-tight text-ink-700">
+                  <Wrench size={24} strokeWidth={1.6} className="shrink-0 text-primary-600" aria-hidden="true" />
+                  <span>Free<br />Installation*</span>
+                </li>
+                <li className="flex items-center gap-2.5 text-[13px] leading-tight text-ink-700">
+                  <ShieldCheck size={24} strokeWidth={1.6} className="shrink-0 text-primary-600" aria-hidden="true" />
+                  <span>{warranty || 'Warranty'}<br />{warranty ? 'Warranty' : 'Support'}</span>
+                </li>
+              </ul>
             </div>
 
-            {/* Four promises as tiles — on a phone they stay readable at two
-                across instead of becoming a wall of grey bullet text. */}
-            <ul className="mt-5 grid grid-cols-2 gap-2">
-              {TRUST.map((t) => {
-                const Icon = t.icon;
-                return (
-                  <li
-                    key={t.label}
-                    className="flex flex-col gap-1.5 rounded-xl border border-line bg-surface-muted px-3 py-2.5 text-[12.5px] font-medium leading-snug text-ink-700 sm:flex-row sm:items-center sm:gap-2.5 sm:text-[13.5px]"
-                  >
-                    <Icon size={17} className="shrink-0 text-primary-700" aria-hidden="true" />
-                    {t.label}
-                  </li>
-                );
-              })}
-            </ul>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <a
+                href="tel:9311587716"
+                className="flex items-center justify-center gap-2 rounded-xl border border-line px-4 py-3 text-[14px] font-medium text-ink-700 transition-colors hover:border-line-strong hover:text-primary-700"
+              >
+                <Phone size={16} aria-hidden="true" />
+                Call a water expert
+              </a>
+              <QuotationButton
+                productId={product.id}
+                productName={product.name}
+                className="flex items-center justify-center gap-2 rounded-xl border border-line px-4 py-3 text-[14px] font-medium text-ink-700 transition-colors hover:border-line-strong hover:text-primary-700"
+              />
+            </div>
 
-            {highlights.length ? (
-              <div className="mt-5 overflow-hidden rounded-xl border border-line">
-                <h2 className="border-b border-line bg-surface-muted px-4 py-2.5 text-[14px] font-semibold text-ink-900">
-                  Product highlights
-                </h2>
-                <dl className="divide-y divide-line">
-                  {highlights.map((a) => (
-                    <div key={a.label} className="flex gap-3 px-4 py-2.5 text-[13.5px]">
-                      <dt className="w-[38%] shrink-0 text-ink-400">{a.label}</dt>
-                      <dd className="font-medium text-ink-700">{a.values.join(', ')}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            ) : null}
           </div>
         </div>
 

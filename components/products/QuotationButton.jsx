@@ -13,7 +13,7 @@ import Button from '@/components/common/Button';
  * table for the sales team to follow up. Nothing is downloaded on the spot —
  * that is what the existing button does too.
  */
-export default function QuotationButton({ productId, productName }) {
+export default function QuotationButton({ productId, productName, className }) {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState('');
@@ -64,7 +64,7 @@ export default function QuotationButton({ productId, productName }) {
       <button
         type="button"
         onClick={() => { setOpen(true); setStatus('idle'); }}
-        className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-line-strong px-4 py-3.5 text-[14.5px] font-medium text-ink-700 transition-colors hover:border-primary-500 hover:text-primary-800"
+        className={className || 'mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-line-strong px-4 py-3.5 text-[14.5px] font-medium text-ink-700 transition-colors hover:border-primary-500 hover:text-primary-800'}
       >
         <FileText size={16} aria-hidden="true" />
         Download Brochure

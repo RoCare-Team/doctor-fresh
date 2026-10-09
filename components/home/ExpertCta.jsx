@@ -25,7 +25,7 @@ export default function ExpertCta({ phone, phoneRaw }) {
 
           <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
             <div className="flex items-center justify-center gap-4 text-center sm:justify-start sm:text-left">
-              <span className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-600 text-white shadow-[0_8px_20px_-8px_rgb(21_151_197/0.7)] sm:flex">
+              <span className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-600 text-white sm:flex">
                 <Droplets size={22} aria-hidden="true" />
               </span>
               <div>

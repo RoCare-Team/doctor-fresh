@@ -83,7 +83,7 @@ export default function CallbackButton({ className = '', label = 'Request Call B
         onClick={() => setOpen(true)}
         className={className || 'inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg border border-primary-200 px-3.5 py-2 text-[14px] font-medium text-primary-800 transition-colors hover:bg-primary-50'}
       >
-        <PhoneCall size={15} aria-hidden="true" />
+        <PhoneCall size={17} aria-hidden="true" />
         {label}
       </button>
 
@@ -179,7 +179,7 @@ export default function CallbackButton({ className = '', label = 'Request Call B
                         className={cx(
                           'flex h-9 cursor-pointer items-center justify-center rounded-lg border text-[12.5px] font-medium transition-all',
                           form.timing === t
-                            ? 'border-primary-600 bg-primary-600 font-semibold text-white shadow-[0_6px_16px_-8px_rgb(21_151_197/0.75)]'
+                            ? 'border-primary-600 bg-primary-50 font-semibold text-primary-700'
                             : 'border-line bg-white text-ink-500 shadow-[0_1px_2px_rgb(16_24_40/0.06)] hover:border-primary-300 hover:shadow-[0_4px_12px_-6px_rgb(16_24_40/0.25)]',
                         )}
                       >

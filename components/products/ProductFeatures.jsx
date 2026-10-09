@@ -29,16 +29,17 @@ export default function ProductFeatures({ name }) {
   if (!features.length) return null;
 
   return (
-    <ul className="grid grid-cols-2 gap-2 rounded-2xl border border-line p-2 sm:grid-cols-3 lg:grid-cols-5">
+    <ul className="grid grid-cols-3 gap-y-2 rounded-2xl border border-primary-100 bg-primary-50/70 py-4 sm:grid-cols-5">
       {features.map((f) => {
         const Icon = ICONS[f.id] || ShieldCheck;
         return (
-          <li key={f.id} className="flex flex-col items-center gap-1.5 rounded-xl px-2 py-3 text-center">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-primary-700">
-              <Icon size={17} aria-hidden="true" />
-            </span>
-            <span className="block text-[12.5px] font-semibold leading-tight text-ink-900">{f.label}</span>
-            <span className="block text-[11px] leading-snug text-ink-400">{f.note}</span>
+          <li
+            key={f.id}
+            title={f.note}
+            className="flex flex-col items-center gap-2 border-primary-100 px-2 text-center sm:border-l sm:first:border-l-0"
+          >
+            <Icon size={26} strokeWidth={1.6} className="text-primary-600" aria-hidden="true" />
+            <span className="block text-[13px] font-medium leading-tight text-ink-900">{f.label}</span>
           </li>
         );
       })}

@@ -26,15 +26,17 @@ export function videoSource(url) {
   return null;
 }
 
-export default function VideoEmbed({ url, title = 'Video', className = '' }) {
+export default function VideoEmbed({ url, title = 'Video', className = '', autoPlay = false }) {
   const source = videoSource(url);
   if (!source) return null;
+  // Only after a click, so the browser lets it start with sound.
+  const src = autoPlay && source.kind === 'iframe' ? `${source.src}?autoplay=1&rel=0` : source.src;
 
   return (
     <div className={`relative aspect-video w-full overflow-hidden rounded-2xl bg-ink-900 ${className}`}>
       {source.kind === 'iframe' ? (
         <iframe
-          src={source.src}
+          src={src}
           title={title}
           loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -44,7 +46,7 @@ export default function VideoEmbed({ url, title = 'Video', className = '' }) {
         />
       ) : (
         // eslint-disable-next-line jsx-a11y/media-has-caption
-        <video src={source.src} controls playsInline preload="metadata" className="absolute inset-0 h-full w-full object-contain" />
+        <video src={src} controls playsInline autoPlay={autoPlay} preload="metadata" className="absolute inset-0 h-full w-full object-contain" />
       )}
     </div>
   );

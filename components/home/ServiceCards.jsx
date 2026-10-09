@@ -85,7 +85,7 @@ export default function ServiceCards() {
           <Reveal as="li" key={s.title} delay={i * 70} className="h-full w-[82%] shrink-0 snap-start sm:w-auto">
             <Link
               href={s.href}
-              className="group flex h-full flex-col rounded-2xl bg-white p-5 shadow-[0_1px_3px_rgb(16_24_40/0.08),0_10px_24px_-6px_rgb(16_24_40/0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_2px_5px_rgb(16_24_40/0.10),0_18px_36px_-10px_rgb(16_24_40/0.28)]"
+              className="group flex h-full flex-col rounded-2xl border border-line bg-white p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[0_14px_30px_-18px_rgb(15_23_42/0.22)]"
             >
               <span className="flex flex-1 flex-col">
                 <span className="flex items-start justify-between gap-3">

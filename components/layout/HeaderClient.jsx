@@ -5,11 +5,10 @@ import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  Search, ShoppingCart, Menu, ChevronDown, LayoutGrid, Lock, Wrench, Hammer, CalendarCheck, ChevronRight,
+  Search, ShoppingCart, Menu, ChevronDown, LayoutGrid, Lock, Wrench, Hammer, CalendarCheck, ChevronRight, HeartHandshake,
 } from 'lucide-react';
 import { useCart } from '@/components/cart/CartProvider';
 import { imageUrl, cx } from '@/lib/utils';
-import CallbackButton from '@/components/forms/CallbackButton';
 import MobileMenu from './MobileMenu';
 import AccountMenu from './AccountMenu';
 
@@ -136,10 +135,10 @@ export default function HeaderClient({
     <>
       {/* ---------------------------------------------------------- main bar */}
       <div className="border-b border-line bg-white">
-        <div className="df-container flex h-[68px] items-center gap-3 lg:h-[68px] lg:gap-6">
+        <div className="df-container flex h-[68px] items-center gap-3 lg:h-[72px] lg:gap-8">
           {/* a hard outline around the wordmark reads as a stray border, so the
               focus cue here is a tint rather than a rectangle */}
-          <div className="flex flex-1 items-center">
+          <div className="flex shrink-0 items-center lg:flex-1">
           <Link
             href="/"
             aria-label="Doctor Fresh home"
@@ -152,7 +151,7 @@ export default function HeaderClient({
               height={52}
               priority
               fetchPriority="high"
-              className="h-8 w-auto min-[380px]:h-9 lg:h-[42px]"
+              className="h-8 w-auto max-w-none min-[380px]:h-9 lg:h-[42px]"
             />
           </Link>
           </div>
@@ -169,11 +168,11 @@ export default function HeaderClient({
           ) : null}
 
           {/* search is the visual anchor of the header */}
-          <form onSubmit={submitSearch} role="search" className={cx('hidden w-full max-w-lg shrink md:block', focused && 'md:hidden')}>
+          <form onSubmit={submitSearch} role="search" className={cx('hidden w-full max-w-[640px] shrink md:block', focused && 'md:hidden')}>
             <div className="group relative">
               <Search
-                size={18}
-                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-300 transition-colors group-focus-within:text-primary-700"
+                size={19}
+                className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-700 transition-colors group-focus-within:text-brand-600"
                 aria-hidden="true"
               />
               <input
@@ -183,40 +182,37 @@ export default function HeaderClient({
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search water purifiers, RO plants, spare parts…"
                 aria-label="Search products"
-                className="h-10 w-full rounded-full border border-line-strong bg-surface-muted pl-10 pr-[92px] text-[14px] text-ink-900 outline-none transition-all placeholder:text-ink-300 focus:border-primary-500 focus:bg-white focus:shadow-[0_0_0_4px_var(--color-primary-100)]"
+                className="h-11 w-full rounded-full border border-[#dfe7f1] bg-[#f6f9fd] pl-11 pr-[104px] text-[14.5px] text-ink-900 outline-none transition-colors placeholder:text-[#6b7a8c] focus:border-brand-600 focus:bg-white"
               />
               <button
                 type="submit"
-                className="absolute right-1 top-1/2 h-8 -translate-y-1/2 rounded-full bg-primary-600 px-4 text-[13.5px] shadow-sm font-semibold text-white transition-colors hover:bg-ink-900"
+                className="absolute right-1 top-1/2 h-9 -translate-y-1/2 rounded-full bg-brand-600 px-5 text-[14px] font-semibold text-white transition-colors hover:bg-brand-700 lg:px-6"
               >
                 Search
               </button>
             </div>
           </form>
 
-          <div className="flex flex-1 items-center justify-end gap-1 lg:gap-1.5">
-            {/* For the visitor who would rather be phoned than fill in the
-                enquiry popup; it lands in the same admin inbox. */}
-            <CallbackButton className="mr-1 hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-primary-200 px-3.5 py-1.5 text-[13.5px] font-medium text-primary-800 transition-colors hover:bg-primary-50 lg:inline-flex" />
+          <div className="ml-auto flex items-center justify-end gap-1 lg:ml-0 lg:flex-1 lg:gap-0">
 
             <Link
               href="/cart"
               aria-label={count > 0 ? `Cart, ${count} item${count === 1 ? '' : 's'}` : 'Cart'}
-              className="relative flex flex-col items-center rounded-lg px-3 py-1.5 text-ink-700 transition-colors hover:bg-surface-muted"
+              className="relative flex flex-col items-center rounded-lg px-3 py-1.5 text-ink-900 transition-colors hover:text-brand-600 lg:px-4"
             >
               <span className="relative">
-                <ShoppingCart size={20} aria-hidden="true" />
-                {count > 0 ? (
-                  <span
-                    key={count}
-                    className="df-pop absolute -right-2.5 -top-2 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-primary-600 px-1 text-[11.5px] font-semibold text-white"
-                  >
-                    {count}
-                  </span>
-                ) : null}
+                <ShoppingCart size={22} strokeWidth={1.8} aria-hidden="true" />
+                <span
+                  key={count}
+                  className="df-pop absolute -right-2.5 -top-2 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-brand-600 px-1 text-[11px] font-semibold text-white ring-2 ring-white"
+                >
+                  {count}
+                </span>
               </span>
-              <span className="mt-0.5 hidden text-[12.5px] text-ink-400 lg:block">Cart</span>
+              <span className="mt-1 hidden text-[13px] font-medium text-ink-700 lg:block">Cart</span>
             </Link>
+
+            <span aria-hidden="true" className="mx-1 hidden h-10 w-px bg-line lg:block" />
 
             <AccountMenu />
 
@@ -272,24 +268,24 @@ export default function HeaderClient({
         <div
           className={cx(
             'overflow-hidden transition-[max-height] duration-300 ease-out',
-            navHidden ? 'max-h-0' : 'max-h-[58px]',
+            navHidden ? 'max-h-0' : 'max-h-[56px]',
           )}
           aria-hidden={navHidden}
         >
-          <nav aria-label="Main" className="df-container flex h-[58px] items-center gap-2">
+          <nav aria-label="Main" className="df-container flex h-[56px] items-center gap-2">
           <button
             type="button"
             onMouseEnter={() => setOpenMenu('products')}
             onClick={() => setOpenMenu(openMenu === 'products' ? null : 'products')}
             aria-expanded={openMenu === 'products'}
             className={cx(
-              'mr-3 inline-flex h-[34px] shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-4 text-[14px] font-semibold transition-colors',
+              'mr-3 inline-flex h-10 shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-4 text-[14.5px] font-semibold transition-colors',
               openMenu === 'products'
-                ? 'bg-primary-600 text-white'
-                : 'bg-primary-50 text-primary-800 hover:bg-primary-100',
+                ? 'bg-brand-600 text-white'
+                : 'bg-brand-50 text-ink-900 hover:bg-brand-100',
             )}
           >
-            <LayoutGrid size={16} aria-hidden="true" />
+            <LayoutGrid size={18} aria-hidden="true" />
             All Categories
             <ChevronDown
               size={15}
@@ -298,7 +294,7 @@ export default function HeaderClient({
             />
           </button>
 
-          <ul className="df-no-scrollbar flex min-w-0 flex-1 items-center justify-center-safe gap-1 overflow-x-auto xl:gap-2">
+          <ul className="df-no-scrollbar flex min-w-0 flex-1 items-center justify-center-safe gap-2 overflow-x-auto xl:gap-6">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               // "Service & AMC" opens the list of service pages on hover.
@@ -319,8 +315,8 @@ export default function HeaderClient({
                       aria-haspopup="true"
                       aria-current={isActive ? 'page' : undefined}
                       className={cx(
-                        'inline-flex h-[46px] shrink-0 items-center gap-1 whitespace-nowrap border-b-2 px-2 text-[14px] transition-colors xl:px-2.5',
-                        open || isActive ? 'border-primary-500 font-medium text-ink-900' : 'border-transparent text-ink-500 hover:border-primary-200 hover:text-ink-900',
+                        'inline-flex h-[56px] shrink-0 items-center gap-1.5 whitespace-nowrap border-b-[3px] px-2.5 text-[14.5px] transition-colors',
+                        open || isActive ? 'border-brand-600 font-semibold text-brand-600' : 'border-transparent text-ink-700 hover:text-brand-600',
                       )}
                     >
                       {item.label}
@@ -336,8 +332,8 @@ export default function HeaderClient({
                     onMouseEnter={() => setOpenMenu(null)}
                     aria-current={isActive ? 'page' : undefined}
                     className={cx(
-                      'df-underline inline-flex h-[46px] shrink-0 items-center whitespace-nowrap px-2 text-[14px] transition-colors xl:px-2.5',
-                      isActive ? 'font-medium text-ink-900' : 'text-ink-500 hover:text-ink-900',
+                      'df-underline inline-flex h-[56px] shrink-0 items-center whitespace-nowrap px-2.5 text-[14.5px] transition-colors xl:px-4',
+                      isActive ? 'font-semibold text-brand-600' : 'text-ink-700 hover:text-brand-600',
                     )}
                   >
                     {item.label}
@@ -350,8 +346,9 @@ export default function HeaderClient({
           {nav?.ctaLabel !== '' ? (
             <Link
               href={nav?.ctaHref || '/partner'}
-              className="ml-3 hidden shrink-0 whitespace-nowrap rounded-lg bg-primary-600 px-4 py-2 text-[14px] font-semibold text-white shadow-sm transition-colors hover:bg-ink-900 lg:inline-block"
+              className="ml-3 hidden h-10 shrink-0 items-center gap-2 whitespace-nowrap rounded-lg border-[1.5px] border-brand-600 bg-transparent px-5 text-[14.5px] font-semibold text-brand-600 transition-colors hover:bg-brand-50 lg:inline-flex"
             >
+              <HeartHandshake size={18} aria-hidden="true" />
               {nav?.ctaLabel || 'Become a Partner'}
             </Link>
           ) : null}
@@ -361,7 +358,7 @@ export default function HeaderClient({
         {/* ------------------------------------------------------ mega menu */}
         {openMenu === 'products' ? (
           <div
-            className="absolute inset-x-0 top-full border-y border-line bg-white shadow-[0_18px_40px_-20px_rgba(6,59,76,0.28)]"
+            className="absolute inset-x-0 top-full border-y border-line bg-white shadow-[0_18px_40px_-24px_rgb(15_23_42/0.22)]"
             onMouseLeave={() => setOpenMenu(null)}
           >
             <div className="df-container grid grid-cols-[260px_1fr] gap-0 py-5">
@@ -442,7 +439,7 @@ export default function HeaderClient({
             style={{ left: Math.max(8, servicesLeft - 8) }}
             onMouseLeave={() => setOpenMenu(null)}
           >
-            <div className="w-[300px] overflow-hidden rounded-2xl border border-line bg-white p-2 shadow-[0_22px_48px_-22px_rgba(6,59,76,0.45)]">
+            <div className="w-[300px] overflow-hidden rounded-2xl border border-line bg-white p-2 shadow-[0_20px_44px_-24px_rgb(15_23_42/0.28)]">
               <p className="px-3 pb-1.5 pt-2 text-[11.5px] font-semibold uppercase tracking-wider text-ink-400">Our services</p>
               <ul>
                 {serviceLinks.map((l) => {

@@ -2,7 +2,8 @@ import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { ChevronRight } from 'lucide-react';
 import { SITE_URL } from '@/lib/utils';
 
-export default function Breadcrumb({ items = [], className = '' }) {
+// `pill`: the compact capsule that sits above a product name.
+export default function Breadcrumb({ items = [], className = '', pill = false }) {
   if (!items.length) return null;
 
   const jsonLd = {
@@ -17,9 +18,9 @@ export default function Breadcrumb({ items = [], className = '' }) {
   };
 
   return (
-    <nav aria-label="Breadcrumb" className={`text-[14px] ${className}`}>
+    <nav aria-label="Breadcrumb" className={`${pill ? 'inline-flex max-w-full rounded-full bg-primary-50 px-3.5 py-1.5 text-[12px] font-semibold uppercase tracking-wide' : 'text-[14px]'} ${className}`}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <ol className="df-no-scrollbar flex items-center gap-1 overflow-x-auto whitespace-nowrap text-ink-400">
+      <ol className={`df-no-scrollbar flex items-center gap-1 overflow-x-auto whitespace-nowrap ${pill ? 'text-primary-800' : 'text-ink-400'}`}>
         <li>
           <Link href="/" className="transition-colors hover:text-primary-800">
             Home
@@ -33,7 +34,7 @@ export default function Breadcrumb({ items = [], className = '' }) {
                 {item.name}
               </Link>
             ) : (
-              <span className="text-ink-700" aria-current="page">
+              <span className={pill ? 'text-primary-800' : 'text-ink-700'} aria-current="page">
                 {item.name}
               </span>
             )}

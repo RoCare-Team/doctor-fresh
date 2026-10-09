@@ -30,7 +30,7 @@ export default function DealSlider({ deals = [] }) {
             >
               <Link
                 href={p.url}
-                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#e6ecf0] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:shadow-[0_22px_40px_-24px_rgb(6_59_76/0.45)]"
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#e6ecf0] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-line-strong hover:shadow-[0_14px_30px_-18px_rgb(15_23_42/0.22)]"
               >
                 {/* the product on a soft grey stage */}
                 <span className="relative m-2 mb-0 block h-[118px] overflow-hidden rounded-xl bg-[#f4f7f9] sm:h-[130px]">

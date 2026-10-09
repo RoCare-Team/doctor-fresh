@@ -11,7 +11,7 @@ import { cx } from '@/lib/utils';
  * The saved list is fetched once per mount rather than passed down, so a
  * product card stays a server component and pages stay prerendered.
  */
-export default function WishlistButton({ productId, className, size = 18 }) {
+export default function WishlistButton({ productId, className, size = 18, label }) {
   const router = useRouter();
   const [saved, setSaved] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -61,6 +61,7 @@ export default function WishlistButton({ productId, className, size = 18 }) {
       )}
     >
       <Heart size={size} fill={saved ? 'currentColor' : 'none'} aria-hidden="true" />
+      {label ? <span>{saved ? 'Saved' : label}</span> : null}
     </button>
   );
 }

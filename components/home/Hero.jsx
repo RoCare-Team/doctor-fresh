@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { DM_Sans, Plus_Jakarta_Sans } from 'next/font/google';
+import { DM_Sans, Instrument_Serif, Plus_Jakarta_Sans } from 'next/font/google';
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import { imageUrl } from '@/lib/utils';
 
@@ -8,6 +8,9 @@ import { imageUrl } from '@/lib/utils';
 const dmSans = DM_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700'], display: 'swap' });
 // The headline alone gets a display face, so it reads as the page's title.
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['600', '800'], display: 'swap' });
+// The lines that take turns: an italic serif, so they read as a flourish
+// against the bold sans lead.
+const serif = Instrument_Serif({ subsets: ['latin'], weight: '400', style: 'italic', display: 'swap' });
 // The words animate one at a time, so each line arrives here as words.
 const asWords = (phrase) => String(phrase || '').trim().split(/\s+/).filter(Boolean);
 
@@ -114,14 +117,14 @@ export default function Hero({ tiles = [], hero = {} }) {
               {headingLead}{' '}
               {/* read out once, as the first line; the moving lines are decoration */}
               <span className="sr-only">{phrases[0].join(' ')}</span>
-              <span aria-hidden="true" className="df-phrases whitespace-nowrap">
+              <span aria-hidden="true" className={`df-phrases whitespace-nowrap text-[1.2em] font-normal leading-none tracking-[-0.01em] ${serif.className}`}>
                 {phrases.map((words, p) => (
                   <span key={words.join(' ')} className="df-phrase">
                     {/* one word at a time, each sliding up after the last */}
                     {words.map((word, i) => (
                       <span key={word}>
                         <span
-                          className="df-word-in bg-linear-to-r from-primary-500 to-primary-800 bg-clip-text text-transparent"
+                          className="df-word-in text-primary-600"
                           style={{ animationDelay: `${p * 3500 + 150 + i * 140}ms` }}
                         >
                           {word}
@@ -129,11 +132,6 @@ export default function Hero({ tiles = [], hero = {} }) {
                         {i < words.length - 1 ? ' ' : null}
                       </span>
                     ))}
-                    {/* a soft brush stroke under the line, drawn once its words are in */}
-                    <span
-                      className="df-stroke-in absolute inset-x-0 -bottom-0.5 -z-10 h-2.5 rounded-full bg-primary-100"
-                      style={{ animationDelay: `${p * 3500 + 150 + words.length * 140}ms` }}
-                    />
                   </span>
                 ))}
               </span>
@@ -141,7 +139,7 @@ export default function Hero({ tiles = [], hero = {} }) {
           </div>
 
             {/* ------------------------------------------------------ what we do */}
-            <div className="mt-5 w-full rounded-2xl border border-[#e6eaee] bg-white p-4 shadow-[0_12px_32px_-24px_rgb(6_59_76/0.35)] md:mt-6 sm:px-5 sm:py-5">
+            <div className="mt-5 w-full rounded-2xl border border-[#e6eaee] bg-white p-4 md:mt-6 sm:px-5 sm:py-5">
               <ul className="grid h-full grid-cols-3 content-center gap-x-2 gap-y-4">
                 {tiles.map((tile) => (
                   <Tile key={tile.label} href={tile.href} label={tile.label}>

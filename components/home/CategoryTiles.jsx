@@ -57,7 +57,7 @@ export default function CategoryTiles({ tiles = [] }) {
             >
               <Link
                 href={t.href}
-                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#e6ecf0] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:shadow-[0_22px_40px_-24px_rgb(6_59_76/0.45)]"
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#e6ecf0] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-line-strong hover:shadow-[0_14px_30px_-18px_rgb(15_23_42/0.22)]"
               >
                 {/* the product on a soft grey stage; photos are shot on
                     white, so they are multiplied into it */}

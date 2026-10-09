@@ -50,7 +50,7 @@ export default function ContactDock({ brand }) {
         <a
           href={`tel:${phone}`}
           aria-label={`Call us on ${brand?.phone || phone}`}
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-600 text-white shadow-[0_8px_24px_-8px_rgb(6_59_76/0.6)] transition-transform duration-200 hover:scale-105 sm:h-[52px] sm:w-[52px]"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-600 text-white shadow-[0_6px_16px_-6px_rgb(15_23_42/0.3)] transition-transform duration-200 hover:scale-105 sm:h-[52px] sm:w-[52px]"
         >
           <Phone size={21} strokeWidth={2.2} aria-hidden="true" />
         </a>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { MapPin, Loader2 } from 'lucide-react';
+import { Truck, Loader2 } from 'lucide-react';
 
 const STORE_KEY = 'df_pincode';
 
@@ -47,15 +47,15 @@ export default function DeliveryCheck() {
   }
 
   return (
-    <div className="rounded-xl border border-line bg-white p-3.5">
-      <p className="flex items-center gap-2 text-[13.5px] font-medium text-ink-700">
-        <MapPin size={15} className="text-primary-700" aria-hidden="true" />
+    <div className="rounded-2xl border border-primary-100 bg-primary-50/70 p-4">
+      <p className="flex items-center gap-2 text-[15px] font-semibold text-ink-900">
+        <Truck size={20} className="text-primary-600" aria-hidden="true" />
         Check delivery &amp; installation
       </p>
 
       <form
         onSubmit={(e) => { e.preventDefault(); check(pin); }}
-        className="mt-2.5 flex gap-2"
+        className="mt-3 flex gap-2"
       >
         <input
           value={pin}
@@ -68,12 +68,12 @@ export default function DeliveryCheck() {
           maxLength={6}
           aria-label="Pin code"
           placeholder="Enter pin code"
-          className="h-10 w-full rounded-lg border border-line-strong px-3 text-[14px] outline-none placeholder:text-ink-300 focus:border-primary-500"
+          className="h-11 w-full rounded-lg border border-line-strong bg-white px-3.5 text-[14.5px] outline-none placeholder:text-ink-300 focus:border-primary-500"
         />
         <button
           type="submit"
           disabled={state.status === 'loading'}
-          className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-lg border border-primary-500 px-4 text-[14px] font-semibold text-primary-600 transition-colors hover:bg-primary-50 disabled:opacity-60"
+          className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-lg bg-primary-600 px-6 text-[14.5px] font-semibold text-white transition-colors hover:bg-primary-700 disabled:opacity-60"
         >
           {state.status === 'loading' ? (
             <Loader2 size={15} className="animate-spin" aria-hidden="true" />
@@ -82,7 +82,7 @@ export default function DeliveryCheck() {
         </button>
       </form>
 
-      <p aria-live="polite" className="mt-2 text-[13px]">
+      <p aria-live="polite" className="mt-2 text-[13px] empty:hidden">
         {state.status === 'done' ? (
           <span className="text-ink-500">
             <span className="font-medium text-success">Delivers to {state.city}, {state.state}</span>

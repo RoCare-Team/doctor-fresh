@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShoppingCart, Check, Minus, Plus } from 'lucide-react';
+import { ShoppingCart, Check, Minus, Plus, Zap } from 'lucide-react';
 import { useCart } from '@/components/cart/CartProvider';
 import SignInPrompt from '@/components/auth/SignInPrompt';
 import { whenSession } from '@/lib/useSession';
@@ -79,7 +79,7 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
         <button
           type="button"
           onClick={handleBuyNow}
-          className="inline-flex h-9.5 flex-1 items-center justify-center rounded-lg bg-primary-600 px-2 text-[13.5px] font-semibold text-white shadow-[0_6px_14px_-8px_rgb(21_151_197/0.9)] transition-all hover:bg-ink-900 active:scale-[0.97] sm:h-9.5 sm:rounded-full sm:px-3 sm:text-[13px] sm:shadow-none"
+          className="inline-flex h-9.5 flex-1 items-center justify-center rounded-lg bg-primary-400 px-2 text-[13.5px] font-semibold text-white transition-all hover:bg-primary-500 active:scale-[0.97] sm:h-9.5 sm:rounded-full sm:px-3 sm:text-[13px] sm:shadow-none"
         >
           Buy Now
         </button>
@@ -104,62 +104,58 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
   }
 
   return (
-    <div className="space-y-4">
+    // Stepper, Add to Cart and Buy Now on one row; on a phone the stepper
+    // takes its own row so the two buttons keep a usable width.
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-[auto_1fr_1fr]">
       {prompt}
-      <div className="flex items-center gap-4">
-        <span className="text-[14px] font-medium text-ink-700">Quantity</span>
-        <div className="inline-flex h-11 items-center rounded-md border border-line-strong">
-          <button
-            type="button"
-            onClick={() => setQty((q) => Math.max(1, q - 1))}
-            aria-label="Decrease quantity"
-            className="flex h-full w-10 items-center justify-center text-ink-500 transition-colors hover:text-primary-800"
-          >
-            <Minus size={15} aria-hidden="true" />
-          </button>
-          <input
-            type="number"
-            min={1}
-            max={max}
-            value={qty}
-            onChange={(e) => setQty(Math.max(1, Math.min(Number(e.target.value) || 1, max)))}
-            aria-label="Quantity"
-            className="h-full w-12 border-x border-line-strong text-center text-sm outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
-          />
-          <button
-            type="button"
-            onClick={() => setQty((q) => Math.min(max, q + 1))}
-            aria-label="Increase quantity"
-            className="flex h-full w-10 items-center justify-center text-ink-500 transition-colors hover:text-primary-800"
-          >
-            <Plus size={15} aria-hidden="true" />
-          </button>
-        </div>
+      <div className="col-span-2 inline-flex h-12 w-fit items-center overflow-hidden rounded-xl border border-line-strong bg-white sm:col-span-1">
+        <button
+          type="button"
+          onClick={() => setQty((q) => Math.max(1, q - 1))}
+          aria-label="Decrease quantity"
+          className="flex h-full w-11 items-center justify-center text-ink-500 transition-colors hover:bg-surface-muted hover:text-ink-900"
+        >
+          <Minus size={16} aria-hidden="true" />
+        </button>
+        <input
+          type="number"
+          min={1}
+          max={max}
+          value={qty}
+          onChange={(e) => setQty(Math.max(1, Math.min(Number(e.target.value) || 1, max)))}
+          aria-label="Quantity"
+          className="h-full w-12 border-x border-line-strong text-center text-[15px] font-medium text-ink-900 outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
+        />
+        <button
+          type="button"
+          onClick={() => setQty((q) => Math.min(max, q + 1))}
+          aria-label="Increase quantity"
+          className="flex h-full w-11 items-center justify-center text-ink-500 transition-colors hover:bg-surface-muted hover:text-ink-900"
+        >
+          <Plus size={16} aria-hidden="true" />
+        </button>
       </div>
 
-      {/* Two equal columns at every width — the pair reads as one action row
-          the way it does on a shopping app, instead of stacking into a form. */}
-      <div className="grid grid-cols-2 gap-3">
-        <button
-          type="button"
-          onClick={handleAdd}
-          className={`inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border text-[15px] font-semibold transition-all active:scale-[0.98] ${
-            added
-              ? 'border-success bg-success text-white'
-              : 'border-primary-500 bg-white text-primary-600 hover:bg-primary-50'
-          }`}
-        >
-          {added ? <Check size={17} aria-hidden="true" /> : <ShoppingCart size={17} aria-hidden="true" />}
-          {added ? 'Added' : 'Add to Cart'}
-        </button>
-        <button
-          type="button"
-          onClick={handleBuyNow}
-          className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-primary-500 text-[15px] font-semibold text-white shadow-[0_10px_20px_-12px_rgb(21_151_197/0.9)] transition-all hover:bg-ink-900 active:scale-[0.98]"
-        >
-          Buy Now
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={handleAdd}
+        className={`inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border-[1.5px] text-[15px] font-semibold transition-all active:scale-[0.98] ${
+          added
+            ? 'border-success bg-success text-white'
+            : 'border-success bg-white text-success hover:bg-[#ecf8f2]'
+        }`}
+      >
+        {added ? <Check size={18} aria-hidden="true" /> : <ShoppingCart size={18} aria-hidden="true" />}
+        {added ? 'Added' : 'Add to Cart'}
+      </button>
+      <button
+        type="button"
+        onClick={handleBuyNow}
+        className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary-600 text-[15px] font-semibold text-white transition-all hover:bg-primary-700 active:scale-[0.98]"
+      >
+        <Zap size={18} aria-hidden="true" />
+        Buy Now
+      </button>
     </div>
   );
 }

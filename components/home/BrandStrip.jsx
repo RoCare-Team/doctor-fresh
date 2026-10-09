@@ -28,7 +28,7 @@ export default function BrandStrip({ brands = [], title = 'Brands we sell & serv
         <ul className="df-no-scrollbar mt-6 flex items-center gap-3 overflow-x-auto sm:flex-wrap sm:justify-center sm:gap-4 sm:overflow-visible">
           {items.map((b, i) => (
             <Reveal as="li" key={`${b.icon}-${b.title}`} delay={(i % 8) * 50} className="shrink-0">
-              <span className="flex h-[70px] w-[130px] items-center justify-center rounded-xl border border-line bg-white px-4 transition-shadow duration-200 hover:shadow-[0_8px_20px_-14px_rgb(6_59_76/0.4)]">
+              <span className="flex h-[70px] w-[130px] items-center justify-center rounded-xl border border-line bg-white px-4 transition-shadow duration-200 hover:shadow-[0_8px_20px_-14px_rgb(15_23_42/0.2)]">
                 <Image
                   src={imageUrl(b.icon)}
                   alt={b.title || ''}

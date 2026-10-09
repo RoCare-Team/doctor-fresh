@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { Camera, ChevronLeft, ChevronRight, Play, X } from 'lucide-react';
 import { imageUrl, cx } from '@/lib/utils';
+import VideoEmbed from '@/components/common/VideoEmbed';
 
 // How far the panel magnifies the photo.
 const ZOOM = 2.4;
@@ -26,8 +28,16 @@ const lensEdge = (percent) => (percent * (ZOOM - 1)) / ZOOM;
 // trees ask the optimiser for the same file and the browser downloads it once.
 const SIZES = '(max-width: 1024px) 100vw, 520px';
 
-export default function ProductGallery({ images = [], name, badges = [], discountPercent = 0 }) {
+export default function ProductGallery({ images = [], name, badges = [], discountPercent = 0, videoUrl = '' }) {
   const [active, setActive] = useState(0);
+  // The full-screen viewer: which photo it shows, or null when closed.
+  const [viewer, setViewer] = useState(null);
+  const [showVideo, setShowVideo] = useState(false);
+  // Desktop: the demo plays in the main box, in place of the photo.
+  const [playing, setPlaying] = useState(false);
+  // The viewer pages through the photos and then the demo video, if any.
+  const slides = images.length + (videoUrl ? 1 : 0);
+  const onVideo = viewer !== null && viewer >= images.length;
   // Where the pointer is over the main image, in per cent — null when away.
   const [origin, setOrigin] = useState(null);
   /**
@@ -51,6 +61,24 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
     query.addEventListener('change', sync);
     return () => query.removeEventListener('change', sync);
   }, []);
+
+  // Escape closes either overlay, the arrows page the viewer, and the page
+  // behind does not scroll while one is open.
+  useEffect(() => {
+    if (viewer === null && !showVideo) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') { setViewer(null); setShowVideo(false); }
+      if (viewer !== null && e.key === 'ArrowRight') setViewer((v) => (v + 1) % slides);
+      if (viewer !== null && e.key === 'ArrowLeft') setViewer((v) => (v - 1 + slides) % slides);
+    };
+    document.addEventListener('keydown', onKey);
+    const { overflow } = document.body.style;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = overflow;
+    };
+  }, [viewer, showVideo, slides]);
 
   // Switching thumbnails while zoomed would leave the panel open on a photo
   // the pointer was never over.
@@ -80,7 +108,7 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
   if (!images.length) return null;
 
   const source = imageUrl(images[active]);
-  const zooming = canZoom && origin;
+  const zooming = canZoom && origin && !playing;
 
   const flags = (
     <div className="pointer-events-none absolute left-3 top-3 z-10 flex flex-col items-start gap-1.5">
@@ -92,7 +120,7 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
       {badges.map((b) => (
         <span
           key={b}
-          className="rounded-md bg-white/95 px-2 py-0.5 text-[11.5px] font-semibold text-primary-700 shadow-[0_2px_8px_-4px_rgb(6_59_76_/_0.4)]"
+          className="rounded-md bg-white/95 px-2 py-0.5 text-[11.5px] font-semibold text-primary-700 shadow-[0_2px_8px_-4px_rgb(15_23_42_/_0.25)]"
         >
           {b}
         </span>
@@ -171,39 +199,66 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
             </div>
           )
         ) : null}
+
+        {videoUrl ? (
+          <button
+            type="button"
+            onClick={() => setShowVideo(true)}
+            className="mx-auto mt-2 flex items-center gap-1.5 text-[13px] font-medium text-primary-700"
+          >
+            <Play size={12} fill="currentColor" aria-hidden="true" />
+            Watch demo video
+          </button>
+        ) : null}
       </div>
 
       {/* ---------------------------------------- desktop: thumbs + zoom lens */}
       <div className="relative hidden gap-4 lg:flex">
-        {images.length > 1 ? (
-          <div className="df-scrollbar flex max-h-[440px] w-[74px] shrink-0 flex-col gap-2 overflow-y-auto">
+        {images.length > 1 || videoUrl ? (
+          <div className="df-scrollbar flex max-h-[560px] w-[100px] shrink-0 flex-col gap-3 overflow-y-auto p-0.5">
             {images.map((src, i) => (
               <button
                 key={src}
                 type="button"
-                onClick={() => setActive(i)}
+                onClick={() => { setActive(i); setPlaying(false); }}
                 aria-label={`View image ${i + 1}`}
-                aria-current={i === active}
+                aria-current={!playing && i === active}
                 className={cx(
-                  'relative aspect-square shrink-0 overflow-hidden rounded-lg border bg-white transition-colors',
-                  i === active ? 'border-primary-500 ring-1 ring-primary-200' : 'border-line hover:border-line-strong',
+                  'relative aspect-square shrink-0 overflow-hidden rounded-xl border-2 bg-white transition-colors',
+                  !playing && i === active ? 'border-primary-500' : 'border-line hover:border-line-strong',
                 )}
               >
                 <Image
                   src={imageUrl(src)}
                   alt=""
                   fill
-                  sizes="74px"
-                  className="object-contain p-1"
+                  sizes="100px"
+                  className="object-contain p-1.5"
                 />
               </button>
             ))}
+            {videoUrl ? (
+              <button
+                type="button"
+                onClick={() => { setPlaying(true); setOrigin(null); }}
+                aria-pressed={playing}
+                className={cx(
+                  'flex aspect-square shrink-0 flex-col items-center justify-center gap-1.5 rounded-xl border-2 bg-ink-900 text-white transition-colors hover:bg-ink-800',
+                  playing ? 'border-primary-500' : 'border-ink-900',
+                )}
+              >
+                <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/40 bg-white/15">
+                  <Play size={16} fill="currentColor" aria-hidden="true" />
+                </span>
+                <span className="text-[12px] font-medium">Watch Demo</span>
+              </button>
+            ) : null}
           </div>
         ) : null}
 
-        <div className="df-card relative flex-1 overflow-hidden">
+        <div className="relative flex-1 overflow-hidden rounded-2xl border border-line bg-white">
           <div
-            className={cx('relative aspect-square w-full', canZoom && 'cursor-crosshair')}
+            className={cx('relative aspect-[10/9] w-full', canZoom && 'cursor-crosshair')}
             onMouseMove={trackPointer}
             onMouseLeave={() => setOrigin(null)}
           >
@@ -214,6 +269,13 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
               sizes={SIZES}
               className="object-contain p-5"
             />
+
+            {/* The demo, playing where the photo was. */}
+            {playing ? (
+              <div className="absolute inset-0 z-20 flex items-center bg-ink-900">
+                <VideoEmbed url={videoUrl} title={`${name} demo video`} autoPlay className="rounded-none" />
+              </div>
+            ) : null}
 
             {/* The square the panel is showing. */}
             {zooming ? (
@@ -232,11 +294,14 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
 
           {flags}
 
-          {canZoom ? (
-            <span className="pointer-events-none absolute bottom-3 right-3 rounded-full bg-white/90 px-2.5 py-1 text-[11.5px] text-ink-400">
-              Hover to zoom
-            </span>
-          ) : null}
+          <button
+            type="button"
+            onClick={() => setViewer(active)}
+            className="absolute bottom-4 right-4 z-10 inline-flex items-center gap-2 rounded-xl border border-line bg-white px-3.5 py-2 text-[13.5px] font-medium text-ink-900 transition-colors hover:border-line-strong"
+          >
+            <Camera size={16} aria-hidden="true" />
+            {videoUrl ? 'Photos & Video' : 'View All Photos'}
+          </button>
         </div>
 
         {/* Sits beside the gallery, over the buy box, the way a shop's zoom does.
@@ -244,7 +309,7 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
         {zooming ? (
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute left-full top-0 z-30 ml-4 aspect-square h-full overflow-hidden rounded-xl border border-line bg-white shadow-2xl"
+            className="pointer-events-none absolute left-full top-0 z-30 ml-4 aspect-[10/9] h-full overflow-hidden rounded-2xl border border-line bg-white shadow-[0_24px_60px_-24px_rgb(15_23_42/0.3)]"
           >
             <Image
               src={source}
@@ -260,6 +325,78 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
           </div>
         ) : null}
       </div>
+
+      {/* ------------------------------------------- full-screen photo viewer */}
+      {viewer !== null ? (
+        <div role="dialog" aria-modal="true" aria-label={`${name} photos`} className="fixed inset-0 z-[70] flex flex-col bg-white">
+          <div className="flex items-center justify-between border-b border-line px-4 py-3">
+            <p className="min-w-0 truncate text-[14.5px] font-semibold text-ink-900">{name}</p>
+            <button type="button" onClick={() => setViewer(null)} aria-label="Close photos" className="rounded-full p-2 text-ink-500 hover:bg-surface-muted">
+              <X size={20} aria-hidden="true" />
+            </button>
+          </div>
+          <div className="relative min-h-0 flex-1">
+            {onVideo ? (
+              <div className="absolute inset-0 flex items-center justify-center p-6 sm:px-20">
+                <VideoEmbed url={videoUrl} title={`${name} demo video`} className="max-w-4xl" />
+              </div>
+            ) : (
+              <Image src={imageUrl(images[viewer])} alt={`${name} — photo ${viewer + 1}`} fill sizes="100vw" className="object-contain p-6" />
+            )}
+            {slides > 1 ? (
+              <>
+                <button type="button" onClick={() => setViewer((v) => (v - 1 + slides) % slides)} aria-label="Previous photo" className="absolute left-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white text-ink-700 hover:border-line-strong">
+                  <ChevronLeft size={20} aria-hidden="true" />
+                </button>
+                <button type="button" onClick={() => setViewer((v) => (v + 1) % slides)} aria-label="Next photo" className="absolute right-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-white text-ink-700 hover:border-line-strong">
+                  <ChevronRight size={20} aria-hidden="true" />
+                </button>
+              </>
+            ) : null}
+          </div>
+          {slides > 1 ? (
+            <div className="df-no-scrollbar flex justify-center gap-2 overflow-x-auto border-t border-line px-4 py-3">
+              {images.map((src, i) => (
+                <button
+                  key={src}
+                  type="button"
+                  onClick={() => setViewer(i)}
+                  aria-label={`Show photo ${i + 1}`}
+                  aria-current={i === viewer}
+                  className={cx('relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 bg-white', i === viewer ? 'border-primary-500' : 'border-line')}
+                >
+                  <Image src={imageUrl(src)} alt="" fill sizes="64px" className="object-contain p-1" />
+                </button>
+              ))}
+              {videoUrl ? (
+                <button
+                  type="button"
+                  onClick={() => setViewer(images.length)}
+                  aria-label="Play the demo video"
+                  aria-current={onVideo}
+                  className={cx('flex h-16 w-16 shrink-0 flex-col items-center justify-center gap-0.5 rounded-lg border-2 bg-ink-900 text-[10.5px] font-medium text-white', onVideo ? 'border-primary-500' : 'border-ink-900')}
+                >
+                  <Play size={15} fill="currentColor" aria-hidden="true" />
+                  Video
+                </button>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+      ) : null}
+
+      {/* -------------------------------------------------------- demo video */}
+      {showVideo ? (
+        <div role="dialog" aria-modal="true" aria-label={`${name} demo video`} className="fixed inset-0 z-[70] flex items-center justify-center bg-ink-900/80 p-4">
+          <button type="button" aria-label="Close video" onClick={() => setShowVideo(false)} className="absolute inset-0" />
+          <div className="relative w-full max-w-4xl">
+            <button type="button" onClick={() => setShowVideo(false)} aria-label="Close video" className="absolute -top-12 right-0 rounded-full bg-white/15 p-2 text-white hover:bg-white/25">
+              <X size={20} aria-hidden="true" />
+            </button>
+            <VideoEmbed url={videoUrl} title={`${name} demo video`} />
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }

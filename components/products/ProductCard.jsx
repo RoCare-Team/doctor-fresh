@@ -47,7 +47,7 @@ export default function ProductCard({ product, compact = false, priority = false
         <div className="pointer-events-none absolute inset-x-3 top-3 hidden items-start justify-between gap-2 sm:flex">
           <span className="flex flex-col items-start gap-1.5">
             {product.rating ? (
-              <span className="inline-flex items-center gap-1 rounded bg-success px-1.5 py-0.5 text-[10.5px] font-semibold text-white shadow-[0_2px_6px_-3px_rgb(6_59_76_/_0.5)]">
+              <span className="inline-flex items-center gap-1 rounded bg-success px-1.5 py-0.5 text-[10.5px] font-semibold text-white shadow-[0_2px_6px_-3px_rgb(15_23_42_/_0.3)]">
                 {product.rating.toFixed(1)}
                 <Star size={9} fill="currentColor" strokeWidth={0} aria-hidden="true" />
                 {product.reviewCount ? (
@@ -94,7 +94,7 @@ export default function ProductCard({ product, compact = false, priority = false
       {/* Sits outside the link so the heart does not open the product. */}
       <WishlistButton
         productId={product.id}
-        className="absolute right-4 top-4 z-10 h-7 w-7 bg-white/95 shadow-[0_2px_8px_-4px_rgb(6_59_76_/_0.4)] sm:right-3 sm:top-[52px] sm:h-8 sm:w-8"
+        className="absolute right-4 top-4 z-10 h-7 w-7 bg-white/95 shadow-[0_2px_8px_-4px_rgb(15_23_42_/_0.25)] sm:right-3 sm:top-[52px] sm:h-8 sm:w-8"
         size={16}
       />
 

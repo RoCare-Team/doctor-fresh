@@ -37,7 +37,7 @@ const USE_TYPES = [
   { value: '2', label: 'Commercial', icon: Building2 },
 ];
 
-const input = 'h-10 w-full rounded-lg border border-line bg-white shadow-[0_1px_2px_rgb(16_24_40/0.06)] px-3 text-[14px] text-ink-900 outline-none transition-colors placeholder:text-ink-300 focus:border-primary-500 focus:ring-3 focus:ring-primary-500/10 disabled:cursor-not-allowed disabled:bg-surface-muted';
+const input = 'h-10 w-full rounded-lg border border-line bg-white px-3 text-[14px] text-ink-900 outline-none transition-colors placeholder:text-ink-300 focus:border-primary-500 focus:ring-3 focus:ring-primary-500/10 disabled:cursor-not-allowed disabled:bg-surface-muted';
 
 export default function RequestWizard({ onClose }) {
   const [options, setOptions] = useState({ leadTypes: [], states: [] });
@@ -195,7 +195,7 @@ export default function RequestWizard({ onClose }) {
         aria-modal="true"
         aria-labelledby="wizard-title"
         // A small frosted-glass card: the page shows softly through it.
-        className="df-modal-in relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-t-3xl border border-line bg-white shadow-[0_24px_70px_-20px_rgb(16_24_40/0.35)] sm:max-h-[min(34rem,90vh)] sm:max-w-[430px] sm:rounded-3xl"
+        className="df-modal-in relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-t-3xl border border-line bg-white shadow-[0_24px_60px_-24px_rgb(15_23_42/0.3)] sm:max-h-[min(34rem,90vh)] sm:max-w-[430px] sm:rounded-3xl"
       >
         <header className="flex shrink-0 items-center gap-3 border-b border-line px-4 py-3">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-700">
@@ -250,8 +250,8 @@ export default function RequestWizard({ onClose }) {
                         className={cx(
                           'flex h-11 cursor-pointer items-center justify-center gap-2 rounded-lg border text-[14px] font-medium transition-all has-focus-visible:ring-3 has-focus-visible:ring-primary-500/25',
                           active
-                            ? 'border-primary-600 bg-primary-600 font-semibold text-white shadow-[0_6px_16px_-8px_rgb(21_151_197/0.75)]'
-                            : 'border-line bg-white text-ink-700 shadow-[0_1px_2px_rgb(16_24_40/0.06)] hover:border-primary-300 hover:shadow-[0_4px_12px_-6px_rgb(16_24_40/0.25)]',
+                            ? 'border-primary-600 bg-primary-50 font-semibold text-primary-700'
+                            : 'border-line bg-white text-ink-700 hover:border-line-strong hover:bg-surface-muted',
                         )}
                       >
                         <input type="radio" name="complainType" value={value} checked={active} onChange={() => set({ complainType: value })} className="sr-only" />
@@ -479,7 +479,7 @@ function Stepper({ step, total = STEPS.length }) {
               className={cx(
                 'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[12.5px] font-bold transition-all duration-300',
                 done && 'bg-primary-600 text-white',
-                current && 'bg-primary-600 text-white ring-4 ring-primary-500/20',
+                current && 'bg-primary-600 text-white',
                 !done && !current && 'border-2 border-line-strong bg-white text-ink-400',
               )}
             >
@@ -539,8 +539,8 @@ function Pills({
             className={cx(
               'inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-lg border px-3 text-[13px] font-medium transition-all has-focus-visible:ring-3 has-focus-visible:ring-primary-500/25',
               active
-                            ? 'border-primary-600 bg-primary-600 font-semibold text-white shadow-[0_6px_16px_-8px_rgb(21_151_197/0.75)]'
-                            : 'border-line bg-white text-ink-700 shadow-[0_1px_2px_rgb(16_24_40/0.06)] hover:border-primary-300 hover:shadow-[0_4px_12px_-6px_rgb(16_24_40/0.25)]',
+                            ? 'border-primary-600 bg-primary-50 font-semibold text-primary-700'
+                            : 'border-line bg-white text-ink-700 hover:border-line-strong hover:bg-surface-muted',
             )}
           >
             <input type="radio" name={name} value={v} checked={active} onChange={() => onChange(v)} className="sr-only" />
