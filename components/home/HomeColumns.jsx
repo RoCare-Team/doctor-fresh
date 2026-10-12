@@ -75,7 +75,7 @@ function Column({ title, eyebrow, Icon, href, products, ranked }) {
           <Link
             href={href}
             aria-label={`View all — ${title}`}
-            className="group/all inline-flex shrink-0 items-center gap-1 rounded-full border border-[#dceaf0] bg-white px-3 py-1.5 text-[12.5px] font-medium text-primary-700 transition-colors hover:border-primary-200 hover:bg-primary-50"
+            className="group/all inline-flex shrink-0 items-center gap-1 rounded-full border border-line bg-white px-3 py-1.5 text-[12.5px] font-medium text-primary-700 transition-colors hover:border-primary-200 hover:bg-primary-50"
           >
             View all
             <ArrowRight size={13} aria-hidden="true" className="transition-transform group-hover/all:translate-x-0.5" />
@@ -102,9 +102,9 @@ function MiniCard({ product, rank }) {
   return (
     <Link
       href={product.url}
-      className="group flex items-center gap-3.5 rounded-2xl border border-[#e6ecf0] bg-white p-2.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[0_12px_26px_-18px_rgb(15_23_42/0.22)]"
+      className="df-lift group flex items-center gap-3.5 rounded-2xl border border-line bg-white p-2.5 hover:-translate-y-0.5 hover:border-line-strong"
     >
-      <span className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-xl bg-[#f4f7f9]">
+      <span className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-xl bg-[#fbfcfd]">
         <SafeImage
           src={product.image}
           alt=""
