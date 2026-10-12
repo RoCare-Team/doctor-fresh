@@ -110,7 +110,7 @@ export default async function HomePage() {
     { label: 'Vegetable Purifier for Home', href: '/category/vegetable-purifier/vegetablefruit-purifier-for-home' },
     { label: 'Tap Water Purifier for Home', href: '/category/water-purifier/tap-water-purifier' },
     { label: 'Geyser for Home', href: '/category/water-heater/electric-geyser' },
-    { label: 'Vacuum Cleaner for Home', href: '/category/vacuum-cleaner/vacuum-cleaner-for-home' },
+    { label: 'Vacuum Cleaner for Home, Offices and Shops', href: '/category/vacuum-cleaner/vacuum-cleaner-for-home' },
   ];
 
   // Each tile takes the first product photo of the category it opens.

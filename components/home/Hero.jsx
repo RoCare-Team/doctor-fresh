@@ -37,9 +37,15 @@ const DEFAULT_PHOTOS = [
   { src: '/images/hero-undersink-veggies.jpg', alt: 'Washing vegetables at a sink fed by a Doctor Fresh filter' },
 ];
 
-/** "Geyser for Home" → the name, with "for Home" as a quiet second line. */
+/**
+ * "Geyser for Home" → the name, with "for Home" as a quiet second line.
+ *
+ * Whatever follows "for" is that second line, so a tile that serves more than
+ * one place ("for Home, Offices and Shops") reads the same way as the rest
+ * rather than turning the whole list into one long bold name.
+ */
 function splitLabel(label) {
-  const m = label.match(/^(.*?)\s+(for Home)$/i);
+  const m = label.match(/^(.*?)\s+(for\s+.+)$/i);
   return m ? [m[1], m[2]] : [label, null];
 }
 

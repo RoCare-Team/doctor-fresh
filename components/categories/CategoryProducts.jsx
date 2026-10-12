@@ -18,6 +18,20 @@ const SORTS = [
 
 const PAGE_SIZE = 12;
 
+/**
+ * 38,400 → 40,000; 2,310 → 2,500; 2,90,000 → 3,00,000.
+ *
+ * A price step is read, not calculated, so it is rounded up to the nearest
+ * half or fifth of its own size — which is how people say prices anyway.
+ */
+function roundUpNicely(value) {
+  if (!(value > 0)) return 0;
+  const magnitude = 10 ** Math.floor(Math.log10(value));
+  const leading = value / magnitude;
+  const step = leading >= 5 ? magnitude : leading >= 2 ? magnitude / 2 : magnitude / 5;
+  return Math.ceil(value / step) * step;
+}
+
 export default function CategoryProducts({ products = [], subcategories = [], activeSlug = null }) {
   const [sort, setSort] = useState('featured');
   const [maxPrice, setMaxPrice] = useState(null);
@@ -25,11 +39,32 @@ export default function CategoryProducts({ products = [], subcategories = [], ac
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
+  /*
+   * The price steps are read off this page's own products rather than being
+   * one fixed ladder for the whole site: a jug category runs from ₹776 to
+   * ₹60,000 and an RO plant category from ₹38,000 to ₹3,00,000, and a
+   * "Under ₹5,000" on the second one matches nothing at all.
+   *
+   * The cuts are taken at quarters of the sorted list, so each step has
+   * products behind it, and then rounded up to a figure somebody would
+   * actually say out loud.
+   */
   const priceBuckets = useMemo(() => {
-    const priced = products.filter((p) => p.price > 0).map((p) => p.price);
-    if (!priced.length) return [];
-    const top = Math.max(...priced);
-    return [5000, 10000, 20000, 50000, 100000].filter((b) => b < top).slice(0, 4);
+    const priced = products.filter((p) => p.price > 0).map((p) => p.price).sort((a, b) => a - b);
+    if (priced.length < 2) return [];
+
+    const low = priced[0];
+    const high = priced[priced.length - 1];
+    if (high <= low) return [];
+
+    const cuts = [0.25, 0.45, 0.65, 0.85]
+      .map((q) => priced[Math.min(priced.length - 1, Math.floor(q * priced.length))])
+      .map(roundUpNicely)
+      // A step below the cheapest matches nothing; one at or above the
+      // dearest matches everything. Neither is worth a line in the list.
+      .filter((b) => b >= low && b < high);
+
+    return [...new Set(cuts)].slice(0, 4);
   }, [products]);
 
   const filtered = useMemo(() => {
