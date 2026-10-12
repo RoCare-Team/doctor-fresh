@@ -47,11 +47,11 @@ export default function ProductCard({ product, compact = false, priority = false
         <div className="pointer-events-none absolute inset-x-3 top-3 hidden items-start justify-between gap-2 sm:flex">
           <span className="flex flex-col items-start gap-1.5">
             {product.rating ? (
-              <span className="inline-flex items-center gap-1 rounded bg-success px-1.5 py-0.5 text-[10.5px] font-semibold text-white shadow-[0_2px_6px_-3px_rgb(15_23_42_/_0.3)]">
+              <span className="inline-flex items-center gap-1 rounded bg-[#eaf6f0] px-1.5 py-0.5 text-[10.5px] font-semibold text-success ring-1 ring-success/15">
                 {product.rating.toFixed(1)}
                 <Star size={9} fill="currentColor" strokeWidth={0} aria-hidden="true" />
                 {product.reviewCount ? (
-                  <span className="font-normal text-white/80">{`(${product.reviewCount})`}</span>
+                  <span className="font-normal text-success/70">{`(${product.reviewCount})`}</span>
                 ) : null}
               </span>
             ) : null}
@@ -64,7 +64,7 @@ export default function ProductCard({ product, compact = false, priority = false
           </span>
 
           {showDiscount ? (
-            <span className="shrink-0 rounded-md bg-primary-600 px-1.5 py-1 text-[11px] font-bold text-white sm:px-2.5 sm:text-[12px]">
+            <span className="shrink-0 rounded-md bg-primary-50 px-1.5 py-1 text-[11px] font-bold text-primary-700 ring-1 ring-primary-200 sm:px-2.5 sm:text-[12px]">
               {`Save ${product.discountPercent}%`}
             </span>
           ) : null}
@@ -73,12 +73,12 @@ export default function ProductCard({ product, compact = false, priority = false
             discount top left, rating bottom left, the heart top right. */}
         <div className="pointer-events-none absolute inset-2.5 sm:hidden">
           {showDiscount ? (
-            <span className="absolute left-1.5 top-1.5 rounded-md bg-primary-600 px-1.5 py-0.5 text-[11.5px] font-bold uppercase text-white">
+            <span className="absolute left-1.5 top-1.5 rounded-md bg-primary-50 px-1.5 py-0.5 text-[11.5px] font-bold uppercase text-primary-700 ring-1 ring-primary-200">
               {`${product.discountPercent}% off`}
             </span>
           ) : null}
           {product.rating ? (
-            <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-0.5 rounded-md bg-success px-1.5 py-0.5 text-[11.5px] font-semibold text-white">
+            <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-0.5 rounded-md bg-[#eaf6f0] px-1.5 py-0.5 text-[11.5px] font-semibold text-success ring-1 ring-success/15">
               {product.rating.toFixed(1)}
               <Star size={10} fill="currentColor" strokeWidth={0} aria-hidden="true" />
             </span>
