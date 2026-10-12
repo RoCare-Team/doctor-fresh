@@ -79,7 +79,7 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
         <button
           type="button"
           onClick={handleBuyNow}
-          className="inline-flex h-9.5 flex-1 items-center justify-center rounded-lg border border-primary-200 bg-primary-50 px-2 text-[13.5px] font-semibold text-primary-700 transition-all hover:bg-primary-100 active:scale-[0.97] sm:h-9.5 sm:rounded-full sm:px-3 sm:text-[13px] sm:shadow-none"
+          className="inline-flex h-9.5 flex-1 items-center justify-center rounded-lg border border-primary-200 bg-primary-50 px-2 text-[13.5px] font-semibold text-primary-700 transition-all hover:border-brand-600 hover:bg-brand-600 hover:text-white active:scale-[0.97] sm:h-9.5 sm:rounded-full sm:px-3 sm:text-[13px] sm:shadow-none"
         >
           Buy Now
         </button>
@@ -90,8 +90,8 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
           title={added ? 'Already in your cart — tap to view it' : undefined}
           className={`inline-flex h-9.5 w-9.5 shrink-0 items-center justify-center gap-1.5 rounded-lg border transition-all active:scale-[0.97] sm:h-9.5 sm:w-auto sm:flex-1 sm:rounded-full sm:px-3 sm:text-[13px] sm:font-medium ${
             added
-              ? 'border-success/25 bg-[#eaf6f0] text-success'
-              : 'border-primary-200 bg-white text-primary-700 hover:bg-primary-50'
+              ? 'border-success/25 bg-[#eaf6f0] text-success hover:border-success hover:bg-success hover:text-white'
+              : 'border-primary-200 bg-white text-primary-700 hover:border-brand-600 hover:bg-brand-600 hover:text-white'
           }`}
         >
           {added
@@ -141,8 +141,8 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
         onClick={handleAdd}
         className={`inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border-[1.5px] text-[15px] font-semibold transition-all active:scale-[0.98] ${
           added
-            ? 'border-success/25 bg-[#eaf6f0] text-success'
-            : 'border-success/40 bg-white text-success hover:bg-[#ecf8f2]'
+            ? 'border-success/25 bg-[#eaf6f0] text-success hover:border-success hover:bg-success hover:text-white'
+            : 'border-success/40 bg-white text-success hover:border-success hover:bg-success hover:text-white'
         }`}
       >
         {added ? <Check size={18} aria-hidden="true" /> : <ShoppingCart size={18} aria-hidden="true" />}
@@ -151,7 +151,7 @@ export default function AddToCartButtons({ product, layout = 'card' }) {
       <button
         type="button"
         onClick={handleBuyNow}
-        className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border-[1.5px] border-primary-200 bg-primary-50 text-[15px] font-semibold text-primary-700 transition-all hover:bg-primary-100 active:scale-[0.98]"
+        className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border-[1.5px] border-primary-200 bg-primary-50 text-[15px] font-semibold text-primary-700 transition-all hover:border-brand-600 hover:bg-brand-600 hover:text-white active:scale-[0.98]"
       >
         <Zap size={18} aria-hidden="true" />
         Buy Now

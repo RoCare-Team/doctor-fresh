@@ -186,7 +186,7 @@ export default function HeaderClient({
               />
               <button
                 type="submit"
-                className="absolute right-1 top-1/2 h-9 -translate-y-1/2 rounded-full bg-brand-600 px-5 text-[14px] font-semibold text-white transition-colors hover:bg-brand-700 lg:px-6"
+                className="absolute right-1 top-1/2 h-9 -translate-y-1/2 rounded-full border border-primary-200 bg-primary-50 px-5 text-[14px] font-semibold text-primary-700 transition-colors hover:border-brand-600 hover:bg-brand-600 hover:text-white lg:px-6"
               >
                 Search
               </button>
@@ -315,12 +315,14 @@ export default function HeaderClient({
                       aria-haspopup="true"
                       aria-current={isActive ? 'page' : undefined}
                       className={cx(
-                        'inline-flex h-[56px] shrink-0 items-center gap-1.5 whitespace-nowrap border-b-[3px] px-2.5 text-[14.5px] transition-colors',
-                        open || isActive ? 'border-brand-600 font-semibold text-brand-600' : 'border-transparent text-ink-700 hover:text-brand-600',
+                        'group inline-flex h-[56px] shrink-0 items-center whitespace-nowrap border-b-[3px] px-1 text-[14.5px]',
+                        open || isActive ? 'border-brand-600 font-semibold text-brand-600' : 'border-transparent text-ink-700',
                       )}
                     >
-                      {item.label}
-                      <ChevronDown size={14} className={cx('transition-transform', open && 'rotate-180')} aria-hidden="true" />
+                      <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 transition-colors group-hover:bg-brand-600 group-hover:text-white">
+                        {item.label}
+                        <ChevronDown size={14} className={cx('transition-transform', open && 'rotate-180')} aria-hidden="true" />
+                      </span>
                     </Link>
                   </li>
                 );
@@ -332,11 +334,13 @@ export default function HeaderClient({
                     onMouseEnter={() => setOpenMenu(null)}
                     aria-current={isActive ? 'page' : undefined}
                     className={cx(
-                      'df-underline inline-flex h-[56px] shrink-0 items-center whitespace-nowrap px-2.5 text-[14.5px] transition-colors xl:px-4',
-                      isActive ? 'font-semibold text-brand-600' : 'text-ink-700 hover:text-brand-600',
+                      'group inline-flex h-[56px] shrink-0 items-center whitespace-nowrap px-1 text-[14.5px] xl:px-2',
+                      isActive ? 'font-semibold text-brand-600' : 'text-ink-700',
                     )}
                   >
-                    {item.label}
+                    <span className="rounded-full px-3 py-1.5 transition-colors group-hover:bg-brand-600 group-hover:text-white">
+                      {item.label}
+                    </span>
                   </Link>
                 </li>
               );

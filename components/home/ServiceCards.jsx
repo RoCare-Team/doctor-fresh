@@ -120,7 +120,7 @@ export default function ServiceCards() {
                 {/* Pushed to the bottom so the four cards line up however long
                     their descriptions are. */}
                 <span className="mt-auto pt-4">
-                  <span className="flex h-9 w-full items-center justify-center gap-1.5 rounded-lg border border-primary-200 bg-primary-50 text-[13.5px] font-semibold text-primary-700 transition-colors group-hover:bg-primary-100 group-hover:border-primary-300">
+                  <span className="flex h-9 w-full items-center justify-center gap-1.5 rounded-lg border border-primary-200 bg-primary-50 text-[13.5px] font-semibold text-primary-700 transition-colors group-hover:bg-primary-100 group-hover:border-primary-300 hover:border-brand-600 hover:bg-brand-600 hover:text-white">
                     {s.action}
                     <ArrowRight size={14} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
                   </span>

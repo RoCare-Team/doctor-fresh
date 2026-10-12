@@ -89,7 +89,7 @@ export default function CategoryTiles({ tiles = [] }) {
                   </h3>
 
                   <span className="mt-auto pt-2.5">
-                    <span className="flex h-8 w-full items-center justify-center gap-1.5 rounded-lg border border-primary-200 bg-primary-50 text-[13px] font-semibold text-primary-700 transition-colors group-hover:border-primary-300 group-hover:bg-primary-100">
+                    <span className="flex h-8 w-full items-center justify-center gap-1.5 rounded-lg border border-primary-200 bg-primary-50 text-[13px] font-semibold text-primary-700 transition-colors group-hover:border-primary-300 group-hover:bg-primary-100 hover:border-brand-600 hover:bg-brand-600 hover:text-white">
                       Explore range
                       <ArrowRight size={14} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
                     </span>

@@ -79,7 +79,7 @@ export default function DealSlider({ deals = [] }) {
                   )}
 
                   <span className="mt-auto pt-2.5">
-                    <span className="flex h-8 w-full items-center justify-center rounded-lg border border-primary-200 bg-primary-50 text-[13px] font-semibold text-primary-700 transition-colors group-hover:border-primary-300 group-hover:bg-primary-100">
+                    <span className="flex h-8 w-full items-center justify-center rounded-lg border border-primary-200 bg-primary-50 text-[13px] font-semibold text-primary-700 transition-colors group-hover:border-primary-300 group-hover:bg-primary-100 hover:border-brand-600 hover:bg-brand-600 hover:text-white">
                       View deal
                     </span>
                   </span>
