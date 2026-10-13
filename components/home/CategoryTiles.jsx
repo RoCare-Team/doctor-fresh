@@ -2,7 +2,7 @@ import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import Image from 'next/image';
 import { ArrowRight, Droplets } from 'lucide-react';
 import RailControls from '@/components/common/RailControls';
-import { imageUrl } from '@/lib/utils';
+import { imageUrl, cx } from '@/lib/utils';
 import Reveal from '@/components/common/Reveal';
 
 /**
@@ -61,16 +61,39 @@ export default function CategoryTiles({ tiles = [] }) {
               >
                 {/* the product on a soft grey stage; photos are shot on
                     white, so they are multiplied into it */}
-                <span className="relative m-2 mb-0 flex h-[130px] items-center justify-center overflow-hidden rounded-xl bg-[#fbfcfd] sm:h-[150px]">
+                {/* A square well: the feature sheets are square, so this is
+                    the only shape that shows one whole and edge to edge
+                    rather than shrunk between two margins. */}
+                <span className="relative m-2 mb-0 flex aspect-square items-center justify-center overflow-hidden rounded-xl bg-[#fbfcfd]">
                   {t.image ? (
-                    <Image
-                      src={imageUrl(t.image)}
-                      alt=""
-                      fill
-                      // two across a phone, five across a desktop
-                      sizes="(max-width: 640px) 46vw, (max-width: 1024px) 32vw, 240px"
-                      className="object-contain p-3 mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-[1.06]"
-                    />
+                    <>
+                      <Image
+                        src={imageUrl(t.image)}
+                        alt=""
+                        fill
+                        // two across a phone, five across a desktop
+                        sizes="(max-width: 640px) 46vw, (max-width: 1024px) 32vw, 240px"
+                        className={cx(
+                          'object-contain p-3 mix-blend-multiply transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)]',
+                          // A plain cross-fade, no movement: the two pictures
+                          // trade places without anything sliding or growing,
+                          // which is what makes the change hard to catch.
+                          t.hover ? 'group-hover:opacity-0' : 'group-hover:scale-[1.06]',
+                        )}
+                      />
+                      {/* the same product's feature sheet, faded in over it */}
+                      {t.hover ? (
+                        <Image
+                          src={imageUrl(t.hover)}
+                          alt=""
+                          fill
+                          sizes="(max-width: 640px) 46vw, (max-width: 1024px) 32vw, 240px"
+                          /* contained, so the sheet is never cut — and with no
+                             padding it takes the full height of the well */
+                          className="object-contain opacity-0 transition-opacity duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:opacity-100"
+                        />
+                      ) : null}
+                    </>
                   ) : (
                     /* A few categories (STP, ETP) carry no product photo yet,
                        so the card shows a mark rather than an empty image. */
