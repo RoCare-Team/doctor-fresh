@@ -12,8 +12,7 @@
 // address — it is fetched and stored as this post's cover, exactly as an
 // upload from the admin would be.
 //
-// This writes to the live blog, so unlike the read endpoints it is NOT open:
-// every request must carry the shared key.
+// Open: no key is asked for, so anyone who can reach the site can post.
 
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { query, queryOne, mutate } from '@/lib/db';
@@ -26,7 +25,6 @@ import { SITE_URL } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
 
-const KEY = process.env.BLOG_API_KEY || '';
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
 
 const fail = (message, status = 400) => Response.json({ ok: false, error: message }, { status });
@@ -41,16 +39,6 @@ const slugify = (value) => String(value || '')
   .replace(/[^a-z0-9]+/g, '-')
   .replace(/^-+|-+$/g, '')
   .slice(0, 190);
-
-/** The key, from a header or the body — whichever the caller finds easier. */
-function authorised(request, body) {
-  if (!KEY) return false;
-  const sent = request.headers.get('x-api-key')
-    || (request.headers.get('authorization') || '').replace(/^Bearer\s+/i, '')
-    || body?.key
-    || '';
-  return sent === KEY;
-}
 
 /**
  * Saves the picture at `src` as this post's cover.
@@ -114,9 +102,6 @@ export async function POST(request) {
   } catch {
     return fail('Send the post as JSON.');
   }
-
-  if (!KEY) return fail('Posting is not enabled on this site yet.', 503);
-  if (!authorised(request, body)) return fail('Wrong or missing API key.', 401);
 
   const title = clean(body.blog_title, 500);
   if (!title) return fail('blog_title is required.');
