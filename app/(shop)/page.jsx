@@ -17,7 +17,7 @@ import QuickLinks from '@/components/home/QuickLinks';
 import { quickLinksForHome } from '@/lib/sql/quick-links';
 import { getHomeContent, getContent } from '@/lib/sql/site-content';
 import {
-  getProductsByIds, getCategoryImage, getHomeSections, getBrand,
+  getProductsByIds, getCategoryImage, getCategoryTileImages, getHomeSections, getBrand,
   cardProduct, getAllProducts,
 } from '@/lib/catalog';
 // Layout copy the database does not hold: which badges the theme shows and
@@ -117,9 +117,10 @@ export default async function HomePage() {
   );
 
 
-  // give every category tile a real product photo (the stored icons are 62px)
+  // give every category tile a real product photo (the stored icons are 62px),
+  // and the second photo of that same product to show under the pointer
   const tiles = await Promise.all(
-    categoryTiles.map(async (t) => ({ ...t, image: await getCategoryImage(t.href) })),
+    categoryTiles.map(async (t) => ({ ...t, ...(await getCategoryTileImages(t.href)) })),
   );
 
 

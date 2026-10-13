@@ -17,6 +17,7 @@ export default function ProductCard({ product, compact = false, priority = false
   if (!product) return null;
 
   const image = product.images?.[0];
+  const hover = product.hoverImage;
   const hasPrice = Boolean(product.price);
   const showDiscount = hasPrice && product.mrp > product.price && product.discountPercent > 0;
 
@@ -26,20 +27,40 @@ export default function ProductCard({ product, compact = false, priority = false
       <Link href={product.url} className="relative block p-2">
         {/* product shots are photographed on white, so the well is white and the
             tinted card frames it */}
-        <div className="relative h-[120px] w-full overflow-hidden rounded-xl bg-white sm:h-[140px] md:h-[150px]">
+        {/* A square well: product shots and the feature sheets beside them are
+            both square, so this is the only shape that shows either one whole
+            and at full size rather than shrunk between two margins. */}
+        <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-white">
           {image ? (
-            <Image
-              src={imageUrl(image)}
-              alt={product.name}
-              fill
-              // The first cards of a grid are often the page's largest picture.
-              priority={priority}
-              fetchPriority={priority ? 'high' : undefined}
-              // Square product shots in a well 120 / 140 / 150px tall (phone / sm / md+),
-              // so the picture is never shown wider than that.
-              sizes="(max-width: 640px) 120px, (max-width: 768px) 140px, 150px"
-              className="object-contain p-2.5 transition-transform duration-300 ease-out group-hover:scale-[1.07]"
-            />
+            <>
+              <Image
+                src={imageUrl(image)}
+                alt={product.name}
+                fill
+                // The first cards of a grid are often the page's largest picture.
+                priority={priority}
+                fetchPriority={priority ? 'high' : undefined}
+                // Square product shots in a well 120 / 140 / 150px tall (phone / sm / md+),
+                // so the picture is never shown wider than that.
+                sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 280px"
+                className={
+                  hover
+                    // A plain cross-fade, with nothing moving, so the second
+                    // picture arrives without the card appearing to jump.
+                    ? 'object-contain p-4 transition-opacity duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:opacity-0'
+                    : 'object-contain p-4 transition-transform duration-300 ease-out group-hover:scale-[1.07]'
+                }
+              />
+              {hover ? (
+                <Image
+                  src={imageUrl(hover)}
+                  alt=""
+                  fill
+                  sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 280px"
+                  className="object-contain opacity-0 transition-opacity duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:opacity-100"
+                />
+              ) : null}
+            </>
           ) : null}
         </div>
 
