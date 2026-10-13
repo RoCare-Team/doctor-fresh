@@ -81,8 +81,8 @@ export default function MobileBuyBar({ product, watch = 'buy-actions' }) {
             onClick={handleAdd}
             className={`inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-lg border text-[14px] font-semibold transition-colors ${
               added
-                ? 'border-success bg-success text-white'
-                : 'border-primary-500 bg-white text-primary-600'
+                ? 'border-success/25 bg-[#eaf6f0] text-success hover:border-success hover:bg-success hover:text-white'
+                : 'border-primary-200 bg-white text-primary-700 hover:border-brand-600 hover:bg-brand-600 hover:text-white'
             }`}
           >
             {added ? <Check size={16} aria-hidden="true" /> : <ShoppingCart size={16} aria-hidden="true" />}
@@ -92,7 +92,7 @@ export default function MobileBuyBar({ product, watch = 'buy-actions' }) {
           <button
             type="button"
             onClick={handleBuyNow}
-            className="inline-flex h-11 flex-1 items-center justify-center rounded-lg bg-primary-500 text-[14px] font-semibold text-white transition-colors active:bg-ink-900"
+            className="inline-flex h-11 flex-1 items-center justify-center rounded-lg border border-primary-200 bg-primary-50 text-[14px] font-semibold text-primary-700 transition-colors hover:border-brand-600 hover:bg-brand-600 hover:text-white active:bg-brand-700"
           >
             Buy Now
           </button>

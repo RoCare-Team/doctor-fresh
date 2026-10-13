@@ -30,10 +30,10 @@ export default function DealSlider({ deals = [] }) {
             >
               <Link
                 href={p.url}
-                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#e6ecf0] bg-white transition-all duration-300 hover:-translate-y-1 hover:border-line-strong hover:shadow-[0_14px_30px_-18px_rgb(15_23_42/0.22)]"
+                className="df-lift group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white hover:-translate-y-1 hover:border-line-strong"
               >
                 {/* the product on a soft grey stage */}
-                <span className="relative m-2 mb-0 block h-[118px] overflow-hidden rounded-xl bg-[#f4f7f9] sm:h-[130px]">
+                <span className="relative m-2 mb-0 block h-[118px] overflow-hidden rounded-xl bg-[#fbfcfd] sm:h-[130px]">
                   <SafeImage
                     src={p.images?.[0]}
                     alt=""
@@ -79,7 +79,7 @@ export default function DealSlider({ deals = [] }) {
                   )}
 
                   <span className="mt-auto pt-2.5">
-                    <span className="flex h-8 w-full items-center justify-center rounded-lg border border-primary-600 text-[13px] font-semibold text-primary-700 transition-colors group-hover:bg-primary-600 group-hover:text-white">
+                    <span className="flex h-8 w-full items-center justify-center rounded-lg border border-primary-200 bg-primary-50 text-[13px] font-semibold text-primary-700 transition-colors group-hover:border-primary-300 group-hover:bg-primary-100 hover:border-brand-600 hover:bg-brand-600 hover:text-white">
                       View deal
                     </span>
                   </span>

@@ -85,11 +85,11 @@ export default function ServiceCards() {
           <Reveal as="li" key={s.title} delay={i * 70} className="h-full w-[82%] shrink-0 snap-start sm:w-auto">
             <Link
               href={s.href}
-              className="group flex h-full flex-col rounded-2xl border border-line bg-white p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[0_14px_30px_-18px_rgb(15_23_42/0.22)]"
+              className="df-lift group flex h-full flex-col rounded-2xl border border-line bg-white p-5 hover:-translate-y-0.5 hover:border-line-strong"
             >
               <span className="flex flex-1 flex-col">
                 <span className="flex items-start justify-between gap-3">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-50 text-primary-700 ring-1 ring-primary-100 transition-colors duration-300 group-hover:bg-primary-600 group-hover:text-white group-hover:ring-primary-600">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-50 text-primary-700 ring-1 ring-primary-100 transition-colors duration-300 group-hover:bg-primary-100 group-hover:ring-primary-200">
                     <s.icon size={20} aria-hidden="true" />
                   </span>
                   {/* the card's place in the four, as a quiet marker */}
@@ -106,7 +106,7 @@ export default function ServiceCards() {
                   {s.note}
                 </span>
 
-                <span className="mt-3.5 block space-y-1.5 border-t border-[#eef2f4] pt-3.5">
+                <span className="mt-3.5 block space-y-1.5 border-t border-line pt-3.5">
                   {s.points.map((p) => (
                     <span key={p} className="flex items-center gap-2 text-[13px] font-medium text-ink-700">
                       <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#e8f7ee] text-[#15803d]">
@@ -120,7 +120,7 @@ export default function ServiceCards() {
                 {/* Pushed to the bottom so the four cards line up however long
                     their descriptions are. */}
                 <span className="mt-auto pt-4">
-                  <span className="flex h-9 w-full items-center justify-center gap-1.5 rounded-lg border border-primary-600 text-[13.5px] font-semibold text-primary-700 transition-colors group-hover:bg-primary-600 group-hover:text-white">
+                  <span className="flex h-9 w-full items-center justify-center gap-1.5 rounded-lg border border-primary-200 bg-primary-50 text-[13.5px] font-semibold text-primary-700 transition-colors group-hover:bg-primary-100 group-hover:border-primary-300 hover:border-brand-600 hover:bg-brand-600 hover:text-white">
                     {s.action}
                     <ArrowRight size={14} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
                   </span>

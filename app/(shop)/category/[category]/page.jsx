@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import Breadcrumb from '@/components/common/Breadcrumb';
 import CategoryProducts from '@/components/categories/CategoryProducts';
 import SeoContent from '@/components/categories/SeoContent';
 import FaqSection from '@/components/common/FaqSection';
@@ -46,21 +45,18 @@ export default async function CategoryPage({ params }) {
 
   return (
     <>
-      {/* thin nav strip, then straight into the results */}
-      <div className="border-b border-line bg-white">
-        <div className="df-container py-2.5">
-          <Breadcrumb
-            items={[{ name: 'Products', href: '/all-category' }, { name: category.name, href: category.href }]}
-          />
-        </div>
-      </div>
-
-      <div className="df-container pt-5 pb-10 md:pb-12">
-        <h1 className="mb-4 text-[19px] font-semibold leading-snug tracking-tight text-ink-900 md:text-[22px]">
-          {category.heading || category.name}
-        </h1>
-
-        <CategoryProducts products={products} subcategories={category.subcategories} />
+      <div className="df-container pt-4 pb-10 md:pb-12">
+        <CategoryProducts
+          products={products}
+          subcategories={category.subcategories}
+          heading={category.heading || category.name}
+          breadcrumb={[
+            { name: 'Products', href: '/all-category' },
+            { name: category.name, href: category.href },
+          ]}
+          trail={[{ name: 'Products', href: '/all-category' }]}
+          activeName={category.name}
+        />
 
         <div className="mt-14 space-y-12">
           <SeoContent sections={category.seoSections} html={category.richHtml} />

@@ -17,6 +17,7 @@ export default function ProductCard({ product, compact = false, priority = false
   if (!product) return null;
 
   const image = product.images?.[0];
+  const hover = product.hoverImage;
   const hasPrice = Boolean(product.price);
   const showDiscount = hasPrice && product.mrp > product.price && product.discountPercent > 0;
 
@@ -26,20 +27,40 @@ export default function ProductCard({ product, compact = false, priority = false
       <Link href={product.url} className="relative block p-2">
         {/* product shots are photographed on white, so the well is white and the
             tinted card frames it */}
-        <div className="relative h-[120px] w-full overflow-hidden rounded-xl bg-white sm:h-[140px] md:h-[150px]">
+        {/* A square well: product shots and the feature sheets beside them are
+            both square, so this is the only shape that shows either one whole
+            and at full size rather than shrunk between two margins. */}
+        <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-white">
           {image ? (
-            <Image
-              src={imageUrl(image)}
-              alt={product.name}
-              fill
-              // The first cards of a grid are often the page's largest picture.
-              priority={priority}
-              fetchPriority={priority ? 'high' : undefined}
-              // Square product shots in a well 120 / 140 / 150px tall (phone / sm / md+),
-              // so the picture is never shown wider than that.
-              sizes="(max-width: 640px) 120px, (max-width: 768px) 140px, 150px"
-              className="object-contain p-2.5 transition-transform duration-300 ease-out group-hover:scale-[1.07]"
-            />
+            <>
+              <Image
+                src={imageUrl(image)}
+                alt={product.name}
+                fill
+                // The first cards of a grid are often the page's largest picture.
+                priority={priority}
+                fetchPriority={priority ? 'high' : undefined}
+                // Square product shots in a well 120 / 140 / 150px tall (phone / sm / md+),
+                // so the picture is never shown wider than that.
+                sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 280px"
+                className={
+                  hover
+                    // A plain cross-fade, with nothing moving, so the second
+                    // picture arrives without the card appearing to jump.
+                    ? 'object-contain p-4 transition-opacity duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:opacity-0'
+                    : 'object-contain p-4 transition-transform duration-300 ease-out group-hover:scale-[1.07]'
+                }
+              />
+              {hover ? (
+                <Image
+                  src={imageUrl(hover)}
+                  alt=""
+                  fill
+                  sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 280px"
+                  className="object-contain opacity-0 transition-opacity duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:opacity-100"
+                />
+              ) : null}
+            </>
           ) : null}
         </div>
 
@@ -47,11 +68,11 @@ export default function ProductCard({ product, compact = false, priority = false
         <div className="pointer-events-none absolute inset-x-3 top-3 hidden items-start justify-between gap-2 sm:flex">
           <span className="flex flex-col items-start gap-1.5">
             {product.rating ? (
-              <span className="inline-flex items-center gap-1 rounded bg-success px-1.5 py-0.5 text-[10.5px] font-semibold text-white shadow-[0_2px_6px_-3px_rgb(15_23_42_/_0.3)]">
+              <span className="inline-flex items-center gap-1 rounded bg-[#eaf6f0] px-1.5 py-0.5 text-[10.5px] font-semibold text-success ring-1 ring-success/15">
                 {product.rating.toFixed(1)}
                 <Star size={9} fill="currentColor" strokeWidth={0} aria-hidden="true" />
                 {product.reviewCount ? (
-                  <span className="font-normal text-white/80">{`(${product.reviewCount})`}</span>
+                  <span className="font-normal text-success/70">{`(${product.reviewCount})`}</span>
                 ) : null}
               </span>
             ) : null}
@@ -64,7 +85,7 @@ export default function ProductCard({ product, compact = false, priority = false
           </span>
 
           {showDiscount ? (
-            <span className="shrink-0 rounded-md bg-primary-600 px-1.5 py-1 text-[11px] font-bold text-white sm:px-2.5 sm:text-[12px]">
+            <span className="shrink-0 rounded-md bg-primary-50 px-1.5 py-1 text-[11px] font-bold text-primary-700 ring-1 ring-primary-200 sm:px-2.5 sm:text-[12px]">
               {`Save ${product.discountPercent}%`}
             </span>
           ) : null}
@@ -73,12 +94,12 @@ export default function ProductCard({ product, compact = false, priority = false
             discount top left, rating bottom left, the heart top right. */}
         <div className="pointer-events-none absolute inset-2.5 sm:hidden">
           {showDiscount ? (
-            <span className="absolute left-1.5 top-1.5 rounded-md bg-primary-600 px-1.5 py-0.5 text-[11.5px] font-bold uppercase text-white">
+            <span className="absolute left-1.5 top-1.5 rounded-md bg-primary-50 px-1.5 py-0.5 text-[11.5px] font-bold uppercase text-primary-700 ring-1 ring-primary-200">
               {`${product.discountPercent}% off`}
             </span>
           ) : null}
           {product.rating ? (
-            <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-0.5 rounded-md bg-success px-1.5 py-0.5 text-[11.5px] font-semibold text-white">
+            <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-0.5 rounded-md bg-[#eaf6f0] px-1.5 py-0.5 text-[11.5px] font-semibold text-success ring-1 ring-success/15">
               {product.rating.toFixed(1)}
               <Star size={10} fill="currentColor" strokeWidth={0} aria-hidden="true" />
             </span>

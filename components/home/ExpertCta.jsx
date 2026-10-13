@@ -13,26 +13,24 @@ export default function ExpertCta({ phone, phoneRaw }) {
   return (
     <section className="df-container df-section">
       <div>
-        <div className="relative overflow-hidden rounded-2xl bg-ink-900 px-5 py-6 sm:px-8 md:py-7 lg:px-10">
+        <div className="df-lift relative overflow-hidden rounded-2xl border border-line bg-white px-5 py-6 sm:px-8 md:py-7 lg:px-10">
+          {/* the faintest wash of brand blue in one corner, so the band is not
+              a plain white rectangle but is still white */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-primary-500/20 blur-3xl"
-          />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -bottom-28 left-1/3 h-56 w-56 rounded-full bg-primary-400/10 blur-3xl"
+            className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-primary-100/60 blur-3xl"
           />
 
           <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
             <div className="flex items-center justify-center gap-4 text-center sm:justify-start sm:text-left">
-              <span className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-600 text-white sm:flex">
+              <span className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-700 ring-1 ring-primary-100 sm:flex">
                 <Droplets size={22} aria-hidden="true" />
               </span>
               <div>
-                <h2 className="text-[20px] font-semibold leading-tight tracking-tight text-white md:text-[24px]">
-                  Not sure which purifier suits <span className="text-primary-300">your water?</span>
+                <h2 className="text-[20px] font-semibold leading-tight tracking-tight text-ink-900 md:text-[24px]">
+                  Not sure which purifier suits <span className="text-primary-600">your water?</span>
                 </h2>
-                <p className="mx-auto mt-1.5 max-w-xl text-[14.5px] sm:mx-0 leading-relaxed text-white/65">
+                <p className="mx-auto mt-1.5 max-w-xl text-[14.5px] sm:mx-0 leading-relaxed text-ink-400">
                   Talk to a Doctor Fresh water expert — free consultation, honest recommendation
                   based on your actual water quality.
                 </p>
@@ -42,14 +40,14 @@ export default function ExpertCta({ phone, phoneRaw }) {
             <div className="flex shrink-0 flex-wrap justify-center gap-3 sm:justify-start">
               <a
                 href={`tel:${phoneRaw}`}
-                className="inline-flex h-11 items-center gap-2 rounded-xl bg-primary-600 px-5 text-[15px] font-semibold text-white transition-colors hover:bg-primary-500"
+                className="inline-flex h-11 items-center gap-2 rounded-xl border border-primary-200 bg-primary-50 px-5 text-[15px] font-semibold text-primary-700 transition-colors hover:bg-primary-100"
               >
                 <Phone size={16} aria-hidden="true" />
                 Call {phone}
               </a>
               <Link
                 href="/contact"
-                className="group inline-flex h-11 items-center gap-1.5 rounded-xl border border-white/25 px-5 text-[15px] font-medium text-white transition-colors hover:border-white/50 hover:bg-white/5"
+                className="group inline-flex h-11 items-center gap-1.5 rounded-xl border border-line-strong bg-white px-5 text-[15px] font-medium text-ink-700 transition-colors hover:border-primary-300 hover:text-primary-700"
               >
                 Request a callback
                 <ArrowRight size={15} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />

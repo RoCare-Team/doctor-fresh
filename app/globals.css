@@ -170,15 +170,15 @@
      two-layer shadow compiles reliably. */
   .df-product-card {
     background: #fff;
-    border-radius: 16px;
+    border-radius: 4px;
     box-shadow:
-      0 0 0 1px rgb(15 23 42 / 0.05),
+      0 0 0 1.5px rgb(15 23 42 / 0.12),
       0 6px 18px -10px rgb(15 23 42 / 0.14);
     transition: box-shadow 0.2s ease, transform 0.2s ease;
   }
   .df-product-card:hover {
     box-shadow:
-      0 0 0 1px rgb(15 23 42 / 0.07),
+      0 0 0 1.5px rgb(15 23 42 / 0.18),
       0 14px 30px -14px rgb(15 23 42 / 0.22);
   }
 

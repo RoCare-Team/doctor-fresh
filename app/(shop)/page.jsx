@@ -10,7 +10,6 @@ import ServiceCards from '@/components/home/ServiceCards';
 import BrandStrip from '@/components/home/BrandStrip';
 import WaterTestSection from '@/components/home/WaterTestSection';
 import ProductRail from '@/components/products/ProductRail';
-import BlogCard from '@/components/blogs/BlogCard';
 import HomeColumns from '@/components/home/HomeColumns';
 import DealSlider from '@/components/home/DealSlider';
 import Reveal from '@/components/common/Reveal';
@@ -18,7 +17,7 @@ import QuickLinks from '@/components/home/QuickLinks';
 import { quickLinksForHome } from '@/lib/sql/quick-links';
 import { getHomeContent, getContent } from '@/lib/sql/site-content';
 import {
-  getProductsByIds, getAllBlogPosts, getCategoryImage, getHomeSections, getBrand,
+  getProductsByIds, getCategoryImage, getCategoryTileImages, getHomeSections, getBrand,
   cardProduct, getAllProducts,
 } from '@/lib/catalog';
 // Layout copy the database does not hold: which badges the theme shows and
@@ -94,7 +93,6 @@ export default async function HomePage() {
     .filter((p) => isCommercial(p) && p.inStock && p.price && p.discountPercent > 0 && !marked.some((m) => m.id === p.id))
     .sort((a, b) => b.discountPercent - a.discountPercent);
   const deals = [...marked, ...topUp].slice(0, DEAL_COUNT).map(cardProduct);
-  const posts = (await getAllBlogPosts()).slice(0, 3);
 
   const heroTiles = hero?.tiles?.length ? hero.tiles : [
     // Our own Doctor Fresh RO, rather than whichever product the category lists first.
@@ -110,7 +108,7 @@ export default async function HomePage() {
     { label: 'Vegetable Purifier for Home', href: '/category/vegetable-purifier/vegetablefruit-purifier-for-home' },
     { label: 'Tap Water Purifier for Home', href: '/category/water-purifier/tap-water-purifier' },
     { label: 'Geyser for Home', href: '/category/water-heater/electric-geyser' },
-    { label: 'Vacuum Cleaner for Home', href: '/category/vacuum-cleaner/vacuum-cleaner-for-home' },
+    { label: 'Vacuum Cleaner for Home, Offices and Shops', href: '/category/vacuum-cleaner/vacuum-cleaner-for-home' },
   ];
 
   // Each tile takes the first product photo of the category it opens.
@@ -119,9 +117,10 @@ export default async function HomePage() {
   );
 
 
-  // give every category tile a real product photo (the stored icons are 62px)
+  // give every category tile a real product photo (the stored icons are 62px),
+  // and the second photo of that same product to show under the pointer
   const tiles = await Promise.all(
-    categoryTiles.map(async (t) => ({ ...t, image: await getCategoryImage(t.href) })),
+    categoryTiles.map(async (t) => ({ ...t, ...(await getCategoryTileImages(t.href)) })),
   );
 
 
@@ -205,38 +204,6 @@ export default async function HomePage() {
         latest={latestProducts.map(cardFields)}
         mostViewed={mostViewedProducts.map(cardFields)}
       />
-
-      {/* ------------------------------------------------------------ blogs */}
-      <section className="hidden border-y border-line sm:block">
-        <div className="df-container df-section">
-          <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
-            <Reveal className="max-w-2xl">
-              <p className="df-eyebrow">Water knowledge</p>
-              <h2 className="mt-2 text-[26px] font-semibold tracking-tight text-ink-900 md:text-[32px]">
-                From the Doctor Fresh Blog
-              </h2>
-              <p className="mt-2 text-[15.5px] text-ink-400">
-                Tips, guides &amp; insights to help you choose, use &amp; maintain the best water purifier.
-              </p>
-            </Reveal>
-            <Link
-              href="/blogs"
-              className="inline-flex items-center gap-1.5 text-[15px] font-medium text-primary-700 transition-colors hover:text-primary-800"
-            >
-              All articles
-              <ArrowRight size={16} aria-hidden="true" />
-            </Link>
-          </div>
-
-          <div className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 max-md:[contain:paint] md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0">
-            {posts.map((p, i) => (
-              <Reveal key={p.id} delay={i * 80} className="h-full w-[82%] shrink-0 snap-start sm:w-[46%] md:w-auto">
-                <BlogCard post={p} compact />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* -------------------------------------------------------------- CTA */}
       <ExpertCta phone={brand.phone} phoneRaw={brand.phoneRaw} />
