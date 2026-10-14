@@ -152,7 +152,7 @@ export default function CategoryProducts({
   breadcrumb = [],
 }) {
   const [sort, setSort] = useState('featured');
-  const [maxPrice, setMaxPrice] = useState(null);
+  const [band, setBand] = useState(null);
   const [minRating, setMinRating] = useState(null);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [visible, setVisible] = useState(PAGE_SIZE);
@@ -169,28 +169,43 @@ export default function CategoryProducts({
    * products behind it, and then rounded up to a figure somebody would
    * actually say out loud.
    */
-  const priceBuckets = useMemo(() => {
+  const priceBands = useMemo(() => {
     const priced = products.filter((p) => p.price > 0).map((p) => p.price).sort((a, b) => a - b);
-    if (priced.length < 2) return [];
+    if (priced.length < 3) return [];
 
     const low = priced[0];
     const high = priced[priced.length - 1];
     if (high <= low) return [];
 
-    const cuts = [0.25, 0.45, 0.65, 0.85]
+    // Three cuts at thirds of the sorted list make four bands that each hold
+    // roughly a quarter of the catalogue, whatever it costs.
+    const cuts = [...new Set([0.25, 0.5, 0.75]
       .map((q) => priced[Math.min(priced.length - 1, Math.floor(q * priced.length))])
       .map(roundUpNicely)
-      // A step below the cheapest matches nothing; one at or above the
-      // dearest matches everything. Neither is worth a line in the list.
-      .filter((b) => b >= low && b < high);
+      .filter((c) => c > low && c <= high))].sort((a, b) => a - b);
 
-    return [...new Set(cuts)].slice(0, 4);
+    if (!cuts.length) return [];
+
+    const edges = [null, ...cuts, null];
+    const bands = [];
+    for (let i = 0; i < edges.length - 1; i += 1) {
+      const min = edges[i];
+      const max = edges[i + 1];
+      const label = min === null ? `Under ${formatPrice(max)}`
+        : max === null ? `${formatPrice(min)} & above`
+          : `${formatPrice(min)} – ${formatPrice(max)}`;
+      const count = products.filter((p) => p.price > 0
+        && (min === null || p.price >= min)
+        && (max === null || p.price < max)).length;
+      // A band nothing falls into is a line that can only disappoint.
+      if (count) bands.push({ key: `${min || 0}-${max || 0}`, min, max, label, count });
+    }
+    return bands;
   }, [products]);
 
   // How many products each option would leave, counted over the whole
   // category so the numbers do not jump about as other filters are ticked.
   const counts = useMemo(() => ({
-    under: (b) => products.filter((p) => p.price > 0 && p.price <= b).length,
     rated: (r) => products.filter((p) => (p.rating || 0) >= r).length,
     inStock: products.filter((p) => p.inStock).length,
   }), [products]);
@@ -208,7 +223,11 @@ export default function CategoryProducts({
 
   const filtered = useMemo(() => {
     let list = [...products];
-    if (maxPrice) list = list.filter((p) => p.price > 0 && p.price <= maxPrice);
+    if (band) {
+      list = list.filter((p) => p.price > 0
+        && (band.min === null || p.price >= band.min)
+        && (band.max === null || p.price < band.max));
+    }
     if (minRating) list = list.filter((p) => (p.rating || 0) >= minRating);
     if (inStockOnly) list = list.filter((p) => p.inStock);
 
@@ -229,13 +248,13 @@ export default function CategoryProducts({
         break;
     }
     return list;
-  }, [products, sort, maxPrice, minRating, inStockOnly]);
+  }, [products, sort, band, minRating, inStockOnly]);
 
   // Picking a filter always sends the reader back to the first page.
   const pick = (set) => (value) => { set(value); setVisible(PAGE_SIZE); };
 
   const applied = [
-    maxPrice ? { key: 'price', label: `Under ${formatPrice(maxPrice)}`, remove: () => pick(setMaxPrice)(null) } : null,
+    band ? { key: 'price', label: band.label, remove: () => pick(setBand)(null) } : null,
     minRating ? { key: 'rating', label: `${minRating}★ & above`, remove: () => pick(setMinRating)(null) } : null,
     inStockOnly ? { key: 'stock', label: 'In stock only', remove: () => pick(setInStockOnly)(false) } : null,
   ].filter(Boolean);
@@ -243,7 +262,7 @@ export default function CategoryProducts({
   const hasFilters = applied.length > 0;
 
   function clearFilters() {
-    setMaxPrice(null);
+    setBand(null);
     setMinRating(null);
     setInStockOnly(false);
     setVisible(PAGE_SIZE);
@@ -251,7 +270,7 @@ export default function CategoryProducts({
 
   // Names the filter that is responsible, so it is obvious what to relax.
   const reasons = [
-    maxPrice ? `nothing here is under ${formatPrice(maxPrice)}` : null,
+    band ? `nothing here is priced ${band.label.toLowerCase()}` : null,
     minRating ? `nothing is rated ${minRating} stars or more` : null,
     inStockOnly ? 'nothing is in stock right now' : null,
   ].filter(Boolean).join(', and ');
@@ -352,29 +371,29 @@ export default function CategoryProducts({
         </div>
       ) : null}
 
-      {priceBuckets.length ? (
+      {priceBands.length ? (
         <FilterGroup title="Price">
           <ul className="-mx-2 space-y-px">
-            {priceBuckets.map((b) => (
-              <li key={b}>
+            {priceBands.map((b) => (
+              <li key={b.key}>
                 <Option
                   type="radio"
                   name="price"
-                  checked={maxPrice === b}
-                  onChange={() => pick(setMaxPrice)(b)}
-                  count={counts.under(b)}
+                  checked={band?.key === b.key}
+                  onChange={() => pick(setBand)(b)}
+                  count={b.count}
                 >
-                  Under {formatPrice(b)}
+                  {b.label}
                 </Option>
               </li>
             ))}
-            {maxPrice ? (
+            {band ? (
               <li>
                 <Option
                   type="radio"
                   name="price"
                   checked={false}
-                  onChange={() => pick(setMaxPrice)(null)}
+                  onChange={() => pick(setBand)(null)}
                   count={products.length}
                 >
                   Any price
@@ -408,6 +427,23 @@ export default function CategoryProducts({
           </ul>
         </FilterGroup>
       ) : null}
+
+      <FilterGroup title="Sort by">
+        <ul className="-mx-2 space-y-px">
+          {SORTS.map((s) => (
+            <li key={s.value}>
+              <Option
+                type="radio"
+                name="sort"
+                checked={sort === s.value}
+                onChange={() => { setSort(s.value); setVisible(PAGE_SIZE); }}
+              >
+                {s.label}
+              </Option>
+            </li>
+          ))}
+        </ul>
+      </FilterGroup>
 
       <FilterGroup title="Availability">
         <div className="-mx-2">
@@ -457,7 +493,7 @@ export default function CategoryProducts({
 
           {/* --------------------------------------------- heading and sorts */}
           {heading ? (
-            <div className="mb-2 flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+            <div className="mb-3 flex flex-wrap items-baseline gap-x-2.5 gap-y-1 border-b border-line pb-2.5 max-lg:mb-2 max-lg:border-b-0 max-lg:pb-0">
               <h1 className="text-[18px] font-semibold leading-snug tracking-tight text-ink-900 md:text-[20px]">
                 {heading}
               </h1>
@@ -467,31 +503,10 @@ export default function CategoryProducts({
             </div>
           ) : null}
 
-          <div className="mb-4 flex items-center justify-between gap-3 border-b border-line">
-            {/* The sorts are laid out rather than hidden in a select, so the
-                one in use is readable without opening anything. */}
-            <div className="df-no-scrollbar -mb-px flex min-w-0 items-center gap-4 overflow-x-auto sm:gap-5">
-              <span className="shrink-0 py-2 text-[14px] font-semibold text-ink-900">Sort By</span>
-              {SORTS.map((s) => {
-                const on = sort === s.value;
-                return (
-                  <button
-                    key={s.value}
-                    type="button"
-                    onClick={() => { setSort(s.value); setVisible(PAGE_SIZE); }}
-                    aria-pressed={on}
-                    className={cx(
-                      'shrink-0 whitespace-nowrap border-b-2 py-2 text-[13.5px] transition-colors',
-                      on
-                        ? 'border-primary-600 font-semibold text-primary-700'
-                        : 'border-transparent text-ink-500 hover:text-primary-700',
-                    )}
-                  >
-                    {s.label}
-                  </button>
-                );
-              })}
-            </div>
+          <div className="mb-4 flex items-center justify-between gap-3 border-b border-line pb-2 lg:hidden">
+            <span className="text-[13.5px] text-ink-500">
+              Sorted by <span className="font-semibold text-ink-900">{SORTS.find((s) => s.value === sort)?.label}</span>
+            </span>
 
             <button
               type="button"
