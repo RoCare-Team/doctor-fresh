@@ -13,6 +13,23 @@ import { formatPrice, imageUrl } from '@/lib/utils';
  * description or an odd image ratio can never make one card taller than its
  * neighbour, and the actions always sit on the bottom edge of the card.
  */
+/**
+ * The discount, as a ribbon on the card's right edge.
+ *
+ * It runs off the edge rather than sitting inside a margin, and the notch cut
+ * out of its left end is what makes it read as a ribbon rather than a label.
+ */
+function DiscountRibbon({ percent }) {
+  return (
+    <span
+      className="pointer-events-none absolute right-0 top-3 z-10 bg-linear-to-r from-primary-500 to-primary-700 py-1 pl-4 pr-2.5 text-[11.5px] font-bold uppercase tracking-[0.02em] text-white shadow-[0_2px_6px_-2px_rgb(15_23_42/0.35)]"
+      style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%, 9px 50%)' }}
+    >
+      {percent}% off
+    </span>
+  );
+}
+
 export default function ProductCard({ product, compact = false, priority = false }) {
   if (!product) return null;
 
@@ -64,7 +81,9 @@ export default function ProductCard({ product, compact = false, priority = false
           ) : null}
         </div>
 
-        {/* one row keeps the rating and the discount badge from ever colliding */}
+        {showDiscount ? <DiscountRibbon percent={product.discountPercent} /> : null}
+
+        {/* the rating sits on its own now that the discount has left the row */}
         <div className="pointer-events-none absolute inset-x-3 top-3 hidden items-start justify-between gap-2 sm:flex">
           <span className="flex flex-col items-start gap-1.5">
             {product.rating ? (
@@ -84,20 +103,10 @@ export default function ProductCard({ product, compact = false, priority = false
             ) : null}
           </span>
 
-          {showDiscount ? (
-            <span className="shrink-0 rounded-md bg-primary-50 px-1.5 py-1 text-[11px] font-bold text-primary-700 ring-1 ring-primary-200 sm:px-2.5 sm:text-[12px]">
-              {`Save ${product.discountPercent}%`}
-            </span>
-          ) : null}
         </div>
         {/* Phone: the badges share a narrow photo, so each takes a corner —
             discount top left, rating bottom left, the heart top right. */}
         <div className="pointer-events-none absolute inset-2.5 sm:hidden">
-          {showDiscount ? (
-            <span className="absolute left-1.5 top-1.5 rounded-md bg-primary-50 px-1.5 py-0.5 text-[11.5px] font-bold uppercase text-primary-700 ring-1 ring-primary-200">
-              {`${product.discountPercent}% off`}
-            </span>
-          ) : null}
           {product.rating ? (
             <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-0.5 rounded-md bg-[#eaf6f0] px-1.5 py-0.5 text-[11.5px] font-semibold text-success ring-1 ring-success/15">
               {product.rating.toFixed(1)}
