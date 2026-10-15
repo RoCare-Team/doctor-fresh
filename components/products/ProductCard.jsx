@@ -53,6 +53,7 @@ export default function ProductCard({ product, compact = false, priority = false
               <Image
                 src={imageUrl(image)}
                 alt={product.name}
+                title={product.name}
                 fill
                 // The first cards of a grid are often the page's largest picture.
                 priority={priority}
@@ -71,7 +72,8 @@ export default function ProductCard({ product, compact = false, priority = false
               {hover ? (
                 <Image
                   src={imageUrl(hover)}
-                  alt=""
+                  alt={`${product.name} — features`}
+                  title={`${product.name} — features`}
                   fill
                   sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 280px"
                   className="object-contain opacity-0 transition-opacity duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:opacity-100"

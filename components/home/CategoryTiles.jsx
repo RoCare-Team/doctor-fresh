@@ -48,7 +48,7 @@ export default function CategoryTiles({ tiles = [] }) {
       <div className="relative">
         <ul
           id="rail-categories"
-          className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-2 sm:mx-0 sm:gap-4 sm:px-0 xl:gap-5"
+          className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-2 pt-1 sm:mx-0 sm:gap-4 sm:px-0 xl:gap-5"
         >
           {items.map((t) => (
             <li
@@ -69,7 +69,8 @@ export default function CategoryTiles({ tiles = [] }) {
                     <>
                       <Image
                         src={imageUrl(t.image)}
-                        alt=""
+                        alt={t.label}
+                        title={t.label}
                         fill
                         // two across a phone, five across a desktop
                         sizes="(max-width: 640px) 46vw, (max-width: 1024px) 32vw, 240px"
@@ -85,7 +86,8 @@ export default function CategoryTiles({ tiles = [] }) {
                       {t.hover ? (
                         <Image
                           src={imageUrl(t.hover)}
-                          alt=""
+                          alt={`${t.label} — features`}
+                          title={`${t.label} — features`}
                           fill
                           sizes="(max-width: 640px) 46vw, (max-width: 1024px) 32vw, 240px"
                           /* contained, so the sheet is never cut — and with no

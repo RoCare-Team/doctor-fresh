@@ -19,7 +19,7 @@ export default function DealSlider({ deals = [] }) {
     <div className="relative">
       <ul
         id="rail-deals"
-        className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-2 sm:mx-0 sm:gap-4 sm:px-0 xl:gap-5"
+        className="df-no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-2 pt-1 sm:mx-0 sm:gap-4 sm:px-0 xl:gap-5"
       >
         {deals.map((p) => {
           const saving = p.mrp > p.price ? p.mrp - p.price : 0;
@@ -36,7 +36,8 @@ export default function DealSlider({ deals = [] }) {
                 <span className="relative m-2 mb-0 block h-[118px] overflow-hidden rounded-xl bg-[#fbfcfd] sm:h-[130px]">
                   <SafeImage
                     src={p.images?.[0]}
-                    alt=""
+                    alt={p.name}
+                    title={p.name}
                     fill
                     // two cards per row on a phone, so half the screen
                     sizes="(max-width: 640px) 46vw, (max-width: 1024px) 32vw, 300px"

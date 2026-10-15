@@ -56,6 +56,7 @@ export default async function CategoryPage({ params }) {
           ]}
           trail={[{ name: 'Products', href: '/all-category' }]}
           activeName={category.name}
+          categoryHref={category.href}
         />
 
         <div className="mt-14 space-y-12">

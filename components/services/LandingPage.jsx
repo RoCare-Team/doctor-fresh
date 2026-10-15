@@ -24,6 +24,16 @@ export default function LandingPage({
   const place = page.locality || page.city;
   const showPlace = place && place.toLowerCase() !== 'india';
 
+  /*
+   * "Best RO Plant in Noida" rather than the stored "RO Plant In Noida
+   * @9311587716": the phone number belongs in the panel beside the heading,
+   * not in the heading itself. The row's own wording is still used wherever a
+   * service type is not recorded, so no page is left without a title.
+   */
+  const heading = page.serviceType
+    ? `Best ${page.serviceType}${showPlace ? ` in ${place}` : ''}`
+    : page.heading;
+
   return (
     <div className="df-container py-6 md:py-8">
       {breadcrumb.length ? <Breadcrumb items={breadcrumb} className="mb-5" /> : null}
@@ -32,7 +42,7 @@ export default function LandingPage({
         <div>
           <Reveal>
             <h1 className="text-[26px] font-semibold leading-tight tracking-tight text-ink-900 md:text-[34px]">
-              {page.heading}
+              {heading}
             </h1>
 
             <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-[14px] text-ink-400">
@@ -49,19 +59,34 @@ export default function LandingPage({
               ) : null}
             </div>
 
-            {page.metaDescription ? (
-              <p className="mt-4 max-w-2xl text-[15.5px] leading-relaxed text-ink-500">
-                {page.metaDescription}
-              </p>
-            ) : null}
           </Reveal>
 
           {page.videoUrl ? (
             <VideoEmbed url={page.videoUrl} title={page.heading} className="mt-6" />
           ) : null}
 
+          {products.length ? (
+            <div className="mt-6">
+              <ProductRail
+                framed
+                id="recommended"
+                title=""
+                products={products}
+                href="/all-category"
+              />
+            </div>
+          ) : null}
+
+          {page.metaDescription ? (
+            <Reveal>
+              <p className="mt-8 max-w-2xl text-[15.5px] leading-relaxed text-ink-500">
+                {page.metaDescription}
+              </p>
+            </Reveal>
+          ) : null}
+
           {page.contentSections.length ? (
-            <div className="mt-10">
+            <div className="mt-8">
               <SeoContent sections={page.contentSections} html={page.richHtml} />
             </div>
           ) : (
@@ -152,16 +177,6 @@ export default function LandingPage({
       </div>
 
       <NearbyStores stores={stores.list} scope={stores.scope} place={showPlace ? place : ''} />
-
-      {products.length ? (
-        <div className="mt-4">
-          <ProductRail
-            title="Recommended by Doctor Fresh"
-            products={products}
-            href="/all-category"
-          />
-        </div>
-      ) : null}
     </div>
   );
 }

@@ -151,6 +151,7 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
                 <Image
                   src={imageUrl(src)}
                   alt={i === 0 ? name : `${name} — photo ${i + 1}`}
+                  title={name}
                   fill
                   priority={i === 0}
                   sizes={SIZES}
@@ -193,7 +194,7 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
                     i === slide ? 'border-primary-500' : 'border-line',
                   )}
                 >
-                  <Image src={imageUrl(src)} alt="" fill sizes="56px" className="object-contain p-1" />
+                  <Image src={imageUrl(src)} alt={name} title={name} fill sizes="56px" className="object-contain p-1" />
                 </button>
               ))}
             </div>
@@ -230,7 +231,10 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
               >
                 <Image
                   src={imageUrl(src)}
-                  alt=""
+                  alt={name}
+              title={name}
+                  title={name}
+                  title={name}
                   fill
                   sizes="100px"
                   className="object-contain p-1.5"
@@ -265,6 +269,7 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
             <Image
               src={source}
               alt={name}
+              title={name}
               fill
               sizes={SIZES}
               className="object-contain p-5"
@@ -341,7 +346,7 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
                 <VideoEmbed url={videoUrl} title={`${name} demo video`} className="max-w-4xl" />
               </div>
             ) : (
-              <Image src={imageUrl(images[viewer])} alt={`${name} — photo ${viewer + 1}`} fill sizes="100vw" className="object-contain p-6" />
+              <Image src={imageUrl(images[viewer])} alt={`${name} — photo ${viewer + 1}`} title={name} fill sizes="100vw" className="object-contain p-6" />
             )}
             {slides > 1 ? (
               <>
@@ -365,7 +370,7 @@ export default function ProductGallery({ images = [], name, badges = [], discoun
                   aria-current={i === viewer}
                   className={cx('relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 bg-white', i === viewer ? 'border-primary-500' : 'border-line')}
                 >
-                  <Image src={imageUrl(src)} alt="" fill sizes="64px" className="object-contain p-1" />
+                  <Image src={imageUrl(src)} alt={name} title={name} fill sizes="64px" className="object-contain p-1" />
                 </button>
               ))}
               {videoUrl ? (

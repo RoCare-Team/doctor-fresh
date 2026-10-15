@@ -107,7 +107,8 @@ function MiniCard({ product, rank }) {
       <span className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-xl bg-[#fbfcfd]">
         <SafeImage
           src={product.image}
-          alt=""
+          alt={product.name}
+          title={product.name}
           fill
           sizes="72px"
           className="object-contain p-1.5 mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-[1.07]"
