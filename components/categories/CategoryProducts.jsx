@@ -1,9 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import {
-  SlidersHorizontal, X, ChevronDown, ChevronLeft, Search, Star, Check,
+  SlidersHorizontal, X, ChevronDown, ChevronLeft, Search, Star, Check, ExternalLink,
 } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import ProductGrid from '@/components/products/ProductGrid';
@@ -149,8 +149,48 @@ function ListSearch({ label, value, onChange }) {
 
 export default function CategoryProducts({
   products = [], subcategories = [], activeSlug = null, trail = [], activeName = '', heading = '',
-  breadcrumb = [],
+  breadcrumb = [], categoryHref = '',
 }) {
+  /*
+   * Ticking a second category used to replace the first, because each one was
+   * a link to its own page. On the category page they are now checkboxes over
+   * one list of products: tick three and all three are shown.
+   *
+   * The choice is written into the address (?sub=a,b) so the row survives a
+   * reload and can be sent to somebody — but it is held in state rather than
+   * read with useSearchParams, which a prerendered page cannot use.
+   */
+  const onCategoryPage = Boolean(categoryHref) && !activeSlug;
+  const [chosenSubs, setChosenSubs] = useState([]);
+
+  useEffect(() => {
+    if (!onCategoryPage) return;
+    const known = new Set(subcategories.map((s) => s.slug));
+    const wanted = (new URLSearchParams(window.location.search).get('sub') || '')
+      .split(',').map((s) => s.trim()).filter((s) => known.has(s));
+    setChosenSubs(wanted);
+  }, [onCategoryPage, subcategories]);
+
+  /** The same list with one slug switched on or off. */
+  const withSub = (slug) => (chosenSubs.includes(slug)
+    ? chosenSubs.filter((s) => s !== slug)
+    : [...chosenSubs, slug]);
+
+  const basePath = () => categoryHref || trail[trail.length - 1]?.href || '';
+
+  /** Where a row leads when it is still a link — back to the category page. */
+  const hrefWithSub = (slug) => {
+    const next = activeSlug && slug !== activeSlug ? [activeSlug, slug] : [slug];
+    return `${basePath()}?sub=${next.join(',')}`;
+  };
+
+  const toggleSub = (slug) => {
+    const next = withSub(slug);
+    setChosenSubs(next);
+    setVisible(PAGE_SIZE);
+    const url = next.length ? `${basePath()}?sub=${next.join(',')}` : basePath();
+    window.history.replaceState(null, '', url);
+  };
   const [sort, setSort] = useState('featured');
   const [band, setBand] = useState(null);
   const [minRating, setMinRating] = useState(null);
@@ -223,6 +263,9 @@ export default function CategoryProducts({
 
   const filtered = useMemo(() => {
     let list = [...products];
+    if (chosenSubs.length) {
+      list = list.filter((p) => p.subcategories?.some((s) => chosenSubs.includes(s)));
+    }
     if (band) {
       list = list.filter((p) => p.price > 0
         && (band.min === null || p.price >= band.min)
@@ -248,12 +291,17 @@ export default function CategoryProducts({
         break;
     }
     return list;
-  }, [products, sort, band, minRating, inStockOnly]);
+  }, [products, sort, band, minRating, inStockOnly, chosenSubs]);
 
   // Picking a filter always sends the reader back to the first page.
   const pick = (set) => (value) => { set(value); setVisible(PAGE_SIZE); };
 
   const applied = [
+    ...chosenSubs.map((slug) => ({
+      key: `sub-${slug}`,
+      label: subcategories.find((s) => s.slug === slug)?.name || slug,
+      remove: () => toggleSub(slug),
+    })),
     band ? { key: 'price', label: band.label, remove: () => pick(setBand)(null) } : null,
     minRating ? { key: 'rating', label: `${minRating}★ & above`, remove: () => pick(setMinRating)(null) } : null,
     inStockOnly ? { key: 'stock', label: 'In stock only', remove: () => pick(setInStockOnly)(false) } : null,
@@ -262,6 +310,10 @@ export default function CategoryProducts({
   const hasFilters = applied.length > 0;
 
   function clearFilters() {
+    if (chosenSubs.length) {
+      setChosenSubs([]);
+      window.history.replaceState(null, '', basePath());
+    }
     setBand(null);
     setMinRating(null);
     setInStockOnly(false);
@@ -343,21 +395,43 @@ export default function CategoryProducts({
                   margin a wrapped name ran into the next one. */}
               <ul className="-mx-1 max-h-[260px] space-y-px overflow-y-auto pr-1">
                 {shownCategories.map((s) => {
-                  const isActive = s.slug === activeSlug;
+                  const isActive = s.slug === activeSlug || chosenSubs.includes(s.slug);
+                  const rowClass = cx(
+                    'flex min-w-0 flex-1 items-center gap-2.5 px-2 py-[7px] text-left text-[13.5px] leading-[1.45] transition-colors',
+                    isActive ? 'font-semibold text-primary-800' : 'text-ink-600 group-hover:text-primary-700',
+                  );
+                  const inside = (
+                    <>
+                      <Box checked={isActive} />
+                      <span className="min-w-0 flex-1">{s.name}</span>
+                    </>
+                  );
+
                   return (
-                    <li key={s.href}>
+                    <li
+                      key={s.href}
+                      className={cx(
+                        'group flex items-center rounded-md transition-colors',
+                        isActive ? 'bg-primary-50' : 'hover:bg-surface-muted',
+                      )}
+                    >
+                      {onCategoryPage ? (
+                        <button type="button" onClick={() => toggleSub(s.slug)} aria-pressed={isActive} className={rowClass}>
+                          {inside}
+                        </button>
+                      ) : (
+                        <Link href={hrefWithSub(s.slug)} aria-current={isActive ? 'page' : undefined} className={rowClass}>
+                          {inside}
+                        </Link>
+                      )}
+
                       <Link
                         href={s.href}
-                        aria-current={isActive ? 'page' : undefined}
-                        className={cx(
-                          'flex items-center gap-2.5 rounded-md px-2 py-[7px] text-[13.5px] leading-[1.45] transition-colors',
-                          isActive
-                            ? 'bg-primary-50 font-semibold text-primary-800'
-                            : 'text-ink-600 hover:bg-surface-muted hover:text-primary-700',
-                        )}
+                        title={`Show only ${s.name}`}
+                        aria-label={`Show only ${s.name}`}
+                        className="mr-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-ink-300 transition-colors hover:bg-white hover:text-primary-700"
                       >
-                        <Box checked={isActive} />
-                        <span className="min-w-0 flex-1">{s.name}</span>
+                        <ExternalLink size={13} aria-hidden="true" />
                       </Link>
                     </li>
                   );

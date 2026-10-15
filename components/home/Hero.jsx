@@ -83,6 +83,7 @@ function Photo({ photo, sizes, priority = false }) {
       <Image
         src={photo.src}
         alt={photo.alt}
+        title={photo.alt}
         fill
         priority={priority}
         sizes={sizes}
@@ -152,7 +153,8 @@ export default function Hero({ tiles = [], hero = {} }) {
                     {tile.image ? (
                       <Image
                         src={imageUrl(tile.image)}
-                        alt=""
+                        alt={tile.label}
+                        title={tile.label}
                         fill
                         sizes="76px"
                         className="object-contain p-1.5 mix-blend-multiply transition-transform duration-200 group-hover:scale-105"

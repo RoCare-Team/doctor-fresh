@@ -64,6 +64,7 @@ export default async function Footer() {
             <Image
               src={imageUrl(brand.logo)}
               alt="Doctor Fresh"
+              title="Doctor Fresh"
               width={878}
               height={188}
               className="h-6 w-auto"

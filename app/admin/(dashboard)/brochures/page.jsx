@@ -121,6 +121,11 @@ function Requests({ rows, page }) {
               ) : (
                 <span className="text-ink-700">{r.productName}</span>
               )}
+              {r.productId ? (
+                <span className="rounded bg-surface-muted px-1.5 py-0.5 font-mono text-[12px] text-ink-500">
+                  #{r.productId}
+                </span>
+              ) : null}
               <a
                 href={`/api/brochure/${r.productId}`}
                 target="_blank"

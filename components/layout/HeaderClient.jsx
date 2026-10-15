@@ -147,6 +147,7 @@ export default function HeaderClient({
             <Image
               src={imageUrl(brand.logo)}
               alt="Doctor Fresh"
+              title="Doctor Fresh"
               width={243}
               height={52}
               priority

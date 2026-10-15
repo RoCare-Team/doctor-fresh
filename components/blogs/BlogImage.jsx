@@ -46,6 +46,7 @@ export default async function BlogImage({
       <Image
         src={src}
         alt={post.title}
+        title={post.title}
         width={size.width}
         height={size.height}
         sizes={sizes}
@@ -65,7 +66,7 @@ export default async function BlogImage({
         quality={35}
         className="scale-125 object-cover blur-2xl"
       />
-      <Image src={src} alt={post.title} fill sizes={sizes} className={`object-contain ${className}`} />
+      <Image src={src} alt={post.title} title={post.title} fill sizes={sizes} className={`object-contain ${className}`} />
     </div>
   );
 }

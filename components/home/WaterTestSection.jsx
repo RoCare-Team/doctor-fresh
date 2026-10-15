@@ -147,11 +147,12 @@ export default function WaterTestSection({ waterTest }) {
             stays a picture. */}
         <div className="relative order-1 aspect-[16/10] overflow-hidden bg-[#eef4f7] sm:aspect-[21/9] lg:order-2 lg:aspect-auto lg:min-h-[320px]">
           <Image
-            src="/images/banner18.png"
-            alt="A woman drinking a glass of clean water at home"
+            src="/images/Technician Servicing Modern RO Purifier.png"
+            alt="A Doctor Fresh technician servicing an RO filter at a customer's home"
+            title="Doctor Fresh RO filter service at home"
             fill
             sizes="(min-width: 1300px) 540px, (min-width: 1024px) 45vw, 100vw"
-            className="object-cover object-[60%_center]"
+            className="object-cover object-[55%_center]"
           />
           {/* the photo meets the white panel with a soft edge, not a hard line */}
           <span
