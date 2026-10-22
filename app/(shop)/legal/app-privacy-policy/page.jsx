@@ -187,7 +187,7 @@ export default function AppPrivacyPolicyPage() {
 
       <AppCard icon={Icons.phone} title="9. Contact us and Grievance Officer">
         <p>
-          <strong>Grievance Officer:</strong> {process.env.GRIEVANCE_OFFICER_NAME || '[Name of Grievance Officer]'}
+          <strong>Grievance Officer:</strong> {process.env.GRIEVANCE_OFFICER_NAME || 'Manoj Sharma'}
           <br />
           Email: <a href="mailto:info@doctorfresh.in">info@doctorfresh.in</a>
           <br />

@@ -1,10 +1,11 @@
 import { AppPage, AppHero, AppCard, AppButton, Icons } from '@/components/legal/AppPage';
+import DeleteAccountForm from '@/components/legal/DeleteAccountForm';
 import { metaFor } from '@/lib/utils';
 
 /**
  * How to delete a Doctor Fresh account — the "account deletion URL" entered
- * in Google Play Console. Works without the app; signed-in app users can also
- * delete from Account → Delete account (POST /api/account/delete). Laid out
+ * in Google Play Console. Works without the app: the number, the OTP sent to
+ * it, then Delete (POST /api/account/delete); or a request by email or phone. Laid out
  * like the app, since the app opens it on the phone.
  */
 export const revalidate = false;
@@ -53,7 +54,14 @@ export default function DeleteAccountPage() {
         chips={['No app needed', 'Verified by OTP', 'Done within 30 days']}
       />
 
-      <AppCard icon={Icons.list} title="How to request deletion">
+      <AppCard icon={Icons.trash} title="Delete your account now">
+        <p>Enter the mobile number registered with your account, verify it with the OTP we send, then delete.</p>
+        <div className="mt-4">
+          <DeleteAccountForm />
+        </div>
+      </AppCard>
+
+      <AppCard icon={Icons.list} title="Or request deletion by email or phone">
         <ol className="!list-none !pl-0 !space-y-3">
           {STEPS.map((step, i) => (
             <li key={i} className="flex gap-3">
