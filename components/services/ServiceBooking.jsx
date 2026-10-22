@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import {
   BadgeCheck, CalendarCheck, Check, ChevronDown, ChevronRight, Clock, Hammer, Loader2, Minus, Plus,
-  ShieldCheck, ShoppingCart, Star, Trash2, Wrench, X, CheckCircle2, MapPin, Phone, Sparkles, LayoutGrid, Droplets, Cpu,
+  ShieldCheck, ShoppingCart, Star, Trash2, Wrench, X, CheckCircle2, MapPin, Phone, Sparkles, LayoutGrid,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { formatPrice, cx } from '@/lib/utils';
@@ -274,57 +274,24 @@ function CheckoutDialog({
 
 /* --------------------------------------------------------------------- page */
 
-const BANNER_POINTS = [
-  { icon: Droplets, text: '100% pure water' },
-  { icon: Cpu, text: 'Advanced RO technology' },
-  { icon: Wrench, text: 'Expert service' },
-  { icon: ShieldCheck, text: 'Quality assurance' },
-];
-
-/** The page's own banner: its title, what the visit includes and how to book — with the service photos. */
-function Banner({ title, photos, phone, tel }) {
+/** The page's own banner: a clip of the work, and nothing else on it. */
+function Banner({ photos }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-primary-900 via-primary-800 to-primary-600 p-5 text-white shadow-[0_18px_40px_-26px_rgb(6_59_76/0.9)] sm:p-6">
-      <span className="pointer-events-none absolute -right-10 -top-16 h-56 w-56 rounded-full border-[28px] border-white/5" aria-hidden="true" />
-      <span className="pointer-events-none absolute -bottom-20 left-1/3 h-40 w-40 rounded-full bg-white/5" aria-hidden="true" />
-      <div className="relative flex items-center gap-4">
-        <div className="min-w-0 flex-1">
-          <p className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider">
-            <Sparkles size={12} aria-hidden="true" />
-            Pure water, healthy life
-          </p>
-          <p className="mt-2.5 text-[22px] font-bold leading-tight sm:text-[27px]">{title}</p>
-          <p className="mt-1 text-[13px] text-white/75">Pure &amp; safe drinking water for a healthier family.</p>
-          <ul className="mt-3.5 grid grid-cols-2 gap-x-3 gap-y-2 sm:grid-cols-4">
-            {BANNER_POINTS.map(({ icon: Icon, text }) => (
-              <li key={text} className="flex items-center gap-1.5 text-[11.5px] leading-tight text-white/85">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/20"><Icon size={14} aria-hidden="true" /></span>
-                {text}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-4 inline-flex flex-wrap items-center overflow-hidden rounded-full bg-white/10 text-[12.5px] font-semibold ring-1 ring-white/20">
-            <a href="#svc-list" className="bg-white px-3.5 py-1.5 text-primary-800">Book service now</a>
-            {phone ? <a href={`tel:${tel || phone}`} className="inline-flex items-center gap-1.5 px-3.5 py-1.5"><Phone size={13} aria-hidden="true" />{phone}</a> : null}
-          </div>
-        </div>
-        {/* the service photos, stacked */}
-        <div className="relative hidden h-40 w-44 shrink-0 md:block">
-          {photos.slice(0, 3).map((src, i) => (
-            <span
-              key={src}
-              className={cx(
-                'absolute overflow-hidden rounded-2xl border-4 border-white/90 shadow-xl',
-                i === 0 && 'right-0 top-0 h-28 w-28 rotate-3',
-                i === 1 && 'bottom-0 left-0 h-24 w-24 -rotate-6',
-                i === 2 && 'bottom-1 right-6 h-16 w-16 rotate-6',
-              )}
-            >
-              <Image src={src} alt="" fill sizes="112px" className="object-cover" />
-            </span>
-          ))}
-        </div>
-      </div>
+    <div className="relative flex min-h-[270px] flex-col justify-center overflow-hidden rounded-2xl bg-linear-to-br from-primary-900 via-primary-800 to-primary-600 p-5 text-white shadow-[0_18px_40px_-26px_rgb(6_59_76/0.9)] sm:min-h-[310px] sm:p-7">
+      {/* Nothing is laid over the clip: no words, no points, no buttons.
+          The gradient underneath is only what shows before it loads. */}
+      <video
+        src="/images/WhatsApp Video 2026-10-22 at 5.25.49 PM.mp4"
+        poster={photos[0]}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-hidden="true"
+        tabIndex={-1}
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+      />
     </div>
   );
 }
@@ -474,7 +441,7 @@ export default function ServiceBooking({
 
           {/* ---------------------------------------------- middle column */}
           <div className="min-w-0 space-y-4">
-            <Banner title={heading} photos={photos} phone={phone} tel={tel} />
+            <Banner photos={photos} />
 
             <div id="svc-list" className="scroll-mt-40 space-y-6">
               {grouped.map((g) => {
