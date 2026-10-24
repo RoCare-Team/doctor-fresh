@@ -1,4 +1,6 @@
-// "Get a quotation" on a product page → the `quotation` table.
+// "Get a quotation" / "Download Brochure" on a product page → the `quotation`
+// table, and the same details forwarded to the service centre's quotation
+// endpoint (QUOTATION_FORWARD_URL) as { name, email, phone, productId }.
 
 import { isDbEnabled } from '@/lib/db';
 import { after } from 'next/server';
@@ -9,6 +11,24 @@ import { normaliseMobile, normaliseEmail, normaliseName } from '@/lib/auth/users
 export const dynamic = 'force-dynamic';
 
 const fail = (message, status = 400) => Response.json({ ok: false, error: message }, { status });
+
+const FORWARD_URL = process.env.QUOTATION_FORWARD_URL
+  || 'https://inet.waterpurifierservicecenter.in/doctorfresh_product_quotation.php';
+
+/** Best-effort: a slow or failing endpoint never costs the customer their request. */
+async function forwardQuotation(payload) {
+  try {
+    const res = await fetch(FORWARD_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (!res.ok) console.error(`[quotation] forward answered ${res.status}:`, (await res.text()).slice(0, 200));
+  } catch (err) {
+    console.error('[quotation] could not forward:', err?.message || err);
+  }
+}
 
 export async function POST(request) {
   if (!isDbEnabled()) return fail('Please call +91-9311587716.', 503);
@@ -37,6 +57,8 @@ export async function POST(request) {
     console.error('[quotation] could not save:', err.message);
     return fail('Could not send your request. Please call +91-9311587716.', 502);
   }
+
+  after(() => forwardQuotation({ name, email: email || '', phone, productId: Number(body.productId) }));
 
   after(() => notifyTeam({
     what: 'Quotation request',
