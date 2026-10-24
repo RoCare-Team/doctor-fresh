@@ -18,12 +18,13 @@ import { formatPrice, imageUrl } from '@/lib/utils';
  *
  * It runs off the edge rather than sitting inside a margin, and the notch cut
  * out of its left end is what makes it read as a ribbon rather than a label.
+ * Smaller and nearer the top on a phone, where the photo is narrow.
  */
 function DiscountRibbon({ percent }) {
   return (
     <span
-      className="pointer-events-none absolute right-0 top-3 z-10 bg-linear-to-r from-primary-500 to-primary-700 py-1 pl-4 pr-2.5 text-[11.5px] font-bold uppercase tracking-[0.02em] text-white shadow-[0_2px_6px_-2px_rgb(15_23_42/0.35)]"
-      style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%, 9px 50%)' }}
+      className="pointer-events-none absolute right-0 top-1.5 z-10 bg-linear-to-r from-primary-500 to-primary-700 py-0.5 pl-3 pr-2 text-[10px] font-bold uppercase tracking-[0.02em] text-white shadow-[0_2px_6px_-2px_rgb(15_23_42/0.35)] sm:top-3 sm:py-1 sm:pl-4 sm:pr-2.5 sm:text-[11.5px]"
+      style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%, 7px 50%)' }}
     >
       {percent}% off
     </span>
@@ -107,7 +108,8 @@ export default function ProductCard({ product, compact = false, priority = false
 
         </div>
         {/* Phone: the badges share a narrow photo, so each takes a corner —
-            discount top left, rating bottom left, the heart top right. */}
+            the heart top left, the discount ribbon top right, rating bottom
+            left. */}
         <div className="pointer-events-none absolute inset-2.5 sm:hidden">
           {product.rating ? (
             <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-0.5 rounded-md bg-[#eaf6f0] px-1.5 py-0.5 text-[11.5px] font-semibold text-success ring-1 ring-success/15">
@@ -123,10 +125,12 @@ export default function ProductCard({ product, compact = false, priority = false
         </div>
       </Link>
 
-      {/* Sits outside the link so the heart does not open the product. */}
+      {/* Sits outside the link so the heart does not open the product. On a
+          phone it takes the top-left corner, clear of the discount ribbon on
+          the right; from sm up it sits under the ribbon. */}
       <WishlistButton
         productId={product.id}
-        className="absolute right-4 top-4 z-10 h-7 w-7 bg-white/95 shadow-[0_2px_8px_-4px_rgb(15_23_42_/_0.25)] sm:right-3 sm:top-[52px] sm:h-8 sm:w-8"
+        className="absolute left-4 top-4 z-10 h-7 w-7 bg-white/95 shadow-[0_2px_8px_-4px_rgb(15_23_42_/_0.25)] sm:left-auto sm:right-3 sm:top-[52px] sm:h-8 sm:w-8"
         size={16}
       />
 

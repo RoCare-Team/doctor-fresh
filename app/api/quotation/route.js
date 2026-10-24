@@ -1,11 +1,14 @@
 // "Get a quotation" / "Download Brochure" on a product page → the `quotation`
 // table, and the same details forwarded to the service centre's quotation
 // endpoint (QUOTATION_FORWARD_URL) as { name, email, phone, productId }.
+// The customer gets the brochure on WhatsApp (the brochure_download
+// template). No WhatsApp goes to the team: their template is the order
+// confirmation, and a brochure download is not an order.
 
 import { isDbEnabled } from '@/lib/db';
 import { after } from 'next/server';
 import { createQuotation } from '@/lib/sql/engagement';
-import { notifyTeam } from '@/lib/whatsapp';
+import { sendBrochureWhatsApp } from '@/lib/whatsapp';
 import { normaliseMobile, normaliseEmail, normaliseName } from '@/lib/auth/users';
 
 export const dynamic = 'force-dynamic';
@@ -60,13 +63,8 @@ export async function POST(request) {
 
   after(() => forwardQuotation({ name, email: email || '', phone, productId: Number(body.productId) }));
 
-  after(() => notifyTeam({
-    what: 'Quotation request',
-    name,
-    mobile: phone,
-    email: email || '',
-    detail: `Product #${Number(body.productId)}`,
-  }));
+  after(() => sendBrochureWhatsApp({ name, mobile: phone, productId: Number(body.productId) }));
+
 
   return Response.json({ ok: true });
 }
