@@ -134,6 +134,7 @@ export async function POST(request) {
   // A copy for the service system's panel, for cash and online alike — sent
   // once the response is on its way, so their server never holds up checkout.
   after(() => forwardProductLead({
+    orderId: order.saleId,
     address,
     items: priced.items,
     coupon: priced.coupon?.code || '',

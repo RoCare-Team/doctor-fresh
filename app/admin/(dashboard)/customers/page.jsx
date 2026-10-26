@@ -3,6 +3,7 @@ import { Users, UserPlus, ShoppingBag, Wallet } from 'lucide-react';
 import { listCustomers, customerStats } from '@/lib/sql/admin-catalog';
 import StatCards from '@/components/admin/StatCards';
 import ListTools from '@/components/admin/ListTools';
+import WhatsAppCampaign from '@/components/admin/WhatsAppCampaign';
 import { cx } from '@/lib/utils';
 import Pagination, { paginate } from '@/components/admin/Pagination';
 import AdminTable from '@/components/admin/AdminTable';
@@ -113,7 +114,13 @@ export default async function AdminCustomersPage({ searchParams }) {
             </Link>
           ))}
         </nav>
-        <span className="ml-auto">
+        <span className="ml-auto flex flex-wrap items-center gap-2">
+          {/* The whole filtered list, not only this page, can be messaged. */}
+          <WhatsAppCampaign
+            customers={filtered.map((c) => ({
+              id: c.id, name: c.name, mobile: c.mobile, email: c.email, orders: c.orders,
+            }))}
+          />
           <ListTools rows={exportRows} columns={exportColumns} filename="customers" />
         </span>
       </div>

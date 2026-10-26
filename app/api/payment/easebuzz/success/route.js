@@ -2,12 +2,16 @@
 //
 // The gateway POSTs a form, so the order is marked paid and the browser is
 // redirected to the confirmation page — the same work easebuzz_success() does
-// in Home.php.
+// in Home.php. The callback is verified first (verifyEasebuzzPayment): the
+// URL is public, and an unverified one is treated as a failed payment.
 
 import { after } from 'next/server';
-import { markPaymentSuccess, parseTxnId } from '@/lib/sql/easebuzz';
+import {
+  markPaymentSuccess, parseTxnId, verifyEasebuzzPayment,
+} from '@/lib/sql/easebuzz';
 import { sendOrderPlacedWhatsApp, notifyTeam } from '@/lib/whatsapp';
 import { getOrder } from '@/lib/sql/orders';
+import { forwardPaymentStatus } from '@/lib/services/product-lead';
 import { reserveStockForOrder } from '@/lib/sql/orders';
 
 export const dynamic = 'force-dynamic';
@@ -23,6 +27,15 @@ async function handle(request, payload) {
   const transactionId = parseTxnId(payload.txnid);
   const saleId = Number(payload.udf1 || payload.unique_id) || null;
 
+  // Only a callback Easebuzz really signed, for this order and amount, pays it.
+  const verified = await verifyEasebuzzPayment(payload).catch((err) => ({ ok: false, reason: err.message }));
+  if (!verified.ok) {
+    console.error(`[easebuzz] success callback rejected for order ${saleId}: ${verified.reason}`);
+    const url = new URL('/cart-checkout', request.url);
+    url.searchParams.set('payment', 'failed');
+    return Response.redirect(url, 303);
+  }
+
   let guestId = null;
   try {
     const result = await markPaymentSuccess({ transactionId, saleId, payload });
@@ -33,6 +46,9 @@ async function handle(request, payload) {
     // An online order is only placed once it is paid, so this is where the
     // customer hears about it — and only the first time, not on a refresh.
     if (result && !result.wasPaid) {
+      // The service system already has the order; now it hears it was paid.
+      after(() => forwardPaymentStatus({ orderId: saleId, status: 'success', response: payload }));
+
       after(() => sendOrderPlacedWhatsApp({ name: result.name, mobile: result.mobile }));
 
       // The office too, with the whole order — this is the moment an online

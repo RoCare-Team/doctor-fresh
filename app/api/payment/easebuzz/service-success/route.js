@@ -4,7 +4,9 @@
 // never be dispatched against a payment that never arrived.
 
 import { after } from 'next/server';
-import { markPaymentSuccess, parseTxnId } from '@/lib/sql/easebuzz';
+import {
+  markPaymentSuccess, parseTxnId, verifyEasebuzzPayment,
+} from '@/lib/sql/easebuzz';
 import { getBooking, markPayment, markSentToService } from '@/lib/sql/service-bookings';
 import { createBooking } from '@/lib/services/wizard';
 import { SITE_URL } from '@/lib/utils';
@@ -21,6 +23,15 @@ async function readPayload(request) {
 async function handle(request, payload) {
   const transactionId = parseTxnId(payload.txnid);
   const bookingId = Number(payload.udf1 || payload.unique_id) || null;
+
+  // Only a callback Easebuzz really signed, for this booking and amount, pays it.
+  const verified = await verifyEasebuzzPayment(payload).catch((err) => ({ ok: false, reason: err.message }));
+  if (!verified.ok) {
+    console.error(`[booking] success callback rejected for booking ${bookingId}: ${verified.reason}`);
+    const url = new URL('/book/checkout', request.url);
+    url.searchParams.set('payment', 'failed');
+    return Response.redirect(url, 303);
+  }
 
   let ref = '';
   try {

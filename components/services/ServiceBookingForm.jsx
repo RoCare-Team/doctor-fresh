@@ -7,7 +7,8 @@ import Button from '@/components/common/Button';
 /**
  * The booking form on every service and location page.
  *
- * It writes to the site's `leads` table, and its dropdowns are the same ones
+ * It writes to the site's `leads` table (and the service centre's lead
+ * system, see /api/forms/lead), and its dropdowns are the same ones
  * the PHP form uses: `ro_status`, `ro_status_query` (which depends on the
  * chosen status), `ro_units`, `states` and `cities`.
  */
@@ -45,7 +46,8 @@ export default function ServiceBookingForm({ location, serviceLabel = 'RO Servic
       const res = await fetch('/api/forms/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...values, pageId }),
+        // `form` marks it for the service centre's lead system as well.
+        body: JSON.stringify({ ...values, pageId, form: 'service-booking' }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error(data.error || 'Could not send your request.');
