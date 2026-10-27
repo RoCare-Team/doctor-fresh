@@ -99,8 +99,12 @@ export default function OrdersBoard({
 
   const testCount = useMemo(() => rows.filter(isTest).length, [rows, testKeys]); // eslint-disable-line react-hooks/exhaustive-deps
   const visible = useMemo(() => rows.filter((r) => showTest || !isTest(r)), [rows, showTest, testKeys]); // eslint-disable-line react-hooks/exhaustive-deps
-  const stageCount = (id) => (id === 'all' ? visible.length : visible.filter((r) => r.meta.stage === id).length);
-  const inStage = useMemo(() => (stage === 'all' ? visible : visible.filter((r) => r.meta.stage === stage)), [visible, stage]);
+  // An online order whose payment failed (or was abandoned) is not work for
+  // the team: it leaves Active for its own "Payment failed" tab. Moving it to
+  // another stage by hand still works as before.
+  const stageOf = (r) => (r.meta.stage === 'active' && r.payment === 'failure' ? 'payment_failed' : r.meta.stage);
+  const stageCount = (id) => (id === 'all' ? visible.length : visible.filter((r) => stageOf(r) === id).length);
+  const inStage = useMemo(() => (stage === 'all' ? visible : visible.filter((r) => stageOf(r) === stage)), [visible, stage]); // eslint-disable-line react-hooks/exhaustive-deps
   const payCount = (id) => (id ? inStage.filter((r) => r.payment === id).length : inStage.length);
 
   const filtered = useMemo(() => {
@@ -244,7 +248,7 @@ export default function OrdersBoard({
         {/* stage + payment tabs */}
         <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line px-4 py-2.5 md:px-5">
           <nav className="flex flex-wrap gap-0.5 rounded-lg bg-surface-muted p-0.5" aria-label="Order stage">
-            {[...stages, { id: 'all', label: 'All' }].map((s) => (
+            {[stages[0], { id: 'payment_failed', label: 'Payment failed' }, ...stages.slice(1), { id: 'all', label: 'All' }].map((s) => (
               <button key={s.id} type="button" onClick={() => { setStage(s.id); setPage(1); setSelected(new Set()); }} className={tab(stage === s.id)}>
                 {s.label}
                 {count(stage === s.id, stageCount(s.id))}

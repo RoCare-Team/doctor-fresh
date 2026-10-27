@@ -2,7 +2,7 @@ import {
   listOrders, DELIVERY_STATUSES, RANGES, rangeFor, rangeStart,
 } from '@/lib/sql/admin';
 import {
-  orderMetaMap, failedPaymentOrders, EMPTY_META, ORDER_STAGES, COURIERS,
+  orderMetaMap, failedPaymentOrders, paymentStateOf, EMPTY_META, ORDER_STAGES, COURIERS,
 } from '@/lib/sql/order-meta';
 import OrdersBoard from '@/components/admin/OrdersBoard';
 import { requirePage } from '@/lib/admin/guard';
@@ -32,11 +32,10 @@ export default async function AdminOrdersPage({ searchParams }) {
 
   const rows = (orders || []).map((o) => {
     const m = meta.get(Number(o.id)) || EMPTY_META;
-    const cod = o.paymentType === 'cash_on_delivery';
     // Success: paid. COD: cash on delivery still to collect. Failure: the
-    // gateway declined and nothing succeeded. Pending: an online payment not
-    // finished yet.
-    const payment = o.paid ? 'success' : cod ? 'cod' : failed.has(Number(o.id)) ? 'failure' : 'pending';
+    // gateway declined, or the payment was left unfinished for over an hour.
+    // Pending: an online payment started within the hour.
+    const payment = paymentStateOf(o, failed);
     return {
       id: o.id,
       code: o.code,
