@@ -5,7 +5,7 @@ import Link from '@/components/common/NavLink'; // no prefetch until hovered
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  Search, ShoppingCart, Menu, ChevronDown, LayoutGrid, Lock, Wrench, Hammer, CalendarCheck, ChevronRight, HeartHandshake,
+  Search, ShoppingCart, Phone, Menu, ChevronDown, LayoutGrid, Lock, Wrench, Hammer, CalendarCheck, ChevronRight, HeartHandshake,
 } from 'lucide-react';
 import { useCart } from '@/components/cart/CartProvider';
 import { imageUrl, cx } from '@/lib/utils';
@@ -195,6 +195,25 @@ export default function HeaderClient({
           </form>
 
           <div className="ml-auto flex items-center justify-end gap-1 lg:ml-0 lg:flex-1 lg:gap-0">
+
+            {/* The sales line, ringing now and then so the eye finds it. On a
+                phone only the icon shows; a tap dials. */}
+            <a
+              href="tel:+919311587716"
+              aria-label="Call us on +91 93115 87716"
+              className="group mr-1 flex items-center gap-2.5 rounded-full px-2 py-1.5 transition-colors hover:bg-primary-50 lg:mr-2 lg:pr-4"
+            >
+              <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-600 text-white lg:h-10 lg:w-10">
+                <span aria-hidden="true" className="df-call-halo absolute inset-0 rounded-full bg-brand-600" />
+                <Phone size={17} strokeWidth={2.2} aria-hidden="true" className="df-call-ring relative" />
+              </span>
+              <span className="hidden flex-col leading-tight xl:flex">
+                <span className="text-[11.5px] font-medium text-ink-500">Call us</span>
+                <span className="whitespace-nowrap text-[15px] font-bold tracking-[0.01em] text-ink-900 transition-colors group-hover:text-brand-600">
+                  +91-9311587716
+                </span>
+              </span>
+            </a>
 
             <Link
               href="/cart"

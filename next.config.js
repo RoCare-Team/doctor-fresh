@@ -2,18 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   /**
-   * The stylesheet travels inside the page rather than as a file of its own.
+   * The stylesheet is a file of its own, not inlined into each page.
    *
-   * As a file it was two render-blocking requests before anything could paint.
-   * Measured on the home page (Lighthouse, mobile, simulated 4G): first paint
-   * 2.2s → 1.5s, largest paint 5.1s → 4.0s, speed index 5.2s → 3.7s. The cost
-   * is that the stylesheet is carried by every page instead of being cached
-   * once for the site — worth it here, where most visits are a single landing
-   * from a search result rather than a walk through several pages.
+   * Inlined (`experimental.inlineCss`) it saved a render-blocking request on
+   * a first visit, but Next then also sends the whole 155 KB stylesheet inside
+   * every client-side navigation: half of the ~325 KB fetched for each
+   * product clicked. As a file it is downloaded once, cached, and every later
+   * page arrives with only its own content.
    */
-  experimental: {
-    inlineCss: true,
-  },
 
   /**
    * Next ships polyfills for Array.at/flat/flatMap, Object.fromEntries/hasOwn
