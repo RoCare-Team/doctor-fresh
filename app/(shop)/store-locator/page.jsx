@@ -14,7 +14,7 @@ export const metadata = metaFor({
 
 // Branches are edited in the admin (GMB Locations); a save refreshes this page
 // at once, and it is rebuilt in the background every 10 minutes regardless.
-export const revalidate = 600;
+export const revalidate = 86400; // a day: an admin save refreshes the page at once
 
 export default async function StoreLocatorPage() {
   // The admin list, or the built-in branches when the database is unreachable.

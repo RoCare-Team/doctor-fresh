@@ -38,7 +38,8 @@ export async function POST(request) {
     what: 'Call back request',
     name,
     mobile,
-    detail: `Wants a call back${body.timing ? ` — prefers ${String(body.timing).slice(0, 30)}` : ''}`,
+    order: `Wants a call back${body.timing ? ` — prefers ${String(body.timing).slice(0, 30)}` : ''}`,
+    payment: 'Enquiry (no payment)',
   }));
 
   return Response.json({ ok: true });

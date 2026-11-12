@@ -7,7 +7,7 @@
 import { SITE_INDEXABLE } from '@/lib/utils';
 import { SITEMAP_FILES, sitemapIndexXml, xmlResponse } from '@/lib/sitemap';
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export async function GET() {
   // Staging and preview deployments disallow everything in robots.txt; a

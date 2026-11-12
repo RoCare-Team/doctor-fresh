@@ -27,7 +27,7 @@ import { absoluteUrl, formatPrice, imageUrl, metaFor, SITE_URL } from '@/lib/uti
 // here can know about. Fifteen minutes rather than five: every expiry means a
 // page rebuilt from the database in Singapore, and that wait is what a visitor
 // feels as a slow first byte.
-export const revalidate = 900;
+export const revalidate = 86400; // a day: an admin save refreshes the page at once
 
 export async function generateStaticParams() {
   // Built on first visit and then cached, rather than at deploy — only the

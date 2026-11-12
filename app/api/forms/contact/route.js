@@ -66,8 +66,8 @@ export async function POST(request) {
     what: 'Contact form',
     name,
     mobile,
-    email,
-    detail: String(subject || message || '').slice(0, 60),
+    order: `${subject}: ${message} · ${email}`,
+    payment: 'Enquiry (no payment)',
   }));
 
   return Response.json({ ok: true });

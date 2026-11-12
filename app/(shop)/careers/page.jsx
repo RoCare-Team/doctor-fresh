@@ -6,7 +6,7 @@ import { listJobs } from '@/lib/sql/careers';
 import { metaFor } from '@/lib/utils';
 
 // Rebuilt every 15 minutes, and at once when an opening is saved in the admin.
-export const revalidate = 900;
+export const revalidate = 86400; // a day: an admin save refreshes the page at once
 
 // Text and search listing come from the admin (Site content).
 export async function generateMetadata() {

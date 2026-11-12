@@ -7,7 +7,9 @@
 
 import { after } from 'next/server';
 import { isDbEnabled } from '@/lib/db';
-import { sendOrderPlacedWhatsApp, notifyTeam } from '@/lib/whatsapp';
+import {
+  sendOrderPlacedWhatsApp, notifyTeam, addressLine, orderDetail,
+} from '@/lib/whatsapp';
 import { priceBasket, createOrder, getPaymentOptions } from '@/lib/sql/orders';
 import { createPaymentTransaction, initiateEasebuzz } from '@/lib/sql/easebuzz';
 import { getSession } from '@/lib/auth/session';
@@ -18,24 +20,6 @@ import { SITE_URL } from '@/lib/utils';
 export const dynamic = 'force-dynamic';
 
 const fail = (message, status = 400) => Response.json({ ok: false, error: message }, { status });
-
-/**
- * Everything about an order, on one line, for the office WhatsApp.
- *
- * Whoever reads it should not have to open the admin to know what was bought,
- * for how much and where it goes — so the items, the money and the address are
- * all in it.
- */
-function orderDetail({
-  items = [], totals = {}, address = {}, payment = '',
-}) {
-  const count = items.reduce((n, i) => n + (Number(i.qty) || 1), 0);
-  const first = items[0]?.name || 'order';
-  const rest = items.length > 1 ? ` +${items.length - 1} more` : '';
-  const where = [address.city, address.c_pincode].filter(Boolean).join(' ');
-
-  return `${payment}, Rs ${totals.grandTotal ?? 0} — ${count} item(s): ${first}${rest}${where ? ` — ${where}` : ''}`;
-}
 
 const REQUIRED = [
   ['name', 'your full name'],
@@ -151,10 +135,9 @@ export async function POST(request) {
       what: `New order #${order.saleCode || order.saleId}`,
       name,
       mobile,
-      email: address.email || '',
-      detail: orderDetail({
-        items: priced.items, totals: priced.totals, address, payment: 'Cash on delivery',
-      }),
+      address: addressLine(address),
+      order: orderDetail({ items: priced.items, totals: priced.totals }),
+      payment: 'Cash on delivery',
     }));
     return Response.json({ ok: true, saleId: order.saleId, saleCode: order.saleCode, href });
   }

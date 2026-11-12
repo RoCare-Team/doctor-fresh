@@ -18,7 +18,7 @@ import {
 } from '@/lib/sql/service-bookings';
 import { createPaymentTransaction, initiateEasebuzz } from '@/lib/sql/easebuzz';
 import { after } from 'next/server';
-import { notifyTeam } from '@/lib/whatsapp';
+import { notifyTeam, addressLine } from '@/lib/whatsapp';
 import { SITE_URL } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
@@ -79,8 +79,9 @@ export async function POST(request) {
     what: `Service booking ${saved.ref}`,
     name,
     mobile,
-    email: email || '',
-    detail: `${online ? 'Paying online' : 'Pay after visit'}, Rs ${amount} — ${services.map((x) => x.name).join(', ') || 'service'} — ${[body.city, pincode].filter(Boolean).join(' ')} — ${[body.date, body.slot].filter(Boolean).join(' ') || 'slot to confirm'}`,
+    address: addressLine({ ...body, pincode }),
+    order: `${services.map((x) => x.name).join(', ') || 'service'} — Total Rs ${amount} — Visit: ${[body.date, body.slot].filter(Boolean).join(' ') || 'slot to confirm'}`,
+    payment: online ? 'Paying online' : 'Pay after visit',
   }));
 
   // The ids the service's own booking call needs. The cart id is the one the

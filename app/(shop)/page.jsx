@@ -29,7 +29,7 @@ import { metaFor } from '@/lib/utils';
 // background every 15 minutes (and at once when the home page, site content or
 // quick links are saved in the admin). Recently Viewed is the only per-visitor
 // part; the browser fetches it after the page is shown (HomeColumns).
-export const revalidate = 900;
+export const revalidate = 86400; // a day: an admin save refreshes the page at once
 
 export async function generateMetadata() {
   // Edited in the admin (Home page); the built-in copy until then.

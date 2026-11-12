@@ -9,7 +9,9 @@ import { after } from 'next/server';
 import {
   markPaymentSuccess, parseTxnId, verifyEasebuzzPayment,
 } from '@/lib/sql/easebuzz';
-import { sendOrderPlacedWhatsApp, notifyTeam } from '@/lib/whatsapp';
+import {
+  sendOrderPlacedWhatsApp, notifyTeam, addressLine, orderDetail,
+} from '@/lib/whatsapp';
 import { getOrder } from '@/lib/sql/orders';
 import { forwardPaymentStatus } from '@/lib/services/product-lead';
 import { reserveStockForOrder } from '@/lib/sql/orders';
@@ -55,18 +57,14 @@ async function handle(request, payload) {
       // order becomes real, so it is the moment worth telling them about.
       after(async () => {
         const order = saleId ? await getOrder({ saleId, asAdmin: true }).catch(() => null) : null;
-        const items = order?.items || [];
-        const count = items.reduce((n, i) => n + (Number(i.qty) || 1), 0);
-        const rest = items.length > 1 ? ` +${items.length - 1} more` : '';
-        const where = [order?.address?.city, order?.address?.c_pincode || order?.address?.zip]
-          .filter(Boolean).join(' ');
 
         await notifyTeam({
           what: `Paid order #${order?.code || saleId || ''}`,
           name: result.name,
           mobile: result.mobile,
-          email: order?.address?.email || '',
-          detail: `Paid online, Rs ${order?.totals?.grandTotal ?? 0} — ${count} item(s): ${items[0]?.name || 'order'}${rest}${where ? ` — ${where}` : ''}`,
+          address: addressLine(order?.address),
+          order: orderDetail({ items: order?.items, totals: order?.totals }),
+          payment: 'Paid online (Easebuzz)',
         });
       });
     }

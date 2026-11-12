@@ -1,3 +1,4 @@
+import { revalidatePath } from 'next/cache';
 import { requireAdmin, readJson, fail } from '@/lib/admin/guard';
 import { updateSettings, getSettingsForAdmin } from '@/lib/sql/admin-catalog';
 import { logActivity, changedFields } from '@/lib/sql/activity';
@@ -21,6 +22,10 @@ export async function PATCH(request) {
     console.error('[admin] could not save settings:', err.message);
     return fail('Could not save the settings.', 502);
   }
+
+  // The phone, address and the rest are in every page's header and footer,
+  // and pages are kept for a day — so they are all refreshed now.
+  try { revalidatePath('/', 'layout'); } catch { /* best-effort */ }
 
   await logActivity({
     admin,

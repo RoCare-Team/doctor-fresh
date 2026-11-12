@@ -92,9 +92,10 @@ export async function POST(request) {
     what: 'Website enquiry',
     name,
     mobile,
-    email: email || '',
-    detail: [body.queryFor || body.enquiry_type, body.city, body.state]
-      .filter(Boolean).join(' · ').slice(0, 60),
+    address: [body.address, body.city, body.state].map((x) => String(x ?? '').trim()).filter(Boolean).join(', '),
+    order: [body.queryFor || body.enquiry_type, body.roStatus, body.unit, body.bookDate && `Date: ${body.bookDate}`, email]
+      .filter(Boolean).join(' · '),
+    payment: 'Enquiry (no payment)',
   }));
 
   return Response.json({ ok: true });
