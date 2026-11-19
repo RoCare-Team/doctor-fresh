@@ -5,7 +5,7 @@ import {
   normaliseMobile, normaliseName, normaliseEmail,
   findUserByMobile, createOrUpdateUser, markSignedIn,
 } from '@/lib/auth/users';
-import { verifyOtp } from '@/lib/auth/otp';
+import { verifyOtp, isTestLogin } from '@/lib/auth/otp';
 import { normaliseAddresses } from '@/lib/services/addresses';
 import { rememberAddresses } from '@/lib/sql/customer-addresses';
 import { rememberServiceIds } from '@/lib/sql/service-customers';
@@ -49,6 +49,9 @@ export async function POST(request) {
       if (!name) return fail('Enter your full name.');
       if (!email) return fail('Enter a valid email address.');
       user = await createOrUpdateUser({ mobile, name, email });
+    } else if (!existing && isTestLogin(mobile)) {
+      // The test account is made on its first sign-in.
+      user = await createOrUpdateUser({ mobile, name: 'Test User' });
     } else {
       if (!existing) return fail('No account found for this number.');
       user = existing;

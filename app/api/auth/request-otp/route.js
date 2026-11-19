@@ -4,7 +4,7 @@ import { isDbEnabled } from '@/lib/db';
 import {
   normaliseMobile, normaliseName, normaliseEmail, findUserByMobile, findUserByEmail,
 } from '@/lib/auth/users';
-import { sendOtp, throttleReason } from '@/lib/auth/otp';
+import { sendOtp, throttleReason, isTestLogin } from '@/lib/auth/otp';
 
 export const dynamic = 'force-dynamic';
 
@@ -48,7 +48,7 @@ export async function POST(request) {
     if (existing?.name) {
       return fail('This number is already registered. Please sign in instead.');
     }
-  } else if (!existing && !booking) {
+  } else if (!existing && !booking && !isTestLogin(mobile)) {
     return fail('No account found for this number. Please create an account first.');
   }
 
